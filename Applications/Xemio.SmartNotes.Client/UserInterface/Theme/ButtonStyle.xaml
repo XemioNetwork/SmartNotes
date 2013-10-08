@@ -1,0 +1,68 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="BorderBrush" Value="#00000000"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <ControlTemplate.Resources>
+                        <LinearGradientBrush x:Key="normalBackground" StartPoint="0, 0" EndPoint="0, 1">
+                            <GradientStop Offset="0" Color="White" />
+                            <GradientStop Offset="1" Color="#FFDCDCDC" />
+                        </LinearGradientBrush>
+                        <LinearGradientBrush x:Key="hoverBackground" StartPoint="0, 0" EndPoint="0, 1">
+                            <GradientStop Offset="0" Color="White" />
+                            <GradientStop Offset="1" Color="#D1D1D1" />
+                        </LinearGradientBrush>
+                        <LinearGradientBrush x:Key="clickBackground" StartPoint="0, 0" EndPoint="0, 1">
+                            <GradientStop Offset="0" Color="#DDDD" />
+                            <GradientStop Offset="0.12" Color="White" />
+                        </LinearGradientBrush>
+                        <SolidColorBrush Color="#EEEE" x:Key="disabledBackground" />
+                    </ControlTemplate.Resources>
+
+                    <Border x:Name="border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4"
+                            Background="{StaticResource normalBackground}">
+
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="4" Direction="0" Color="#AAAA" ShadowDepth="0" />
+                        </Border.Effect>
+
+                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                          Content="{TemplateBinding Content}" 
+                                          ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                          Focusable="False" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          Margin="{TemplateBinding Padding}" 
+                                          RecognizesAccessKey="True" 
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                    
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource hoverBackground}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource clickBackground}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource disabledBackground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

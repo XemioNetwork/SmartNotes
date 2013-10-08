@@ -1,0 +1,23 @@
+﻿Here's some pseudo code to authenticate a request (you need the username, the password and the content that you want to authenticate).
+
+byte[] authenticationBytes = UTF8.GetBytes(Username + Password);
+byte[] authenticationHash = SHA256(authenticationBytes);
+
+byte[] contentBytes = UTF8.GetBytes(Content);
+byte[] contentHash = HMACSHA256(contentBytes, authenticationHash);
+string contentHashString = Base64(contentHash);
+
+Pass this "contentHashString" in the Authorization request header in the format "Xemio Username:contentHashString"
+
+Some example values, so you can check your code if it works correctly:
+
+var Username = "TestUsername";
+var Password = "123456";
+var Content = "TestContent";
+
+authenticationBytes: 54-65-73-74-55-73-65-72-6E-61-6D-65-31-32-33-34-35-36
+authenticationHash: C7-73-98-2A-14-7B-71-72-EE-21-8E-DE-6B-5C-BC-C1-3B-24-11-D4-44-FE-D7-E3-E6-E8-42-21-D0-C2-7A-7F
+
+contentBytes: 54-65-73-74-43-6F-6E-74-65-6E-74
+contentHash: 6A-D7-B0-18-49-59-62-65-10-FA-0D-88-FE-70-53-C7-99-F0-27-8E-6B-1B-89-70-13-C1-9B-6F-13-0E-F2-A6
+contentHashString: atewGElZYmUQ+g2I/nBTx5nwJ45rG4lwE8GbbxMO8qY=
