@@ -24,5 +24,11 @@ namespace Xemio.SmartNotes.Client.UserInterface.Views.Login
         {
             InitializeComponent();
         }
+
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Button button = (Button) sender;
+            
+        }
     }
 }
