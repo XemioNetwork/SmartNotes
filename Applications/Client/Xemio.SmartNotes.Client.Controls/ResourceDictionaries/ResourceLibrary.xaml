@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        
+        <!-- Brushes -->
+        <ResourceDictionary Source="Brushes/DefaultColorTheme.xaml" />
+        
+        <!-- Base Control Styles -->
+        <ResourceDictionary Source="BaseControlStyles/ButtonStyle.xaml" />
+        <ResourceDictionary Source="BaseControlStyles/GroupBoxStyle.xaml" />
+        <ResourceDictionary Source="BaseControlStyles/PasswordBoxStyle.xaml" />
+        <ResourceDictionary Source="BaseControlStyles/TextBoxStyle.xaml" />
+        
+        <!-- Custom Control Styles -->
+        
+        <!-- Named Styles -->
+        <ResourceDictionary Source="NamedStyles/DividerLineStyle.xaml" />
+        <ResourceDictionary Source="NamedStyles/HeaderButtonStyle.xaml" />
+        
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

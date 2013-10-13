@@ -12,8 +12,12 @@ namespace Xemio.SmartNotes.Entities.Users
         /// </summary>
         public string Username { get; set; }
         /// <summary>
-        /// Gets or sets the E mail address.
+        /// Gets or sets the email address.
         /// </summary>
         public string EMailAddress { get; set; }
+        /// <summary>
+        /// Gets or sets the avatar image.
+        /// </summary>
+        public byte[] Avatar { get; set; }
     }
 }

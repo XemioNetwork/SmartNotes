@@ -1,0 +1,22 @@
+﻿<Application x:Class="Xemio.SmartNotes.Client.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:local="clr-namespace:Xemio.SmartNotes.Client">
+    
+    <Application.Resources>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <local:Bootstrapper x:Key="bootstrapper" />
+                </ResourceDictionary>
+                <ResourceDictionary Source="/Xemio.SmartNotes.Client.Controls;component/ResourceDictionaries/ResourceLibrary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <!-- Workaround for ResourceDictionary loading bug -->
+            <Style TargetType="{x:Type Rectangle}" />
+            
+        </ResourceDictionary>
+    </Application.Resources>
+    
+</Application>

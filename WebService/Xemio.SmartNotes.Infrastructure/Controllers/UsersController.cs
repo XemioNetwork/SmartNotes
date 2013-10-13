@@ -69,6 +69,7 @@ namespace Xemio.SmartNotes.Infrastructure.Controllers
             User currentUser = await this._userService.GetCurrentUser();
 
             currentUser.EMailAddress = user.EMailAddress;
+            currentUser.Avatar = user.Avatar;
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
