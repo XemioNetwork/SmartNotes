@@ -8,14 +8,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="80" />
         </Grid.RowDefinitions>
-        
+
+        <!-- The header view -->
         <ContentControl x:Name="Header" Grid.Row="0" />
 
-        <Grid Grid.Row="2" Background="#2c3e50">
-            
-        </Grid>
+        <!-- The current content -->
+        <ContentControl x:Name="CurrentContent" Grid.Row="1" />
         
+        <!-- The login view -->
+        <ContentControl x:Name="Login" Grid.RowSpan="3" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
     </Grid>
 </UserControl>

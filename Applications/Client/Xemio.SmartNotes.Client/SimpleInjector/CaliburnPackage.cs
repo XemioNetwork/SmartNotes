@@ -21,8 +21,8 @@ namespace Xemio.SmartNotes.Client.SimpleInjector
         /// <param name="container">The container the set of services is registered into.</param>
         public void RegisterServices(Container container)
         {
-            container.Register<IWindowManager, WindowManager>();
-            container.Register<IEventAggregator, EventAggregator>();
+            container.RegisterSingle<IWindowManager, WindowManager>();
+            container.RegisterSingle<IEventAggregator, EventAggregator>();
         }
         #endregion
     }

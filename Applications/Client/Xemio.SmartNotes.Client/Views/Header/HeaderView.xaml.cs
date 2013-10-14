@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Xemio.SmartNotes.Client.Views.Header
 {
@@ -15,8 +17,7 @@ namespace Xemio.SmartNotes.Client.Views.Header
 
         private void UserIconClick(object sender, RoutedEventArgs e)
         {
-            if (userActionsPopup.IsOpen == false)
-                userActionsPopup.IsOpen = true;
+            userActionsPopup.IsOpen = true;
         }
     }
 }

@@ -3,47 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:Xemio.SmartNotes.Client.Controls.Controls;assembly=Xemio.SmartNotes.Client.Controls"
              x:Name="control"
              Width="1280"
              Height="60"
-             Background="{StaticResource headerBackgroundBrush}">
+             Background="{StaticResource headerBackgroundBrush}"
+             FocusVisualStyle="{x:Null}">
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
+        <StackPanel Grid.Column="0" Orientation="Horizontal">
             <!-- The xemio icon -->
-            <Button Style="{StaticResource HeaderButton}">
+            <Button  x:Name="OpenXemioWebsite" Style="{StaticResource HeaderButton}">
                 <Image Source="../../Images/Xemio-Logo.png" Margin="10" />
             </Button>
         
             <!-- The divider line -->
-            <Line X1="81" X2="81" Y1="0" Y2="60" Style="{StaticResource DividerLine}" />
-        </Grid>
-
-        <StackPanel Grid.Column="1" Orientation="Horizontal">
-            <Button Style="{StaticResource HeaderButton}" Content="Hallo Welt" />
-            <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
-            <Button Style="{StaticResource HeaderButton}" Content="Hallo Welt" />
-            <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
-            <Button Style="{StaticResource HeaderButton}" Content="Hallo Welt" />
-            <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+            <Line X1="0" X2="0" Y1="0" Y2="60" Style="{StaticResource DividerLine}" />
         </StackPanel>
         
-        <Grid Grid.Column="2">
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <Button x:Name="ShowAllNotes" Style="{StaticResource HeaderButton}" Content="ALLE NOTIZEN" />
+            <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+            
+            <Button x:Name="ShowSearch" Style="{StaticResource HeaderButton}" Content="SUCHE" />
+            <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Orientation="Horizontal">
             <!-- The divider line -->
-            <Line X1="0" 
-                  Y1="0" 
-                  X2="0" 
-                  Y2="60" 
-                  Style="{StaticResource DividerLine}" />
+            <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+            
             <!-- The user icon -->
             <Button Style="{StaticResource HeaderButton}" 
-                    Click="UserIconClick">
+                    Click="UserIconClick"
+                    Padding="0, 0, 0, 0">
                 <Rectangle Width="40"
                            Height="40"
                            Margin="10"
@@ -54,17 +53,19 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </Button>
+            
             <!-- The list popup -->
-            <Popup x:Name="userActionsPopup"  
-                   PopupAnimation="Slide" 
-                   Placement="Bottom" 
-                   PlacementTarget="{Binding ElementName=userIcon}" 
-                   StaysOpen="False"
-                   HorizontalOffset="-150">
+            <controls:TogglePopup x:Name="userActionsPopup"  
+                    PopupAnimation="Slide" 
+                    Placement="Bottom" 
+                    PlacementTarget="{Binding ElementName=userIcon}" 
+                    StaysOpen="False"
+                    HorizontalOffset="-150">
                 <Grid Background="#2c3e50" Width="200" Height="100">
                     <Label Content="Hallo Welt" />
                 </Grid>
-            </Popup>
-        </Grid>
+            </controls:TogglePopup>
+        </StackPanel>
+        
     </Grid>
 </UserControl>

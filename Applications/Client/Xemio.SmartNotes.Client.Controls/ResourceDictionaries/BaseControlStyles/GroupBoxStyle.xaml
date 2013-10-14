@@ -6,7 +6,7 @@
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold" Foreground="#6D6D6D" HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold" FontFamily="Open Sans Semibold" Foreground="#6D6D6D" HorizontalAlignment="Center" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -20,10 +20,6 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-
-                        <Grid.Effect>
-                            <DropShadowEffect Color="Gray" BlurRadius="5" ShadowDepth="0" Opacity="0.5" />
-                        </Grid.Effect>
 
                         <Border 
                             Grid.Row="0" 
