@@ -18,7 +18,10 @@ namespace Xemio.SmartNotes.Infrastructure.SimpleInjector
                               where typeof(BaseController).IsAssignableFrom(type)
                               select type;
 
-            container.RegisterAll(controllers);
+            foreach (var controller in controllers)
+            {
+                container.Register(controller);
+            }
         }
         #endregion
     }

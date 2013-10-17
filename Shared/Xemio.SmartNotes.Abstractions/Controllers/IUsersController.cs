@@ -8,7 +8,7 @@ namespace Xemio.SmartNotes.Abstractions.Controllers
     /// <summary>
     /// Controller for the <see cref="User"/> class.
     /// </summary>
-    public interface IUsersController
+    public interface IUsersController : IController
     {
         /// <summary>
         /// Gets the current user.

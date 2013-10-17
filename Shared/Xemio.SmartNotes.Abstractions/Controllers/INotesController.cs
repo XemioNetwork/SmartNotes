@@ -7,7 +7,7 @@ namespace Xemio.SmartNotes.Abstractions.Controllers
     /// <summary>
     /// Controller for the <see cref="Note"/> class.
     /// </summary>
-    public interface INotesController
+    public interface INotesController : IController
     {
         /// <summary>
         /// Returns all <see cref="Note" />s from the given <see cref="Folder" />.

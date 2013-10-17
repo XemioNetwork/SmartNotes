@@ -16,13 +16,14 @@ namespace Xemio.SmartNotes.Client.WebServices
     public class NotesClient : BaseClient, INotesController
     {
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NotesClient"/> class.
         /// </summary>
-        /// <param name="session">The session.</param>
         /// <param name="baseAddress">The base address.</param>
-        public NotesClient(Session session, string baseAddress)
-            : base(session, baseAddress)
+        /// <param name="session">The application session. </param>
+        public NotesClient(string baseAddress, Session session)
+            : base(baseAddress, session)
         {
         }
         #endregion

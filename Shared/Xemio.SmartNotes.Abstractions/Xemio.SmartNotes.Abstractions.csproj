@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\IFoldersController.cs" />
     <Compile Include="Controllers\INotesController.cs" />
     <Compile Include="Controllers\IUsersController.cs" />

@@ -4,7 +4,9 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Data;
+using Xemio.SmartNotes.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.WebServices
 {
@@ -19,18 +21,19 @@ namespace Xemio.SmartNotes.Client.WebServices
         /// </summary>
         protected HttpClient Client { get; private set; }
         /// <summary>
-        /// Gets the current session.
+        /// Gets the session.
         /// </summary>
         protected Session Session { get; private set; }
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseClient"/> class.
         /// </summary>
-        /// <param name="session">The session.</param>
         /// <param name="baseAddress">The base address.</param>
-        protected BaseClient(Session session, string baseAddress)
+        /// <param name="session">The application session.</param>
+        protected BaseClient(string baseAddress, Session session)
         {
             this.Session = session;
             this.Client = new HttpClient

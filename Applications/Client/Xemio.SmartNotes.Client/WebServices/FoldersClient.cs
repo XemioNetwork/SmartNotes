@@ -16,13 +16,14 @@ namespace Xemio.SmartNotes.Client.WebServices
     public class FoldersClient : BaseClient, IFoldersController
     {
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FoldersClient"/> class.
         /// </summary>
-        /// <param name="session">The session.</param>
         /// <param name="baseAddress">The base address.</param>
-        public FoldersClient(Session session, string baseAddress)
-            : base(session, baseAddress)
+        /// <param name="session">The application session.</param>
+        public FoldersClient(string baseAddress, Session session)
+            : base(baseAddress, session)
         {
         }
         #endregion

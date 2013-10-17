@@ -8,7 +8,7 @@ namespace Xemio.SmartNotes.Abstractions.Controllers
     /// <summary>
     /// Controller for the <see cref="Folder"/> class.
     /// </summary>
-    public interface IFoldersController
+    public interface IFoldersController : IController
     {
         /// <summary>
         /// Returns all <see cref="Folder"/>s from the given <see cref="User"/>.
