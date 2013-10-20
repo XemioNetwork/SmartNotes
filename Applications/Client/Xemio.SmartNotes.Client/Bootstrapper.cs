@@ -114,7 +114,7 @@ namespace Xemio.SmartNotes.Client
         {
             var loginViewModel = this._container.Resolve<LoginViewModel>();
 
-            IWindowManager windowManager = new XemioWindowManager();
+            IWindowManager windowManager = this._container.Resolve<IWindowManager>();
 
             dynamic settings = new ExpandoObject();
             settings.ResizeMode = ResizeMode.CanMinimize;
