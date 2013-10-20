@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 
-namespace Xemio.SmartNotes.Client.Data
+namespace Xemio.SmartNotes.Client.Data.Events
 {
     /// <summary>
     /// Fired when the shell-content should be changed.

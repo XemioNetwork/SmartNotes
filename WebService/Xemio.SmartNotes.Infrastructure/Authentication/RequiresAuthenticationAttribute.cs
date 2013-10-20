@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Policy;
 using System.Security.Principal;
 using System.Text;
@@ -9,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using Raven.Client;
 using Xemio.SmartNotes.Entities.Users;
+using Xemio.SmartNotes.Infrastructure.Authentication.Resources;
 using Xemio.SmartNotes.Infrastructure.Raven.Indexes;
 using Xemio.SmartNotes.Infrastructure.Extensions;
 using System.Security.Cryptography;
@@ -20,6 +23,18 @@ namespace Xemio.SmartNotes.Infrastructure.Authentication
     /// </summary>
     public class RequiresAuthenticationAttribute : AuthorizeAttribute
     {
+        #region Overrides of AuthorizeAttribute
+        /// <summary>
+        /// Processes requests that fail authorization.
+        /// </summary>
+        /// <param name="actionContext">The context.</param>
+        protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
+        {
+            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized)
+                                         {
+                                             Content = new StringContent(AuthenticationMessages.Unauthorized)
+                                         };
+        }
         /// <summary>
         /// Determines whether the specified context is authorized.
         /// </summary>
@@ -47,6 +62,7 @@ namespace Xemio.SmartNotes.Infrastructure.Authentication
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(user.Id), new string[0]);
             return true;
         }
+        #endregion
 
         #region Private Methods
         /// <summary>

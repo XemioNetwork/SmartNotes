@@ -1,6 +1,8 @@
 ﻿using System;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Data;
+using Xemio.SmartNotes.Client.Data.Events;
+using Xemio.SmartNotes.Client.UserInterface.Common;
 using Xemio.SmartNotes.Client.UserInterface.Views.Header;
 using Xemio.SmartNotes.Client.UserInterface.Views.Login;
 using Xemio.SmartNotes.Entities.Users;

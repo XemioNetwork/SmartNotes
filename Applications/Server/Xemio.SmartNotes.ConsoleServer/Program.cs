@@ -20,7 +20,7 @@ namespace Xemio.SmartNotes.ConsoleServer
             var config = new HttpSelfHostConfiguration("http://localhost");
 
             RoutingConfig.Configure(config);
-            SimpleInjectorConfig.Configure(config);
+            WindsorConfig.Configure(config);
             FilterConfig.Configure(config);
 
             using (var server = new HttpSelfHostServer(config))

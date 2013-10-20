@@ -9,6 +9,7 @@ using System.Windows;
 using Caliburn.Micro;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Xemio.SmartNotes.Client.UserInterface.Common;
 using Xemio.SmartNotes.Client.UserInterface.Views.Login;
 using Xemio.SmartNotes.Client.UserInterface.Views.Shell;
 
@@ -77,7 +78,7 @@ namespace Xemio.SmartNotes.Client
             }
         }
         /// <summary>
-        /// Called when [startup].
+        /// Called when the application starts.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="StartupEventArgs"/> instance containing the event data.</param>
@@ -94,6 +95,15 @@ namespace Xemio.SmartNotes.Client
                 Application.Shutdown();
             }
         }
+        /// <summary>
+        /// Called when the application shuts down.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event args.</param>
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            this._container.Dispose();
+        }
         #endregion
 
         #region Private Methods
@@ -104,7 +114,7 @@ namespace Xemio.SmartNotes.Client
         {
             var loginViewModel = this._container.Resolve<LoginViewModel>();
 
-            IWindowManager windowManager = this._container.Resolve<IWindowManager>();
+            IWindowManager windowManager = new XemioWindowManager();
 
             dynamic settings = new ExpandoObject();
             settings.ResizeMode = ResizeMode.CanMinimize;

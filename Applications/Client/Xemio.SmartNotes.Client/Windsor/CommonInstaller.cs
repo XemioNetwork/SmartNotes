@@ -7,14 +7,14 @@ using Caliburn.Micro;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Xemio.SmartNotes.Client.UserInterface.Caliburn;
+using Xemio.SmartNotes.Client.UserInterface.Common;
 
 namespace Xemio.SmartNotes.Client.Windsor
 {
     /// <summary>
-    /// Installs all caliburn components.
+    /// Installs all common components.
     /// </summary>
-    public class CaliburnInstaller : IWindsorInstaller
+    public class CommonInstaller : IWindsorInstaller
     {
         #region Implementation of IWindsorInstaller
         /// <summary>
@@ -26,7 +26,8 @@ namespace Xemio.SmartNotes.Client.Windsor
             container.Register
             (
                 Component.For<IWindowManager>().ImplementedBy<XemioWindowManager>().LifestyleSingleton(),
-                Component.For<IEventAggregator>().ImplementedBy<EventAggregator>().LifestyleSingleton()
+                Component.For<IEventAggregator>().ImplementedBy<EventAggregator>().LifestyleSingleton(),
+                Component.For<IMessageManager>().ImplementedBy<MessageManager>().LifestyleSingleton()
             );
         }
         #endregion

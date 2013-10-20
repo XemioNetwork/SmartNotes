@@ -21,3 +21,5 @@ authenticationHash: C7-73-98-2A-14-7B-71-72-EE-21-8E-DE-6B-5C-BC-C1-3B-24-11-D4-
 contentBytes: 54-65-73-74-43-6F-6E-74-65-6E-74
 contentHash: 6A-D7-B0-18-49-59-62-65-10-FA-0D-88-FE-70-53-C7-99-F0-27-8E-6B-1B-89-70-13-C1-9B-6F-13-0E-F2-A6
 contentHashString: atewGElZYmUQ+g2I/nBTx5nwJ45rG4lwE8GbbxMO8qY=
+
+Authorization Header: Xemio TestUsername:atewGElZYmUQ+g2I/nBTx5nwJ45rG4lwE8GbbxMO8qY=

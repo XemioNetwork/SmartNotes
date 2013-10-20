@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Controls.Controls;
-using Xemio.SmartNotes.Client.Controls.Native;
 using Xemio.SmartNotes.Client.UserInterface.Images;
 
-namespace Xemio.SmartNotes.Client.UserInterface.Caliburn
+namespace Xemio.SmartNotes.Client.UserInterface.Common
 {
     public class XemioWindowManager : WindowManager
     {
+        #region Overrides of WindowManager
         /// <summary>
         /// Ensures the window.
         /// </summary>
@@ -55,5 +53,6 @@ namespace Xemio.SmartNotes.Client.UserInterface.Caliburn
 
             return window;
         }
+        #endregion
     }
 }

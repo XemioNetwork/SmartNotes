@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
+using Castle.Core.Logging;
 using NLog;
 using Xemio.SmartNotes.Core.Exceptions;
 using Xemio.SmartNotes.Infrastructure.Extensions;
+using Xemio.SmartNotes.Infrastructure.Filters.Resources;
 
 namespace Xemio.SmartNotes.Infrastructure.Filters
 {
@@ -22,8 +25,8 @@ namespace Xemio.SmartNotes.Infrastructure.Filters
         /// <param name="context">The context.</param>
         public override void OnException(HttpActionExecutedContext context)
         {
-            Logger logger = this.GetLogger(context);
-            logger.LogException(LogLevel.Error, "Exception occured", context.Exception);
+            ILogger logger = this.GetLogger(context);
+            logger.Error("Exception occured", context.Exception);
 
             if (context.Exception is BusinessException)
             {
@@ -34,18 +37,25 @@ namespace Xemio.SmartNotes.Infrastructure.Filters
                                            Content = new StringContent(businessException.Message)
                                        };
             }
+            else
+            {
+                context.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                                       {
+                                           Content = new StringContent(ErrorMessages.InternalServerError)
+                                       };
+            }
         }
 
         /// <summary>
         /// Returns a <see cref="Logger"/> for the current <see cref="HttpActionExecutedContext"/>.
         /// </summary>
         /// <param name="context">The context.</param>
-        private Logger GetLogger(HttpActionExecutedContext context)
+        private ILogger GetLogger(HttpActionExecutedContext context)
         {
-            LogFactory factory = context.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService<LogFactory>();
+            ILoggerFactory loggerFactory = context.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService<ILoggerFactory>();
             string loggerName = context.ActionContext.ActionDescriptor.ControllerDescriptor.ControllerType.FullName;
 
-            return factory.GetLogger(loggerName);
+            return loggerFactory.Create(loggerName);
         }
     }
 }

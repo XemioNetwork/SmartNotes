@@ -4,6 +4,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Data;
+using Xemio.SmartNotes.Client.Data.Events;
+using Xemio.SmartNotes.Client.Extensions;
 using Xemio.SmartNotes.Client.UserInterface.Images;
 using Xemio.SmartNotes.Client.UserInterface.Views.Content.AllNotes;
 using Xemio.SmartNotes.Client.UserInterface.Views.Content.Search;
@@ -14,6 +16,7 @@ namespace Xemio.SmartNotes.Client.UserInterface.Views.Header
     {
         #region Fields
         private readonly IEventAggregator _eventAggregator;
+
         private readonly Session _session;
 
         private readonly AllNotesViewModel _allNotesViewModel;
@@ -56,8 +59,6 @@ namespace Xemio.SmartNotes.Client.UserInterface.Views.Header
 
             this._allNotesViewModel = allNotesViewModel;
             this._searchViewModel = searchViewModel;
-
-            this.Image = new BitmapImage(ImagePaths.DefaultUserIcon);
         }
         #endregion
 
@@ -68,6 +69,8 @@ namespace Xemio.SmartNotes.Client.UserInterface.Views.Header
         protected override void OnInitialize()
         {
             this.ActivateItem(this._allNotesViewModel);
+
+            this.Image = this._session.User.Avatar.ToBitmapImage();
         }
         #endregion
 
