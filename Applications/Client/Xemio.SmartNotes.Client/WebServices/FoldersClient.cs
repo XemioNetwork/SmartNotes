@@ -36,6 +36,8 @@ namespace Xemio.SmartNotes.Client.WebServices
         public async Task<HttpResponseMessage> GetAllFolders(int userId)
         {
             this.SetAuthenticationHeader(string.Empty);
+            this.SetLanguageHeader();
+
             return await this.Client.GetAsync(string.Format("Users/{0}/Folders", userId));
         }
         /// <summary>
@@ -48,6 +50,8 @@ namespace Xemio.SmartNotes.Client.WebServices
             string requestString = await JsonConvert.SerializeObjectAsync(folder);
 
             this.SetAuthenticationHeader(requestString);
+            this.SetLanguageHeader();
+
             return await this.Client.PostJsonAsync(string.Format("Users/{0}/Folders", userId), requestString);
         }
         /// <summary>
@@ -61,6 +65,8 @@ namespace Xemio.SmartNotes.Client.WebServices
             string requestString = await JsonConvert.SerializeObjectAsync(folder);
 
             this.SetAuthenticationHeader(requestString);
+            this.SetLanguageHeader();
+
             return await this.Client.PutJsonAsync(string.Format("Users/{0}/Folders/{1}", userId, folder), requestString);
         }
         /// <summary>
@@ -71,6 +77,8 @@ namespace Xemio.SmartNotes.Client.WebServices
         public async Task<HttpResponseMessage> DeleteFolder(int userId, int folderId)
         {
             this.SetAuthenticationHeader();
+            this.SetLanguageHeader();
+
             return await this.Client.DeleteAsync(string.Format("Users/{0}/Folders/{1}", userId, folderId));
         }
         #endregion

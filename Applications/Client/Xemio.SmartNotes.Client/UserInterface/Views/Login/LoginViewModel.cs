@@ -29,6 +29,7 @@ namespace Xemio.SmartNotes.Client.UserInterface.Views.Login
         private readonly IWindowManager _windowManager;
         private readonly IMessageManager _messageManager;
         private readonly ILanguageManager _languageManager;
+        private readonly IDataStorage _dataStorage;
 
         private readonly Session _session;
 
@@ -93,8 +94,9 @@ namespace Xemio.SmartNotes.Client.UserInterface.Views.Login
         /// <param name="windowManager">The window manager.</param>
         /// <param name="messageManager">The message manager.</param>
         /// <param name="languageManager">The language manager.</param>
+        /// <param name="dataStorage">The data storage.</param>
         /// <param name="session">The application session.</param>
-        public LoginViewModel(IUsersController usersController, IWindowManager windowManager, IMessageManager messageManager, ILanguageManager languageManager, Session session)
+        public LoginViewModel(IUsersController usersController, IWindowManager windowManager, IMessageManager messageManager, ILanguageManager languageManager, IDataStorage dataStorage, Session session)
         {
             this.DisplayName = LoginMessages.Title;
 
@@ -102,6 +104,7 @@ namespace Xemio.SmartNotes.Client.UserInterface.Views.Login
             this._windowManager = windowManager;
             this._messageManager = messageManager;
             this._languageManager = languageManager;
+            this._dataStorage = dataStorage;
 
             this._session = session;
         }
@@ -148,13 +151,10 @@ namespace Xemio.SmartNotes.Client.UserInterface.Views.Login
         /// </summary>
         private void LoadRememberMe()
         {
-            using (SecureDataStorage storage = new SecureDataStorage())
+            if (this._dataStorage.Retrieve<bool>(RememberMeKey))
             {
-                if (storage.Retrieve<bool>(RememberMeKey))
-                {
-                    this.Username = storage.Retrieve<string>(UsernameKey);
-                    this.Password = storage.Retrieve<string>(PasswordKey);
-                }
+                this.Username = this._dataStorage.Retrieve<string>(UsernameKey);
+                this.Password = this._dataStorage.Retrieve<string>(PasswordKey);
             }
         }
         /// <summary>
@@ -162,12 +162,9 @@ namespace Xemio.SmartNotes.Client.UserInterface.Views.Login
         /// </summary>
         private void SaveRememberMe()
         {
-            using (SecureDataStorage storage = new SecureDataStorage())
-            {
-                storage.Store(this.RememberMe, RememberMeKey);
-                storage.Store(this.Username, UsernameKey);
-                storage.Store(this.Password, PasswordKey);
-            }
+            this._dataStorage.Store(this.RememberMe, RememberMeKey);
+            this._dataStorage.Store(this.Username, UsernameKey);
+            this._dataStorage.Store(this.Password, PasswordKey);
         }
         #endregion
     }

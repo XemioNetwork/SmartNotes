@@ -40,6 +40,8 @@ namespace Xemio.SmartNotes.Client.WebServices
             query["folder"] = folderId.ToString();
 
             this.SetAuthenticationHeader();
+            this.SetLanguageHeader();
+
             return await this.Client.GetAsync(string.Format("Users/{0}/Notes?{1}", userId, query));
         }
         /// <summary>
@@ -53,6 +55,8 @@ namespace Xemio.SmartNotes.Client.WebServices
             query["searchText"] = searchText;
 
             this.SetAuthenticationHeader();
+            this.SetLanguageHeader();
+
             return await this.Client.GetAsync(string.Format("Users/{0}/Notes?{1}", userId, query));
         }
         /// <summary>
@@ -65,6 +69,8 @@ namespace Xemio.SmartNotes.Client.WebServices
             string requestString = await JsonConvert.SerializeObjectAsync(note);
 
             this.SetAuthenticationHeader(requestString);
+            this.SetLanguageHeader();
+
             return await this.Client.PostJsonAsync(string.Format("Users/{0}/Notes", userId), requestString);
         }
         /// <summary>
@@ -78,6 +84,8 @@ namespace Xemio.SmartNotes.Client.WebServices
             string requestString = await JsonConvert.SerializeObjectAsync(note);
 
             this.SetAuthenticationHeader(requestString);
+            this.SetLanguageHeader();
+
             return await this.Client.PutJsonAsync(string.Format("Users/{0}/Notes/{1}", userId, noteId), requestString);
         }
         /// <summary>
@@ -88,6 +96,8 @@ namespace Xemio.SmartNotes.Client.WebServices
         public async Task<HttpResponseMessage> DeleteNote(int userId, int noteId)
         {
             this.SetAuthenticationHeader(string.Empty);
+            this.SetLanguageHeader();
+
             return await this.Client.DeleteAsync(string.Format("Users/{0}/Notes/{1}", userId, noteId));
         }
         #endregion

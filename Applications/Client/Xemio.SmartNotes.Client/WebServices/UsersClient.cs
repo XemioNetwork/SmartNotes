@@ -38,6 +38,8 @@ namespace Xemio.SmartNotes.Client.WebServices
         public async Task<HttpResponseMessage> GetCurrent()
         {
             this.SetAuthenticationHeader();
+            this.SetLanguageHeader();
+
             return await this.Client.GetAsync("Users/Current");
         }
         /// <summary>
@@ -46,6 +48,8 @@ namespace Xemio.SmartNotes.Client.WebServices
         /// <param name="createUser">The createUser.</param>
         public async Task<HttpResponseMessage> PostUser(PostUser createUser)
         {
+            this.SetLanguageHeader();
+
             return await this.Client.PostAsJsonAsync("Users", createUser);
         }
         /// <summary>
@@ -57,6 +61,8 @@ namespace Xemio.SmartNotes.Client.WebServices
             string requestString = await JsonConvert.SerializeObjectAsync(user);
 
             this.SetAuthenticationHeader(requestString);
+            this.SetLanguageHeader();
+
             return await this.Client.PutJsonAsync("Users/Current", requestString);
         }
         #endregion

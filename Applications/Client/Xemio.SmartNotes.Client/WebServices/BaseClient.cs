@@ -41,7 +41,7 @@ namespace Xemio.SmartNotes.Client.WebServices
                                   BaseAddress = new Uri(baseAddress)
                               };
 
-            this.Client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(Thread.CurrentThread.CurrentUICulture.Name));
+            this.SetLanguageHeader();
         }
         #endregion
 
@@ -60,6 +60,15 @@ namespace Xemio.SmartNotes.Client.WebServices
             string contentHashString = Convert.ToBase64String(contentHash);
 
             this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Xemio", string.Format("{0}:{1}", this.Session.Username, contentHashString));
+        }
+        /// <summary>
+        /// Sets the language header.
+        /// </summary>
+        protected void SetLanguageHeader()
+        {
+            this.Client.DefaultRequestHeaders.AcceptLanguage.Clear();
+
+            this.Client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(Thread.CurrentThread.CurrentUICulture.Name));
         }
         #endregion
     }

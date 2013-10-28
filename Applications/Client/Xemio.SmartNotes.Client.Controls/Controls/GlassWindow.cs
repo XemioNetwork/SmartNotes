@@ -7,6 +7,9 @@ using Xemio.SmartNotes.Client.Controls.Native;
 
 namespace Xemio.SmartNotes.Client.Controls.Controls
 {
+    /// <summary>
+    /// A subclass of <see cref="Window"/> providing easy customization of the aero glass frame.
+    /// </summary>
     public class GlassWindow : Window
     {
         #region Properties

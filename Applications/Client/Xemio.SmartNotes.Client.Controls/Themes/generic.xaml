@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
 
-        <!--<ResourceDictionary Source="pack://application:,,,/ResourceDictionaries/CustomControlStyles/GlassWindowStyle.xaml" />-->
+        <ResourceDictionary Source="/Xemio.SmartNotes.Client.Controls;component/ResourceDictionaries/CustomControlStyles/GlassWindowStyle.xaml" />
+        <ResourceDictionary Source="/Xemio.SmartNotes.Client.Controls;component/ResourceDictionaries/CustomControlStyles/TogglePopupStyle.xaml" />
+        <ResourceDictionary Source="/Xemio.SmartNotes.Client.Controls;component/ResourceDictionaries/CustomControlStyles/WatermarkTextBoxStyle.xaml" />
         
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

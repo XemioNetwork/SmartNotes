@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Controls\GlassWindow.cs" />
     <Compile Include="Controls\TogglePopup.cs" />
+    <Compile Include="Controls\WatermarkTextBox.cs" />
     <Compile Include="Native\DesktopWindowManagerAPI.cs" />
     <Compile Include="Native\Resources\ExceptionMessages.Designer.cs">
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
@@ -105,6 +106,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ResourceDictionaries\CustomControlStyles\GlassWindowStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceDictionaries\CustomControlStyles\TogglePopupStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\CustomControlStyles\WatermarkTextBoxStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
