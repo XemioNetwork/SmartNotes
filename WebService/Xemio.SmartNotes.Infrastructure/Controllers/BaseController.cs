@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using Castle.Core.Logging;
 using Raven.Client;
 using Xemio.SmartNotes.Entities.Users;
 
@@ -19,11 +20,21 @@ namespace Xemio.SmartNotes.Infrastructure.Controllers
     /// </summary>
     public abstract class BaseController : ApiController
     {
+        private ILogger _logger = NullLogger.Instance;
+
         #region Properties
         /// <summary>
         /// Gets or sets the document session.
         /// </summary>
         public IAsyncDocumentSession DocumentSession { get; private set; }
+        /// <summary>
+        /// Gets or sets the logger.
+        /// </summary>
+        public ILogger Logger
+        {
+            get { return _logger; }
+            set { _logger = value; }
+        }
         #endregion
 
         #region Constructors

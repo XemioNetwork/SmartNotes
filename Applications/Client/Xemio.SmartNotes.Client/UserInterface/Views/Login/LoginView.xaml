@@ -30,10 +30,9 @@
                     <RowDefinition Height="40" />
                     <RowDefinition Height="60" />
                 </Grid.RowDefinitions>
-
-                <!--<TextBox Grid.Row="0" Margin="5" />-->
-                <controls:WatermarkTextBox Grid.Row="0" Margin="5" Watermark="Hallo Welt" />
-                <PasswordBox Grid.Row="1" Margin="5" />
+                
+                <controls:WatermarkTextBox Grid.Row="0" Margin="5" Watermark="{lex:Loc Username}" Text="{Binding Username}" />
+                <controls:WatermarkPasswordBox Grid.Row="1" Margin="5" Watermark="{lex:Loc Password}"  Password="{Binding Password}" />
 
                 <Button x:Name="Login"  Grid.Row="2" Margin="5" Content="{lex:Loc Title}"  />
             </Grid>

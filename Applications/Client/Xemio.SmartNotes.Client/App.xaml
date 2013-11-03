@@ -13,9 +13,6 @@
                 <ResourceDictionary Source="/Xemio.SmartNotes.Client.Controls;component/ResourceDictionaries/ResourceLibrary.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
-            <!-- Workaround for ResourceDictionary loading bug -->
-            <Style TargetType="{x:Type Rectangle}" />
-            
         </ResourceDictionary>
     </Application.Resources>
     
