@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Xemio.SmartNotes.Models.Entities
+{
+    /// <summary>
+    /// A base class for all <see cref="AggregateRoot"/>s.
+    /// </summary>
+    public abstract class AggregateRoot
+    {
+        /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        public string Id { get; set; }
+    }
+}

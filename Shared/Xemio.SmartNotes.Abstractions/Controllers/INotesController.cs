@@ -1,12 +1,10 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Xemio.SmartNotes.Entities.Notes;
+using System.Web.Http;
+using Xemio.SmartNotes.Models.Entities.Notes;
 
 namespace Xemio.SmartNotes.Abstractions.Controllers
 {
-    /// <summary>
-    /// Controller for the <see cref="Note"/> class.
-    /// </summary>
     public interface INotesController : IController
     {
         /// <summary>

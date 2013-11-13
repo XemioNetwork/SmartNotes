@@ -1,24 +1,22 @@
 using System.Net.Http;
 using System.Threading.Tasks;
-using Xemio.SmartNotes.Entities.Users;
-using Xemio.SmartNotes.Models.Users;
+using System.Web.Http;
+using Xemio.SmartNotes.Models.Entities.Users;
+using Xemio.SmartNotes.Models.Models;
 
 namespace Xemio.SmartNotes.Abstractions.Controllers
 {
-    /// <summary>
-    /// Controller for the <see cref="User"/> class.
-    /// </summary>
     public interface IUsersController : IController
     {
-        /// <summary>
-        /// Gets the current user.
-        /// </summary>
-        Task<HttpResponseMessage> GetCurrent();
         /// <summary>
         /// Creates a new <see cref="User"/>.
         /// </summary>
         /// <param name="createUser">The createUser.</param>
-        Task<HttpResponseMessage> PostUser(PostUser createUser);
+        Task<HttpResponseMessage> PostUser(CreateUser createUser);
+        /// <summary>
+        /// Gets the current user.
+        /// </summary>
+        Task<HttpResponseMessage> GetCurrent();
         /// <summary>
         /// Updates the <see cref="User"/>.
         /// </summary>
