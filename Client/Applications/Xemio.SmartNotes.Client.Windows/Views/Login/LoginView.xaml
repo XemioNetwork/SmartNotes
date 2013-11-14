@@ -18,6 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
@@ -26,27 +27,20 @@
         <GroupBox Grid.Row="1" Header="{lex:Loc Title}" Width="300" >
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="5" />
                     <RowDefinition Height="30" />
-                    <RowDefinition Height="60" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
                 
-                <controls:WatermarkTextBox Grid.Row="0" Margin="5" Watermark="{lex:Loc Username}" Text="{Binding Username}" />
-                <controls:WatermarkPasswordBox Grid.Row="1" Margin="5" Watermark="{lex:Loc Password}"  Password="{Binding Password}" />
+                <controls:WatermarkTextBox Grid.Row="1" Margin="5, 0, 5, 0" Watermark="{lex:Loc Username}" Text="{Binding Username}" />
+                <controls:WatermarkPasswordBox Grid.Row="3" Margin="5, 0, 5, 0" Watermark="{lex:Loc Password}"  Password="{Binding Password}" />
 
-                <CheckBox Grid.Row="2" Content="{lex:Loc RememberMe}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                
-                <Button x:Name="Login"  Grid.Row="3" Margin="5" Content="{lex:Loc Login}"  />
+                <CheckBox Grid.Row="4" Content="{lex:Loc RememberMe}" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Grid>
         </GroupBox>
         
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Label Content="{lex:Loc Register}" />
-            <Label Content="|" />
-            <Label Content="{lex:Loc ForgotPassword}" />
-            <Label Content="|" />
-            <Label Content="{lex:Loc Language}" />
-        </StackPanel>
+        <Button x:Name="Login" Grid.Row="2" Margin="0, 5, 0, 0" Content="{lex:Loc Login}"  />
     </Grid>
 </UserControl>
