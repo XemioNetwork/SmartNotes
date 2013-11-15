@@ -48,6 +48,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
                 {
                     this._username = value;
                     this.NotifyOfPropertyChange(() => this.Username);
+                    this.NotifyOfPropertyChange(() => this.CanLogin);
                 }
             }
         }
@@ -63,6 +64,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
                 {
                     this._password = value;
                     this.NotifyOfPropertyChange(() => this.Password);
+                    this.NotifyOfPropertyChange(() => this.CanLogin);
                 }
             }
         }
@@ -79,6 +81,17 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
                     this._rememberMe = value;
                     this.NotifyOfPropertyChange(() => this.RememberMe);
                 }
+            }
+        }
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="Login"/> method can be executed.
+        /// </summary>
+        public bool CanLogin
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(this.Username) == false &&
+                       string.IsNullOrWhiteSpace(this.Password) == false;
             }
         }
         #endregion

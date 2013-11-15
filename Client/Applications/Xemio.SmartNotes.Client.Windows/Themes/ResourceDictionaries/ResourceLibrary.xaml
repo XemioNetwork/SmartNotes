@@ -9,6 +9,7 @@
         <ResourceDictionary Source="BaseControlStyles/ButtonStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/GroupBoxStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/PasswordBoxStyle.xaml" />
+        <ResourceDictionary Source="BaseControlStyles/CheckBoxStyle.xaml" />
         
         <!-- Named Styles -->
         <ResourceDictionary Source="NamedStyles/DividerLineStyle.xaml" />

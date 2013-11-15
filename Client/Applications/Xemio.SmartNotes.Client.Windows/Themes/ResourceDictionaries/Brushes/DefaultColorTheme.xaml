@@ -1,11 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Color x:Key="backgroundColor" A="255" R="52" G="152" B="219" />
-    <Color x:Key="hoverBackgroundColor" A="255" R="62" G="182" B="255" />
-    <Color x:Key="pressedBackgroundColor" A="255" R="42" G="122" B="175" />
-    <Color x:Key="disabledBackgroundColor" A="255" R="149" G="165" B="166" />
-    <Color x:Key="blackForegroundColor" A="255" R="30" G="30" B="30" />
+    <Color x:Key="blueColor" A="255" R="52" G="152" B="219" />
+    <Color x:Key="lighterBlueColor" A="255" R="62" G="182" B="255" />
+    <Color x:Key="darkerBlueColor" A="255" R="42" G="122" B="175" />
+    <Color x:Key="desaturatedBlueColor" A="255" R="127" G="182" B="219" />
+    
+    <Color x:Key="greenColor" A="255" R="44" G="194" B="107" />
+
+    <Color x:Key="blackColor" A="255" R="30" G="30" B="30" />
+    <Color x:Key="grayColor" A="255" R="139" G="139" B="139" />
 
     <LinearGradientBrush x:Key="dividerBrush" StartPoint="0, 0" EndPoint="0, 1">
         <GradientStop Offset="0" Color="Transparent" />

@@ -1,12 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Brushes/DefaultColorTheme.xaml" />
+    </ResourceDictionary.MergedDictionaries>
     
     <Style TargetType="{x:Type GroupBox}">
-        <Setter Property="BorderBrush" Value="Gainsboro"/>
+        <Setter Property="BorderBrush" Value="LightGray"/>
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold" FontFamily="Open Sans Semibold" Foreground="#6D6D6D" HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold" FontFamily="Open Sans Semibold" HorizontalAlignment="Center">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{StaticResource grayColor}" />
+                        </TextBlock.Foreground>
+                    </TextBlock>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -20,19 +27,30 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
+                        
+                        <Grid.Effect>
+                            <DropShadowEffect Color="Gray" BlurRadius="4" Direction="0" ShadowDepth="0" />
+                        </Grid.Effect>
 
                         <Border 
                             Grid.Row="0" 
                             Height="38" 
-                            CornerRadius="2, 2, 0, 0" 
+                            CornerRadius="0" 
                             BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="1" 
-                            Background="WhiteSmoke" >
-                            
-                            <ContentPresenter VerticalAlignment="Center" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            BorderThickness="0, 0, 0, 1" 
+                            Background="#F6F6F6" >
+                            <Grid>
+                                <Grid Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                    <Grid.Background>
+                                        <SolidColorBrush Color="{StaticResource blueColor}" />
+                                    </Grid.Background>
+                                </Grid>
+
+                                <ContentPresenter VerticalAlignment="Center" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Grid>
                         </Border>
 
-                        <Border Grid.Row="1" CornerRadius="0, 0, 2, 2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1, 0, 1, 1" Background="White">
+                        <Border Grid.Row="1" CornerRadius="0, 0, 2, 2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="White">
                             <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                     </Grid>

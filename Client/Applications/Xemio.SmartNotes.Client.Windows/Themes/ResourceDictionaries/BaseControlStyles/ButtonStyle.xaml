@@ -9,6 +9,7 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontFamily" Value="Open Sans Bold" />
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Template">
@@ -27,24 +28,28 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="{StaticResource hoverBackgroundColor}" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="{StaticResource lighterBlueColor}" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="{StaticResource pressedBackgroundColor}" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="{StaticResource darkerBlueColor}" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="{StaticResource disabledBackgroundColor}" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="{StaticResource desaturatedBlueColor}" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         
+                        <Border.Effect>
+                            <DropShadowEffect Color="Gray" BlurRadius="4" Direction="0" ShadowDepth="0" />
+                        </Border.Effect>
+                        
                         <Border.Background>
-                            <SolidColorBrush x:Name="backgroundBrush" Color="{StaticResource backgroundColor}" />
+                            <SolidColorBrush x:Name="backgroundBrush" Color="{StaticResource blueColor}" />
                         </Border.Background>
 
                         <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" 
