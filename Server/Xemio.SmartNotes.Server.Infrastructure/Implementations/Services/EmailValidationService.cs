@@ -1,7 +1,7 @@
 ﻿using System.Net.Mail;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 
-namespace Xemio.SmartNotes.Server.Infrastructure.Services
+namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
 {
     public class EmailValidationService : IEmailValidationService
     {

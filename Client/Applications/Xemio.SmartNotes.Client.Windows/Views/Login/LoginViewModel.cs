@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Windows;
 using Caliburn.Micro;
@@ -108,7 +109,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         /// <param name="session">The application session.</param>
         public LoginViewModel(IUsersController usersController, IWindowManager windowManager, IMessageManager messageManager, ILanguageManager languageManager, IDataStorage dataStorage, Session session)
         {
-            this.DisplayName = LoginMessages.Title;
+            this.DisplayName = "Xemio Notes";
 
             this._usersController = usersController;
             this._windowManager = windowManager;
@@ -153,6 +154,18 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
                 this._messageManager.ShowMessageBox(message, LoginMessages.LoginFailed, MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+        /// <summary>
+        /// Opens the register window.
+        /// </summary>
+        public void Register()
+        {
+        }
+        /// <summary>
+        /// Opens the forgot-password window.
+        /// </summary>
+        public void ForgotPassword()
+        {
+        }
         #endregion
 
         #region Private Methods
@@ -163,6 +176,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         {
             if (this._dataStorage.Retrieve<bool>(RememberMeKey))
             {
+                this.RememberMe = true;
                 this.Username = this._dataStorage.Retrieve<string>(UsernameKey);
                 this.Password = this._dataStorage.Retrieve<string>(PasswordKey);
             }

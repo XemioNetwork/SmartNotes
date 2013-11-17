@@ -5,7 +5,7 @@ using Raven.Client;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 
-namespace Xemio.SmartNotes.Server.Infrastructure.Services
+namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
 {
     public class UserService : IUserService
     {

@@ -62,13 +62,13 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
         /// <param name="textChangedEventArgs">The <see cref="TextChangedEventArgs"/> instance containing the event data.</param>
         private void OnTextChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            if (string.IsNullOrWhiteSpace(this.Text) && this._isWatermarkVisible == false)
+            if (this.Text.Length == 0 && this._isWatermarkVisible == false)
             {
                 VisualStateManager.GoToState(this, WatermarkVisibleState, true);
                 this._isWatermarkVisible = true;
             }
 
-            if (string.IsNullOrWhiteSpace(this.Text) == false && this._isWatermarkVisible)
+            if (this.Text.Length > 0 && this._isWatermarkVisible)
             {
                 VisualStateManager.GoToState(this, WatermarkHiddenState, true);
                 this._isWatermarkVisible = false;

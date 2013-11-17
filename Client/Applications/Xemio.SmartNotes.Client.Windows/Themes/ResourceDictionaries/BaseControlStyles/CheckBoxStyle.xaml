@@ -23,31 +23,64 @@
                     <StackPanel Orientation="Horizontal">
                         
                         <VisualStateManager.VisualStateGroups>
+                            
                             <VisualStateGroup x:Name="CheckStates">
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition GeneratedDuration="0:0:0.1" />
                                 </VisualStateGroup.Transitions>
+                                
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="path" Storyboard.TargetProperty="(Stroke).(SolidColorBrush.Color)" To="{StaticResource greenColor}" />
                                         <DoubleAnimation Storyboard.TargetName="path" Storyboard.TargetProperty="StrokeThickness" To="2.5" />
                                     </Storyboard>
                                 </VisualState>
+                                
                                 <VisualState x:Name="Unchecked" />
                             </VisualStateGroup>
+
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.1" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="borderPath" Storyboard.TargetProperty="Opacity" To="1.0" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <VisualState x:Name="Unfocused">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="borderPath" Storyboard.TargetProperty="Opacity" To="0.0" />
+                                    </Storyboard>    
+                                </VisualState>
+                            </VisualStateGroup>
+                            
                         </VisualStateManager.VisualStateGroups>
 
                         <Grid Width="{TemplateBinding Height}" Height="{TemplateBinding Height}">
                             <Grid.Background>
                                 <VisualBrush Stretch="None">
                                     <VisualBrush.Visual>
-                                        <Path Name="path" 
-                                              Data="M 0 5 L 3 10 10 0" 
-                                              Stroke="LightGray" 
-                                              StrokeThickness="1.5"
-                                              StrokeStartLineCap="Round" 
-                                              StrokeEndLineCap="Round" 
-                                              StrokeLineJoin="Round" />
+                                        <Grid>
+                                            <Path Name="borderPath" 
+                                                  Data="M 0 5 L 3 10 10 0" 
+                                                  StrokeThickness="4"
+                                                  StrokeStartLineCap="Round" 
+                                                  StrokeEndLineCap="Round" 
+                                                  StrokeLineJoin="Round">
+                                                <Path.Stroke>
+                                                    <SolidColorBrush Color="{StaticResource blueColor}" />
+                                                </Path.Stroke>
+                                            </Path>
+                                            <Path Name="path" 
+                                                  Data="M 0 5 L 3 10 10 0" 
+                                                  Stroke="LightGray" 
+                                                  StrokeThickness="1.5"
+                                                  StrokeStartLineCap="Round" 
+                                                  StrokeEndLineCap="Round" 
+                                                  StrokeLineJoin="Round" />
+                                        </Grid>
                                     </VisualBrush.Visual>
                                 </VisualBrush>
                             </Grid.Background>

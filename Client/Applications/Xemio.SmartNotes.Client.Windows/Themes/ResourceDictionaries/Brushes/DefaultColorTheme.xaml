@@ -8,9 +8,10 @@
     
     <Color x:Key="greenColor" A="255" R="44" G="194" B="107" />
 
-    <Color x:Key="blackColor" A="255" R="30" G="30" B="30" />
+    <Color x:Key="blackColor" A="255" R="50" G="50" B="50" />
     <Color x:Key="grayColor" A="255" R="139" G="139" B="139" />
 
+    
     <LinearGradientBrush x:Key="dividerBrush" StartPoint="0, 0" EndPoint="0, 1">
         <GradientStop Offset="0" Color="Transparent" />
         <GradientStop Offset="0.6" Color="Gray" />

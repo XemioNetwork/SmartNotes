@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -136,13 +137,13 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
         /// </summary>
         private void UpdateVisualState()
         {
-            if (string.IsNullOrWhiteSpace(this.Password) && this._isWatermarkVisible == false)
+            if (this.Password.Length == 0 && this._isWatermarkVisible == false)
             {
                 VisualStateManager.GoToState(this, WatermarkVisibleState, true);
                 this._isWatermarkVisible = true;
             }
 
-            if (string.IsNullOrWhiteSpace(this.Password) == false && this._isWatermarkVisible)
+            if (this.Password.Length > 0 && this._isWatermarkVisible)
             {
                 VisualStateManager.GoToState(this, WatermarkHiddenState, true);
                 this._isWatermarkVisible = false;

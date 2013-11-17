@@ -149,6 +149,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LoginMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Login\ValueConverter\CultureInfoToImageConverter.cs" />
     <Compile Include="Views\Register\RegisterView.xaml.cs">
       <DependentUpon>RegisterView.xaml</DependentUpon>
     </Compile>
@@ -177,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\BaseControlStyles\LabelStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\BaseControlStyles\PasswordBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -188,10 +193,6 @@
     <Page Include="Themes\ResourceDictionaries\CustomControlStyles\GlassWindowStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\ResourceDictionaries\NamedStyles\LinkButtonStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ResourceDictionaries\CustomControlStyles\TogglePopupStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -216,6 +217,10 @@
     <Page Include="Themes\ResourceDictionaries\NamedStyles\HeaderToggleButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\LinkButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ResourceDictionaries\ResourceLibrary.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -63,11 +63,8 @@
                         </Border.BorderBrush>
 
                         <Grid>
-                            <Label Margin="7, -2, 0, 0" x:Name="watermark" IsHitTestVisible="False" Content="{TemplateBinding Watermark}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Foreground="Gray" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
-                            
-                            <Grid Margin="10, 3, 10, 3">
-                                <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                            </Grid>
+                            <Label Margin="7, -1, 0, 0"  x:Name="watermark" IsHitTestVisible="False" Content="{TemplateBinding Watermark}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <ScrollViewer Margin="10, 3, 10 ,3" x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                         </Grid>
                     </Border>
 

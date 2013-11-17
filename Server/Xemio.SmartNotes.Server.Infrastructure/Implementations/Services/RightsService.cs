@@ -7,7 +7,7 @@ using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 
-namespace Xemio.SmartNotes.Server.Infrastructure.Services
+namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
 {
     public class RightsService : IRightsService
     {

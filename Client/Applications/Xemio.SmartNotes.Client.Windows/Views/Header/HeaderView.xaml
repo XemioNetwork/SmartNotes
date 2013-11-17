@@ -13,7 +13,6 @@
              Height="60"
              Background="{StaticResource headerBackgroundBrush}"
              FocusVisualStyle="{x:Null}">
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -39,6 +38,7 @@
             <!-- The "Search" button -->
             <Button x:Name="ShowSearch" Style="{StaticResource HeaderButton}" Content="SUCHE" />
             <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+            <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" /> <!-- For some reason the line above is not visible, but when we add a second one we can see it -->
         </StackPanel>
 
         <StackPanel Grid.Column="2" Orientation="Horizontal">
@@ -68,8 +68,8 @@
                                   PlacementTarget="{Binding ElementName=userIcon}" 
                                   StaysOpen="False"
                                   HorizontalOffset="-150">
-                <Grid Background="#2c3e50" Width="200" Height="100">
-                    <Label Content="Hallo Welt" />
+                <Grid Background="#3E3E3E" Width="200" Height="100">
+                    <Label Content="Hallo Welt" Foreground="White" />
                 </Grid>
             </controls:TogglePopup>
         </StackPanel>

@@ -9,9 +9,9 @@
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold" FontFamily="Open Sans Semibold" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding}" FontSize="14" FontWeight="Bold" FontFamily="Open Sans Semibold" HorizontalAlignment="Center">
                         <TextBlock.Foreground>
-                            <SolidColorBrush Color="{StaticResource grayColor}" />
+                            <SolidColorBrush Color="{StaticResource blackColor}" />
                         </TextBlock.Foreground>
                     </TextBlock>
                 </DataTemplate>
@@ -38,7 +38,7 @@
                             CornerRadius="0" 
                             BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="0, 0, 0, 1" 
-                            Background="#F6F6F6" >
+                            Background="{StaticResource headerBackgroundBrush}" >
                             <Grid>
                                 <Grid Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                     <Grid.Background>

@@ -124,7 +124,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login.
+        ///   Looks up a localized string similar to LOGIN.
         /// </summary>
         public static string Title {
             get {

@@ -143,9 +143,9 @@
     <Compile Include="Raven\Indexes\TagsByCount.cs" />
     <Compile Include="Raven\Indexes\UserAuthenticationsByUserId.cs" />
     <Compile Include="Raven\Indexes\UsersByUsername.cs" />
-    <Compile Include="Services\EmailValidationService.cs" />
-    <Compile Include="Services\RightsService.cs" />
-    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Implementations\Services\EmailValidationService.cs" />
+    <Compile Include="Implementations\Services\RightsService.cs" />
+    <Compile Include="Implementations\Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Windsor\ControllerInstaller.cs" />
     <Compile Include="Windsor\LoggingInstaller.cs" />

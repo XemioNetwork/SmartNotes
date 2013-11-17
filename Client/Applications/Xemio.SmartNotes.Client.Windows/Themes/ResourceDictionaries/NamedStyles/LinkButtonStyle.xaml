@@ -7,45 +7,45 @@
     <Style x:Key="LinkButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="Foreground">
-            <Setter.Value>
-                <SolidColorBrush Color="{StaticResource blackColor}" />
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
+                <!-- We don't add anything to the button, just simply display the content -->
                 <ControlTemplate TargetType="{x:Type Button}">
-
-                    <Grid Background="{TemplateBinding Background}">
-
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualStateGroup.Transitions>
-                                    <VisualTransition GeneratedDuration="0:0:0.0" />
-                                </VisualStateGroup.Transitions>
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="MouseOver">
-                                    <!--<Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" To="{StaticResource pressedBackgroundColor}" />
-                                    </Storyboard>-->
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" 
-                                          Content="{TemplateBinding Content}" 
-                                          ContentStringFormat="{TemplateBinding ContentStringFormat}" 
-                                          Focusable="False" 
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                          Margin="{TemplateBinding Padding}" 
-                                          RecognizesAccessKey="True" 
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Grid>
-
+                    <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                      Focusable="False" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                      Margin="{TemplateBinding Padding}" 
+                                      RecognizesAccessKey="True" 
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
+        <Style.Resources>
+            <!-- We define a style for all TextBlock elements inside of the button.
+                 They will show an underline on mouse over. -->
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontFamily" Value="Open Sans Light" />
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource blackColor}" />
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="TextDecorations" Value="Underline" />
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="False">
+                        <Setter Property="TextDecorations" Value="None" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
+        
     </Style>
+    
 </ResourceDictionary>
