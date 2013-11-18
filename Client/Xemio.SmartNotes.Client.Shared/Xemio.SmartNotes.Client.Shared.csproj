@@ -56,6 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Resource Include="Resources\Fonts\OpenSans-Bold.ttf" />
+    <Resource Include="Resources\Fonts\OpenSans-Light.ttf" />
+    <Resource Include="Resources\Fonts\OpenSans-Semibold.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\AppIcon.png" />

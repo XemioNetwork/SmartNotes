@@ -9,7 +9,7 @@
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" FontSize="14" FontWeight="Bold" FontFamily="Open Sans Semibold" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding}" FontSize="14" FontFamily="{StaticResource semiBoldFont}" HorizontalAlignment="Center">
                         <TextBlock.Foreground>
                             <SolidColorBrush Color="{StaticResource blackColor}" />
                         </TextBlock.Foreground>

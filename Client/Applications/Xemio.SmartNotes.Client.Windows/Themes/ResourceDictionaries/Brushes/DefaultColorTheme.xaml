@@ -22,4 +22,8 @@
         <GradientStop Offset="1" Color="#E5E5E5" />
     </LinearGradientBrush>
 
+    <FontFamily x:Key="lightFont">/Xemio.SmartNotes.Client.Shared;Component/Resources/Fonts/#Open Sans Light</FontFamily>
+    <FontFamily x:Key="semiBoldFont">/Xemio.SmartNotes.Client.Shared;Component/Resources/Fonts/#Open Sans Semibold</FontFamily>
+    <FontFamily x:Key="boldFont">/Xemio.SmartNotes.Client.Shared;Component/Resources/Fonts/#Open Sans Bold</FontFamily>
+
 </ResourceDictionary>

@@ -29,7 +29,7 @@
                  They will show an underline on mouse over. -->
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="FontSize" Value="12" />
-                <Setter Property="FontFamily" Value="Open Sans Light" />
+                <Setter Property="FontFamily" Value="{StaticResource lightFont}" />
                 <Setter Property="Foreground">
                     <Setter.Value>
                         <SolidColorBrush Color="{StaticResource blackColor}" />

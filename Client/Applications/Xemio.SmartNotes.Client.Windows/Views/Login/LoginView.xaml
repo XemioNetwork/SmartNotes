@@ -23,7 +23,7 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Image Grid.Row="0" Source="/Xemio.SmartNotes.Client.Shared;Component/Resources/Images/XemioLogo.png" Height="120" Margin="30, 0, 30, 30"/>
 
         <GroupBox Grid.Row="1" Header="{lex:Loc Title}" Width="300" >
@@ -45,7 +45,7 @@
 
         <Button Grid.Row="2" x:Name="Login" Margin="0, 5, 0, 0" Content="{lex:Loc Login}"  />
         
-        <Grid Grid.Row="3" HorizontalAlignment="Center" Width="300">
+        <Grid Grid.Row="3" HorizontalAlignment="Center" Width="300" Margin="0, 5, 0, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
