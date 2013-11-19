@@ -91,8 +91,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         {
             get
             {
-                return string.IsNullOrWhiteSpace(this.Username) == false &&
-                       string.IsNullOrWhiteSpace(this.Password) == false;
+                return this.Username != null && 
+                       this.Username.Length > 0 &&
+                       this.Password != null &&
+                       this.Password.Length > 0;
             }
         }
         #endregion
