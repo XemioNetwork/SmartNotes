@@ -27,7 +27,7 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
                 Component.For<IWindowManager>().ImplementedBy<XemioWindowManager>().LifestyleSingleton(),
                 Component.For<IEventAggregator>().ImplementedBy<EventAggregator>().LifestyleSingleton(),
                 Component.For<IMessageManager>().ImplementedBy<MessageManager>().LifestyleSingleton(),
-                Component.For<IDataStorage>().ImplementedBy<SecureDataStorage>().LifestyleSingleton(),
+                Component.For<IDataStorage>().ImplementedBy<DataStorage>().LifestyleSingleton(),
                 Component.For<ILanguageManager>().ImplementedBy<LanguageManager>().LifestyleSingleton()
             );
         }

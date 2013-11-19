@@ -9,11 +9,7 @@
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" FontSize="14" FontFamily="{StaticResource semiBoldFont}" HorizontalAlignment="Center">
-                        <TextBlock.Foreground>
-                            <SolidColorBrush Color="{StaticResource blackColor}" />
-                        </TextBlock.Foreground>
-                    </TextBlock>
+                    <TextBlock Text="{Binding}" FontSize="14" FontFamily="{StaticResource semiBoldFont}" HorizontalAlignment="Center" Foreground="{StaticResource blackColorBrush}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -40,11 +36,7 @@
                             BorderThickness="0, 0, 0, 1" 
                             Background="{StaticResource headerBackgroundBrush}" >
                             <Grid>
-                                <Grid Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="{StaticResource blueColor}" />
-                                    </Grid.Background>
-                                </Grid>
+                                <Grid Height="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="{StaticResource blueColorBrush}" />
 
                                 <ContentPresenter VerticalAlignment="Center" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </Grid>

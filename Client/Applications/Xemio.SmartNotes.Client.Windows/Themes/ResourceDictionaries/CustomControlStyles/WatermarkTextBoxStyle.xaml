@@ -7,7 +7,7 @@
 
     <Style TargetType="{x:Type controls:WatermarkTextBox}">
         <Setter Property="Background" Value="White"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="Foreground" Value="{StaticResource blackColorBrush}"/>
         <Setter Property="BorderBrush" Value="#CCC" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontFamily" Value="{StaticResource lightFont}" />
@@ -63,7 +63,7 @@
                         </Border.BorderBrush>
 
                         <Grid>
-                            <Label Margin="7, -1, 0, 0"  x:Name="watermark" IsHitTestVisible="False" Content="{TemplateBinding Watermark}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <Label Margin="7, -1, 0, 0"  x:Name="watermark" IsHitTestVisible="False" Content="{TemplateBinding Watermark}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{StaticResource grayColorBrush}" />
                             <ScrollViewer Margin="10, 3, 10 ,3" x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                         </Grid>
                     </Border>

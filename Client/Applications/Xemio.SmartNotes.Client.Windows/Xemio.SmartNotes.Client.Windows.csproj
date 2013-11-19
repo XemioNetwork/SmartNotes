@@ -89,8 +89,9 @@
     <Reference Include="XAMLMarkupExtensions">
       <HintPath>..\..\..\packages\XAMLMarkupExtensions.1.1.6.3\lib\net40\XAMLMarkupExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="Xemio.CommonLibrary">
-      <HintPath>..\..\..\packages\Xemio-CommonLibrary.0.1.0.2\lib\net40\Xemio.CommonLibrary.dll</HintPath>
+    <Reference Include="Xemio.CommonLibrary, Version=0.1.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Xemio-CommonLibrary.0.1.0.3\lib\net45\Xemio.CommonLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
