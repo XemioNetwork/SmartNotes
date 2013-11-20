@@ -155,6 +155,16 @@
       <DependentUpon>RegisterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Register\RegisterViewModel.cs" />
+    <Compile Include="Views\Register\Resources\RegisterMessages.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RegisterMessages.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Register\Resources\RegisterMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RegisterMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -285,6 +295,14 @@
     <EmbeddedResource Include="Views\Login\Resources\LoginMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LoginMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Register\Resources\RegisterMessages.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterMessages.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Register\Resources\RegisterMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegisterMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config">
       <SubType>Designer</SubType>

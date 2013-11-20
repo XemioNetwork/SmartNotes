@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Windows;
+using System.Windows.Navigation;
 using Caliburn.Micro;
 using Xemio.CommonLibrary.Storage;
 using Xemio.SmartNotes.Abstractions.Controllers;
@@ -10,6 +11,7 @@ using Xemio.SmartNotes.Client.Abstractions.Settings;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data;
 using Xemio.SmartNotes.Client.Windows.Views.Login.Resources;
+using Xemio.SmartNotes.Client.Windows.Views.Register;
 using Xemio.SmartNotes.Models.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Login
@@ -28,8 +30,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         private readonly IMessageManager _messageManager;
         private readonly ILanguageManager _languageManager;
         private readonly IDataStorage _dataStorage;
-
-        private readonly Session _session;
 
         private string _username;
         private string _password;
@@ -91,10 +91,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         {
             get
             {
-                return this.Username != null && 
-                       this.Username.Length > 0 &&
-                       this.Password != null &&
-                       this.Password.Length > 0;
+                return string.IsNullOrEmpty(this.Username) == false &&
+                       string.IsNullOrEmpty(this.Password) == false;
             }
         }
         #endregion
@@ -108,8 +106,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         /// <param name="messageManager">The message manager.</param>
         /// <param name="languageManager">The language manager.</param>
         /// <param name="dataStorage">The data storage.</param>
-        /// <param name="session">The application session.</param>
-        public LoginViewModel(IUsersController usersController, IWindowManager windowManager, IMessageManager messageManager, ILanguageManager languageManager, IDataStorage dataStorage, Session session)
+        public LoginViewModel(IUsersController usersController, IWindowManager windowManager, IMessageManager messageManager, ILanguageManager languageManager, IDataStorage dataStorage)
         {
             this.DisplayName = "Xemio Notes";
 
@@ -118,8 +115,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
             this._messageManager = messageManager;
             this._languageManager = languageManager;
             this._dataStorage = dataStorage;
-
-            this._session = session;
         }
         #endregion
 
@@ -139,15 +134,17 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         /// </summary>
         public async void Login()
         {
-            this._session.Username = this.Username;
-            this._session.Password = this.Password;
+            var session = IoC.Get<Session>();
+
+            session.Username = this.Username;
+            session.Password = this.Password;
 
             HttpResponseMessage response = await this._usersController.GetCurrent();
             if (response.StatusCode == HttpStatusCode.Found)
             {
                 this.SaveRememberMe();
 
-                this._session.User = await response.Content.ReadAsAsync<User>();
+                session.User = await response.Content.ReadAsAsync<User>();
                 this.TryClose(true);
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
@@ -161,6 +158,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         /// </summary>
         public void Register()
         {
+            var registerViewModel = IoC.Get<RegisterViewModel>();
+            this._windowManager.ShowDialog(registerViewModel);
         }
         /// <summary>
         /// Opens the forgot-password window.

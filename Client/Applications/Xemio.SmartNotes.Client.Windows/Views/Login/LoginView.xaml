@@ -18,6 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
             <RowDefinition Height="50" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -41,9 +42,9 @@
             </Grid>
         </GroupBox>
 
-        <Button Grid.Row="2" x:Name="Login" Margin="0, 5, 0, 0" Content="{lex:Loc Login}"  />
+        <Button Grid.Row="3" x:Name="Login" Content="{lex:Loc Login}"  />
         
-        <Grid Grid.Row="3" HorizontalAlignment="Center" Width="300" Margin="0, 5, 0, 0">
+        <Grid Grid.Row="4" HorizontalAlignment="Center" Width="300" Margin="0, 5, 0, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="3*" />
