@@ -61,6 +61,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The email address &apos;{0}&apos; is already in use..
+        /// </summary>
+        internal static string EmailAddressUnavailable {
+            get {
+                return ResourceManager.GetString("EmailAddressUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No folder with the id &quot;{0}&quot; was found..
         /// </summary>
         internal static string FolderNotFound {
@@ -106,6 +115,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The given secret is invalid..
+        /// </summary>
+        internal static string InvalidPasswordResetSecret {
+            get {
+                return ResourceManager.GetString("InvalidPasswordResetSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The request is invalid..
         /// </summary>
         internal static string InvalidRequest {
@@ -129,6 +147,24 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources {
         internal static string NoteNotFound {
             get {
                 return ResourceManager.GetString("NoteNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You already reset your password..
+        /// </summary>
+        internal static string PasswordAlreadyReset {
+            get {
+                return ResourceManager.GetString("PasswordAlreadyReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You only have 2 hours to reset your password..
+        /// </summary>
+        internal static string PasswordResetTimedOut {
+            get {
+                return ResourceManager.GetString("PasswordResetTimedOut", resourceCulture);
             }
         }
         

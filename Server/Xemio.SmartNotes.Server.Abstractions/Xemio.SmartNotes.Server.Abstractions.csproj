@@ -42,10 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Email\IEmail.cs" />
+    <Compile Include="Email\IEmailFactory.cs" />
+    <Compile Include="Email\IEmailSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\ISecretGenerator.cs" />
     <Compile Include="Services\IEmailValidationService.cs" />
     <Compile Include="Services\IRightsService.cs" />
-    <Compile Include="Services\IService.cs" />
+    <Compile Include="IService.cs" />
     <Compile Include="Services\IUserService.cs" />
   </ItemGroup>
   <ItemGroup>

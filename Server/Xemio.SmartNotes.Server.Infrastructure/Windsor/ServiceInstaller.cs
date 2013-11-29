@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Xemio.SmartNotes.Server.Abstractions;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Windsor

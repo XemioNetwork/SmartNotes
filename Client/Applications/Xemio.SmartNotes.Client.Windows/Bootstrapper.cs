@@ -4,9 +4,12 @@ using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Threading;
 using Caliburn.Micro;
+using Castle.Core.Logging;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Xemio.SmartNotes.Client.Windows.Themes.Controls;
 using Xemio.SmartNotes.Client.Windows.Views.Login;
 using Xemio.SmartNotes.Client.Windows.Views.Shell;
 
@@ -35,6 +38,15 @@ namespace Xemio.SmartNotes.Client.Windows
         #endregion
 
         #region Overrides of Bootstrapper
+        /// <summary>
+        /// Provides an opportunity to hook into the application object.
+        /// </summary>
+        protected override void PrepareApplication()
+        {
+            base.PrepareApplication();
+
+            ConventionManager.AddElementConvention<WatermarkPasswordBox>(WatermarkPasswordBox.PasswordProperty, "Password", "PasswordChanged");
+        }
         /// <summary>
         /// Override this to provide an IoC specific implementation.
         /// </summary>
@@ -100,6 +112,18 @@ namespace Xemio.SmartNotes.Client.Windows
         protected override void OnExit(object sender, EventArgs e)
         {
             this._container.Dispose();
+        }
+        /// <summary>
+        /// Override this to add custom behavior for unhandled exceptions.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event args.</param>
+        protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            ILoggerFactory loggerFactory = this._container.Resolve<ILoggerFactory>();
+
+            ILogger logger = loggerFactory.Create("Default");
+            logger.Error("An unhandled error occured.", e.Exception);
         }
         #endregion
 

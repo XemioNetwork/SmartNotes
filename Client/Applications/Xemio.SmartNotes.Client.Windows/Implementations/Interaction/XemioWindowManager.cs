@@ -12,7 +12,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Interaction
 {
     public class XemioWindowManager : WindowManager
     {
-        #region Overrides of WindowManager
+        #region Overrides of Windows
         /// <summary>
         /// Makes sure the view is a window or is wrapped by one.
         /// </summary>

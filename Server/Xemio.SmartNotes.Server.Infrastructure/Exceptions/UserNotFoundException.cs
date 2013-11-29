@@ -14,26 +14,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         /// </summary>
         /// <param name="userId">The user id.</param>
         public UserNotFoundException(int userId)
-            : this(string.Format(ExceptionMessages.UserNotFound, userId))
+            : base(string.Format(ExceptionMessages.UserNotFound, userId))
         {
             this.UserId = userId;
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserNotFoundException"/> class.
-        /// </summary>
-        /// <param name="message">The message that describes the error.</param>
-        public UserNotFoundException(string message)
-            : base(message)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserNotFoundException"/> class.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        /// <param name="inner">The inner.</param>
-        public UserNotFoundException(string message, Exception inner)
-            : base(message, inner)
-        {
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="UserNotFoundException"/> class.

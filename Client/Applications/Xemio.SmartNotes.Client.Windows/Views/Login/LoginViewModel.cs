@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.Net;
 using System.Net.Http;
 using System.Windows;
@@ -10,7 +11,9 @@ using Xemio.SmartNotes.Client.Abstractions.Interaction;
 using Xemio.SmartNotes.Client.Abstractions.Settings;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data;
+using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Views.Login.Resources;
+using Xemio.SmartNotes.Client.Windows.Views.PasswordReset;
 using Xemio.SmartNotes.Client.Windows.Views.Register;
 using Xemio.SmartNotes.Models.Entities.Users;
 
@@ -25,10 +28,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         #endregion
 
         #region Fields
-        private readonly IUsersController _usersController;
-        private readonly IWindowManager _windowManager;
-        private readonly IMessageManager _messageManager;
-        private readonly ILanguageManager _languageManager;
+        private readonly WebServiceClient _webServiceClient;
+        private readonly DisplayManager _displayManager;
         private readonly IDataStorage _dataStorage;
 
         private string _username;
@@ -84,36 +85,21 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
                 }
             }
         }
-        /// <summary>
-        /// Gets a value indicating whether the <see cref="Login"/> method can be executed.
-        /// </summary>
-        public bool CanLogin
-        {
-            get
-            {
-                return string.IsNullOrEmpty(this.Username) == false &&
-                       string.IsNullOrEmpty(this.Password) == false;
-            }
-        }
         #endregion
 
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginViewModel" /> class.
         /// </summary>
-        /// <param name="usersController">The users controller.</param>
-        /// <param name="windowManager">The window manager.</param>
-        /// <param name="messageManager">The message manager.</param>
-        /// <param name="languageManager">The language manager.</param>
+        /// <param name="webServiceClient">The webservice client.</param>
+        /// <param name="displayManager">The display manager.</param>
         /// <param name="dataStorage">The data storage.</param>
-        public LoginViewModel(IUsersController usersController, IWindowManager windowManager, IMessageManager messageManager, ILanguageManager languageManager, IDataStorage dataStorage)
+        public LoginViewModel(WebServiceClient webServiceClient, DisplayManager displayManager, IDataStorage dataStorage)
         {
             this.DisplayName = "Xemio Notes";
 
-            this._usersController = usersController;
-            this._windowManager = windowManager;
-            this._messageManager = messageManager;
-            this._languageManager = languageManager;
+            this._webServiceClient = webServiceClient;
+            this._displayManager = displayManager;
             this._dataStorage = dataStorage;
         }
         #endregion
@@ -130,27 +116,36 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
 
         #region Methods
         /// <summary>
+        /// Gets a value indicating whether the <see cref="Login"/> method can be executed.
+        /// </summary>
+        public bool CanLogin
+        {
+            get
+            {
+                return string.IsNullOrEmpty(this.Username) == false &&
+                       string.IsNullOrEmpty(this.Password) == false;
+            }
+        }
+        /// <summary>
         /// Tries to login with the current credentials.
         /// </summary>
         public async void Login()
         {
-            var session = IoC.Get<Session>();
+            this._webServiceClient.Session.Username = this.Username;
+            this._webServiceClient.Session.Password = this.Password;
 
-            session.Username = this.Username;
-            session.Password = this.Password;
-
-            HttpResponseMessage response = await this._usersController.GetCurrent();
+            HttpResponseMessage response = await this._webServiceClient.Users.GetAuthorized();
             if (response.StatusCode == HttpStatusCode.Found)
             {
                 this.SaveRememberMe();
 
-                session.User = await response.Content.ReadAsAsync<User>();
+                this._webServiceClient.Session.User = await response.Content.ReadAsAsync<User>();
                 this.TryClose(true);
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 string message = await response.Content.ReadAsStringAsync();
-                this._messageManager.ShowMessageBox(message, LoginMessages.LoginFailed, MessageBoxButton.OK, MessageBoxImage.Information);
+                this._displayManager.Messages.ShowMessageBox(message, LoginMessages.LoginFailed, MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         /// <summary>
@@ -159,13 +154,23 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         public void Register()
         {
             var registerViewModel = IoC.Get<RegisterViewModel>();
-            this._windowManager.ShowDialog(registerViewModel);
+
+            dynamic settings = new ExpandoObject();
+            settings.ResizeMode = ResizeMode.CanMinimize;
+
+            this._displayManager.Windows.ShowDialog(registerViewModel, null, settings);
         }
         /// <summary>
         /// Opens the forgot-password window.
         /// </summary>
         public void ForgotPassword()
         {
+            var passwordResetViewModel = IoC.Get<PasswordResetViewModel>();
+
+            dynamic settings = new ExpandoObject();
+            settings.ResizeMode = ResizeMode.CanMinimize;
+
+            this._displayManager.Windows.ShowDialog(passwordResetViewModel, null, settings);
         }
         #endregion
 

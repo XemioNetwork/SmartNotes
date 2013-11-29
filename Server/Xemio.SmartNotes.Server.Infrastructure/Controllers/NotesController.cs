@@ -52,7 +52,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         public async Task<HttpResponseMessage> GetAllNotes(int userId, int folderId)
         {
             if (await this.DocumentSession.LoadAsync<Folder>(folderId) == null)
-                throw new FolderNotFoundException(folderId);
+                throw new FolderNotFoundException(this.DocumentSession.Advanced.GetStringIdFor<Folder>(folderId));
 
             if (await this._rightsService.HasCurrentUserTheUserId(userId) == false)
                 throw new UnauthorizedException();

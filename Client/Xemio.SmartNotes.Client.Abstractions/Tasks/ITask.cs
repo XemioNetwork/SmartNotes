@@ -9,7 +9,7 @@ namespace Xemio.SmartNotes.Client.Abstractions.Tasks
 {
     public interface ITask
     {
-        string Name { get; }
+        string DisplayName { get; }
 
         Task Execute();
     }

@@ -43,7 +43,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         }
         #endregion
 
-        #region Methods
+        #region Implementation of IFoldersController
         /// <summary>
         /// Returns all <see cref="Folder"/>s from the given <see cref="User"/>.
         /// </summary>
@@ -57,7 +57,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             User currentUser = await this._userService.GetCurrentUser();
 
-            var query = this.DocumentSession.Query<Folder, FoldersByUserId>().Where(f => f.UserId == currentUser.Id);
+            var query = this.DocumentSession.Query<Folder>().Where(f => f.UserId == currentUser.Id);
 
             List<Folder> result = new List<Folder>();
             using (var enumerator = await this.DocumentSession.Advanced.StreamAsync(query))

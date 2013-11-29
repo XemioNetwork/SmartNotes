@@ -19,7 +19,8 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
         {
             container.Register(Classes
                 .FromThisAssembly()
-                .BasedOn<UserControl>());
+                .BasedOn<UserControl>()
+                .LifestyleTransient());
         }
         #endregion
     }

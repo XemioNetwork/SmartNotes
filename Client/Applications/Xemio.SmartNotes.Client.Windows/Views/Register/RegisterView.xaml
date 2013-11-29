@@ -10,16 +10,14 @@
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-              
-             d:DesignWidth="300"
+             mc:Ignorable="d"
              
+             Margin="10"
              Background="Transparent">
-    
-    <Grid Margin="5">
+    <Grid Width="300">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="5" />
+            <RowDefinition Height="10" /> <!-- Distance between Button and GroupBox -->
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         
@@ -33,14 +31,22 @@
                     <RowDefinition Height="5" />
                     <RowDefinition Height="30" />
                     <RowDefinition Height="5" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <controls:WatermarkTextBox Grid.Row="1" Watermark="{lex:Loc Username}" Margin="5, 0, 5, 0" />
-                <controls:WatermarkTextBox Grid.Row="3" Watermark="{lex:Loc EmailAddress}" Margin="5, 0, 5, 0" />
-                <controls:WatermarkPasswordBox Grid.Row="5" Watermark="{lex:Loc Password}" Margin="5, 0, 5, 0" />
+                <controls:WatermarkTextBox x:Name="Username" Grid.Row="1" Watermark="{lex:Loc Username}" Margin="5, 0, 5, 0" />
+                <controls:WatermarkTextBox x:Name="EMailAddress" Grid.Row="3" Watermark="{lex:Loc EmailAddress}" Margin="5, 0, 5, 0" />
+                <controls:WatermarkPasswordBox x:Name="Password" Grid.Row="5" Watermark="{lex:Loc Password}" Margin="5, 0, 5, 0" />
+                <controls:PasswordValidator Grid.Row="7" Margin="5, 0, 5, 5" Password="{Binding Password}" 
+                                            TitleMessage="{lex:Loc PasswordStrength}" 
+                                            VeryWeakMessage="{lex:Loc VeryWeakPassword}" 
+                                            WeakMessage="{lex:Loc WeakPassword}" 
+                                            MediumMessage="{lex:Loc MediumPassword}" 
+                                            StrongMessage="{lex:Loc StrongPassword}" 
+                                            VeryStrongMessage="{lex:Loc VeryStrongPassword}" />
             </Grid>
         </GroupBox>
-        
-        <Button Grid.Row="2" Content="{lex:Loc Register}" />
+
+        <Button x:Name="Register" Grid.Row="2" Content="{lex:Loc Register}" />
     </Grid>
 </UserControl>

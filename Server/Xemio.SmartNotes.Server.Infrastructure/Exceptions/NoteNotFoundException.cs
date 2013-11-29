@@ -12,27 +12,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="NoteNotFoundException"/> class.
         /// </summary>
-        public NoteNotFoundException(int noteId)
+        public NoteNotFoundException(string noteId)
             : base(string.Format(ExceptionMessages.NoteNotFound, noteId))
         {
             this.NoteId = noteId;
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NoteNotFoundException"/> class.
-        /// </summary>
-        /// <param name="message">The message that describes the error.</param>
-        public NoteNotFoundException(string message)
-            : base(message)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NoteNotFoundException"/> class.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        /// <param name="inner">The inner.</param>
-        public NoteNotFoundException(string message, Exception inner)
-            : base(message, inner)
-        {
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="NoteNotFoundException"/> class.
@@ -42,7 +25,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         protected NoteNotFoundException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.NoteId = info.GetInt32("NoteId");
+            this.NoteId = info.GetString("NoteId");
         }
         #endregion
 
@@ -50,7 +33,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         /// <summary>
         /// Gets the note id.
         /// </summary>
-        public int NoteId { get; private set; }
+        public string NoteId { get; private set; }
         #endregion
 
         #region Overrides of Exception

@@ -13,7 +13,6 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
     public class UsersClient : BaseClient, IUsersController
     {
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersClient"/> class.
         /// </summary>
@@ -29,7 +28,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <summary>
         /// Gets the current user.
         /// </summary>
-        public async Task<HttpResponseMessage> GetCurrent()
+        public async Task<HttpResponseMessage> GetAuthorized()
         {
             this.SetAuthenticationHeader();
             this.SetLanguageHeader();

@@ -8,7 +8,7 @@ namespace Xemio.SmartNotes.Models.Models
     public class CreateUser
     {
         public string Username { get; set; }
-        public string EMailAddress { get; set; }
+        public string EmailAddress { get; set; }
         public byte[] AuthorizationHash { get; set; }
     }
 }

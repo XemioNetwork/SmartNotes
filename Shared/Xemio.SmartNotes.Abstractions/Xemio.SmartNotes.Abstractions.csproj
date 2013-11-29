@@ -57,10 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authorization\AuthorizationHash.cs" />
+    <Compile Include="Common\BackgroundQueue.cs" />
     <Compile Include="Controllers\IAvatarsController.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\IFoldersController.cs" />
     <Compile Include="Controllers\INotesController.cs" />
+    <Compile Include="Controllers\IPasswordResetController.cs" />
     <Compile Include="Controllers\ITagsController.cs" />
     <Compile Include="Controllers\IUsersController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -93,7 +93,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             string username = context.Request.Headers.Authorization.Parameter.Split(':').First();
 
             IAsyncDocumentSession documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IAsyncDocumentSession>();
-            User user = documentSession.Query<User, UsersByUsername>().FirstOrDefaultAsync(f => f.Username == username).Result;
+            User user = documentSession.Query<User>().FirstOrDefaultAsync(f => f.Username == username).Result;
 
             return user != null;
         }
@@ -114,7 +114,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             string username = context.Request.Headers.Authorization.Parameter.Split(':').First();
 
             IAsyncDocumentSession documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IAsyncDocumentSession>();
-            return documentSession.Query<User, UsersByUsername>().FirstAsync(f => f.Username == username).Result;
+            return documentSession.Query<User>().FirstAsync(f => f.Username == username).Result;
         }
         /// <summary>
         /// Returns the <see cref="UserAuthentication"/> for the given <paramref name="user"/>.
@@ -124,7 +124,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         private UserAuthentication GetAuthentication(HttpActionContext context, User user)
         {
             IAsyncDocumentSession documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IAsyncDocumentSession>();
-            return documentSession.Query<UserAuthentication, UserAuthenticationsByUserId>().FirstAsync(f => f.UserId == user.Id).Result;
+            return documentSession.Query<UserAuthentication>().FirstAsync(f => f.UserId == user.Id).Result;
         }
         /// <summary>
         /// Computes the content hash using the given <paramref name="data"/>.

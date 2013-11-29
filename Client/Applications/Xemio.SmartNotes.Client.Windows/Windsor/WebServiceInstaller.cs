@@ -26,7 +26,11 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
                 .LifestyleSingleton()
                 .Configure(f => f.DependsOn(new { baseAddress = "http://localhost" })));
 
-            container.Register(Component.For<Session>().LifestyleSingleton());
+            container.Register
+            (
+                Component.For<Session>().LifestyleSingleton(),
+                Component.For<WebServiceClient>().LifestyleSingleton()
+            );
         }
         #endregion
     }

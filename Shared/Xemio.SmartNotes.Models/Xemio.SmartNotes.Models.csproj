@@ -48,8 +48,10 @@
     <Compile Include="Entities\Notes\ITagContainer.cs" />
     <Compile Include="Entities\Notes\Note.cs" />
     <Compile Include="Entities\Users\IUserSpecificEntity.cs" />
+    <Compile Include="Entities\Users\PasswordReset.cs" />
     <Compile Include="Entities\Users\User.cs" />
     <Compile Include="Entities\Users\UserAuthentication.cs" />
+    <Compile Include="Models\CreatePasswordReset.cs" />
     <Compile Include="Models\CreateUser.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

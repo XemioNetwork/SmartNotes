@@ -94,17 +94,22 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FoldersController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
+    <Compile Include="Controllers\PasswordResetController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Exceptions\BusinessException.cs" />
+    <Compile Include="Exceptions\EmailAddressUnavailableException.cs" />
     <Compile Include="Exceptions\FolderNotFoundException.cs" />
     <Compile Include="Exceptions\InvalidEmailAddressException.cs" />
     <Compile Include="Exceptions\InvalidFolderNameException.cs" />
     <Compile Include="Exceptions\InvalidNoteNameException.cs" />
     <Compile Include="Exceptions\InvalidPasswordException.cs" />
+    <Compile Include="Exceptions\InvalidPasswordResetSecretException.cs" />
     <Compile Include="Exceptions\InvalidRequestException.cs" />
     <Compile Include="Exceptions\InvalidUsernameException.cs" />
     <Compile Include="Exceptions\NoteNotFoundException.cs" />
+    <Compile Include="Exceptions\PasswordAlreadyResetException.cs" />
+    <Compile Include="Exceptions\PasswordResetTimedOutException.cs" />
     <Compile Include="Exceptions\Resources\ExceptionMessages.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -133,23 +138,35 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FilterMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Implementations\Email\Resources\EmailMessages.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailMessages.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Implementations\Email\Resources\EmailMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Implementations\Email\SmtpEmail.cs" />
+    <Compile Include="Implementations\Email\SmtpEmailFactory.cs" />
+    <Compile Include="Implementations\Email\SmtpEmailSender.cs" />
+    <Compile Include="Implementations\Security\SecretGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Raven\Indexes\FoldersByUserId.cs" />
     <Compile Include="Raven\Indexes\NotesBySearchTextAndFolderId.cs" />
     <Compile Include="Raven\Indexes\TagsByCount.cs" />
-    <Compile Include="Raven\Indexes\UserAuthenticationsByUserId.cs" />
-    <Compile Include="Raven\Indexes\UsersByUsername.cs" />
     <Compile Include="Implementations\Services\EmailValidationService.cs" />
     <Compile Include="Implementations\Services\RightsService.cs" />
     <Compile Include="Implementations\Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Windsor\ControllerInstaller.cs" />
     <Compile Include="Windsor\LoggingInstaller.cs" />
+    <Compile Include="Windsor\MailInstaller.cs" />
     <Compile Include="Windsor\RavenInstaller.cs" />
     <Compile Include="Windsor\ServiceInstaller.cs" />
   </ItemGroup>
@@ -178,6 +195,14 @@
     <EmbeddedResource Include="Filters\Resources\FilterMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FilterMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Implementations\Email\Resources\EmailMessages.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmailMessages.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Implementations\Email\Resources\EmailMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmailMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -150,4 +150,16 @@
   <data name="UserNotFound" xml:space="preserve">
     <value>Es wurde kein Benutzer mit der ID "{0}" gefunden.</value>
   </data>
+  <data name="EmailAddressUnavailable" xml:space="preserve">
+    <value>Es gibt bereits ein Benutzer mit der E-Mail-Adresse '{0}'.</value>
+  </data>
+  <data name="InvalidPasswordResetSecret" xml:space="preserve">
+    <value>Das Secret ist ungültig.</value>
+  </data>
+  <data name="PasswordAlreadyReset" xml:space="preserve">
+    <value>Ihr Passwort wurde bereits zurückgesetzt.</value>
+  </data>
+  <data name="PasswordResetTimedOut" xml:space="preserve">
+    <value>Sie haben nur 2 Stunden um ihr Passwort zurückzusetzen.</value>
+  </data>
 </root>

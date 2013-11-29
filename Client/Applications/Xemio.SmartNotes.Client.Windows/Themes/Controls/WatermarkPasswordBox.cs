@@ -57,6 +57,13 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
         }
         #endregion
 
+        #region Events
+        /// <summary>
+        /// Occurs when the <see cref="Password"/> has changed.
+        /// </summary>
+        public event RoutedEventHandler PasswordChanged;
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Initializes the <see cref="WatermarkPasswordBox"/> class.
@@ -94,7 +101,7 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
             Keyboard.Focus(this._passwordBox);
         }
         /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Keyboard.GotKeyboardFocus" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
+        /// Invoked when an unhandled GotKeyboardFocus attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
         /// <param name="e">The <see cref="T:System.Windows.Input.KeyboardFocusChangedEventArgs" /> that contains the event data.</param>
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
@@ -131,6 +138,9 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
         {
             if (this.Password != this._passwordBox.Password)
                 this.Password = this._passwordBox.Password;
+
+            if (this.PasswordChanged != null)
+                this.PasswordChanged(sender, routedEventArgs);
         }
         /// <summary>
         /// Updates the visual state.

@@ -12,6 +12,6 @@
         /// <summary>
         /// Gets or sets the email address.
         /// </summary>
-        public string EMailAddress { get; set; }
+        public string EmailAddress { get; set; }
     }
 }

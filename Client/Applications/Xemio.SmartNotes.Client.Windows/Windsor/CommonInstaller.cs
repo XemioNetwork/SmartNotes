@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Castle.Facilities.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -24,12 +25,15 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
         {
             container.Register
             (
+                Component.For<DisplayManager>().LifestyleSingleton(),
                 Component.For<IWindowManager>().ImplementedBy<XemioWindowManager>().LifestyleSingleton(),
                 Component.For<IEventAggregator>().ImplementedBy<EventAggregator>().LifestyleSingleton(),
                 Component.For<IMessageManager>().ImplementedBy<MessageManager>().LifestyleSingleton(),
                 Component.For<IDataStorage>().ImplementedBy<DataStorage>().LifestyleSingleton(),
                 Component.For<ILanguageManager>().ImplementedBy<LanguageManager>().LifestyleSingleton()
             );
+
+            container.AddFacility<LoggingFacility>(f => f.LogUsing(LoggerImplementation.NLog).WithConfig("NLog.config"));
         }
         #endregion
     }

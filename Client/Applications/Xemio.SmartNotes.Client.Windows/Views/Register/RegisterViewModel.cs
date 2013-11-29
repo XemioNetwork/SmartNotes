@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Abstractions.Authorization;
 using Xemio.SmartNotes.Abstractions.Controllers;
+using Xemio.SmartNotes.Client.Abstractions.Interaction;
+using Xemio.SmartNotes.Client.Shared.WebService;
+using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
+using Xemio.SmartNotes.Client.Windows.Views.Register.Resources;
 using Xemio.SmartNotes.Models.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Register
 {
     public class RegisterViewModel : Screen
     {
-
         #region Fields
-        private readonly IUsersController _usersController;
+        private readonly WebServiceClient _webServiceClient;
+        private readonly DisplayManager _displayManager;
 
         private string _username;
         private string _password;
         private string _eMailAddress;
-        private bool _canRegister;
-
         #endregion
 
         #region Properties
@@ -78,10 +83,14 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterViewModel"/> class.
         /// </summary>
-        /// <param name="usersController">The users controller.</param>
-        public RegisterViewModel(IUsersController usersController)
+        /// <param name="webServiceClient">The webservice client.</param>
+        /// <param name="displayManager">The display manager.</param>
+        public RegisterViewModel(WebServiceClient webServiceClient, DisplayManager displayManager)
         {
-            this._usersController = usersController;
+            this.DisplayName = "Xemio Notes";
+
+            this._webServiceClient = webServiceClient;
+            this._displayManager = displayManager;
         }
         #endregion
 
@@ -101,14 +110,25 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
         /// <summary>
         /// Registers the user.
         /// </summary>
-        public void Register()
+        public async void Register()
         {
             var user = new CreateUser
                        {
                            Username = this.Username,
-                           EMailAddress = this.EMailAddress,
+                           EmailAddress = this.EMailAddress,
                            AuthorizationHash = AuthorizationHash.CreateBaseHash(this.Username, this.Password)
                        };
+
+            HttpResponseMessage response = await this._webServiceClient.Users.PostUser(user);
+            if (response.StatusCode == HttpStatusCode.Created)
+            {
+                this.TryClose(true);
+            }
+            else
+            {
+                string message = await response.Content.ReadAsStringAsync();
+                this._displayManager.Messages.ShowMessageBox(message, RegisterMessages.RegistrationFailed, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
         #endregion
     }

@@ -12,27 +12,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="FolderNotFoundException"/> class.
         /// </summary>
-        public FolderNotFoundException(int id)
-            : this(string.Format(ExceptionMessages.FolderNotFound, id))
+        public FolderNotFoundException(string id)
+            : base(string.Format(ExceptionMessages.FolderNotFound, id))
         {
             this.FolderId = id;
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FolderNotFoundException"/> class.
-        /// </summary>
-        /// <param name="message">The message that describes the error.</param>
-        public FolderNotFoundException(string message)
-            : base(message)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FolderNotFoundException"/> class.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        /// <param name="inner">The inner.</param>
-        public FolderNotFoundException(string message, Exception inner)
-            : base(message, inner)
-        {
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="FolderNotFoundException"/> class.
@@ -42,7 +25,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         protected FolderNotFoundException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.FolderId = info.GetInt32("FolderId");
+            this.FolderId = info.GetString("FolderId");
         }
         #endregion
 
@@ -50,7 +33,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         /// <summary>
         /// Gets the folder id.
         /// </summary>
-        public int FolderId { get; private set; }
+        public string FolderId { get; private set; }
         #endregion
 
         #region Overrides of BusinessException

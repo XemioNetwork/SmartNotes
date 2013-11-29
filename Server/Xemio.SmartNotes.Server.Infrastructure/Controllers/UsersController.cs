@@ -65,13 +65,16 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (await this.IsUsernameAvailable(createUser.Username) == false)
                 throw new UsernameUnavailableException(createUser.Username);
 
-            if (this._emailValidationService.IsValidEmailAddress(createUser.EMailAddress) == false)
-                throw new InvalidEmailAddressException(createUser.EMailAddress);
+            if (this._emailValidationService.IsValidEmailAddress(createUser.EmailAddress) == false)
+                throw new InvalidEmailAddressException(createUser.EmailAddress);
+
+            if (await this.IsEmailAddressAvailable(createUser.EmailAddress) == false)
+                throw new EmailAddressUnavailableException(createUser.EmailAddress);
 
             var user = new User
             {
                 Username = createUser.Username,
-                EMailAddress = createUser.EMailAddress,
+                EmailAddress = createUser.EmailAddress,
             };
             await this.DocumentSession.StoreAsync(user);
 
@@ -89,7 +92,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         [Route("Users/Authorized")]
         [RequiresAuthorization]
-        public async Task<HttpResponseMessage> GetCurrent()
+        public async Task<HttpResponseMessage> GetAuthorized()
         {
             return Request.CreateResponse(HttpStatusCode.Found, await this._userService.GetCurrentUser());
         }
@@ -101,12 +104,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         [RequiresAuthorization]
         public async Task<HttpResponseMessage> PutUser([FromBody]User user)
         {
-            if (this._emailValidationService.IsValidEmailAddress(user.EMailAddress) == false)
-                throw new InvalidEmailAddressException(user.EMailAddress);
+            if (this._emailValidationService.IsValidEmailAddress(user.EmailAddress) == false)
+                throw new InvalidEmailAddressException(user.EmailAddress);
 
             User currentUser = await this._userService.GetCurrentUser();
 
-            currentUser.EMailAddress = user.EMailAddress;
+            currentUser.EmailAddress = user.EmailAddress;
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -118,7 +121,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         private async Task<bool> IsUsernameAvailable(string username)
         {
-            return (await this.DocumentSession.Query<User, UsersByUsername>().AnyAsync(f => f.Username == username)) == false;
+            return (await this.DocumentSession.Query<User>().AnyAsync(f => f.Username == username)) == false;
+        }
+        /// <summary>
+        /// Determines whether the given <paramref name="emailAddress"/> is available.
+        /// </summary>
+        /// <param name="emailAddress">The email address.</param>
+        private async Task<bool> IsEmailAddressAvailable(string emailAddress)
+        {
+            return (await this.DocumentSession.Query<User>().AnyAsync(f => f.EmailAddress == emailAddress)) == false;
         }
         #endregion
     }

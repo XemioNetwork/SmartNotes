@@ -67,12 +67,21 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             var response = await base.ExecuteAsync(controllerContext, cancellationToken);
 
+            this.Logger.Debug(string.Format("Incoming request: {0} {1}", Request.Method.Method, Request.RequestUri));
+
             using (this.DocumentSession)
             {
                 await this.DocumentSession.SaveChangesAsync();
             }
 
             return response;
+        }
+        /// <summary>
+        /// Gets the base URI.
+        /// </summary>
+        protected string GetBaseUri()
+        {
+            return this.Request.RequestUri.GetLeftPart(UriPartial.Authority);
         }
         #endregion
 

@@ -5,31 +5,29 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Caliburn.Micro;
+using Xemio.SmartNotes.Abstractions.Common;
 using Xemio.SmartNotes.Client.Abstractions.Tasks;
+using Xemio.SmartNotes.Client.Windows.Data.Events;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
     public class TaskExecutor : ITaskExecutor, IDisposable
     {
         #region Fields
-        private readonly CancellationTokenSource _cancellationTokenSource;
-
-        private readonly ConcurrentQueue<ITask> _taskQueue;
-
-        private readonly AutoResetEvent _waitHandle;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly BackgroundQueue<ITask> _taskQueue;
         #endregion
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="TaskExecutor"/> class.
+        /// Initializes a new instance of the <see cref="TaskExecutor" /> class.
         /// </summary>
-        public TaskExecutor()
+        /// <param name="eventAggregator">The event aggregator.</param>
+        public TaskExecutor(IEventAggregator eventAggregator)
         {
-            this._taskQueue = new ConcurrentQueue<ITask>();
-            this._waitHandle = new AutoResetEvent(false);
-
-            this._cancellationTokenSource = new CancellationTokenSource();
-            Task.Factory.StartNew(this.ExecuteTasks, this._cancellationTokenSource.Token);
+            this._eventAggregator = eventAggregator;
+            this._taskQueue = new BackgroundQueue<ITask>(this.Execute);
         }
         #endregion
 
@@ -45,33 +43,20 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         public void StartTask(ITask task)
         {
             this._taskQueue.Enqueue(task);
-
-            //Start the background-task
-            this._waitHandle.Set();
         }
         #endregion
 
         #region Private Methods
         /// <summary>
-        /// Executes the tasks in the <see cref="_taskQueue"/>.
+        /// Executes the specified task.
         /// </summary>
-        private void ExecuteTasks()
+        /// <param name="task">The task.</param>
+        private void Execute(ITask task)
         {
-            while (this._cancellationTokenSource.IsCancellationRequested == false)
-            {
-                //We wait 100 milliseconds for a new task so we can cancel when requested
-                if (this._waitHandle.WaitOne(TimeSpan.FromMilliseconds(100)) == false)
-                    continue;
+            this.CurrentTask = task;
+            this._eventAggregator.Publish(new CurrentTaskChangedEvent(this.CurrentTask));
 
-                ITask currentTask;
-                //Execute all tasks we got in the queue
-                while (this._taskQueue.TryDequeue(out currentTask))
-                {
-                    this.CurrentTask = currentTask;
-
-                    currentTask.Execute().Wait();
-                }
-            }
+            task.Execute().Wait();
         }
         #endregion
 
@@ -81,7 +66,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// </summary>
         public void Dispose()
         {
-            this._cancellationTokenSource.Cancel();
+            this._taskQueue.Dispose();
         }
         #endregion
     }

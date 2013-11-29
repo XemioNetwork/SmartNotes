@@ -106,8 +106,9 @@
       <HintPath>..\..\..\packages\WebApiContrib.IoC.CastleWindsor.0.10.0.0\lib\net40\WebApiContrib.IoC.CastleWindsor.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="WPFLocalizeExtension">
-      <HintPath>..\..\..\packages\WpfLocalizeExtension.2.1.4\lib\net35\WPFLocalizeExtension.dll</HintPath>
+    <Reference Include="WPFLocalizeExtension, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\WpfLocalizeExtension.2.2.0-beta\lib\net35\WPFLocalizeExtension.dll</HintPath>
     </Reference>
     <Reference Include="XAMLMarkupExtensions">
       <HintPath>..\..\..\packages\XAMLMarkupExtensions.1.1.6.3\lib\net40\XAMLMarkupExtensions.dll</HintPath>

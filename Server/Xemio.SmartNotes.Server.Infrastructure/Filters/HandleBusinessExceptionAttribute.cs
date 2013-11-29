@@ -28,12 +28,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             ILogger logger = this.GetLogger(context);
             logger.Error("Exception occured", context.Exception);
 
-#if DEBUG
-            context.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-                                   {
-                                       Content = new StringContent(context.Exception.ToString())
-                                   };
-#else
             if (context.Exception is BusinessException)
             {
                 var businessException = (BusinessException)context.Exception;
@@ -45,12 +39,18 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             }
             else
             {
+#if DEBUG
+                context.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                                       {
+                                           Content = new StringContent(context.Exception.ToString())
+                                       };
+#else
                 context.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
                 {
                     Content = new StringContent(FilterMessages.InternalServerError)
                 };
-            }
 #endif
+            }
         }
         #endregion
 

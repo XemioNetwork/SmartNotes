@@ -16,7 +16,7 @@ namespace Xemio.SmartNotes.Abstractions.Controllers
         /// <summary>
         /// Gets the current user.
         /// </summary>
-        Task<HttpResponseMessage> GetCurrent();
+        Task<HttpResponseMessage> GetAuthorized();
         /// <summary>
         /// Updates the <see cref="User"/>.
         /// </summary>

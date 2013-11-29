@@ -19,23 +19,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="UnauthorizedException"/> class.
         /// </summary>
-        /// <param name="message">The message.</param>
-        public UnauthorizedException(string message)
-            : base(message)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UnauthorizedException"/> class.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        /// <param name="inner">The inner.</param>
-        public UnauthorizedException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UnauthorizedException"/> class.
-        /// </summary>
         /// <param name="info">The info.</param>
         /// <param name="context">The context.</param>
         protected UnauthorizedException(SerializationInfo info, StreamingContext context)
