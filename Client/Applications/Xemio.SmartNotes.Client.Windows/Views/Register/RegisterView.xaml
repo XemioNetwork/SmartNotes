@@ -47,6 +47,6 @@
             </Grid>
         </GroupBox>
 
-        <Button x:Name="Register" Grid.Row="2" Content="{lex:Loc Register}" />
+        <Button x:Name="Register" Grid.Row="2" Content="{lex:Loc Register}" IsDefault="True" />
     </Grid>
 </UserControl>

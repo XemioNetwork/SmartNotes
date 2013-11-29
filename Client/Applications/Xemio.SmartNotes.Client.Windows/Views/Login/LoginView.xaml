@@ -42,7 +42,7 @@
             </Grid>
         </GroupBox>
 
-        <Button Grid.Row="3" x:Name="Login" Content="{lex:Loc Login}"  />
+        <Button Grid.Row="3" x:Name="Login" Content="{lex:Loc Login}" IsDefault="True" />
         
         <Grid Grid.Row="4" HorizontalAlignment="Center" Width="300" Margin="0, 5, 0, 0">
             <Grid.ColumnDefinitions>

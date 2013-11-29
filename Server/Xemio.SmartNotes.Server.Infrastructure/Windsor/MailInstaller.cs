@@ -29,14 +29,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
             (
                 Component.For<IEmailSender>().ImplementedBy<SmtpEmailSender>().DependsOn(new
                                                                                          {
-                                                                                             host = "mailserver",
-                                                                                             port = 1000,
-                                                                                             username = "username",
-                                                                                             password = "password",
+                                                                                             host = "your.host.com",
+                                                                                             port = 1337,
+                                                                                             username = "Username",
+                                                                                             password = "Password",
                                                                                          }),
                 Component.For<IEmailFactory>().ImplementedBy<SmtpEmailFactory>().DependsOn(new
                                                                                            {
-                                                                                               infoEmailAddress = "sender@email.com"
+                                                                                               senderEmailAddress = "notes@xemio.net",
+                                                                                               senderName = "Xemio Notes"
                                                                                            })
             );
         }

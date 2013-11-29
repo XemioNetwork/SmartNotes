@@ -13,17 +13,20 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Email
     public class SmtpEmailFactory : IEmailFactory
     {
         #region Fields
-        private readonly string _infoEmailAddress;
+        private readonly string _senderEmailAddress;
+        private readonly string _senderName;
         #endregion
 
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="SmtpEmailFactory"/> class.
         /// </summary>
-        /// <param name="infoEmailAddress">The info email address.</param>
-        public SmtpEmailFactory(string infoEmailAddress)
+        /// <param name="senderEmailAddress">The sender email address.</param>
+        /// <param name="senderName">The sender name.</param>
+        public SmtpEmailFactory(string senderEmailAddress, string senderName)
         {
-            this._infoEmailAddress = infoEmailAddress;
+            this._senderEmailAddress = senderEmailAddress;
+            this._senderName = senderName;
         }
         #endregion
 
@@ -35,12 +38,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Email
         /// <param name="url">The url to reset the password.</param>
         public IEmail CreatePasswordForgotEmail(User user, string url)
         {
-            var email = new SmtpEmail();
+            SmtpEmail email = this.CreateNewEmail();
 
             email.MailMessage.To.Add(new MailAddress(user.EmailAddress));
             email.MailMessage.Subject = EmailMessages.PasswordForgotSubject;
             email.MailMessage.Body = string.Format(EmailMessages.PasswordForgotBody, user.Username, url);
-            email.MailMessage.From = new MailAddress(this._infoEmailAddress);
 
             return email;
         }
@@ -51,12 +53,29 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Email
         /// <param name="newPassword">The new password.</param>
         public IEmail CreatePasswordResetEmail(User user, string newPassword)
         {
-            var email = new SmtpEmail();
+            SmtpEmail email = this.CreateNewEmail();
 
             email.MailMessage.To.Add(new MailAddress(user.EmailAddress));
             email.MailMessage.Subject = EmailMessages.PasswordResetSubject;
             email.MailMessage.Body = string.Format(EmailMessages.PasswordResetBody, user.Username, newPassword);
-            email.MailMessage.From = new MailAddress(this._infoEmailAddress);
+
+            return email;
+        }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Creates a new email.
+        /// </summary>
+        private SmtpEmail CreateNewEmail()
+        {
+            var email = new SmtpEmail
+                        {
+                            MailMessage =
+                            {
+                                From = new MailAddress(this._senderEmailAddress, this._senderName)
+                            }
+                        };
 
             return email;
         }
