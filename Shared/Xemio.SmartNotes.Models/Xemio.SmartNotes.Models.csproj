@@ -51,6 +51,7 @@
     <Compile Include="Entities\Users\PasswordReset.cs" />
     <Compile Include="Entities\Users\User.cs" />
     <Compile Include="Entities\Users\UserAuthentication.cs" />
+    <Compile Include="Models\CreateAvatar.cs" />
     <Compile Include="Models\CreatePasswordReset.cs" />
     <Compile Include="Models\CreateUser.cs" />
     <Compile Include="Models\Tag.cs" />

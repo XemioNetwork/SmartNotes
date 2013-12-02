@@ -18,10 +18,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
     /// </summary>
     public abstract class BaseController : ApiController
     {
-        #region Fields
-        private ILogger _logger = NullLogger.Instance;
-        #endregion
-
         #region Properties
         /// <summary>
         /// Gets the document store.
@@ -37,11 +33,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Gets or sets the logger.
         /// </summary>
-        public ILogger Logger
-        {
-            get { return _logger; }
-            set { _logger = value; }
-        }
+        public ILogger Logger { get; set; }
         #endregion
 
         #region Constructors
@@ -51,6 +43,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="documentSession">The document session.</param>
         protected BaseController(IAsyncDocumentSession documentSession)
         {
+            this.Logger = NullLogger.Instance;
             this.DocumentSession = documentSession;
         }
         #endregion
@@ -67,7 +60,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             var response = await base.ExecuteAsync(controllerContext, cancellationToken);
 
-            this.Logger.Debug(string.Format("Incoming request: {0} {1}", Request.Method.Method, Request.RequestUri));
+            this.Logger.Debug(string.Format("Executed request: {0} {1}", Request.Method.Method, Request.RequestUri));
 
             using (this.DocumentSession)
             {

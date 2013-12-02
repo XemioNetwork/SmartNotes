@@ -126,6 +126,7 @@
     <Compile Include="Extensions\HttpRequestMessageExtensions.cs" />
     <Compile Include="Extensions\IAsyncAdvancedSessionOperationsExtensions.cs" />
     <Compile Include="Extensions\IDependencyResolverExtensions.cs" />
+    <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Filters\HandleBusinessExceptionAttribute.cs" />
     <Compile Include="Filters\RequiresAuthorizationAttribute.cs" />
     <Compile Include="Filters\Resources\FilterMessages.de.Designer.cs">

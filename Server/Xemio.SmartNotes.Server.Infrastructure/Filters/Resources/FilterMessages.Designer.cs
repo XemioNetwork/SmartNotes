@@ -72,8 +72,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to The request failed.
-        ///You&apos;re not authorized.
-        ///Check your username and password..
+        ///Make sure your username and password are correct..
         /// </summary>
         internal static string Unauthorized {
             get {

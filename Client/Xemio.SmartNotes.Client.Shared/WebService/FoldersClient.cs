@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Xemio.SmartNotes.Abstractions.Controllers;
 using Xemio.SmartNotes.Models.Entities.Notes;
+using Xemio.SmartNotes.Models.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService
 {
     public class FoldersClient : BaseClient, IFoldersController
     {
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FoldersClient"/> class.
         /// </summary>
@@ -26,26 +26,20 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// Returns all <see cref="Folder"/>s from the given <see cref="User"/>.
         /// </summary>
         /// <param name="userId">The user id.</param>
-        public async Task<HttpResponseMessage> GetAllFolders(int userId)
+        public Task<HttpResponseMessage> GetAllFolders(int userId)
         {
-            this.SetAuthenticationHeader(string.Empty);
-            this.SetLanguageHeader();
-
-            return await this.Client.GetAsync(string.Format("Users/{0}/Folders", userId));
+            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/{0}/Folders", userId));
+            return this.Client.SendAsync(request);
         }
         /// <summary>
         /// Creates a new <see cref="Folder"/>.
         /// </summary>
         /// <param name="folder">The folder.</param>
         /// <param name="userId">The user id.</param>
-        public async Task<HttpResponseMessage> PostFolder(Folder folder, int userId)
+        public Task<HttpResponseMessage> PostFolder(Folder folder, int userId)
         {
-            string requestString = await JsonConvert.SerializeObjectAsync(folder);
-
-            this.SetAuthenticationHeader(requestString);
-            this.SetLanguageHeader();
-
-            return await this.Client.PostJsonAsync(string.Format("Users/{0}/Folders", userId), requestString);
+            var request = this.CreateRequest(HttpMethod.Post, string.Format("Users/{0}/Folders", userId), folder);
+            return this.Client.SendAsync(request);
         }
         /// <summary>
         /// Updates the <see cref="Folder"/>.
@@ -53,26 +47,20 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <param name="folder">The folder.</param>
         /// <param name="userId">The user id.</param>
         /// <param name="folderId">The folder id.</param>
-        public async Task<HttpResponseMessage> PutFolder(Folder folder, int userId, int folderId)
+        public Task<HttpResponseMessage> PutFolder(Folder folder, int userId, int folderId)
         {
-            string requestString = await JsonConvert.SerializeObjectAsync(folder);
-
-            this.SetAuthenticationHeader(requestString);
-            this.SetLanguageHeader();
-
-            return await this.Client.PutJsonAsync(string.Format("Users/{0}/Folders/{1}", userId, folder), requestString);
+            var request = this.CreateRequest(HttpMethod.Put, string.Format("Users/{0}/Folders/{1}", userId, folder), folder);
+            return this.Client.SendAsync(request);
         }
         /// <summary>
         /// Deletes the <see cref="Folder"/>.
         /// </summary>
         /// <param name="userId">The user id.</param>
         /// <param name="folderId">The folder id.</param>
-        public async Task<HttpResponseMessage> DeleteFolder(int userId, int folderId)
+        public Task<HttpResponseMessage> DeleteFolder(int userId, int folderId)
         {
-            this.SetAuthenticationHeader();
-            this.SetLanguageHeader();
-
-            return await this.Client.DeleteAsync(string.Format("Users/{0}/Folders/{1}", userId, folderId));
+            var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/{0}/Folders/{1}", userId, folderId));
+            return this.Client.SendAsync(request);
         }
         #endregion
     }

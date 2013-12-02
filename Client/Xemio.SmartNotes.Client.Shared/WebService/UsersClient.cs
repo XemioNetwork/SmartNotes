@@ -28,35 +28,28 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <summary>
         /// Gets the current user.
         /// </summary>
-        public async Task<HttpResponseMessage> GetAuthorized()
+        public Task<HttpResponseMessage> GetAuthorized()
         {
-            this.SetAuthenticationHeader();
-            this.SetLanguageHeader();
-
-            return await this.Client.GetAsync("Users/Authorized");
+            var request = this.CreateRequest(HttpMethod.Get, "Users/Authorized");
+            return this.Client.SendAsync(request);
         }
         /// <summary>
         /// Creates a new <see cref="User"/>.
         /// </summary>
         /// <param name="createUser">The createUser.</param>
-        public async Task<HttpResponseMessage> PostUser(CreateUser createUser)
+        public Task<HttpResponseMessage> PostUser(CreateUser createUser)
         {
-            this.SetLanguageHeader();
-
-            return await this.Client.PostAsJsonAsync("Users", createUser);
+            var request = this.CreateRequest(HttpMethod.Post, "Users", createUser);
+            return this.Client.SendAsync(request);
         }
         /// <summary>
         /// Updates the <see cref="User"/>.
         /// </summary>
         /// <param name="user">The user.</param>
-        public async Task<HttpResponseMessage> PutUser(User user)
+        public Task<HttpResponseMessage> PutUser(User user)
         {
-            string requestString = await JsonConvert.SerializeObjectAsync(user);
-
-            this.SetAuthenticationHeader(requestString);
-            this.SetLanguageHeader();
-
-            return await this.Client.PutJsonAsync("Users/Authorized", requestString);
+            var request = this.CreateRequest(HttpMethod.Put, "Users/Authorized", user);
+            return this.Client.SendAsync(request);
         }
         #endregion
     }

@@ -133,6 +133,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             this.DocumentSession.Advanced.AddCascadeDelete(folder, note.Id);
 
+            this.Logger.DebugFormat("Created note '{0}' for user '{1}'.", note.Id, note.UserId);
+
             return Request.CreateResponse(HttpStatusCode.Created, note);
         }
 
@@ -179,6 +181,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 storedNote.FolderId = note.FolderId;
             }
 
+            this.Logger.DebugFormat("Updated note '{0}'.", storedNote.Id);
+
             return Request.CreateResponse(HttpStatusCode.OK, storedNote);
         }
         /// <summary>
@@ -204,6 +208,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             this.DocumentSession.Advanced.RemoveCascadeDelete(folder, note.Id);
 
             this.DocumentSession.Delete(note);
+
+            this.Logger.DebugFormat("Deleted note '{0}' from user '{1}'.", note.Id, note.UserId);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

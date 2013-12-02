@@ -30,13 +30,10 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// Creates a new <see cref="PasswordReset" />.
         /// </summary>
         /// <param name="data">The username or the email address of the user.</param>
-        public async Task<HttpResponseMessage> PostPasswordReset(CreatePasswordReset data)
+        public Task<HttpResponseMessage> PostPasswordReset(CreatePasswordReset data)
         {
-            string content = JsonConvert.SerializeObject(data);
-
-            this.SetLanguageHeader();
-
-            return await this.Client.PostJsonAsync("PasswordResets", content);
+            var request = this.CreateRequest(HttpMethod.Post, "PasswordResets", data);
+            return this.Client.SendAsync(request);
         }
         /// <summary>
         /// Finishes a password reset.

@@ -48,12 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebService\AvatarsClient.cs" />
     <Compile Include="WebService\BaseClient.cs" />
     <Compile Include="WebService\FoldersClient.cs" />
-    <Compile Include="WebService\HttpClientExtensions.cs" />
     <Compile Include="WebService\NotesClient.cs" />
     <Compile Include="WebService\PasswordResetClient.cs" />
     <Compile Include="WebService\Session.cs" />
+    <Compile Include="WebService\TagsClient.cs" />
     <Compile Include="WebService\UsersClient.cs" />
     <Compile Include="WebService\WebServiceClient.cs" />
   </ItemGroup>

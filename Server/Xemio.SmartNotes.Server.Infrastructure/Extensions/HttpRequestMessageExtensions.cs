@@ -22,6 +22,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
         /// <param name="imageStream">The image stream.</param>
         public static HttpResponseMessage CreateImageStreamResponse(this HttpRequestMessage request, Stream imageStream)
         {
+            imageStream.Seek(0, SeekOrigin.Begin);
+
             var response = new HttpResponseMessage(HttpStatusCode.Found)
                                {
                                    Content = new StreamContent(imageStream)

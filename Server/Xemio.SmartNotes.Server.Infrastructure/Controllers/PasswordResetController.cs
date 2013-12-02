@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Raven.Abstractions.Data;
 using Raven.Client;
 using Xemio.SmartNotes.Abstractions.Authorization;
 using Xemio.SmartNotes.Abstractions.Controllers;
@@ -27,11 +28,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         private readonly ISecretGenerator _secretGenerator;
         private readonly IEmailSender _emailSender;
         private readonly IEmailFactory _emailFactory;
-
         #endregion
 
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PasswordResetController"/> class.
         /// </summary>
@@ -49,7 +48,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         #endregion
 
         #region Methods
-
         /// <summary>
         /// Creates a new <see cref="PasswordReset"/>.
         /// </summary>
@@ -73,6 +71,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             string uri = this.GetBaseUri() + "/PasswordResets?secret=" + passwordReset.Secret;
             this._emailSender.SendAsync(this._emailFactory.CreatePasswordForgotEmail(user, uri));
+
+            this.Logger.DebugFormat("User '{0}' requested a password reset.", user.Id);
 
             return Request.CreateResponse(HttpStatusCode.Created);
         }
@@ -109,6 +109,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             this._emailSender.SendAsync(this._emailFactory.CreatePasswordResetEmail(user, newPassword));
 
             passwordReset.PasswordWasReset = true;
+
+            this.Logger.DebugFormat("Reset the password of user '{0}'.", user.Id);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

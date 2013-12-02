@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:Xemio.SmartNotes.Client.Windows.Themes.Controls"
              mc:Ignorable="d" 
              
-             d:DesignHeight="1280" 
-             d:DesignWidth="720"
+             d:DesignWidth="1280"
+             d:DesignHeight="720" 
              
              MinWidth="1280" 
              MinHeight="720">
@@ -18,7 +19,74 @@
         </Grid.RowDefinitions>
 
         <!-- The header view -->
-        <ContentControl x:Name="Header" Grid.Row="0" />
+        <Grid Grid.Row="0" Background="{StaticResource headerBackgroundBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <!-- The xemio icon -->
+                <Button  x:Name="OpenXemioWebsite" Style="{StaticResource HeaderButton}">
+                    <Image Source="/Xemio.SmartNotes.Client.Shared;component/Resources/Images/XemioLogo.png" Margin="10" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Button>
+
+                <!-- The divider line -->
+                <Line X1="0" X2="0" Y1="0" Y2="60" Style="{StaticResource DividerLine}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <!-- The "All Notes" button -->
+                <Button x:Name="ShowAllNotes" Style="{StaticResource HeaderButton}" Content="ALLE NOTIZEN" />
+                <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+
+                <!-- The "Search" button -->
+                <Button x:Name="ShowSearch" Style="{StaticResource HeaderButton}" Content="SUCHE" />
+                <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+                <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+                <!-- For some reason the line above is not visible, but when we add a second one we can see it -->
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <!-- The divider line -->
+                <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+
+                <!-- The user icon -->
+                <ToggleButton Style="{StaticResource HeaderToggleButton}" 
+                          IsChecked="{Binding ElementName=userActionsPopup, Path=IsOpen, Mode=TwoWay}"
+                          Padding="0, 0, 0, 0">
+                    <Rectangle Width="40"
+                           Height="40"
+                           RadiusX="20" 
+                           RadiusY="20"
+                           Margin="10"
+                           RenderOptions.BitmapScalingMode="HighQuality" >
+                        <Rectangle.Fill>
+                            <VisualBrush>
+                                <VisualBrush.Visual>
+                                    <Image Source="{Binding UserAvatar}" />
+                                </VisualBrush.Visual>
+                                <!-- <ImageBrush ImageSource="{Binding UserAvatar}"/> -->
+                            </VisualBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </ToggleButton>
+
+                <!-- The list popup -->
+                <controls:TogglePopup x:Name="userActionsPopup"  
+                                  PopupAnimation="Slide" 
+                                  Placement="Bottom" 
+                                  PlacementTarget="{Binding ElementName=userIcon}" 
+                                  StaysOpen="False"
+                                  HorizontalOffset="-150">
+                    <Grid Background="#3E3E3E" Width="200" Height="100">
+                        <Label Content="Hallo Welt" Foreground="White" />
+                    </Grid>
+                </controls:TogglePopup>
+            </StackPanel>
+
+        </Grid>
 
         <!-- The current content -->
         <ContentControl x:Name="CurrentContent" Grid.Row="1" />

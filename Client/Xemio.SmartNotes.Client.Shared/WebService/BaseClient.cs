@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using Newtonsoft.Json;
 using Xemio.SmartNotes.Abstractions.Authorization;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService
@@ -37,30 +38,35 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
                               {
                                   BaseAddress = new Uri(baseAddress)
                               };
-
-            this.SetLanguageHeader();
         }
         #endregion
 
         #region Methods
         /// <summary>
-        /// Sets the authentication header for the given content.
+        /// Creates a new request.
         /// </summary>
+        /// <param name="method">The method.</param>
+        /// <param name="relativeUri">The relative URI.</param>
         /// <param name="content">The content.</param>
-        protected void SetAuthenticationHeader(string content = "")
+        protected HttpRequestMessage CreateRequest(HttpMethod method, string relativeUri, object content = null)
         {
-            string contentHashString = AuthorizationHash.Create(this.Session.Username, this.Session.Password, content);
+            string contentString = content != null ? JsonConvert.SerializeObject(content) : string.Empty;
+            string authorizationHash = AuthorizationHash.Create(this.Session.Username, this.Session.Password, contentString);
 
-            this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Xemio", string.Format("{0}:{1}", this.Session.Username, contentHashString));
-        }
-        /// <summary>
-        /// Sets the language header.
-        /// </summary>
-        protected void SetLanguageHeader()
-        {
-            this.Client.DefaultRequestHeaders.AcceptLanguage.Clear();
+            var request = new HttpRequestMessage(method, relativeUri)
+                              {
+                                  Headers =
+                                  {
+                                      Authorization = new AuthenticationHeaderValue("Xemio", string.Format("{0}:{1}", this.Session.Username, authorizationHash)),
+                                  }
+                              };
 
-            this.Client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(Thread.CurrentThread.CurrentUICulture.Name));
+            if (string.IsNullOrWhiteSpace(contentString) == false)
+                request.Content = new StringContent(contentString, Encoding.UTF8, "application/json");
+
+            request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(Thread.CurrentThread.CurrentUICulture.Name));
+
+            return request;
         }
         #endregion
     }

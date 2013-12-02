@@ -71,7 +71,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
             }
         }
         /// <summary>
-        /// Gets or sets a value indicating whether [remember me].
+        /// Gets or sets a value indicating whether to remember the login credentials.
         /// </summary>
         public bool RememberMe
         {
@@ -146,6 +146,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
             {
                 string message = await response.Content.ReadAsStringAsync();
                 this._displayManager.Messages.ShowMessageBox(message, LoginMessages.LoginFailed, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                string message = await response.Content.ReadAsStringAsync();
+                this._displayManager.Messages.ShowMessageBox(message, LoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         /// <summary>

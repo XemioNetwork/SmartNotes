@@ -93,16 +93,22 @@ namespace Xemio.SmartNotes.Client.Windows
         /// <param name="e">The <see cref="StartupEventArgs"/> instance containing the event data.</param>
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            bool? loggedIn = this.ShowLoginView();
+            bool loggedOut = true;
 
-            if (loggedIn.HasValue && loggedIn.Value)
+            //While we log us out from the shell-view we show the login view again
+            while (loggedOut)
             {
-                this.ShowShellView();
+                if (this.ShowLoginView())
+                {
+                    loggedOut = this.ShowShellView();
+                }
+                else
+                {
+                    Application.Shutdown();
+                }
             }
-            else
-            {
-                Application.Shutdown();
-            }
+
+            Application.Shutdown();
         }
         /// <summary>
         /// Called when the application shuts down.
@@ -131,7 +137,7 @@ namespace Xemio.SmartNotes.Client.Windows
         /// <summary>
         /// Shows the login view.
         /// </summary>
-        private bool? ShowLoginView()
+        private bool ShowLoginView()
         {
             var loginViewModel = this._container.Resolve<LoginViewModel>();
 
@@ -144,17 +150,19 @@ namespace Xemio.SmartNotes.Client.Windows
             bool? loggedIn = windowManager.ShowDialog(loginViewModel, null, settings);
             Application.ShutdownMode = ShutdownMode.OnLastWindowClose;
 
-            return loggedIn;
+            return loggedIn.HasValue && loggedIn.Value;
         }
         /// <summary>
         /// Shows the shell with the given user user.
         /// </summary>
-        private void ShowShellView()
+        private bool ShowShellView()
         {
             IWindowManager windowManager = this._container.Resolve<IWindowManager>();
 
             var shellViewModel = this._container.Resolve<ShellViewModel>();
-            windowManager.ShowWindow(shellViewModel);
+            bool? loggedOut = windowManager.ShowDialog(shellViewModel);
+
+            return loggedOut.HasValue && loggedOut.Value;
         }
         #endregion
     }

@@ -123,7 +123,6 @@ Versuchen Sie es erneut und kontaktieren Sie unseren Support wenn der Fehler wei
   </data>
   <data name="Unauthorized" xml:space="preserve">
     <value>Die Anfrage ist fehlgeschlagen.
-Sie sind nicht authorisiert.
 Überprüfe Sie Ihren Benutzername und Ihr Passwort.</value>
   </data>
 </root>

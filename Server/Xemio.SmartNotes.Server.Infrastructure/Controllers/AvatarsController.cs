@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -12,10 +13,12 @@ using Raven.Abstractions.Data;
 using Raven.Client;
 using Xemio.SmartNotes.Abstractions.Controllers;
 using Xemio.SmartNotes.Models.Entities.Users;
+using Xemio.SmartNotes.Models.Models;
 using Xemio.SmartNotes.Server.Abstractions.Services;
+using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
-using Xemio.SmartNotes.Server.Infrastructure.Properties;
+using AssemblyResources = Xemio.SmartNotes.Server.Infrastructure.Properties.Resources;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
@@ -49,20 +52,18 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         [Route("Avatar")]
         [RequiresAuthorization]
-        public async Task<HttpResponseMessage> GetAvatar()
+        public async Task<HttpResponseMessage> GetAvatar(int width = 0, int height = 0)
         {
             User currentUser = await this._userService.GetCurrentUser();
-            Attachment avatar = this.DocumentStore.DatabaseCommands.GetAttachment(currentUser.Id += AvatarSuffix);
+            Attachment avatarData = this.DocumentStore.DatabaseCommands.GetAttachment(currentUser.Id += AvatarSuffix);
 
-            if (avatar == null)
+            Stream avatarStream = avatarData != null ? avatarData.Data() : AssemblyResources.DefaultAvatar.ToPngStream();
+
+            using (var avatar = new Bitmap(avatarStream))
+            using (var resizedAvatar = avatar.ResizeImage(width, height))
             {
-                MemoryStream stream = new MemoryStream();
-                Resources.DefaultAvatar.Save(stream, ImageFormat.Png);
-
-                return Request.CreateImageStreamResponse(stream);
+                return Request.CreateImageStreamResponse(resizedAvatar.ToPngStream());
             }
-
-            return Request.CreateImageStreamResponse(avatar.Data());
         }
         /// <summary>
         /// Updates the avatar.
@@ -70,11 +71,16 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="avatar">The avatar.</param>
         [Route("Avatar")]
         [RequiresAuthorization]
-        public async Task<HttpResponseMessage> PutAvatar([FromBody]Stream avatar)
+        public async Task<HttpResponseMessage> PutAvatar(CreateAvatar avatar)
         {
+            if (avatar == null)
+                throw new InvalidRequestException();
+
             User currentUser = await this._userService.GetCurrentUser();
 
-            this.DocumentStore.DatabaseCommands.PutAttachment(currentUser.Id += AvatarSuffix, null, avatar, null);
+            this.DocumentStore.DatabaseCommands.PutAttachment(currentUser.Id += AvatarSuffix, null, new MemoryStream(avatar.AvatarBytes), null);
+
+            this.Logger.DebugFormat("Updated avatar of user '{0}'.", currentUser.Id);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

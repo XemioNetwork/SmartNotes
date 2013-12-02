@@ -38,7 +38,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset
                 this.NotifyOfPropertyChange(() => this.CanRequestNewPassword);
             }
         }
-
         #endregion
 
         #region Constructors

@@ -133,6 +133,15 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknown error.
+        /// </summary>
+        public static string UnknownError {
+            get {
+                return ResourceManager.GetString("UnknownError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
         public static string Username {

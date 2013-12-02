@@ -94,6 +94,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             await this.DocumentSession.StoreAsync(folder);
 
+            this.Logger.DebugFormat("Created new folder '{0}' for user '{1}'.", folder.Id, currentUser.Id);
+
             return Request.CreateResponse(HttpStatusCode.Created, folder);
         }
         /// <summary>
@@ -123,6 +125,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             storedFolder.Name = folder.Name;
             storedFolder.Tags = folder.Tags;
 
+            this.Logger.DebugFormat("Updated folder '{0}'.", storedFolder.Id);
+
             return Request.CreateResponse(HttpStatusCode.OK, storedFolder);
         }
         /// <summary>
@@ -143,6 +147,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             Folder folder = await this.DocumentSession.LoadAsync<Folder>(folderId);
 
             this.DocumentSession.Delete(folder);
+
+            this.Logger.DebugFormat("Deleted folder '{0}' from user '{1}'.", folder.Id, folder.UserId);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

@@ -85,6 +85,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             };
             await this.DocumentSession.StoreAsync(authenticationData);
 
+            this.Logger.DebugFormat("Created new user '{0}' with username '{1}'.", user.Id, user.Username);
+
             return Request.CreateResponse(HttpStatusCode.Created, user);
         }
         /// <summary>
@@ -110,6 +112,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             User currentUser = await this._userService.GetCurrentUser();
 
             currentUser.EmailAddress = user.EmailAddress;
+
+            this.Logger.DebugFormat("Updated user '{0}'.", currentUser.Id);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

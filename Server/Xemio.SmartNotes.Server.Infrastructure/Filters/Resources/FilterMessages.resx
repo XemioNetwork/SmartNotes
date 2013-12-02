@@ -123,7 +123,6 @@ Try it again and contact our support if the problem keeps happening.</value>
   </data>
   <data name="Unauthorized" xml:space="preserve">
     <value>The request failed.
-You're not authorized.
-Check your username and password.</value>
+Make sure your username and password are correct.</value>
   </data>
 </root>
