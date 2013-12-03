@@ -9,8 +9,9 @@ using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
-using Xemio.SmartNotes.Client.Windows.Views.Content.AllNotes;
-using Xemio.SmartNotes.Client.Windows.Views.Content.Search;
+using Xemio.SmartNotes.Client.Windows.Views.Shell.Content.AllNotes;
+using Xemio.SmartNotes.Client.Windows.Views.Shell.Content.Search;
+using Xemio.SmartNotes.Client.Windows.Views.Shell.Content.UserSettings;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 {
@@ -22,6 +23,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 
         private readonly AllNotesViewModel _allNotesViewModel;
         private readonly SearchViewModel _searchViewModel;
+        private readonly UserSettingsViewModel _userSettingsViewModel;
 
         private Screen _currentContent;
         private BitmapImage _userAvatar;
@@ -75,6 +77,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 
             this._allNotesViewModel = IoC.Get<AllNotesViewModel>();
             this._searchViewModel = IoC.Get<SearchViewModel>();
+            this._userSettingsViewModel = IoC.Get<UserSettingsViewModel>();
 
             this.CurrentContent = this._allNotesViewModel;
 
@@ -103,6 +106,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         public void ShowSearch()
         {
             this.CurrentContent = this._searchViewModel;
+        }
+
+        public void ShowUserSettings()
+        {
+            this.CurrentContent = this._userSettingsViewModel;
         }
         #endregion
 

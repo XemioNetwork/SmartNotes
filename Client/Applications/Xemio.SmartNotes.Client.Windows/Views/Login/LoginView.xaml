@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:controls="clr-namespace:Xemio.SmartNotes.Client.Windows.Themes.Controls"
+             xmlns:cal="http://www.caliburnproject.org"
              
              lex:LocalizeDictionary.DesignCulture="de-DE"
              lex:ResxLocalizationProvider.DefaultAssembly="Xemio.SmartNotes.Client.Windows"
@@ -23,7 +24,8 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Image Grid.Row="0" Source="/Xemio.SmartNotes.Client.Shared;Component/Resources/Images/XemioLogo.png" Height="120" Margin="30, 0, 30, 30"/>
+        <!-- The xemio logo -->
+        <Image Grid.Row="0" Source="/Xemio.SmartNotes.Client.Shared;Component/Resources/Images/XemioLogo.png" RenderOptions.BitmapScalingMode="HighQuality" Height="120" Margin="30, 0, 30, 30"/>
 
         <GroupBox Grid.Row="1" Header="{lex:Loc Title}" Width="300" >
             <Grid>
@@ -35,13 +37,17 @@
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
                 
+                <!-- The username textbox -->
                 <controls:WatermarkTextBox Grid.Row="1" Margin="5, 0, 5, 0" Watermark="{lex:Loc Username}" Text="{Binding Username}" />
+                <!-- The password passwordbox -->
                 <controls:WatermarkPasswordBox Grid.Row="3" Margin="5, 0, 5, 0" Watermark="{lex:Loc Password}" Password="{Binding Password}" />
 
+                <!-- The remember me checkbox -->
                 <CheckBox x:Name="RememberMe" Grid.Row="4" Content="{lex:Loc RememberMe}" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Grid>
         </GroupBox>
 
+        <!-- The login button -->
         <Button Grid.Row="3" x:Name="Login" Content="{lex:Loc Login}" IsDefault="True" />
         
         <Grid Grid.Row="4" HorizontalAlignment="Center" Width="300" Margin="0, 5, 0, 0">
@@ -51,15 +57,52 @@
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
+            <!-- The register button -->
             <Button x:Name="Register" Grid.Column="0" Style="{StaticResource LinkButtonStyle}">
                 <TextBlock Text="{lex:Loc Register}" />
             </Button>
+            
+            <!-- The forgot password button -->
             <Button x:Name="ForgotPassword" Grid.Column="1" Style="{StaticResource LinkButtonStyle}">
                 <TextBlock Text="{lex:Loc ForgotPassword}" />
             </Button>
-            <Button x:Name="ChangeLanguage" Grid.Column="2" Style="{StaticResource LinkButtonStyle}">
+            
+            <!-- The language button -->
+            <ToggleButton x:Name="ChangeLanguage" 
+                          Grid.Column="2" 
+                          Style="{StaticResource LinkToggleButtonStyle}"
+                          IsChecked="{Binding IsOpen, ElementName=languagePopup, Mode=TwoWay}">
                 <TextBlock Text="{lex:Loc Language}" />
-            </Button>
+            </ToggleButton>
+            
+            <!-- The language popup -->
+            <controls:TogglePopup x:Name="languagePopup"
+                                  Grid.Column="2"
+                                  PlacementTarget="{Binding ElementName=ChangeLanguage}"
+                                  HorizontalOffset="-10">
+                <ContentControl>
+                    <Grid Width="100" Height="50">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- The english flag -->
+                        <Image Grid.Column="0" 
+                               cal:Message.Attach="[Event MouseLeftButtonDown] = [Action ChangeLanguageToEnglish]"
+                               Width="36" 
+                               Source="/Xemio.SmartNotes.Client.Shared;Component/Resources/Icons/Language-EN.png" 
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                        
+                        <!-- The german flag -->
+                        <Image Grid.Column="1" 
+                               cal:Message.Attach="[Event MouseLeftButtonDown] = [Action ChangeLanguageToGerman]"
+                               Width="36" 
+                               Source="/Xemio.SmartNotes.Client.Shared;Component/Resources/Icons/Language-DE.png" 
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                    </Grid>
+                </ContentControl>
+            </controls:TogglePopup>
 
         </Grid>
     </Grid>

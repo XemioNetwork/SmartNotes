@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Windows;
@@ -31,6 +32,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         private readonly WebServiceClient _webServiceClient;
         private readonly DisplayManager _displayManager;
         private readonly IDataStorage _dataStorage;
+        private readonly ILanguageManager _languageManager;
 
         private string _username;
         private string _password;
@@ -88,19 +90,22 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginViewModel" /> class.
         /// </summary>
         /// <param name="webServiceClient">The webservice client.</param>
         /// <param name="displayManager">The display manager.</param>
         /// <param name="dataStorage">The data storage.</param>
-        public LoginViewModel(WebServiceClient webServiceClient, DisplayManager displayManager, IDataStorage dataStorage)
+        /// <param name="languageManager">The language manager.</param>
+        public LoginViewModel(WebServiceClient webServiceClient, DisplayManager displayManager, IDataStorage dataStorage, ILanguageManager languageManager)
         {
             this.DisplayName = "Xemio Notes";
 
             this._webServiceClient = webServiceClient;
             this._displayManager = displayManager;
             this._dataStorage = dataStorage;
+            this._languageManager = languageManager;
         }
         #endregion
 
@@ -176,6 +181,20 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
             settings.ResizeMode = ResizeMode.CanMinimize;
 
             this._displayManager.Windows.ShowDialog(passwordResetViewModel, null, settings);
+        }
+        /// <summary>
+        /// Changes the current language to german.
+        /// </summary>
+        public void ChangeLanguageToGerman()
+        {
+            this._languageManager.CurrentLanguage = new CultureInfo("DE");
+        }
+        /// <summary>
+        /// Changes the current language to english.
+        /// </summary>
+        public void ChangeLanguageToEnglish()
+        {
+            this._languageManager.CurrentLanguage = new CultureInfo("EN");
         }
         #endregion
 

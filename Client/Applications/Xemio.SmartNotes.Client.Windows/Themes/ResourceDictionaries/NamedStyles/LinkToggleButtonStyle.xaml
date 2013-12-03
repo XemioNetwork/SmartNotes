@@ -3,14 +3,14 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Brushes/DefaultColorTheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
-    <Style x:Key="LinkButtonStyle" TargetType="{x:Type Button}">
+
+    <Style x:Key="LinkToggleButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <!-- We don't add anything to the button, just simply display the content -->
-                <ControlTemplate TargetType="{x:Type Button}">
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" 
                                       Content="{TemplateBinding Content}" 
                                       ContentStringFormat="{TemplateBinding ContentStringFormat}" 
@@ -23,7 +23,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
+
         <Style.Resources>
             <!-- We define a style for all TextBlock elements inside of the button.
                  They will show an underline on mouse over. -->

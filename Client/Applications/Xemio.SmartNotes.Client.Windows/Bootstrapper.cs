@@ -93,19 +93,15 @@ namespace Xemio.SmartNotes.Client.Windows
         /// <param name="e">The <see cref="StartupEventArgs"/> instance containing the event data.</param>
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
+            Application.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
             bool loggedOut = true;
 
             //While we log us out from the shell-view we show the login view again
             while (loggedOut)
             {
-                if (this.ShowLoginView())
-                {
-                    loggedOut = this.ShowShellView();
-                }
-                else
-                {
-                    Application.Shutdown();
-                }
+                //We logged us out if we successfully logged us in and then logged us out in the shell
+                loggedOut = this.ShowLoginView() && this.ShowShellView();
             }
 
             Application.Shutdown();
@@ -146,9 +142,7 @@ namespace Xemio.SmartNotes.Client.Windows
             dynamic settings = new ExpandoObject();
             settings.ResizeMode = ResizeMode.CanMinimize;
 
-            Application.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             bool? loggedIn = windowManager.ShowDialog(loginViewModel, null, settings);
-            Application.ShutdownMode = ShutdownMode.OnLastWindowClose;
 
             return loggedIn.HasValue && loggedIn.Value;
         }

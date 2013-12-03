@@ -132,14 +132,18 @@
     <Compile Include="Implementations\Settings\LanguageManager.cs" />
     <Compile Include="Implementations\Tasks\TaskExecutor.cs" />
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
-    <Compile Include="Views\Content\AllNotes\AllNotesView.xaml.cs">
+    <Compile Include="Views\Shell\Content\AllNotes\AllNotesView.xaml.cs">
       <DependentUpon>AllNotesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Content\AllNotes\AllNotesViewModel.cs" />
-    <Compile Include="Views\Content\Search\SearchView.xaml.cs">
+    <Compile Include="Views\Shell\Content\AllNotes\AllNotesViewModel.cs" />
+    <Compile Include="Views\Shell\Content\Search\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Content\Search\SearchViewModel.cs" />
+    <Compile Include="Views\Shell\Content\Search\SearchViewModel.cs" />
+    <Compile Include="Views\Shell\Content\UserSettings\UserSettingsView.xaml.cs">
+      <DependentUpon>UserSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\Content\UserSettings\UserSettingsViewModel.cs" />
     <Compile Include="Views\Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -223,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\ContentControlRegionStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\CustomControlStyles\PasswordValidatorStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -255,15 +263,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\LinkToggleButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\ResourceLibrary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Content\AllNotes\AllNotesView.xaml">
+    <Page Include="Views\Shell\Content\AllNotes\AllNotesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Content\Search\SearchView.xaml">
+    <Page Include="Views\Shell\Content\Search\SearchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Shell\Content\UserSettings\UserSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
