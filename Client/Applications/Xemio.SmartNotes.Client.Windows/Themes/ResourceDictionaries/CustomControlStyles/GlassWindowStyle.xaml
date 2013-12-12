@@ -2,6 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Xemio.SmartNotes.Client.Windows.Themes.Controls">
     <Style TargetType="{x:Type controls:GlassWindow}" BasedOn="{StaticResource {x:Type Window}}">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="LightBlue" />
     </Style>
 </ResourceDictionary>

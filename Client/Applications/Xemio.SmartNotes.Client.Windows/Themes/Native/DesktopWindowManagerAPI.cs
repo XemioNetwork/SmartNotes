@@ -59,6 +59,7 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Native
             try
             {
                 DwmExtendFrameIntoClientArea(windowPointer, ref margins);
+                window.Background = new SolidColorBrush(Colors.Transparent);
             }
             catch (DllNotFoundException)
             {
