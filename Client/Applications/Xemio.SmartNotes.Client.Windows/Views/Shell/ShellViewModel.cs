@@ -15,11 +15,12 @@ using Xemio.SmartNotes.Client.Windows.Views.Shell.Content.UserSettings;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 {
-    public class ShellViewModel : Screen
+    public class ShellViewModel : Screen, IHandle<LogoutEvent>
     {
         #region Fields
         private readonly DisplayManager _windowManager;
         private readonly WebServiceClient _webServiceClient;
+        private readonly IEventAggregator _eventAggregator;
 
         private readonly AllNotesViewModel _allNotesViewModel;
         private readonly SearchViewModel _searchViewModel;
@@ -63,23 +64,28 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ShellViewModel"/> class.
         /// </summary>
         /// <param name="displayManager">The display manager.</param>
         /// <param name="webServiceClient">The webservice client.</param>
-        public ShellViewModel(DisplayManager displayManager, WebServiceClient webServiceClient)
+        /// <param name="eventAggregator">The event aggregator.</param>
+        public ShellViewModel(DisplayManager displayManager, WebServiceClient webServiceClient, IEventAggregator eventAggregator)
         {
             this.DisplayName = "Xemio Notes";
 
             this._windowManager = displayManager;
             this._webServiceClient = webServiceClient;
+            this._eventAggregator = eventAggregator;
 
             this._allNotesViewModel = IoC.Get<AllNotesViewModel>();
             this._searchViewModel = IoC.Get<SearchViewModel>();
             this._userSettingsViewModel = IoC.Get<UserSettingsViewModel>();
 
             this.CurrentContent = this._allNotesViewModel;
+
+            this._eventAggregator.Subscribe(this);
 
             this.LoadUserAvatar();
         }
@@ -111,6 +117,17 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         public void ShowUserSettings()
         {
             this.CurrentContent = this._userSettingsViewModel;
+        }
+        #endregion
+
+        #region Implementation of IHandle<LogoutEvent>
+        /// <summary>
+        /// Handles the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void Handle(LogoutEvent message)
+        {
+            this.TryClose(true);
         }
         #endregion
 

@@ -1,9 +1,11 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows.Navigation;
+using Caliburn.Micro;
 using Castle.Facilities.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Xemio.CommonLibrary.Storage;
+using Xemio.CommonLibrary.Storage.Files;
 using Xemio.SmartNotes.Client.Abstractions.Interaction;
 using Xemio.SmartNotes.Client.Abstractions.Settings;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
@@ -29,11 +31,14 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
                 Component.For<IWindowManager>().ImplementedBy<XemioWindowManager>().LifestyleSingleton(),
                 Component.For<IEventAggregator>().ImplementedBy<EventAggregator>().LifestyleSingleton(),
                 Component.For<IMessageManager>().ImplementedBy<MessageManager>().LifestyleSingleton(),
-                Component.For<IDataStorage>().ImplementedBy<DataStorage>().LifestyleSingleton(),
-                Component.For<ILanguageManager>().ImplementedBy<LanguageManager>().LifestyleSingleton()
+                Component.For<ILanguageManager>().ImplementedBy<LanguageManager>().LifestyleSingleton(),
+                Component.For<IDataStorage>().UsingFactoryMethod(() => new DataStorage(new DataStorageSettings
+                                                                                       {
+                                                                                           FileSystem = new EsentFileSystem()
+                                                                                       })).LifestyleSingleton()
             );
 
-            container.AddFacility<LoggingFacility>(f => f.LogUsing(LoggerImplementation.NLog).WithConfig("NLog.config"));
+            container.AddFacility<LoggingFacility>(f => f.UseNLog("NLog.config"));
         }
         #endregion
     }

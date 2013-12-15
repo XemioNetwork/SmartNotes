@@ -11,6 +11,7 @@
     <Grid>
         
         <Label Content="User Settings" HorizontalAlignment="Left" Margin="98,106,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Logout" Content="Logout" HorizontalAlignment="Left" Margin="36,233,0,0" VerticalAlignment="Top" Width="91" Height="42"/>
 
     </Grid>
 </UserControl>

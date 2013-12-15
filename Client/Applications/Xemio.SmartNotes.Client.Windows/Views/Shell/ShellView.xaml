@@ -50,12 +50,11 @@
                 <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
 
                 <!-- The user icon -->
-                <Button x:Name="ShowUserSettings"  Style="{StaticResource HeaderButton}">
+                <Button x:Name="ShowUserSettings" Width="60" Style="{StaticResource HeaderButton}">
                     <Rectangle Width="40"
                                Height="40"
                                RadiusX="20" 
                                RadiusY="20"
-                               Margin="10"
                                RenderOptions.BitmapScalingMode="HighQuality" >
                         <Rectangle.Fill>
                             <VisualBrush>

@@ -70,14 +70,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
                 store.Initialize();
 
                 var catalogs = store.DocumentDatabase.Configuration.Catalog.Catalogs;
-                catalogs.Add(new AssemblyCatalog(typeof (CascadeDeleteTrigger).Assembly));
-                
+                catalogs.Add(new AssemblyCatalog(typeof(CascadeDeleteTrigger).Assembly));
+
                 return store;
             }
-            
+
             return new DocumentStore
             {
-                ConnectionStringName = ConnectionStringName
+                ConnectionStringName = ConnectionStringName,
+                DefaultDatabase = "XemioNotes"
             }.Initialize();
         }
         /// <summary>
