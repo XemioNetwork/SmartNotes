@@ -10,7 +10,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
     public class UserService : IUserService
     {
         #region Fields
-        private readonly IAsyncDocumentSession _documentSession;
+        private readonly IDocumentSession _documentSession;
         #endregion
 
         #region Constructors
@@ -18,7 +18,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// Initializes a new instance of the <see cref="UserService"/> class.
         /// </summary>
         /// <param name="documentSession">The document session.</param>
-        public UserService(IAsyncDocumentSession documentSession)
+        public UserService(IDocumentSession documentSession)
         {
             this._documentSession = documentSession;
         }
@@ -28,14 +28,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <summary>
         /// Returns the current user.
         /// </summary>
-        public async Task<User> GetCurrentUser()
+        public User GetCurrentUser()
         {
             string userId = Thread.CurrentPrincipal.Identity.Name;
 
             if (string.IsNullOrWhiteSpace(userId))
                 throw new InvalidOperationException("You can only access the current user when the controller-method has the 'RequiresAuthentication' attribute.");
 
-            return await this._documentSession.LoadAsync<User>(userId);
+            return this._documentSession.Load<User>(userId);
         }
         #endregion
     }

@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Raven.Abstractions.Data;
 using Raven.Client;
-using Xemio.SmartNotes.Abstractions.Controllers;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
+using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
@@ -39,7 +39,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         /// <param name="documentSession">The document session.</param>
         /// <param name="userService">The user service.</param>
-        public AvatarsController(IAsyncDocumentSession documentSession, IUserService userService)
+        public AvatarsController(IDocumentSession documentSession, IUserService userService)
             : base(documentSession)
         {
             this._userService = userService;
@@ -52,9 +52,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         [Route("Avatar")]
         [RequiresAuthorization]
-        public async Task<HttpResponseMessage> GetAvatar(int width = 0, int height = 0)
+        public HttpResponseMessage GetAvatar(int width = 0, int height = 0)
         {
-            User currentUser = await this._userService.GetCurrentUser();
+            User currentUser = this._userService.GetCurrentUser();
             Attachment avatarData = this.DocumentStore.DatabaseCommands.GetAttachment(currentUser.Id += AvatarSuffix);
 
             Stream avatarStream = avatarData != null ? avatarData.Data() : AssemblyResources.DefaultAvatar.ToPngStream();
@@ -71,12 +71,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="avatar">The avatar.</param>
         [Route("Avatar")]
         [RequiresAuthorization]
-        public async Task<HttpResponseMessage> PutAvatar(CreateAvatar avatar)
+        public HttpResponseMessage PutAvatar(CreateAvatar avatar)
         {
             if (avatar == null)
                 throw new InvalidRequestException();
+            if (avatar.AvatarBytes == null || avatar.AvatarBytes.Length == 0)
+                throw new InvalidRequestException();
 
-            User currentUser = await this._userService.GetCurrentUser();
+            User currentUser = this._userService.GetCurrentUser();
 
             this.DocumentStore.DatabaseCommands.PutAttachment(currentUser.Id += AvatarSuffix, null, new MemoryStream(avatar.AvatarBytes), null);
 

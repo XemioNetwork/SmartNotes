@@ -52,10 +52,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
                 return false;
 
             User user = this.GetUser(context);
-            UserAuthentication data = this.GetAuthentication(context, user);
 
             string givenContentHash = this.GetContentHash(context);
-            string computedContentHash = this.ComputeContentHash(context, data);
+            string computedContentHash = this.ComputeContentHash(context, user);
 
             if (givenContentHash != computedContentHash)
                 return false;
@@ -92,8 +91,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         {
             string username = context.Request.Headers.Authorization.Parameter.Split(':').First();
 
-            IAsyncDocumentSession documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IAsyncDocumentSession>();
-            User user = documentSession.Query<User>().FirstOrDefaultAsync(f => f.Username == username).Result;
+            IDocumentSession documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
+            User user = documentSession.Query<User>().FirstOrDefault(f => f.Username == username);
 
             return user != null;
         }
@@ -113,29 +112,19 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         {
             string username = context.Request.Headers.Authorization.Parameter.Split(':').First();
 
-            IAsyncDocumentSession documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IAsyncDocumentSession>();
-            return documentSession.Query<User>().FirstAsync(f => f.Username == username).Result;
+            IDocumentSession documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
+            return documentSession.Query<User>().First(f => f.Username == username);
         }
         /// <summary>
-        /// Returns the <see cref="UserAuthentication"/> for the given <paramref name="user"/>.
+        /// Computes the content hash using the given <paramref name="user"/>.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="user">The user.</param>
-        private UserAuthentication GetAuthentication(HttpActionContext context, User user)
-        {
-            IAsyncDocumentSession documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IAsyncDocumentSession>();
-            return documentSession.Query<UserAuthentication>().FirstAsync(f => f.UserId == user.Id).Result;
-        }
-        /// <summary>
-        /// Computes the content hash using the given <paramref name="data"/>.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <param name="data">The data.</param>
-        private string ComputeContentHash(HttpActionContext context, UserAuthentication data)
+        private string ComputeContentHash(HttpActionContext context, User user)
         {
             string content = context.Request.Content.ReadAsStringAsync().Result;
 
-            return AuthorizationHash.Create(data.AuthorizationHash, content);
+            return AuthorizationHash.Create(user.AuthorizationHash, content);
         }
         #endregion
     }

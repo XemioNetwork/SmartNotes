@@ -4,6 +4,7 @@ using Castle.Facilities.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Xemio.CommonLibrary.Security;
 using Xemio.CommonLibrary.Storage;
 using Xemio.CommonLibrary.Storage.Files;
 using Xemio.SmartNotes.Client.Abstractions.Interaction;
@@ -34,7 +35,8 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
                 Component.For<ILanguageManager>().ImplementedBy<LanguageManager>().LifestyleSingleton(),
                 Component.For<IDataStorage>().UsingFactoryMethod(() => new DataStorage(new DataStorageSettings
                                                                                        {
-                                                                                           FileSystem = new EsentFileSystem()
+                                                                                           FileSystem = new EsentFileSystem(),
+                                                                                           Encrypter = new RijndaelEncryptor("=26.d,fkl2j!\"§kls3Df")
                                                                                        })).LifestyleSingleton()
             );
 

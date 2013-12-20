@@ -9,9 +9,9 @@ using Raven.Json.Linq;
 namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
 {
     /// <summary>
-    /// Contains extension methods for the <see cref="IAsyncDocumentSession"/> interface.
+    /// Contains extension methods for the <see cref="ISyncAdvancedSessionOperation"/> interface.
     /// </summary>
-    public static class IAsyncAdvancedSessionOperationsExtensions
+    public static class ISyncAdvancedSessionOperationExtensions
     {
         /// <summary>
         /// The metadata key for the cascade delete option.
@@ -24,7 +24,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
         /// <typeparam name="T">The entity type.</typeparam>
         /// <param name="advanced">The advanced session operations.</param>
         /// <param name="id">The id.</param>
-        public static string GetStringIdFor<T>(this IAsyncAdvancedSessionOperations advanced, int id)
+        public static string GetStringIdFor<T>(this ISyncAdvancedSessionOperation advanced, int id)
         {
             return advanced.DocumentStore.Conventions.FindFullDocumentKeyFromNonStringIdentifier(id, typeof(T), false);
         }
@@ -33,7 +33,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
         /// </summary>
         /// <param name="advanced">The advanced.</param>
         /// <param name="id">The id.</param>
-        public static string GetIntIdFrom(this IAsyncAdvancedSessionOperations advanced, string id)
+        public static string GetIntIdFrom(this ISyncAdvancedSessionOperation advanced, string id)
         {
             return id.Split('/').Last();
         }
@@ -43,7 +43,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
         /// <param name="advanced">The advanced session operations.</param>
         /// <param name="entity">The entity.</param>
         /// <param name="documentKeys">The document keys.</param>
-        public static void AddCascadeDelete(this IAsyncAdvancedSessionOperations advanced, object entity, params string[] documentKeys)
+        public static void AddCascadeDelete(this ISyncAdvancedSessionOperation advanced, object entity, params string[] documentKeys)
         {
             RavenJObject metadata = advanced.GetMetadataFor(entity);
 
@@ -69,7 +69,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
         /// <param name="advanced">The advanced.</param>
         /// <param name="entity">The entity.</param>
         /// <param name="documentKeys">The document keys.</param>
-        public static void RemoveCascadeDelete(this IAsyncAdvancedSessionOperations advanced, object entity, params string[] documentKeys)
+        public static void RemoveCascadeDelete(this ISyncAdvancedSessionOperation advanced, object entity, params string[] documentKeys)
         {
             RavenJObject metadata = advanced.GetMetadataFor(entity);
 

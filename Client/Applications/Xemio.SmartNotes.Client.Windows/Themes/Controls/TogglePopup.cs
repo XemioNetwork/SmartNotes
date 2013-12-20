@@ -28,8 +28,6 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
 
             if (isOpen && !this.IsOpen)
                 e.Handled = true;
-
-            //TODO: Check if still needed with the toggle button
         }
         #endregion
     }

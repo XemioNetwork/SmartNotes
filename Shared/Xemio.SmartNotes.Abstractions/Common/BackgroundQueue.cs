@@ -29,7 +29,7 @@ namespace Xemio.SmartNotes.Abstractions.Common
         /// <summary>
         /// Gets the action executed when an exception happened.
         /// </summary>
-        public Func<Exception, bool> OnException { get; private set; }
+        public Func<T, Exception, bool> OnException { get; private set; }
         #endregion
 
         #region Constructors
@@ -48,10 +48,9 @@ namespace Xemio.SmartNotes.Abstractions.Common
         /// </summary>
         /// <param name="execute">The execute.</param>
         /// <param name="onException">The action executed when an exception happened.</param>
-        public BackgroundQueue(Action<T> execute, Func<Exception, bool> onException)
+        public BackgroundQueue(Action<T> execute, Func<T, Exception, bool> onException)
             : this()
         {
-
             this.Execute = execute;
             this.OnException = onException;
         }
@@ -105,7 +104,7 @@ namespace Xemio.SmartNotes.Abstractions.Common
                     }
                     catch (Exception exception)
                     {
-                        if (this.OnException(exception) == false)
+                        if (this.OnException(item, exception) == false)
                         {
                             this._cancellationTokenSource.Cancel(false);
                         }
@@ -116,8 +115,9 @@ namespace Xemio.SmartNotes.Abstractions.Common
         /// <summary>
         /// The default method used for OnException.
         /// </summary>
+        /// <param name="item">The item responsible for the exception.</param>
         /// <param name="exception">The exception.</param>
-        private bool DefaultOnException(Exception exception)
+        private bool DefaultOnException(T item, Exception exception)
         {
             return true;
         }

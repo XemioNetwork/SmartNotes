@@ -1,7 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Xemio.SmartNotes.Abstractions.Controllers;
+using Xemio.SmartNotes.Client.Abstractions.Server;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data;
 
@@ -21,7 +21,7 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
         {
             container.Register(Classes
                 .FromAssemblyContaining<Session>()
-                .BasedOn<IController>()
+                .BasedOn<IClient>()
                 .WithServiceFirstInterface()
                 .LifestyleSingleton()
                 .Configure(f => f.DependsOn(new { baseAddress = "http://localhost" })));

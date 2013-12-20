@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Abstractions.Authorization;
-using Xemio.SmartNotes.Abstractions.Controllers;
 using Xemio.SmartNotes.Client.Abstractions.Interaction;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Views.Register.Resources;
+using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Register
@@ -112,7 +112,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
         /// </summary>
         public async void Register()
         {
-            var user = new CreateUser
+            var user = new User
                        {
                            Username = this.Username,
                            EmailAddress = this.EMailAddress,

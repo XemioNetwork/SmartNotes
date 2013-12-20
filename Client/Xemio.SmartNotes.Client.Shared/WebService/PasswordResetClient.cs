@@ -5,13 +5,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Xemio.SmartNotes.Abstractions.Controllers;
+using Xemio.SmartNotes.Client.Abstractions.Server;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService
 {
-    public class PasswordResetClient : BaseClient, IPasswordResetController
+    public class PasswordResetClient : BaseClient, IPasswordResetClient
     {
         #region Constructors
         /// <summary>

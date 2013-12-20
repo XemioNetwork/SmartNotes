@@ -77,6 +77,10 @@
       <Project>{1D489576-6434-4F31-8296-9D5B6C849CB4}</Project>
       <Name>Xemio.SmartNotes.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Xemio.SmartNotes.Client.Abstractions\Xemio.SmartNotes.Client.Abstractions.csproj">
+      <Project>{C98F502D-AF7E-4753-A8E6-ED0F7C96A750}</Project>
+      <Name>Xemio.SmartNotes.Client.Abstractions</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\Language-DE.png" />

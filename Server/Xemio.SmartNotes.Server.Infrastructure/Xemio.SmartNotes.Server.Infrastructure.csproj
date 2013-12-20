@@ -154,7 +154,7 @@
     <Compile Include="Exceptions\UsernameUnavailableException.cs" />
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtensions.cs" />
-    <Compile Include="Extensions\IAsyncAdvancedSessionOperationsExtensions.cs" />
+    <Compile Include="Extensions\ISyncAdvancedSessionOperationExtensions.cs" />
     <Compile Include="Extensions\IDependencyResolverExtensions.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Filters\HandleBusinessExceptionAttribute.cs" />

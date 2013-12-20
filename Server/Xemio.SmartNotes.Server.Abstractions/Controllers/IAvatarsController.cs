@@ -1,0 +1,20 @@
+using System.Net.Http;
+using Xemio.SmartNotes.Models.Models;
+
+namespace Xemio.SmartNotes.Server.Abstractions.Controllers
+{
+    public interface IAvatarsController : IController
+    {
+        /// <summary>
+        /// Gets the current avatar.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        HttpResponseMessage GetAvatar(int width = 0, int height = 0);
+        /// <summary>
+        /// Updates the avatar.
+        /// </summary>
+        /// <param name="avatar">The avatar.</param>
+        HttpResponseMessage PutAvatar(CreateAvatar avatar);
+    }
+}

@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Raven.Client;
-using Xemio.SmartNotes.Abstractions.Controllers;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
+using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
@@ -31,7 +31,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         /// <param name="documentSession">The document session.</param>
         /// <param name="rightsService">The rights service.</param>
-        public TagsController(IAsyncDocumentSession documentSession, IRightsService rightsService)
+        public TagsController(IDocumentSession documentSession, IRightsService rightsService)
             : base(documentSession)
         {
             this._rightsService = rightsService;
@@ -45,9 +45,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="userId">The user id.</param>
         [Route("Tags")]
         [RequiresAuthorization]
-        public async Task<HttpResponseMessage> GetTags(int userId)
+        public HttpResponseMessage GetTags(int userId)
         {
-            if (await this._rightsService.HasCurrentUserTheUserId(userId) == false)
+            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
                 throw new UnauthorizedException();
 
             string stringUserId = this.DocumentSession.Advanced.GetStringIdFor<User>(userId);
@@ -55,9 +55,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             var query = this.DocumentSession.Query<Tag, TagsByCount>().Where(f => f.UserId == stringUserId);
 
             List<Tag> result = new List<Tag>();
-            using (var enumerator = await this.DocumentSession.Advanced.StreamAsync(query))
+            using (var enumerator = this.DocumentSession.Advanced.Stream(query))
             {
-                while (await enumerator.MoveNextAsync())
+                while (enumerator.MoveNext())
                 {
                     result.Add(enumerator.Current.Document);
                 }

@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using Raven.Abstractions.Data;
 using Raven.Client;
-using Xemio.SmartNotes.Abstractions.Controllers;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
+using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
@@ -40,7 +42,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="documentSession">The document session.</param>
         /// <param name="emailValidationService">The email validator.</param>
         /// <param name="userService">The user service.</param>
-        public UsersController(IAsyncDocumentSession documentSession, IEmailValidationService emailValidationService, IUserService userService)
+        public UsersController(IDocumentSession documentSession, IEmailValidationService emailValidationService, IUserService userService)
             : base(documentSession)
         {
             this._emailValidationService = emailValidationService;
@@ -52,38 +54,26 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Creates a new <see cref="User"/>.
         /// </summary>
-        /// <param name="createUser">The createUser.</param>
+        /// <param name="user">The new user.</param>
         [Route("Users")]
-        public async Task<HttpResponseMessage> PostUser([FromBody]CreateUser createUser)
+        public HttpResponseMessage PostUser([FromBody]User user)
         {
-            if (createUser == null)
+            if (user == null)
                 throw new InvalidRequestException();
 
-            if (string.IsNullOrWhiteSpace(createUser.Username))
+            if (string.IsNullOrWhiteSpace(user.Username))
                 throw new InvalidUsernameException();
 
-            if (await this.IsUsernameAvailable(createUser.Username) == false)
-                throw new UsernameUnavailableException(createUser.Username);
+            if (this.IsUsernameAvailable(user.Username) == false)
+                throw new UsernameUnavailableException(user.Username);
 
-            if (this._emailValidationService.IsValidEmailAddress(createUser.EmailAddress) == false)
-                throw new InvalidEmailAddressException(createUser.EmailAddress);
+            if (this._emailValidationService.IsValidEmailAddress(user.EmailAddress) == false)
+                throw new InvalidEmailAddressException(user.EmailAddress);
 
-            if (await this.IsEmailAddressAvailable(createUser.EmailAddress) == false)
-                throw new EmailAddressUnavailableException(createUser.EmailAddress);
+            if (this.IsEmailAddressAvailable(user.EmailAddress) == false)
+                throw new EmailAddressUnavailableException(user.EmailAddress);
 
-            var user = new User
-            {
-                Username = createUser.Username,
-                EmailAddress = createUser.EmailAddress,
-            };
-            await this.DocumentSession.StoreAsync(user);
-
-            var authenticationData = new UserAuthentication
-            {
-                UserId = user.Id,
-                AuthorizationHash = createUser.AuthorizationHash
-            };
-            await this.DocumentSession.StoreAsync(authenticationData);
+            this.DocumentSession.Store(user);
 
             this.Logger.DebugFormat("Created new user '{0}' with username '{1}'.", user.Id, user.Username);
 
@@ -94,9 +84,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         [Route("Users/Authorized")]
         [RequiresAuthorization]
-        public async Task<HttpResponseMessage> GetAuthorized()
+        public HttpResponseMessage GetAuthorized()
         {
-            return Request.CreateResponse(HttpStatusCode.Found, await this._userService.GetCurrentUser());
+            return Request.CreateResponse(HttpStatusCode.Found, this._userService.GetCurrentUser());
         }
         /// <summary>
         /// Updates the <see cref="User"/>.
@@ -104,14 +94,18 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="user">The user.</param>
         [Route("Users/Authorized")]
         [RequiresAuthorization]
-        public async Task<HttpResponseMessage> PutUser([FromBody]User user)
+        public HttpResponseMessage PutUser([FromBody]User user)
         {
             if (this._emailValidationService.IsValidEmailAddress(user.EmailAddress) == false)
                 throw new InvalidEmailAddressException(user.EmailAddress);
 
-            User currentUser = await this._userService.GetCurrentUser();
+            User currentUser = this._userService.GetCurrentUser();
+
+            if (this.GetUserWithEmailAddress(user.EmailAddress) != currentUser)
+                throw new EmailAddressUnavailableException(user.EmailAddress);
 
             currentUser.EmailAddress = user.EmailAddress;
+            currentUser.AuthorizationHash = user.AuthorizationHash;
 
             this.Logger.DebugFormat("Updated user '{0}'.", currentUser.Id);
 
@@ -123,17 +117,25 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Determines whether the given <paramref name="username"/> is available.
         /// </summary>
-        private async Task<bool> IsUsernameAvailable(string username)
+        private bool IsUsernameAvailable(string username)
         {
-            return (await this.DocumentSession.Query<User>().AnyAsync(f => f.Username == username)) == false;
+            return this.DocumentSession.Query<User>().Any(f => f.Username == username) == false;
         }
         /// <summary>
         /// Determines whether the given <paramref name="emailAddress"/> is available.
         /// </summary>
         /// <param name="emailAddress">The email address.</param>
-        private async Task<bool> IsEmailAddressAvailable(string emailAddress)
+        private bool IsEmailAddressAvailable(string emailAddress)
         {
-            return (await this.DocumentSession.Query<User>().AnyAsync(f => f.EmailAddress == emailAddress)) == false;
+            return this.DocumentSession.Query<User>().Any(f => f.EmailAddress == emailAddress) == false;
+        }
+        /// <summary>
+        /// Gets the user with email address.
+        /// </summary>
+        /// <param name="emailAddress">The email address.</param>
+        private User GetUserWithEmailAddress(string emailAddress)
+        {
+            return this.DocumentSession.Query<User>().FirstOrDefault(f => f.EmailAddress == emailAddress);
         }
         #endregion
     }

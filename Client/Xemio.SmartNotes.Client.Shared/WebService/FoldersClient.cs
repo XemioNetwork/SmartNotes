@@ -1,13 +1,13 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Xemio.SmartNotes.Abstractions.Controllers;
+using Xemio.SmartNotes.Client.Abstractions.Server;
 using Xemio.SmartNotes.Models.Entities.Notes;
 using Xemio.SmartNotes.Models.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService
 {
-    public class FoldersClient : BaseClient, IFoldersController
+    public class FoldersClient : BaseClient, IFoldersClient
     {
         #region Constructors
         /// <summary>

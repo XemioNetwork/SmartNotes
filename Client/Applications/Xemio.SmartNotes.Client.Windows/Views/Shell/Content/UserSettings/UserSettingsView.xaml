@@ -6,12 +6,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              
-             d:DesignWidth="300"
-             d:DesignHeight="300"> 
+             d:DesignWidth="800"
+             d:DesignHeight="600"
+             
+             Background="White"> 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <!-- The Navigation -->
+        <Grid Grid.Column="0">
+            
+        </Grid>
+        
+        <!-- The content -->
+        <ScrollViewer Grid.Column="1">
+            <StackPanel>
+                <ContentControl x:Name="ChangeAvatar" HorizontalContentAlignment="Stretch" Height="200" Margin="10, 10, 10, 0" />
+            </StackPanel>
+        </ScrollViewer>
         
         <Label Content="User Settings" HorizontalAlignment="Left" Margin="98,106,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="Logout" Content="Logout" HorizontalAlignment="Left" Margin="36,233,0,0" VerticalAlignment="Top" Width="91" Height="42"/>
+        <Button x:Name="Logout" Style="{StaticResource RedButtonStyle}" Content="Logout" HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top" Width="91" Height="42"/>
 
     </Grid>
 </UserControl>

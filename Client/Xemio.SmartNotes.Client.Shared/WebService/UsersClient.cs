@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Xemio.SmartNotes.Abstractions.Controllers;
+using Xemio.SmartNotes.Client.Abstractions.Server;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
 
@@ -10,7 +10,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
     /// <summary>
     /// A webservice client for the <see cref="User"/> class.
     /// </summary>
-    public class UsersClient : BaseClient, IUsersController
+    public class UsersClient : BaseClient, IUsersClient
     {
         #region Constructors
         /// <summary>
@@ -36,10 +36,10 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <summary>
         /// Creates a new <see cref="User"/>.
         /// </summary>
-        /// <param name="createUser">The createUser.</param>
-        public Task<HttpResponseMessage> PostUser(CreateUser createUser)
+        /// <param name="user">The new user.</param>
+        public Task<HttpResponseMessage> PostUser(User user)
         {
-            var request = this.CreateRequest(HttpMethod.Post, "Users", createUser);
+            var request = this.CreateRequest(HttpMethod.Post, "Users", user);
             return this.Client.SendAsync(request);
         }
         /// <summary>

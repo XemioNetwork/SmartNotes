@@ -9,9 +9,9 @@ using System.Web.Http;
 using Raven.Abstractions.Data;
 using Raven.Client;
 using Xemio.SmartNotes.Abstractions.Authorization;
-using Xemio.SmartNotes.Abstractions.Controllers;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
+using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Abstractions.Email;
 using Xemio.SmartNotes.Server.Abstractions.Security;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
@@ -38,7 +38,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="secretGenerator">The secret generator.</param>
         /// <param name="emailSender">The email sender.</param>
         /// <param name="emailFactory">The email factory.</param>
-        public PasswordResetController(IAsyncDocumentSession documentSession, ISecretGenerator secretGenerator, IEmailSender emailSender, IEmailFactory emailFactory)
+        public PasswordResetController(IDocumentSession documentSession, ISecretGenerator secretGenerator, IEmailSender emailSender, IEmailFactory emailFactory)
             : base(documentSession)
         {
             this._secretGenerator = secretGenerator;
@@ -53,12 +53,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         /// <param name="data">The username or the email address of the user.</param>
         [Route("PasswordResets")]
-        public async Task<HttpResponseMessage> PostPasswordReset(CreatePasswordReset data)
+        public HttpResponseMessage PostPasswordReset(CreatePasswordReset data)
         {
             if (data == null)
                 throw new InvalidRequestException();
 
-            User user = await this.GetUser(data.UsernameOrEmailAddress);
+            User user = this.GetUser(data.UsernameOrEmailAddress);
 
             var passwordReset = new PasswordReset
                                 {
@@ -67,7 +67,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                                     RequestedAt = DateTime.Now
                                 };
 
-            await this.DocumentSession.StoreAsync(passwordReset);
+            this.DocumentSession.Store(passwordReset);
 
             string uri = this.GetBaseUri() + "/PasswordResets?secret=" + passwordReset.Secret;
             this._emailSender.SendAsync(this._emailFactory.CreatePasswordForgotEmail(user, uri));
@@ -81,15 +81,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         /// <param name="secret">The secret.</param>
         [Route("PasswordResets")]
-        public async Task<HttpResponseMessage> GetPasswordReset(string secret)
+        public HttpResponseMessage GetPasswordReset(string secret)
         {
             if (string.IsNullOrWhiteSpace(secret))
                 throw new InvalidPasswordResetSecretException();
 
-            var passwordReset = await this.DocumentSession
+            var passwordReset =  this.DocumentSession
                 .Query<PasswordReset>()
                 .Include<PasswordReset>(f => f.UserId)
-                .FirstOrDefaultAsync(f => f.Secret == secret);
+                .FirstOrDefault(f => f.Secret == secret);
 
             if (passwordReset == null)
                 throw new InvalidPasswordResetSecretException();
@@ -100,11 +100,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (DateTime.Now > passwordReset.RequestedAt.Add(TimeToResetPassword))
                 throw new PasswordResetTimedOutException();
 
-            var user = await this.DocumentSession.LoadAsync<User>(passwordReset.UserId);
-            var authenticationData = await this.DocumentSession.Query<UserAuthentication>().FirstOrDefaultAsync(f => f.UserId == user.Id);
+            var user = this.DocumentSession.Load<User>(passwordReset.UserId);
 
             string newPassword = this._secretGenerator.Generate(16);
-            authenticationData.AuthorizationHash = AuthorizationHash.CreateBaseHash(user.Username, newPassword);
+            user.AuthorizationHash = AuthorizationHash.CreateBaseHash(user.Username, newPassword);
 
             this._emailSender.SendAsync(this._emailFactory.CreatePasswordResetEmail(user, newPassword));
 
@@ -121,10 +120,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Gets the user.
         /// </summary>
         /// <param name="usernameOrEmailAddress">The username or email address.</param>
-        private async Task<User> GetUser(string usernameOrEmailAddress)
+        private User GetUser(string usernameOrEmailAddress)
         {
-            User user = await this.DocumentSession.Query<User>().FirstOrDefaultAsync(f => f.EmailAddress == usernameOrEmailAddress) ??
-                        await this.DocumentSession.Query<User>().FirstOrDefaultAsync(f => f.Username == usernameOrEmailAddress);
+            User user = this.DocumentSession.Query<User>().FirstOrDefault(f => f.EmailAddress == usernameOrEmailAddress) ??
+                        this.DocumentSession.Query<User>().FirstOrDefault(f => f.Username == usernameOrEmailAddress);
 
             if (user != null)
                 return user;

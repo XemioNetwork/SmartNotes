@@ -8,10 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources {
+namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,175 +23,213 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ExceptionMessages {
-        
+    internal class ExceptionMessages
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ExceptionMessages() {
+        internal ExceptionMessages()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        internal static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources.ExceptionMessages", typeof(ExceptionMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
-            get {
+        internal static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The email address &apos;{0}&apos; is already in use..
         /// </summary>
-        internal static string EmailAddressUnavailable {
-            get {
+        internal static string EmailAddressUnavailable
+        {
+            get
+            {
                 return ResourceManager.GetString("EmailAddressUnavailable", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No folder with the id &quot;{0}&quot; was found..
         /// </summary>
-        internal static string FolderNotFound {
-            get {
+        internal static string FolderNotFound
+        {
+            get
+            {
                 return ResourceManager.GetString("FolderNotFound", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; is no valid email address..
         /// </summary>
-        internal static string InvalidEmailAddress {
-            get {
+        internal static string InvalidEmailAddress
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidEmailAddress", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The name of the folder is invalid..
         /// </summary>
-        internal static string InvalidFolderName {
-            get {
+        internal static string InvalidFolderName
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidFolderName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The name of the note is invalid..
         /// </summary>
-        internal static string InvalidNoteName {
-            get {
+        internal static string InvalidNoteName
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidNoteName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The password is invalid. It has to be at least 8 characters long..
         /// </summary>
-        internal static string InvalidPassword {
-            get {
+        internal static string InvalidPassword
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidPassword", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The given secret is invalid..
         /// </summary>
-        internal static string InvalidPasswordResetSecret {
-            get {
+        internal static string InvalidPasswordResetSecret
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidPasswordResetSecret", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The request is invalid..
         /// </summary>
-        internal static string InvalidRequest {
-            get {
+        internal static string InvalidRequest
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidRequest", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The username is invalid..
         /// </summary>
-        internal static string InvalidUsername {
-            get {
+        internal static string InvalidUsername
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidUsername", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No note with the id &quot;{0}&quot; was found..
         /// </summary>
-        internal static string NoteNotFound {
-            get {
+        internal static string NoteNotFound
+        {
+            get
+            {
                 return ResourceManager.GetString("NoteNotFound", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You already reset your password..
         /// </summary>
-        internal static string PasswordAlreadyReset {
-            get {
+        internal static string PasswordAlreadyReset
+        {
+            get
+            {
                 return ResourceManager.GetString("PasswordAlreadyReset", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You only have 2 hours to reset your password..
         /// </summary>
-        internal static string PasswordResetTimedOut {
-            get {
+        internal static string PasswordResetTimedOut
+        {
+            get
+            {
                 return ResourceManager.GetString("PasswordResetTimedOut", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have the right to access this resource..
         /// </summary>
-        internal static string Unauthorized {
-            get {
+        internal static string Unauthorized
+        {
+            get
+            {
                 return ResourceManager.GetString("Unauthorized", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The username &apos;{0}&apos; is not available..
         /// </summary>
-        internal static string UsernameUnavailable {
-            get {
+        internal static string UsernameUnavailable
+        {
+            get
+            {
                 return ResourceManager.GetString("UsernameUnavailable", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No user with the id &quot;{0}&quot; was found..
         /// </summary>
-        internal static string UserNotFound {
-            get {
+        internal static string UserNotFound
+        {
+            get
+            {
                 return ResourceManager.GetString("UserNotFound", resourceCulture);
             }
         }

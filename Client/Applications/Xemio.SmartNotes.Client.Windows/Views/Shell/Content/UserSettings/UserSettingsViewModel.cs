@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
+using Xemio.SmartNotes.Client.Windows.Views.Shell.Content.UserSettings.Content.ChangeAvatar;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Content.UserSettings
 {
@@ -7,6 +8,13 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Content.UserSettings
     {
         #region Fields
         private readonly IEventAggregator _eventAggregator;
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Gets or sets the change avatar.
+        /// </summary>
+        public ChangeAvatarViewModel ChangeAvatar { get; set; }
         #endregion
 
         #region Constructors
@@ -21,6 +29,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Content.UserSettings
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Logs the user out of the application.
+        /// </summary>
         public void Logout()
         {
             this._eventAggregator.Publish(new LogoutEvent());

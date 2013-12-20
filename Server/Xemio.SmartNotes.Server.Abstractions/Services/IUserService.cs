@@ -11,6 +11,6 @@ namespace Xemio.SmartNotes.Server.Abstractions.Services
         /// <summary>
         /// Returns the current user.
         /// </summary>
-        Task<User> GetCurrentUser();
+        User GetCurrentUser();
     }
 }

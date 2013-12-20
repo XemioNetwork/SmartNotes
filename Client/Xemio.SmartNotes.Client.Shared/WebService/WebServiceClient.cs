@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xemio.SmartNotes.Abstractions.Controllers;
+using Xemio.SmartNotes.Client.Abstractions.Server;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService
 {
@@ -11,29 +11,29 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
     {
         #region Properties
         /// <summary>
-        /// Gets the <see cref="IFoldersController"/>.
+        /// Gets the <see cref="IFoldersClient"/>.
         /// </summary>
-        public IFoldersController Folders { get; private set; }
+        public IFoldersClient Folders { get; private set; }
         /// <summary>
-        /// Gets the <see cref="INotesController"/>.
+        /// Gets the <see cref="INotesClient"/>.
         /// </summary>
-        public INotesController Notes { get; private set; }
+        public INotesClient Notes { get; private set; }
         /// <summary>
-        /// Gets the <see cref="IUsersController"/>.
+        /// Gets the <see cref="IUsersClient"/>.
         /// </summary>
-        public IUsersController Users { get; private set; }
+        public IUsersClient Users { get; private set; }
         /// <summary>
-        /// Gets the <see cref="IPasswordResetController"/>.
+        /// Gets the <see cref="IPasswordResetClient"/>.
         /// </summary>
-        public IPasswordResetController PasswordResets { get; private set; }
+        public IPasswordResetClient PasswordResets { get; private set; }
         /// <summary>
-        /// Gets the <see cref="IAvatarsController"/>.
+        /// Gets the <see cref="IAvatarsClient"/>.
         /// </summary>
-        public IAvatarsController Avatars { get; private set; }
+        public IAvatarsClient Avatars { get; private set; }
         /// <summary>
-        /// Gets the <see cref="ITagsController"/>.
+        /// Gets the <see cref="ITagsClient"/>.
         /// </summary>
-        public ITagsController Tags { get; private set; }
+        public ITagsClient Tags { get; private set; }
         /// <summary>
         /// Gets the <see cref="Session"/>.
         /// </summary>
@@ -41,25 +41,24 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         #endregion
 
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WebServiceClient"/> class.
         /// </summary>
-        /// <param name="folders">The folders controller.</param>
-        /// <param name="notes">The notes controller.</param>
-        /// <param name="users">The users controller.</param>
-        /// <param name="passwordResets">The password resets controller.</param>
-        /// <param name="tagsController">The tags controller.</param>
-        /// <param name="avatarsController">The avatars controller.</param>
+        /// <param name="folders">The folders Client.</param>
+        /// <param name="notes">The notes Client.</param>
+        /// <param name="users">The users Client.</param>
+        /// <param name="passwordResets">The password resets Client.</param>
+        /// <param name="tagsClient">The tags Client.</param>
+        /// <param name="avatarsClient">The avatars Client.</param>
         /// <param name="session">The session.</param>
-        public WebServiceClient(IFoldersController folders, INotesController notes, IUsersController users, IPasswordResetController passwordResets, ITagsController tagsController, IAvatarsController avatarsController, Session session)
+        public WebServiceClient(IFoldersClient folders, INotesClient notes, IUsersClient users, IPasswordResetClient passwordResets, ITagsClient tagsClient, IAvatarsClient avatarsClient, Session session)
         {
             this.Folders = folders;
             this.Notes = notes;
             this.Users = users;
             this.PasswordResets = passwordResets;
-            this.Avatars = avatarsController;
-            this.Tags = tagsController;
+            this.Avatars = avatarsClient;
+            this.Tags = tagsClient;
             this.Session = session;
         }
         #endregion

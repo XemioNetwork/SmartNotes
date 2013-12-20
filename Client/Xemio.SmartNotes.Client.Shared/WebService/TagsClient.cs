@@ -4,12 +4,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Xemio.SmartNotes.Abstractions.Controllers;
+using Xemio.SmartNotes.Client.Abstractions.Server;
 using Xemio.SmartNotes.Models.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService
 {
-    public class TagsClient : BaseClient, ITagsController
+    public class TagsClient : BaseClient, ITagsClient
     {
         #region Constructors
         /// <summary>

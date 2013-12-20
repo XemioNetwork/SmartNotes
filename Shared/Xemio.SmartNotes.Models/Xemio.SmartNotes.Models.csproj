@@ -50,11 +50,10 @@
     <Compile Include="Entities\Users\IUserSpecificEntity.cs" />
     <Compile Include="Entities\Users\PasswordReset.cs" />
     <Compile Include="Entities\Users\User.cs" />
-    <Compile Include="Entities\Users\UserAuthentication.cs" />
     <Compile Include="Models\CreateAvatar.cs" />
     <Compile Include="Models\CreatePasswordReset.cs" />
-    <Compile Include="Models\CreateUser.cs" />
     <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\UpdatePassword.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,7 +12,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
     public class RightsService : IRightsService
     {
         #region Fields
-        private readonly IAsyncDocumentSession _documentSession;
+        private readonly IDocumentSession _documentSession;
         #endregion
 
         #region Constructors
@@ -20,7 +20,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// Initializes a new instance of the <see cref="RightsService"/> class.
         /// </summary>
         /// <param name="documentSession">The document session.</param>
-        public RightsService(IAsyncDocumentSession documentSession)
+        public RightsService(IDocumentSession documentSession)
         {
             this._documentSession = documentSession;
         }
@@ -31,13 +31,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// Determines whether the current <see cref="User"/> has the given <paramref name="userId"/>.
         /// </summary>
         /// <param name="userId">The user id.</param>
-        public async Task<bool> HasCurrentUserTheUserId(int userId)
+        public bool HasCurrentUserTheUserId(int userId)
         {
-            User user = await this._documentSession.LoadAsync<User>(userId);
+            User user = this._documentSession.Load<User>(userId);
             if (user == null)
                 throw new UserNotFoundException(userId);
 
-            User currentUser = await this._documentSession.LoadAsync<User>(Thread.CurrentPrincipal.Identity.Name);
+            User currentUser = this._documentSession.Load<User>(Thread.CurrentPrincipal.Identity.Name);
 
             return currentUser == user;
         }
@@ -45,43 +45,43 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// Determines whether the current <see cref="User"/> can cacess the <see cref="Note"/> with the given id.
         /// </summary>
         /// <param name="noteId">The note id.</param>
-        public async Task<bool> CanCurrentUserAccessNote(int noteId)
+        public bool CanCurrentUserAccessNote(int noteId)
         {
             string stringId = this._documentSession.Advanced.GetStringIdFor<Note>(noteId);
-            return await this.CanCurrentUserAccessNote(stringId);
+            return this.CanCurrentUserAccessNote(stringId);
         }
         /// <summary>
         /// Determines whether the current <see cref="User"/> can cacess the <see cref="Note"/> with the given id.
         /// </summary>
         /// <param name="noteId">The note id.</param>
-        public async Task<bool> CanCurrentUserAccessNote(string noteId)
+        public bool CanCurrentUserAccessNote(string noteId)
         {
-            Note note = await this._documentSession.LoadAsync<Note>(noteId);
+            Note note = this._documentSession.Load<Note>(noteId);
             if (note == null)
                 throw new NoteNotFoundException(noteId);
 
-            return await this.CanCurrentUserAccess(note);
+            return this.CanCurrentUserAccess(note);
         }
         /// <summary>
         /// Determines whether the current <see cref="User"/> can access the <see cref="Folder"/> with the given id.
         /// </summary>
         /// <param name="folderId">The folder id.</param>
-        public async Task<bool> CanCurrentUserAccessFolder(int folderId)
+        public bool CanCurrentUserAccessFolder(int folderId)
         {
             string stringId = this._documentSession.Advanced.GetStringIdFor<Folder>(folderId);
-            return await this.CanCurrentUserAccessFolder(stringId);
+            return this.CanCurrentUserAccessFolder(stringId);
         }
         /// <summary>
         /// Determines whether the current <see cref="User"/> can access the <see cref="Folder"/> with the given id.
         /// </summary>
         /// <param name="folderId">The folder id.</param>
-        public async Task<bool> CanCurrentUserAccessFolder(string folderId)
+        public bool CanCurrentUserAccessFolder(string folderId)
         {
-            Folder folder = await this._documentSession.LoadAsync<Folder>(folderId);
+            Folder folder = this._documentSession.Load<Folder>(folderId);
             if (folder == null)
                 throw new FolderNotFoundException(folderId);
 
-            return await this.CanCurrentUserAccess(folder);
+            return this.CanCurrentUserAccess(folder);
         }
         #endregion
 
@@ -91,9 +91,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="instance">The instance.</param>
-        public async Task<bool> CanCurrentUserAccess<T>(T instance) where T : IUserSpecificEntity
+        public bool CanCurrentUserAccess<T>(T instance) where T : IUserSpecificEntity
         {
-            User currentUser = await this._documentSession.LoadAsync<User>(Thread.CurrentPrincipal.Identity.Name);
+            User currentUser = this._documentSession.Load<User>(Thread.CurrentPrincipal.Identity.Name);
 
             return instance.UserId == currentUser.Id;
         }

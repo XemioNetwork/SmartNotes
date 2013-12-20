@@ -109,10 +109,25 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Data\Events\AvatarChangedEvent.cs" />
     <Compile Include="Data\Events\ChangeContentEvent.cs" />
     <Compile Include="Data\Events\CurrentTaskChangedEvent.cs" />
     <Compile Include="Data\Events\LogoutEvent.cs" />
+    <Compile Include="Data\Exceptions\GenericException.cs" />
+    <Compile Include="Extensions\BitmapImageExtensions.cs" />
     <Compile Include="Implementations\Interaction\DisplayManager.cs" />
+    <Compile Include="Implementations\Tasks\BaseTask.cs" />
+    <Compile Include="Implementations\Tasks\ChangeAvatarTask.cs" />
+    <Compile Include="Implementations\Tasks\Resources\TaskMessages.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskMessages.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Implementations\Tasks\Resources\TaskMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Themes\Controls\GlassWindow.cs" />
     <Compile Include="Themes\Controls\PasswordScore.cs" />
     <Compile Include="Themes\Controls\PasswordValidator.cs" />
@@ -147,6 +162,28 @@
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell\Content\Search\SearchViewModel.cs" />
+    <Compile Include="Views\Shell\Content\UserSettings\Content\ChangeAvatar\ChangeAvatarView.xaml.cs">
+      <DependentUpon>ChangeAvatarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\Content\UserSettings\Content\ChangeAvatar\ChangeAvatarViewModel.cs" />
+    <Compile Include="Views\Shell\Content\UserSettings\Content\ChangeAvatar\Resources\ChangeAvatarMessages.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChangeAvatarMessages.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\Content\UserSettings\Content\ChangeAvatar\Resources\ChangeAvatarMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChangeAvatarMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\Content\UserSettings\Content\ChangeEmail\ChangeEmailView.xaml.cs">
+      <DependentUpon>ChangeEmailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\Content\UserSettings\Content\ChangeEmail\ChangeEmailViewModel.cs" />
+    <Compile Include="Views\Shell\Content\UserSettings\Content\ChangePassword\ChangePasswordViewModel.cs" />
+    <Compile Include="Views\Shell\Content\UserSettings\Content\ChangePassword\ChangePasswordView.xaml.cs">
+      <DependentUpon>ChangePasswordView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shell\Content\UserSettings\UserSettingsView.xaml.cs">
       <DependentUpon>UserSettingsView.xaml</DependentUpon>
     </Compile>
@@ -233,6 +270,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\CustomControlStyles\TogglePopupStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\NamedStyles\ContentControlRegionStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -241,7 +282,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ResourceDictionaries\CustomControlStyles\TogglePopupStyle.xaml">
+    <Page Include="Themes\ResourceDictionaries\CustomControlStyles\LinkTogglePopupStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -261,15 +302,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\ResourceDictionaries\NamedStyles\HeaderToggleButtonStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\ResourceDictionaries\NamedStyles\LinkButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ResourceDictionaries\NamedStyles\LinkToggleButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\RedButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -282,6 +323,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Shell\Content\Search\SearchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Shell\Content\UserSettings\Content\ChangeAvatar\ChangeAvatarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Shell\Content\UserSettings\Content\ChangeEmail\ChangeEmailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Shell\Content\UserSettings\Content\ChangePassword\ChangePasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -320,6 +373,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Implementations\Tasks\Resources\TaskMessages.de.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TaskMessages.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Implementations\Tasks\Resources\TaskMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TaskMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -355,6 +416,14 @@
     <EmbeddedResource Include="Views\Register\Resources\RegisterMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>RegisterMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shell\Content\UserSettings\Content\ChangeAvatar\Resources\ChangeAvatarMessages.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChangeAvatarMessages.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shell\Content\UserSettings\Content\ChangeAvatar\Resources\ChangeAvatarMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChangeAvatarMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

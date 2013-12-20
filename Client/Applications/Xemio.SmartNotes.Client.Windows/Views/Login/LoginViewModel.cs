@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Navigation;
 using Caliburn.Micro;
 using Xemio.CommonLibrary.Storage;
-using Xemio.SmartNotes.Abstractions.Controllers;
 using Xemio.SmartNotes.Client.Abstractions.Interaction;
 using Xemio.SmartNotes.Client.Abstractions.Settings;
 using Xemio.SmartNotes.Client.Shared.WebService;

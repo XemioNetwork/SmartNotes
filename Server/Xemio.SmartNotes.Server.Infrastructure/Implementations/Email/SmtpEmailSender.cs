@@ -84,11 +84,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Email
                                             message.Subject,
                                             message.Body));
         }
+
         /// <summary>
         /// Called when an exception happens.
         /// </summary>
+        /// <param name="item">The item responsible for the exception.</param>
         /// <param name="exception">The exception.</param>
-        private bool OnException(Exception exception)
+        private bool OnException(IEmail item, Exception exception)
         {
             this.Logger.Error("Exception while sending mail.", exception);
             return true;

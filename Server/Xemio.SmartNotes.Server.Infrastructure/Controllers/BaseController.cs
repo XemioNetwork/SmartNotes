@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Castle.Core.Logging;
 using Raven.Client;
+using Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
     /// <summary>
-    /// A basic <see cref="ApiController"/> providing access to an <see cref="IAsyncDocumentSession"/> and and <see cref="ILogger"/>.
+    /// A basic <see cref="ApiController"/> providing access to an <see cref="IDocumentSession"/> and and <see cref="ILogger"/>.
     /// </summary>
     public abstract class BaseController : ApiController
     {
@@ -29,7 +32,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Gets or sets the document session.
         /// </summary>
-        public IAsyncDocumentSession DocumentSession { get; private set; }
+        public IDocumentSession DocumentSession { get; private set; }
         /// <summary>
         /// Gets or sets the logger.
         /// </summary>
@@ -41,7 +44,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Initializes a new instance of the <see cref="BaseController"/> class.
         /// </summary>
         /// <param name="documentSession">The document session.</param>
-        protected BaseController(IAsyncDocumentSession documentSession)
+        protected BaseController(IDocumentSession documentSession)
         {
             this.Logger = NullLogger.Instance;
             this.DocumentSession = documentSession;
@@ -64,7 +67,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             using (this.DocumentSession)
             {
-                await this.DocumentSession.SaveChangesAsync();
+                this.DocumentSession.SaveChanges();
             }
 
             return response;

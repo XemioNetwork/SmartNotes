@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Castle.Core.Logging;
 using Xemio.SmartNotes.Abstractions.Common;
 using Xemio.SmartNotes.Client.Abstractions.Tasks;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
@@ -19,6 +20,10 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         private readonly BackgroundQueue<ITask> _taskQueue;
         #endregion
 
+        #region Properties
+        public ILogger Logger { get; set; }
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskExecutor" /> class.
@@ -26,8 +31,10 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// <param name="eventAggregator">The event aggregator.</param>
         public TaskExecutor(IEventAggregator eventAggregator)
         {
+            this.Logger = NullLogger.Instance;
+
             this._eventAggregator = eventAggregator;
-            this._taskQueue = new BackgroundQueue<ITask>(this.Execute);
+            this._taskQueue = new BackgroundQueue<ITask>(this.Execute, this.OnException);
         }
         #endregion
 
@@ -57,6 +64,17 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             this._eventAggregator.Publish(new CurrentTaskChangedEvent(this.CurrentTask));
 
             task.Execute().Wait();
+        }
+        /// <summary>
+        /// Called when an exception happens while executing a task.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        /// <param name="arg">The arg.</param>
+        private bool OnException(ITask task, Exception arg)
+        {
+            this.Logger.ErrorFormat(arg, string.Format("An exception occured in the task '{0}'.", task.GetType().Name));
+
+            return true;
         }
         #endregion
 

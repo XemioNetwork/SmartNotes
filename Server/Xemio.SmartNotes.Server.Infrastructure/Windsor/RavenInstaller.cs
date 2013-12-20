@@ -33,7 +33,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
             container.Register
             (
                 Component.For<IDocumentStore>().UsingFactoryMethod(this.GetDocumentStore).LifestyleSingleton(),
-                Component.For<IAsyncDocumentSession>().UsingFactoryMethod((kernel, context) => kernel.Resolve<IDocumentStore>().OpenAsyncSession()).LifestyleTransient()
+                Component.For<IDocumentSession>().UsingFactoryMethod((kernel, context) => kernel.Resolve<IDocumentStore>().OpenSession()).LifestyleTransient()
             );
         }
         #endregion
@@ -64,7 +64,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
             {
                 var store = new EmbeddableDocumentStore
                 {
-                    ConnectionStringName = ConnectionStringName
+                    ConnectionStringName = ConnectionStringName,
+                    UseEmbeddedHttpServer = true
                 };
 
                 store.Initialize();

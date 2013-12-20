@@ -6,12 +6,12 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Xemio.SmartNotes.Abstractions.Controllers;
+using Xemio.SmartNotes.Client.Abstractions.Server;
 using Xemio.SmartNotes.Models.Models;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService
 {
-    public class AvatarsClient : BaseClient, IAvatarsController
+    public class AvatarsClient : BaseClient, IAvatarsClient
     {
         #region Constructors
         /// <summary>

@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
-using Xemio.SmartNotes.Abstractions.Controllers;
+using Xemio.SmartNotes.Client.Abstractions.Server;
 using Xemio.SmartNotes.Models.Entities.Notes;
 using Xemio.SmartNotes.Models.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService
 {
-    public class NotesClient : BaseClient, INotesController
+    public class NotesClient : BaseClient, INotesClient
     {
         #region Constructors
 

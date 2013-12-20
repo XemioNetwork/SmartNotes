@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using Xemio.SmartNotes.Models.Entities.Users;
 
-namespace Xemio.SmartNotes.Abstractions.Controllers
+namespace Xemio.SmartNotes.Server.Abstractions.Controllers
 {
     public interface ITagsController : IController
     {
@@ -14,6 +9,6 @@ namespace Xemio.SmartNotes.Abstractions.Controllers
         /// Gets the tags from the <see cref="User"/>.
         /// </summary>
         /// <param name="userId">The user id.</param>
-        Task<HttpResponseMessage> GetTags(int userId);
+        HttpResponseMessage GetTags(int userId);
     }
 }

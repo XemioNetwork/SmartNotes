@@ -13,5 +13,9 @@
         /// Gets or sets the email address.
         /// </summary>
         public string EmailAddress { get; set; }
+        /// <summary>
+        /// Gets or sets the password hash.
+        /// </summary>
+        public byte[] AuthorizationHash { get; set; }
     }
 }
