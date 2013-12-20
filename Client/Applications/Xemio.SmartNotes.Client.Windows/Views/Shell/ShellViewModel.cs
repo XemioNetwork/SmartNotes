@@ -9,9 +9,9 @@ using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
-using Xemio.SmartNotes.Client.Windows.Views.Shell.Content.AllNotes;
-using Xemio.SmartNotes.Client.Windows.Views.Shell.Content.Search;
-using Xemio.SmartNotes.Client.Windows.Views.Shell.Content.UserSettings;
+using Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes;
+using Xemio.SmartNotes.Client.Windows.Views.Shell.Search;
+using Xemio.SmartNotes.Client.Windows.Views.Shell.UserSettings;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 {

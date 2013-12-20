@@ -12,7 +12,6 @@ using Xemio.SmartNotes.Client.Abstractions.Settings;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
-using Xemio.SmartNotes.Client.Windows.Views.Login.Resources;
 using Xemio.SmartNotes.Client.Windows.Views.PasswordReset;
 using Xemio.SmartNotes.Client.Windows.Views.Register;
 using Xemio.SmartNotes.Models.Entities.Users;

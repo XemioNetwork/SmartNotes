@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Xemio.SmartNotes.Client.Windows.Views.Shell.UserSettings.ChangeAvatar.ChangeAvatarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:controls="clr-namespace:Xemio.SmartNotes.Client.Windows.Themes.Controls"
+             xmlns:cal="http://www.caliburnproject.org"
+             
+             lex:LocalizeDictionary.DesignCulture="de-DE"
+             lex:ResxLocalizationProvider.DefaultAssembly="Xemio.SmartNotes.Client.Windows"
+             lex:ResxLocalizationProvider.DefaultDictionary="ChangeAvatarMessages"
+             
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             
+             d:DesignWidth="600"
+             d:DesignHeight="300" >
+    <GroupBox Header="Avatar">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+        
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+        
+            <!-- Current Avatar Title -->
+            <Label Grid.Column="0" Grid.Row="0" Content="{lex:Loc CurrentAvatar}" />
+        
+            <!-- The Current Avatar -->
+            <Image x:Name="CurrentAvatar" Grid.Column="0" Grid.Row="1" Margin="20" />
+            
+            <!-- New Avatar Title -->
+            <Label Grid.Column="1" Grid.Row="0" Content="{lex:Loc NewAvatar}" />
+        
+            <Grid Grid.Column="1" Grid.Row="1" Margin="20, 20, 20, 10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+            
+                <!-- The New Avatar -->
+                <Image x:Name="NewAvatar" Grid.Row="0" />
+            
+                <!-- The 'OR' Label -->
+                <Label Grid.Row="1" Content="{lex:Loc DragAndDropOrSelectFile}" />
+            
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                
+                    <!-- The FilePath Text Box -->
+                    <controls:WatermarkTextBox Text="{Binding FilePath}" Grid.Column="0" Watermark="{lex:Loc FilePath}" Margin="0, 0, 10, 0" />
+                
+                    <!-- The '...' Button -->
+                    <Button x:Name="SelectFile" Grid.Column="1" Content="{lex:Loc SelectFile}" Padding="5, 0, 5, 0" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </GroupBox>
+</UserControl>

@@ -14,7 +14,6 @@ using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Client.Windows.Extensions;
-using Xemio.SmartNotes.Client.Windows.Implementations.Tasks.Resources;
 using Xemio.SmartNotes.Models.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xemio.SmartNotes.Client.Abstractions.Server;
+using Xemio.SmartNotes.Client.Abstractions.Clients;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService
 {

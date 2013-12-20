@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Xemio.SmartNotes.Client.Abstractions.Server;
+using Xemio.SmartNotes.Client.Abstractions.Clients;
 using Xemio.SmartNotes.Models.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService

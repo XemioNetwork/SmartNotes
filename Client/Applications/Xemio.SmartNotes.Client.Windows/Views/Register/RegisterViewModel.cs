@@ -11,7 +11,6 @@ using Xemio.SmartNotes.Abstractions.Authorization;
 using Xemio.SmartNotes.Client.Abstractions.Interaction;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
-using Xemio.SmartNotes.Client.Windows.Views.Register.Resources;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
 

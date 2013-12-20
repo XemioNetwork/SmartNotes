@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Xemio.SmartNotes.Client.Abstractions.Server;
+using Xemio.SmartNotes.Client.Abstractions.Clients;
 using Xemio.SmartNotes.Models.Entities.Notes;
 using Xemio.SmartNotes.Models.Entities.Users;
 

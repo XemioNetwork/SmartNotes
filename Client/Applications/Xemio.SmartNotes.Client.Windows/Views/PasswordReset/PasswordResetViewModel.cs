@@ -9,7 +9,6 @@ using System.Windows;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
-using Xemio.SmartNotes.Client.Windows.Views.PasswordReset.Resources;
 using Xemio.SmartNotes.Models.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset
