@@ -88,7 +88,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         #endregion
 
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginViewModel" /> class.
         /// </summary>

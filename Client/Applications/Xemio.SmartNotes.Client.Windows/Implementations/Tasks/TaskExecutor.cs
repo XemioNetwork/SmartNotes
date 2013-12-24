@@ -10,6 +10,7 @@ using Castle.Core.Logging;
 using Xemio.SmartNotes.Abstractions.Common;
 using Xemio.SmartNotes.Client.Abstractions.Tasks;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
+using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {

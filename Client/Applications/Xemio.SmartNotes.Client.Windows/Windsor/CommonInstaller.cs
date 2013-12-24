@@ -9,8 +9,10 @@ using Xemio.CommonLibrary.Storage;
 using Xemio.CommonLibrary.Storage.Files;
 using Xemio.SmartNotes.Client.Abstractions.Interaction;
 using Xemio.SmartNotes.Client.Abstractions.Settings;
+using Xemio.SmartNotes.Client.Abstractions.Tasks;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Implementations.Settings;
+using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 
 namespace Xemio.SmartNotes.Client.Windows.Windsor
 {
@@ -23,7 +25,8 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
         /// <summary>
         /// Performs the installation in the <see cref="T:Castle.Windsor.IWindsorContainer"/>.
         /// </summary>
-        /// <param name="container">The container.</param><param name="store">The configuration store.</param>
+        /// <param name="container">The container.</param>
+        /// <param name="store">The configuration store.</param>
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register
@@ -37,8 +40,13 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
                                                                                        {
                                                                                            FileSystem = new EsentFileSystem(),
                                                                                            Encrypter = new RijndaelEncryptor("=26.d,fkl2j!\"§kls3Df")
-                                                                                       })).LifestyleSingleton()
+                                                                                       })).LifestyleSingleton(),
+                Component.For<ITaskExecutor>().ImplementedBy<TaskExecutor>().LifestyleSingleton()
             );
+
+            container.Register(Classes.FromThisAssembly()
+                                      .BasedOn<ITask>()
+                                      .LifestyleTransient());
 
             container.AddFacility<LoggingFacility>(f => f.UseNLog("NLog.config"));
         }

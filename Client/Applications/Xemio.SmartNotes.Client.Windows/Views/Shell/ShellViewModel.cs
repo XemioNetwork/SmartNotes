@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Shared.WebService;
@@ -64,7 +65,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         #endregion
 
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ShellViewModel"/> class.
         /// </summary>
@@ -86,8 +86,16 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
             this.CurrentContent = this._allNotesViewModel;
 
             this._eventAggregator.Subscribe(this);
+        }
+        #endregion
 
-            this.LoadUserAvatar();
+        #region Overrides of Screen
+        /// <summary>
+        /// Called when initializing.
+        /// </summary>
+        protected override async void OnInitialize()
+        {
+            await this.LoadUserAvatar();
         }
         #endregion
 
@@ -113,7 +121,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         {
             this.CurrentContent = this._searchViewModel;
         }
-
+        /// <summary>
+        /// Shows the user settings.
+        /// </summary>
         public void ShowUserSettings()
         {
             this.CurrentContent = this._userSettingsViewModel;
@@ -135,7 +145,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         /// <summary>
         /// Loads the user avatar.
         /// </summary>
-        private async void LoadUserAvatar()
+        private async Task LoadUserAvatar()
         {
             HttpResponseMessage response = await this._webServiceClient.Avatars.GetAvatar(40, 40);
 
