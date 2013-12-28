@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Castle.Core.Logging;
 using Raven.Client;
-using Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
