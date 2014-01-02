@@ -12,11 +12,5 @@ namespace Xemio.SmartNotes.Client.Abstractions.Clients
         /// </summary>
         /// <param name="data">The username or the email address of the user.</param>
         Task<HttpResponseMessage> PostPasswordReset(CreatePasswordReset data);
-
-        /// <summary>
-        /// Finishes a password reset.
-        /// </summary>
-        /// <param name="secret">The secret.</param>
-        Task<HttpResponseMessage> GetPasswordReset(string secret);
     }
 }

@@ -35,14 +35,6 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
             var request = this.CreateRequest(HttpMethod.Post, "PasswordResets", data);
             return this.Client.SendAsync(request);
         }
-        /// <summary>
-        /// Finishes a password reset.
-        /// </summary>
-        /// <param name="secret">The secret.</param>
-        public Task<HttpResponseMessage> GetPasswordReset(string secret)
-        {
-            throw new NotSupportedException();
-        }
         #endregion
     }
 }

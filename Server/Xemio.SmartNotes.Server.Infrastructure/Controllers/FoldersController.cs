@@ -19,12 +19,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
     /// <summary>
     /// Controller for the <see cref="Folder"/> class.
     /// </summary>
-    [RoutePrefix("Users/{userId:int}")]
+    [RoutePrefix("Users/Authorized")]
     public class FoldersController : BaseController
     {
         #region Fields
         private readonly IRightsService _rightsService;
-        private readonly IUserService _userService;
         #endregion
 
         #region Constructors
@@ -35,10 +34,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="rightsService">The rights service.</param>
         /// <param name="userService">The user service.</param>
         public FoldersController(IDocumentSession documentSession, IRightsService rightsService, IUserService userService)
-            : base(documentSession)
+            : base(documentSession, userService)
         {
             this._rightsService = rightsService;
-            this._userService = userService;
         }
         #endregion
 
@@ -46,16 +44,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Returns all <see cref="Folder"/>s from the given <see cref="User"/>.
         /// </summary>
-        /// <param name="userId">The user id.</param>
         /// <param name="parentFolderId">The parent folder id.</param>
         [Route("Folders")]
         [RequiresAuthorization]
-        public HttpResponseMessage GetAllFolders(int userId, string parentFolderId)
+        public HttpResponseMessage GetAllFolders(string parentFolderId)
         {
-            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
-                throw new UnauthorizedException();
-
-            User currentUser = this._userService.GetCurrentUser();
+            User currentUser = this.UserService.GetCurrentUser();
 
             var folders = this.DocumentSession.Query<Folder>().Where(f => f.UserId == currentUser.Id && f.ParentFolderId == parentFolderId).ToList();
 
@@ -65,21 +59,17 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Creates a new folder.
         /// </summary>
         /// <param name="folder">The folder.</param>
-        /// <param name="userId">The user id.</param>
         [Route("Folders")]
         [RequiresAuthorization]
-        public HttpResponseMessage PostFolder([FromBody]Folder folder, int userId)
+        public HttpResponseMessage PostFolder([FromBody]Folder folder)
         {
             if (folder == null)
                 throw new InvalidRequestException();
 
             if (string.IsNullOrWhiteSpace(folder.Name))
                 throw new InvalidFolderNameException();
-
-            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
-                throw new UnauthorizedException();
-
-            User currentUser = this._userService.GetCurrentUser();
+            
+            User currentUser = this.UserService.GetCurrentUser();
 
             folder.UserId = currentUser.Id;
 
@@ -93,21 +83,17 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Updates the folder.
         /// </summary>
         /// <param name="folder">The folder.</param>
-        /// <param name="userId">The user id.</param>
         /// <param name="folderId">The folder id.</param>
         [Route("Folders/{folderId:int}")]
         [RequiresAuthorization]
-        public HttpResponseMessage PutFolder([FromBody]Folder folder, int userId, int folderId)
+        public HttpResponseMessage PutFolder([FromBody]Folder folder, int folderId)
         {
             if (folder == null)
                 throw new InvalidRequestException();
 
             if (string.IsNullOrWhiteSpace(folder.Name))
                 throw new InvalidFolderNameException();
-
-            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
-                throw new UnauthorizedException();
-
+            
             if (this._rightsService.CanCurrentUserAccessFolder(folderId, false) == false)
                 throw new UnauthorizedException();
 
@@ -147,15 +133,18 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="folderId">The folder id.</param>
         [Route("Folders/{folderId:int}")]
         [RequiresAuthorization]
-        public HttpResponseMessage DeleteFolder(int userId, int folderId)
+        public HttpResponseMessage DeleteFolder(int folderId)
         {
-            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
-                throw new UnauthorizedException();
-
             if (this._rightsService.CanCurrentUserAccessFolder(folderId, false) == false)
                 throw new UnauthorizedException();
 
-            var folder = this.DocumentSession.Load<Folder>(folderId);
+            var folder = this.DocumentSession
+                .Include<Folder>(f => f.ParentFolderId)
+                .Load<Folder>(folderId);
+
+            var parentFolder = this.DocumentSession.Load<Folder>(folder.ParentFolderId);
+            if (parentFolder != null)
+                this.DocumentSession.Advanced.RemoveCascadeDelete(parentFolder, folder.Id);
 
             this.DocumentSession.Delete(folder);
 

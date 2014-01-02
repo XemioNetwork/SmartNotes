@@ -27,11 +27,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         #region Constants
         private const string AvatarSuffix = "/Avatar";
         #endregion
-
-        #region Fields
-        private readonly IUserService _userService;
-        #endregion
-
+        
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="AvatarsController"/> class.
@@ -39,9 +35,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="documentSession">The document session.</param>
         /// <param name="userService">The user service.</param>
         public AvatarsController(IDocumentSession documentSession, IUserService userService)
-            : base(documentSession)
+            : base(documentSession, userService)
         {
-            this._userService = userService;
         }
         #endregion
 
@@ -53,7 +48,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         [RequiresAuthorization]
         public HttpResponseMessage GetAvatar(int width = 0, int height = 0)
         {
-            User currentUser = this._userService.GetCurrentUser();
+            User currentUser = this.UserService.GetCurrentUser();
             Attachment avatarData = this.DocumentStore.DatabaseCommands.GetAttachment(currentUser.Id += AvatarSuffix);
 
             Stream avatarStream = avatarData != null ? avatarData.Data() : AssemblyResources.DefaultAvatar.ToPngStream();
@@ -77,7 +72,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (avatar.AvatarBytes == null || avatar.AvatarBytes.Length == 0)
                 throw new InvalidRequestException();
 
-            User currentUser = this._userService.GetCurrentUser();
+            User currentUser = this.UserService.GetCurrentUser();
 
             this.DocumentStore.DatabaseCommands.PutAttachment(currentUser.Id += AvatarSuffix, null, new MemoryStream(avatar.AvatarBytes), null);
 

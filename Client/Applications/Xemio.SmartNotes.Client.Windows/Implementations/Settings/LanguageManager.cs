@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WPFLocalizeExtension.Engine;
 using Xemio.CommonLibrary.Storage;
 using Xemio.SmartNotes.Client.Abstractions.Settings;
+using Xemio.SmartNotes.Models.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Settings
 {
@@ -64,6 +65,17 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Settings
                     Thread.CurrentThread.CurrentCulture = value;
                     Thread.CurrentThread.CurrentUICulture = value;
                 }
+            }
+        }
+        /// <summary>
+        /// Sets the language from the given <paramref name="user" />.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        public void SetLanguageFromUser(User user)
+        {
+            if (string.IsNullOrWhiteSpace(user.PreferredLanguage) == false)
+            {
+                this.CurrentLanguage = CultureInfo.CreateSpecificCulture(user.PreferredLanguage);
             }
         }
         #endregion

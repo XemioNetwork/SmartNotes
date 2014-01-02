@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using Castle.Core.Logging;
 using Raven.Client;
+using Xemio.SmartNotes.Server.Abstractions.Services;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
@@ -29,6 +30,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         public IDocumentSession DocumentSession { get; private set; }
         /// <summary>
+        /// Gets the user service.
+        /// </summary>
+        public IUserService UserService { get; private set; }
+        /// <summary>
         /// Gets or sets the logger.
         /// </summary>
         public ILogger Logger { get; set; }
@@ -39,10 +44,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Initializes a new instance of the <see cref="BaseController"/> class.
         /// </summary>
         /// <param name="documentSession">The document session.</param>
-        protected BaseController(IDocumentSession documentSession)
+        /// <param name="userService">The user service.</param>
+        protected BaseController(IDocumentSession documentSession, IUserService userService)
         {
             this.Logger = NullLogger.Instance;
             this.DocumentSession = documentSession;
+            this.UserService = userService;
         }
         #endregion
 
@@ -83,9 +90,21 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="context">The context.</param>
         private void HandleAcceptLanguageHeader(HttpControllerContext context)
         {
+            string language = string.Empty;
+
+            //Extract the language, the request language has a higher priority than the user language
+            if (this.UserService.GetCurrentUser(false) != null)
+            {
+                language = this.UserService.GetCurrentUser().PreferredLanguage;
+            }
             if (context.Request.Headers.AcceptLanguage != null && context.Request.Headers.AcceptLanguage.Count > 0)
             {
-                string language = context.Request.Headers.AcceptLanguage.First().Value;
+                language = context.Request.Headers.AcceptLanguage.First().Value;
+            }
+
+            //Accept the language if we got one
+            if (string.IsNullOrWhiteSpace(language) == false)
+            { 
                 var culture = CultureInfo.CreateSpecificCulture(language);
 
                 Thread.CurrentThread.CurrentCulture = culture;

@@ -11,6 +11,7 @@ namespace Xemio.SmartNotes.Server.Abstractions.Services
         /// <summary>
         /// Returns the current user.
         /// </summary>
-        User GetCurrentUser();
+        /// <param name="throwIfNoUser">If set to <c>true</c> an exception will be thrown if there is no current user.</param>
+        User GetCurrentUser(bool throwIfNoUser = true);
     }
 }

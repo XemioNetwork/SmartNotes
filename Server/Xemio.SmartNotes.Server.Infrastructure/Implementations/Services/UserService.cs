@@ -28,14 +28,17 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <summary>
         /// Returns the current user.
         /// </summary>
-        public User GetCurrentUser()
+        public User GetCurrentUser(bool throwIfNoUser = true)
         {
             string userId = Thread.CurrentPrincipal.Identity.Name;
 
-            if (string.IsNullOrWhiteSpace(userId))
+            if (string.IsNullOrWhiteSpace(userId) == false) 
+                return this._documentSession.Load<User>(userId);
+
+            if (throwIfNoUser)
                 throw new InvalidOperationException("You can only access the current user when the controller-method has the 'RequiresAuthentication' attribute.");
 
-            return this._documentSession.Load<User>(userId);
+            return null;
         }
         #endregion
     }

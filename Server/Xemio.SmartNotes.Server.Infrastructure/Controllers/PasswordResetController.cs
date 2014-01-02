@@ -13,6 +13,7 @@ using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
 using Xemio.SmartNotes.Server.Abstractions.Email;
 using Xemio.SmartNotes.Server.Abstractions.Security;
+using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
@@ -34,11 +35,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Initializes a new instance of the <see cref="PasswordResetController"/> class.
         /// </summary>
         /// <param name="documentSession">The document session.</param>
+        /// <param name="userService">The user service.</param>
         /// <param name="secretGenerator">The secret generator.</param>
         /// <param name="emailSender">The email sender.</param>
         /// <param name="emailFactory">The email factory.</param>
-        public PasswordResetController(IDocumentSession documentSession, ISecretGenerator secretGenerator, IEmailSender emailSender, IEmailFactory emailFactory)
-            : base(documentSession)
+        public PasswordResetController(IDocumentSession documentSession, IUserService userService, ISecretGenerator secretGenerator, IEmailSender emailSender, IEmailFactory emailFactory)
+            : base(documentSession, userService)
         {
             this._secretGenerator = secretGenerator;
             this._emailSender = emailSender;

@@ -31,7 +31,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
     {
         #region Fields
         private readonly IEmailValidationService _emailValidationService;
-        private readonly IUserService _userService;
         #endregion
 
         #region Constructors
@@ -42,10 +41,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="emailValidationService">The email validator.</param>
         /// <param name="userService">The user service.</param>
         public UsersController(IDocumentSession documentSession, IEmailValidationService emailValidationService, IUserService userService)
-            : base(documentSession)
+            : base(documentSession, userService)
         {
             this._emailValidationService = emailValidationService;
-            this._userService = userService;
         }
         #endregion
 
@@ -85,7 +83,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         [RequiresAuthorization]
         public HttpResponseMessage GetAuthorized()
         {
-            return Request.CreateResponse(HttpStatusCode.Found, this._userService.GetCurrentUser());
+            return Request.CreateResponse(HttpStatusCode.Found, this.UserService.GetCurrentUser());
         }
         /// <summary>
         /// Updates the <see cref="User"/>.
@@ -98,7 +96,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (this._emailValidationService.IsValidEmailAddress(user.EmailAddress) == false)
                 throw new InvalidEmailAddressException(user.EmailAddress);
 
-            User currentUser = this._userService.GetCurrentUser();
+            User currentUser = this.UserService.GetCurrentUser();
 
             if (this.GetUserWithEmailAddress(user.EmailAddress) != currentUser)
                 throw new EmailAddressUnavailableException(user.EmailAddress);

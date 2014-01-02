@@ -9,7 +9,6 @@ namespace Xemio.SmartNotes.Client.Abstractions.Clients
         /// <summary>
         /// Gets the tags from the <see cref="User" />.
         /// </summary>
-        /// <param name="userId">The user id.</param>
-        Task<HttpResponseMessage> GetTags(int userId);
+        Task<HttpResponseMessage> GetTags();
     }
 }

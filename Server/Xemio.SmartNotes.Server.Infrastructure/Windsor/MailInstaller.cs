@@ -29,10 +29,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
             (
                 Component.For<IEmailSender>().ImplementedBy<SmtpEmailSender>().DependsOn(new
                                                                                          {
-                                                                                             host = "mail.xemio.net",
-                                                                                             port = 587,
-                                                                                             username = "notes@xemio.net",
-                                                                                             password = "IShouldNotCommitThisPasswordToGitHub",
+                                                                                             host = "localhost",
+                                                                                             port = 25,
+                                                                                             username = string.Empty,
+                                                                                             password = string.Empty,
 
                                                                                          }),
                 Component.For<IEmailFactory>().ImplementedBy<SmtpEmailFactory>().DependsOn(new

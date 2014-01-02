@@ -10,30 +10,25 @@ namespace Xemio.SmartNotes.Client.Abstractions.Clients
         /// <summary>
         /// Returns all <see cref="Folder"/>s from the given <see cref="User"/>.
         /// </summary>
-        /// <param name="userId">The user id.</param>
         /// <param name="parentFolderId">The parent folder id.</param>
-        Task<HttpResponseMessage> GetAllFolders(int userId, string parentFolderId);
+        Task<HttpResponseMessage> GetAllFolders(string parentFolderId);
 
         /// <summary>
         /// Creates a new <see cref="Folder"/>.
         /// </summary>
         /// <param name="folder">The folder.</param>
-        /// <param name="userId">The user id.</param>
-        Task<HttpResponseMessage> PostFolder(Folder folder, int userId);
+        Task<HttpResponseMessage> PostFolder(Folder folder);
 
         /// <summary>
         /// Updates the <see cref="Folder"/>.
         /// </summary>
         /// <param name="folder">The folder.</param>
-        /// <param name="userId">The user id.</param>
-        /// <param name="folderId">The folder id.</param>
-        Task<HttpResponseMessage> PutFolder(Folder folder, int userId, int folderId);
+        Task<HttpResponseMessage> PutFolder(Folder folder);
 
         /// <summary>
         /// Deletes the <see cref="Folder"/>.
         /// </summary>
-        /// <param name="userId">The user id.</param>
         /// <param name="folderId">The folder id.</param>
-        Task<HttpResponseMessage> DeleteFolder(int userId, int folderId);
+        Task<HttpResponseMessage> DeleteFolder(int folderId);
     }
 }

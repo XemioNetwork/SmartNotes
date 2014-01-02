@@ -27,10 +27,9 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <summary>
         /// Gets the tags from the <see cref="User" />.
         /// </summary>
-        /// <param name="userId">The user id.</param>
-        public Task<HttpResponseMessage> GetTags(int userId)
+        public Task<HttpResponseMessage> GetTags()
         {
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/{0}/Tags", userId));
+            var request = this.CreateRequest(HttpMethod.Get, "Users/Authorized/Tags");
             return this.Client.SendAsync(request);
         }
         #endregion

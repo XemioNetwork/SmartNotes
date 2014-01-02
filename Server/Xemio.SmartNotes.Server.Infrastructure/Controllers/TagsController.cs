@@ -17,7 +17,7 @@ using Xemio.SmartNotes.Server.Infrastructure.Raven.Indexes;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
-    [RoutePrefix("Users/{userId:int}")]
+    [RoutePrefix("Users/Authorized")]
     public class TagsController : BaseController
     {
         #region Fields
@@ -29,9 +29,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Initializes a new instance of the <see cref="TagsController"/> class.
         /// </summary>
         /// <param name="documentSession">The document session.</param>
+        /// <param name="userService">The user service.</param>
         /// <param name="rightsService">The rights service.</param>
-        public TagsController(IDocumentSession documentSession, IRightsService rightsService)
-            : base(documentSession)
+        public TagsController(IDocumentSession documentSession, IUserService userService, IRightsService rightsService)
+            : base(documentSession, userService)
         {
             this._rightsService = rightsService;
         }
@@ -41,28 +42,19 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Gets the tags from the <see cref="User"/>.
         /// </summary>
-        /// <param name="userId">The user id.</param>
         [Route("Tags")]
         [RequiresAuthorization]
-        public HttpResponseMessage GetTags(int userId)
+        public HttpResponseMessage GetTags()
         {
-            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
-                throw new UnauthorizedException();
+            var currentUser = this.UserService.GetCurrentUser();
 
-            string stringUserId = this.DocumentSession.Advanced.GetStringIdFor<User>(userId);
-
-            var query = this.DocumentSession.Query<Tag, TagsByCount>().Where(f => f.UserId == stringUserId);
-
-            var result = new List<Tag>();
-            using (var enumerator = this.DocumentSession.Advanced.Stream(query))
-            {
-                while (enumerator.MoveNext())
-                {
-                    result.Add(enumerator.Current.Document);
-                }
-            }
-
-            return Request.CreateResponse(HttpStatusCode.Found, result);
+            var tags = this.DocumentSession.Query<Tag, TagsByCount>()
+                                           .Where(f => f.UserId == currentUser.Id)
+                                           .OrderByDescending(f => f.Count)
+                                           .Take(20)
+                                           .ToList();
+            
+            return Request.CreateResponse(HttpStatusCode.Found, tags);
         }
         #endregion
     }

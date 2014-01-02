@@ -141,7 +141,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
             {
                 this.SaveRememberMe();
 
-                this._webServiceClient.Session.User = await response.Content.ReadAsAsync<User>();
+                var user = await response.Content.ReadAsAsync<User>();
+                this._webServiceClient.Session.User = user;
+                this._languageManager.SetLanguageFromUser(user);
+
                 this.TryClose(true);
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
@@ -184,14 +187,14 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
         /// </summary>
         public void ChangeLanguageToGerman()
         {
-            this._languageManager.CurrentLanguage = new CultureInfo("DE");
+            this._languageManager.CurrentLanguage = CultureInfo.CreateSpecificCulture("DE");
         }
         /// <summary>
         /// Changes the current language to english.
         /// </summary>
         public void ChangeLanguageToEnglish()
         {
-            this._languageManager.CurrentLanguage = new CultureInfo("EN");
+            this._languageManager.CurrentLanguage = CultureInfo.CreateSpecificCulture("EN");
         }
         #endregion
 

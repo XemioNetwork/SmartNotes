@@ -20,7 +20,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
     /// <summary>
     /// Controller for the <see cref="Note"/> class.
     /// </summary>
-    [RoutePrefix("Users/{userId:int}")]
+    [RoutePrefix("Users/Authorized")]
     public class NotesController : BaseController
     {
         #region Fields
@@ -28,13 +28,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NotesController"/> class.
         /// </summary>
         /// <param name="documentSession">The document session.</param>
+        /// <param name="userService">The user service.</param>
         /// <param name="rightsService">The right service.</param>
-        public NotesController(IDocumentSession documentSession, IRightsService rightsService)
-            : base(documentSession)
+        public NotesController(IDocumentSession documentSession, IUserService userService, IRightsService rightsService)
+            : base(documentSession, userService)
         {
             this._rightsService = rightsService;
         }
@@ -44,92 +46,63 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Returns all <see cref="Note" />s from the given <see cref="Folder" />.
         /// </summary>
-        /// <param name="userId">The user id.</param>
         /// <param name="folderId">The note id.</param>
         [Route("Notes")]
         [RequiresAuthorization]
-        public HttpResponseMessage GetAllNotes(int userId, int folderId)
+        public HttpResponseMessage GetAllNotes(int folderId)
         {
             if (this.DocumentSession.Load<Folder>(folderId) == null)
                 throw new FolderNotFoundException(this.DocumentSession.Advanced.GetStringIdFor<Folder>(folderId));
-
-            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
-                throw new UnauthorizedException();
-
+            
             if (this._rightsService.CanCurrentUserAccessFolder(folderId, false) == false)
                 throw new UnauthorizedException();
 
             string folderStringId = this.DocumentSession.Advanced.GetStringIdFor<Folder>(folderId);
-            var query = this.DocumentSession.Query<Note, NotesBySearchTextAndFolderId>().Where(f => f.FolderId == folderStringId);
 
-            var result = new List<Note>();
-            using (var enumerator = this.DocumentSession.Advanced.Stream(query))
-            {
-                while (enumerator.MoveNext())
-                {
-                    result.Add(enumerator.Current.Document);
-                }
-            }
-
-            return Request.CreateResponse(HttpStatusCode.Found, result);
+            var notes = this.DocumentSession.Query<Note, NotesBySearchTextAndFolderId>()
+                                            .Where(f => f.FolderId == folderStringId).ToList();
+            
+            return Request.CreateResponse(HttpStatusCode.Found, notes);
         }
         /// <summary>
         /// Gets all notes.
         /// </summary>
-        /// <param name="userId">The user id.</param>
         /// <param name="searchText">The search text.</param>
         [Route("Notes")]
         [RequiresAuthorization]
-        public HttpResponseMessage GetAllNotes(int userId, string searchText)
+        public HttpResponseMessage GetAllNotes(string searchText)
         {
             if (string.IsNullOrWhiteSpace(searchText))
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
-            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
-                throw new UnauthorizedException();
-
-            var query = this.DocumentSession.Query<NotesBySearchTextAndFolderId.Result, NotesBySearchTextAndFolderId>()
+            var notes = this.DocumentSession.Query<NotesBySearchTextAndFolderId.Result, NotesBySearchTextAndFolderId>()
                                             .Search(f => f.SearchText, searchText)
-                                            .As<Note>();
+                                            .As<Note>()
+                                            .ToList();
 
-            var result = new List<Note>();
-            using (var enumerator = this.DocumentSession.Advanced.Stream(query))
-            {
-                while (enumerator.MoveNext())
-                {
-                    result.Add(enumerator.Current.Document);
-                }
-            }
-
-            return Request.CreateResponse(HttpStatusCode.Found, result);
+            return Request.CreateResponse(HttpStatusCode.Found, notes);
         }
         /// <summary>
         /// Creates a new <see cref="Note" />.
         /// </summary>
         /// <param name="note">The note.</param>
-        /// <param name="userId">The user id.</param>
         [Route("Notes")]
         [RequiresAuthorization]
-        public HttpResponseMessage PostNote(Note note, int userId)
+        public HttpResponseMessage PostNote(Note note)
         {
             if (note == null)
                 throw new InvalidRequestException();
 
             if (string.IsNullOrWhiteSpace(note.Name))
                 throw new InvalidNoteNameException();
-
-            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
+            
+            if (this._rightsService.CanCurrentUserAccessFolder(note.FolderId, false) == false)
                 throw new UnauthorizedException();
 
+            var currentUser = this.UserService.GetCurrentUser();
             var folder = this.DocumentSession.Load<Folder>(note.FolderId);
-            if (folder == null)
-                throw new FolderNotFoundException(note.FolderId);
 
-            if (folder.UserId != this.DocumentSession.Advanced.GetStringIdFor<User>(userId))
-                throw new FolderNotFoundException(this.DocumentSession.Advanced.GetIntIdFrom(folder.Id));
-
-            note.FolderId = folder.Id;
-            note.UserId = this.DocumentSession.Advanced.GetStringIdFor<User>(userId);
+            note.UserId = currentUser.Id;
 
             this.DocumentSession.Store(note);
             this.DocumentSession.Advanced.AddCascadeDelete(folder, note.Id);
@@ -143,21 +116,17 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Updates the <see cref="Note"/>.
         /// </summary>
         /// <param name="note">The note.</param>
-        /// <param name="userId">The user id.</param>
         /// <param name="noteId">The note id.</param>
         [Route("Notes/{noteId:int}")]
         [RequiresAuthorization]
-        public HttpResponseMessage PutNote(Note note, int userId, int noteId)
+        public HttpResponseMessage PutNote(Note note, int noteId)
         {
             if (note == null)
                 throw new InvalidRequestException();
 
             if (string.IsNullOrWhiteSpace(note.Name))
                 throw new InvalidNoteNameException();
-
-            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
-                throw new UnauthorizedException();
-
+            
             if (this._rightsService.CanCurrentUserAccessFolder(note.FolderId, false) == false)
                 throw new UnauthorizedException();
 
@@ -189,15 +158,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Deletes the <see cref="Note"/>.
         /// </summary>
-        /// <param name="userId">The user id.</param>
         /// <param name="noteId">The note id.</param>
         [Route("Notes/{noteId:int}")]
         [RequiresAuthorization]
-        public HttpResponseMessage DeleteNote(int userId, int noteId)
+        public HttpResponseMessage DeleteNote(int noteId)
         {
-            if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
-                throw new UnauthorizedException();
-
             if (this._rightsService.CanCurrentUserAccessNote(noteId, false) == false)
                 throw new UnauthorizedException();
 

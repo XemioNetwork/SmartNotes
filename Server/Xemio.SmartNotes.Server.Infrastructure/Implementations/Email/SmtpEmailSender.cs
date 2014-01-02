@@ -50,9 +50,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Email
             this._smtpClient = new SmtpClient
                                {
                                    Host = host,
-                                   Port = port,
-                                   Credentials = new NetworkCredential(username, password)
+                                   Port = port
                                };
+
+            if (string.IsNullOrWhiteSpace(username) == false)
+            {
+                this._smtpClient.Credentials = new NetworkCredential(username, password);
+            }
         }
         #endregion
 
@@ -102,7 +106,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Email
         /// <param name="email">The email.</param>
         private MailMessage GetMailMessage(IEmail email)
         {
-            SmtpEmail smtpEmail = email as SmtpEmail;
+            var smtpEmail = email as SmtpEmail;
 
             if (smtpEmail == null)
                 throw new InvalidOperationException("The SmptEmailSender can only send SmtpEmails.");

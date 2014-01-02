@@ -5,6 +5,16 @@
     /// </summary>
     public class User : AggregateRoot
     {
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="User"/> class.
+        /// </summary>
+        public User()
+        {
+            this.PreferredLanguage = "en-EN";
+        }
+        #endregion
+
         /// <summary>
         /// Gets or sets the username.
         /// </summary>
@@ -17,5 +27,9 @@
         /// Gets or sets the password hash.
         /// </summary>
         public byte[] AuthorizationHash { get; set; }
+        /// <summary>
+        /// Gets or sets the preferred language.
+        /// </summary>
+        public string PreferredLanguage { get; set; }
     }
 }

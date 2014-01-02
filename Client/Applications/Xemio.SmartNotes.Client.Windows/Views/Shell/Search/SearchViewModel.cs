@@ -65,7 +65,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
         /// </summary>
         public async void Search()
         {
-            HttpResponseMessage response = await this._client.Notes.GetAllNotes(this._client.Session.GetUserId(), this.SearchText);
+            HttpResponseMessage response = await this._client.Notes.GetAllNotes(this.SearchText);
             if (response.StatusCode == HttpStatusCode.Found)
             {
                 this.FoundNotes.Clear();
