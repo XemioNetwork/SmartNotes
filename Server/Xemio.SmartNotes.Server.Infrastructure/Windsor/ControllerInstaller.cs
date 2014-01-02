@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Infrastructure.Controllers;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
@@ -23,7 +22,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         /// <param name="container">The container.</param><param name="store">The configuration store.</param>
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Classes.FromThisAssembly().BasedOn<IController>().LifestyleTransient());
+            container.Register(Classes.FromThisAssembly().BasedOn<BaseController>().LifestyleTransient());
         }
         #endregion
     }

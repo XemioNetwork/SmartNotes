@@ -75,12 +75,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
 
                 return store;
             }
-
-            return new DocumentStore
-            {
-                ConnectionStringName = ConnectionStringName,
-                DefaultDatabase = "XemioNotes"
-            }.Initialize();
+            else 
+            { 
+                return new DocumentStore
+                {
+                    ConnectionStringName = ConnectionStringName,
+                    DefaultDatabase = "XemioNotes"
+                }.Initialize();
+            }
         }
         /// <summary>
         /// Determines whether we have a configured RavenDB connection string.

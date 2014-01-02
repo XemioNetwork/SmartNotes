@@ -13,7 +13,6 @@ using Raven.Abstractions.Data;
 using Raven.Client;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
-using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
@@ -23,7 +22,7 @@ using AssemblyResources = Xemio.SmartNotes.Server.Infrastructure.Properties.Reso
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
     [RoutePrefix("Users/Authorized")]
-    public class AvatarsController : BaseController, IAvatarsController
+    public class AvatarsController : BaseController
     {
         #region Constants
         private const string AvatarSuffix = "/Avatar";

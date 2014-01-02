@@ -39,8 +39,9 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\..\..\packages\Caliburn.Micro.1.5.2\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core">
-      <HintPath>..\..\..\packages\Castle.Core.3.2.1\lib\net45\Castle.Core.dll</HintPath>
+    <Reference Include="Castle.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Castle.Core.3.2.2\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Facilities.FactorySupport">
       <HintPath>..\..\..\packages\Castle.FactorySupportFacility.3.2.0\lib\net45\Castle.Facilities.FactorySupport.dll</HintPath>
@@ -93,7 +94,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="WPFLocalizeExtension, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\WpfLocalizeExtension.2.2.0-beta\lib\net35\WPFLocalizeExtension.dll</HintPath>
+      <HintPath>..\..\..\packages\WpfLocalizeExtension.2.2.0\lib\net35\WPFLocalizeExtension.dll</HintPath>
     </Reference>
     <Reference Include="XAMLMarkupExtensions">
       <HintPath>..\..\..\packages\XAMLMarkupExtensions.1.1.6.3\lib\net40\XAMLMarkupExtensions.dll</HintPath>
@@ -111,7 +112,8 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\Events\AvatarChangedEvent.cs" />
     <Compile Include="Data\Events\ChangeContentEvent.cs" />
-    <Compile Include="Data\Events\CurrentTaskChangedEvent.cs" />
+    <Compile Include="Data\Events\ExecutingTaskEvent.cs" />
+    <Compile Include="Data\Events\ExecutedTaskEvent.cs" />
     <Compile Include="Data\Events\LogoutEvent.cs" />
     <Compile Include="Data\Exceptions\GenericException.cs" />
     <Compile Include="Extensions\BitmapImageExtensions.cs" />
@@ -158,6 +160,16 @@
       <DependentUpon>AllNotesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell\AllNotes\AllNotesViewModel.cs" />
+    <Compile Include="Views\Shell\Search\SearchMessages.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SearchMessages.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\Search\SearchMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SearchMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shell\Search\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
@@ -416,6 +428,14 @@
     <EmbeddedResource Include="Views\Register\RegisterMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>RegisterMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shell\Search\SearchMessages.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SearchMessages.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shell\Search\SearchMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SearchMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Shell\UserSettings\ChangeAvatar\ChangeAvatarMessages.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

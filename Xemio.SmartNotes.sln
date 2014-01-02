@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Client.Sha
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BE518046-B01C-41E2-8418-644F478ABE19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Tests.FastCall", "Tests\Xemio.SmartNotes.Tests.FastCall\Xemio.SmartNotes.Tests.FastCall.csproj", "{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{82877666-2147-48A5-86B8-C0440AEDE5E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82877666-2147-48A5-86B8-C0440AEDE5E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82877666-2147-48A5-86B8-C0440AEDE5E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,5 +102,6 @@ Global
 		{1343877A-CA52-44E4-B00F-D0126A23C720} = {F30B1D65-681B-481F-A462-6047C9A98D82}
 		{4926811A-3CE3-4287-8895-F7AEE5B7A990} = {F30B1D65-681B-481F-A462-6047C9A98D82}
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824} = {FE830DA7-2F15-49D9-B249-B288EF4BDE73}
+		{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7} = {BE518046-B01C-41E2-8418-644F478ABE19}
 	EndGlobalSection
 EndGlobal

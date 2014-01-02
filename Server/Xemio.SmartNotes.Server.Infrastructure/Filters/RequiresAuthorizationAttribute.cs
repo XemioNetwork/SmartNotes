@@ -91,7 +91,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         {
             string username = context.Request.Headers.Authorization.Parameter.Split(':').First();
 
-            IDocumentSession documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
+            var documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
             User user = documentSession.Query<User>().FirstOrDefault(f => f.Username == username);
 
             return user != null;
@@ -112,7 +112,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         {
             string username = context.Request.Headers.Authorization.Parameter.Split(':').First();
 
-            IDocumentSession documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
+            var documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
             return documentSession.Query<User>().First(f => f.Username == username);
         }
         /// <summary>

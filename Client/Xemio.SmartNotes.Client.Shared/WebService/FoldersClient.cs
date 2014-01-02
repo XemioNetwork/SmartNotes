@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json;
 using Xemio.SmartNotes.Client.Abstractions.Clients;
 using Xemio.SmartNotes.Models.Entities.Notes;
@@ -22,13 +23,18 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         #endregion
 
         #region Implementation of IFoldersController
+
         /// <summary>
         /// Returns all <see cref="Folder"/>s from the given <see cref="User"/>.
         /// </summary>
         /// <param name="userId">The user id.</param>
-        public Task<HttpResponseMessage> GetAllFolders(int userId)
+        /// <param name="parentFolderId">The parent folder id.</param>
+        public Task<HttpResponseMessage> GetAllFolders(int userId, string parentFolderId)
         {
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/{0}/Folders", userId));
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            query["folder"] = parentFolderId;
+
+            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/{0}/Folders?{1}", userId, query));
             return this.Client.SendAsync(request);
         }
         /// <summary>

@@ -1,4 +1,6 @@
-﻿using Xemio.SmartNotes.Models.Entities.Users;
+﻿using System;
+using System.Linq;
+using Xemio.SmartNotes.Models.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Shared.WebService
 {
@@ -20,5 +22,18 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// Gets or sets the current user.
         /// </summary>
         public User User { get; set; }
+
+        #region Methods
+        /// <summary>
+        /// Gets the user identifier.
+        /// </summary>
+        public int GetUserId()
+        {
+            if (this.User == null)
+                throw new InvalidOperationException("The 'User' is null. You need to set the 'User' property to user the 'GetUserId' method.");
+
+            return int.Parse(this.User.Id.Split('/').Last());
+        }
+        #endregion
     }
 }

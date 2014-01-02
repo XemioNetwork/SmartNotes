@@ -11,7 +11,7 @@ namespace Xemio.SmartNotes.Abstractions.Common
     /// <summary>
     /// A queue executing a given action on all enqueued items.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of items the queue handles.</typeparam>
     public class BackgroundQueue<T> : IDisposable
     {
         #region Fields
@@ -64,7 +64,7 @@ namespace Xemio.SmartNotes.Abstractions.Common
 
             this._cancellationTokenSource = new CancellationTokenSource();
 
-            Task.Factory.StartNew(this.ExecuteOnItems, this._cancellationTokenSource.Token);
+            Task.Factory.StartNew(this.ExecuteOnItems, this._cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Current);
         }
         #endregion
 

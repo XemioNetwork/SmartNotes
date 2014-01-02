@@ -10,20 +10,20 @@ namespace Xemio.SmartNotes.Client.Windows.Data.Events
     /// <summary>
     /// Fired when the current <see cref="ITask"/> of the <see cref="ITaskExecutor"/> changed.
     /// </summary>
-    public class CurrentTaskChangedEvent
+    public class ExecutingTaskEvent
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CurrentTaskChangedEvent"/> class.
+        /// Initializes a new instance of the <see cref="ExecutingTaskEvent"/> class.
         /// </summary>
-        /// <param name="newCurrentTask">The new current task.</param>
-        public CurrentTaskChangedEvent(ITask newCurrentTask)
+        /// <param name="task">The new current task.</param>
+        public ExecutingTaskEvent(ITask task)
         {
-            this.NewCurrentTask = newCurrentTask;
+            this.Task = task;
         }
 
         /// <summary>
         /// Gets the new current task.
         /// </summary>
-        public ITask NewCurrentTask { get; private set; }
+        public ITask Task { get; private set; }
     }
 }

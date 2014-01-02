@@ -13,16 +13,19 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
     {
         #region Fields
         private readonly IDocumentSession _documentSession;
+        private readonly IUserService _userService;
         #endregion
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="RightsService"/> class.
+        /// Initializes a new instance of the <see cref="RightsService" /> class.
         /// </summary>
         /// <param name="documentSession">The document session.</param>
-        public RightsService(IDocumentSession documentSession)
+        /// <param name="userService">The user service.</param>
+        public RightsService(IDocumentSession documentSession, IUserService userService)
         {
             this._documentSession = documentSession;
+            this._userService = userService;
         }
         #endregion
 
@@ -33,52 +36,56 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="userId">The user id.</param>
         public bool HasCurrentUserTheUserId(int userId)
         {
-            User user = this._documentSession.Load<User>(userId);
+            var user = this._documentSession.Load<User>(userId);
             if (user == null)
                 throw new UserNotFoundException(userId);
 
-            User currentUser = this._documentSession.Load<User>(Thread.CurrentPrincipal.Identity.Name);
+            var currentUser = this._userService.GetCurrentUser();
 
-            return currentUser == user;
+            return currentUser.Id == user.Id;
         }
         /// <summary>
-        /// Determines whether the current <see cref="User"/> can cacess the <see cref="Note"/> with the given id.
+        /// Determines whether the current <see cref="User" /> can cacess the <see cref="Note" /> with the given id.
         /// </summary>
         /// <param name="noteId">The note id.</param>
-        public bool CanCurrentUserAccessNote(int noteId)
+        /// <param name="noteCanBeNull">If set to <c>true</c> the note can be null.</param>
+        public bool CanCurrentUserAccessNote(int noteId, bool noteCanBeNull)
         {
             string stringId = this._documentSession.Advanced.GetStringIdFor<Note>(noteId);
-            return this.CanCurrentUserAccessNote(stringId);
+            return this.CanCurrentUserAccessNote(stringId, noteCanBeNull);
         }
         /// <summary>
-        /// Determines whether the current <see cref="User"/> can cacess the <see cref="Note"/> with the given id.
+        /// Determines whether the current <see cref="User" /> can cacess the <see cref="Note" /> with the given id.
         /// </summary>
         /// <param name="noteId">The note id.</param>
-        public bool CanCurrentUserAccessNote(string noteId)
+        /// <param name="noteCanBeNull">If set to <c>true</c> the note can be null.</param>
+        public bool CanCurrentUserAccessNote(string noteId, bool noteCanBeNull)
         {
-            Note note = this._documentSession.Load<Note>(noteId);
-            if (note == null)
+            var note = this._documentSession.Load<Note>(noteId);
+            if (note == null && noteCanBeNull == false)
                 throw new NoteNotFoundException(noteId);
 
             return this.CanCurrentUserAccess(note);
         }
         /// <summary>
-        /// Determines whether the current <see cref="User"/> can access the <see cref="Folder"/> with the given id.
+        /// Determines whether the current <see cref="User" /> can access the <see cref="Folder" /> with the given id.
         /// </summary>
         /// <param name="folderId">The folder id.</param>
-        public bool CanCurrentUserAccessFolder(int folderId)
+        /// <param name="folderCanBeNull">If set to <c>true</c> the folder can be null.</param>
+        public bool CanCurrentUserAccessFolder(int folderId, bool folderCanBeNull)
         {
             string stringId = this._documentSession.Advanced.GetStringIdFor<Folder>(folderId);
-            return this.CanCurrentUserAccessFolder(stringId);
+            return this.CanCurrentUserAccessFolder(stringId, folderCanBeNull);
         }
         /// <summary>
-        /// Determines whether the current <see cref="User"/> can access the <see cref="Folder"/> with the given id.
+        /// Determines whether the current <see cref="User" /> can access the <see cref="Folder" /> with the given id.
         /// </summary>
         /// <param name="folderId">The folder id.</param>
-        public bool CanCurrentUserAccessFolder(string folderId)
+        /// <param name="folderCanBeNull">If set to <c>true</c> the folder can be null.</param>
+        public bool CanCurrentUserAccessFolder(string folderId, bool folderCanBeNull)
         {
-            Folder folder = this._documentSession.Load<Folder>(folderId);
-            if (folder == null)
+            var folder = this._documentSession.Load<Folder>(folderId);
+            if (folder == null && folderCanBeNull == false)
                 throw new FolderNotFoundException(folderId);
 
             return this.CanCurrentUserAccess(folder);

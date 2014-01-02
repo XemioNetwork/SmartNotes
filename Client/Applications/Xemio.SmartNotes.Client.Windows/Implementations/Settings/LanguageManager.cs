@@ -38,7 +38,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Settings
             }
             else
             {
-                this.CurrentLanguage = new CultureInfo("de");
+                this.CurrentLanguage = new CultureInfo("en");
             }
         }
 

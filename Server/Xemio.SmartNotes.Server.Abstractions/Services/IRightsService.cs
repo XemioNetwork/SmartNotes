@@ -18,21 +18,25 @@ namespace Xemio.SmartNotes.Server.Abstractions.Services
         /// Determines whether the current <see cref="User"/> can cacess the <see cref="Note"/> with the given id.
         /// </summary>
         /// <param name="noteId">The note id.</param>
-        bool CanCurrentUserAccessNote(int noteId);
+        /// <param name="noteCanBeNull">If set to <c>true</c> the note can be null.</param>
+        bool CanCurrentUserAccessNote(int noteId, bool noteCanBeNull);
         /// <summary>
         /// Determines whether the current <see cref="User"/> can cacess the <see cref="Note"/> with the given id.
         /// </summary>
         /// <param name="noteId">The note id.</param>
-        bool CanCurrentUserAccessNote(string noteId);
+        /// <param name="noteCanBeNull">If set to <c>true</c> the note can be null.</param>
+        bool CanCurrentUserAccessNote(string noteId, bool noteCanBeNull);
         /// <summary>
         /// Determines whether the current <see cref="User"/> can access the <see cref="Folder"/> with the given id.
         /// </summary>
         /// <param name="folderId">The folder id.</param>
-        bool CanCurrentUserAccessFolder(int folderId);
+        /// <param name="folderCanBeNull">If set to <c>true</c> the folder can be null.</param>
+        bool CanCurrentUserAccessFolder(int folderId, bool folderCanBeNull);
         /// <summary>
-        /// Determines whether the current <see cref="User"/> can access the <see cref="Folder"/> with the given id.
+        /// Determines whether the current <see cref="User" /> can access the <see cref="Folder" /> with the given id.
         /// </summary>
         /// <param name="folderId">The folder id.</param>
-        bool CanCurrentUserAccessFolder(string folderId);
+        /// <param name="folderCanBeNull">If set to <c>true</c> the folder can be null.</param>
+        bool CanCurrentUserAccessFolder(string folderId, bool folderCanBeNull);
     }
 }

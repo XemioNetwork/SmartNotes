@@ -9,11 +9,10 @@ using System.Web.Http;
 using Raven.Client;
 using Xemio.SmartNotes.Models.Entities.Notes;
 using Xemio.SmartNotes.Models.Entities.Users;
-using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
+using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
-using Xemio.SmartNotes.Server.Infrastructure.Raven.Indexes;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
@@ -21,7 +20,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
     /// Controller for the <see cref="Folder"/> class.
     /// </summary>
     [RoutePrefix("Users/{userId:int}")]
-    public class FoldersController : BaseController, IFoldersController
+    public class FoldersController : BaseController
     {
         #region Fields
         private readonly IRightsService _rightsService;
@@ -48,27 +47,19 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Returns all <see cref="Folder"/>s from the given <see cref="User"/>.
         /// </summary>
         /// <param name="userId">The user id.</param>
+        /// <param name="parentFolderId">The parent folder id.</param>
         [Route("Folders")]
         [RequiresAuthorization]
-        public HttpResponseMessage GetAllFolders(int userId)
+        public HttpResponseMessage GetAllFolders(int userId, string parentFolderId)
         {
             if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
                 throw new UnauthorizedException();
 
             User currentUser = this._userService.GetCurrentUser();
 
-            var query = this.DocumentSession.Query<Folder>().Where(f => f.UserId == currentUser.Id);
+            var folders = this.DocumentSession.Query<Folder>().Where(f => f.UserId == currentUser.Id && f.ParentFolderId == parentFolderId).ToList();
 
-            List<Folder> result = new List<Folder>();
-            using (var enumerator = this.DocumentSession.Advanced.Stream(query))
-            {
-                while (enumerator.MoveNext())
-                {
-                    result.Add(enumerator.Current.Document);
-                }
-            }
-
-            return Request.CreateResponse(HttpStatusCode.Found, result);
+            return Request.CreateResponse(HttpStatusCode.Found, folders);
         }
         /// <summary>
         /// Creates a new folder.
@@ -117,13 +108,33 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
                 throw new UnauthorizedException();
 
-            if (this._rightsService.CanCurrentUserAccessFolder(folderId) == false)
+            if (this._rightsService.CanCurrentUserAccessFolder(folderId, false) == false)
                 throw new UnauthorizedException();
 
-            Folder storedFolder = this.DocumentSession.Load<Folder>(folderId);
+            if (this._rightsService.CanCurrentUserAccessFolder(folder.ParentFolderId, true) == false)
+                throw new UnauthorizedException();
+
+            var storedFolder = this.DocumentSession.Load<Folder>(folderId);
 
             storedFolder.Name = folder.Name;
             storedFolder.Tags = folder.Tags;
+
+            bool folderHasChanged = storedFolder.ParentFolderId != folder.ParentFolderId;
+            if (folderHasChanged)
+            {
+                if (string.IsNullOrWhiteSpace(storedFolder.ParentFolderId) == false)
+                {
+                    var oldFolder = this.DocumentSession.Load<Folder>(storedFolder.ParentFolderId);
+                    this.DocumentSession.Advanced.RemoveCascadeDelete(oldFolder, storedFolder.Id);
+                }
+                if (string.IsNullOrWhiteSpace(folder.ParentFolderId) == false)
+                {
+                    var newFolder = this.DocumentSession.Load<Folder>(folder.ParentFolderId);
+                    this.DocumentSession.Advanced.AddCascadeDelete(newFolder, storedFolder.Id);
+                }
+
+                storedFolder.ParentFolderId = folder.ParentFolderId;
+            }
 
             this.Logger.DebugFormat("Updated folder '{0}'.", storedFolder.Id);
 
@@ -141,10 +152,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
                 throw new UnauthorizedException();
 
-            if (this._rightsService.CanCurrentUserAccessFolder(folderId) == false)
+            if (this._rightsService.CanCurrentUserAccessFolder(folderId, false) == false)
                 throw new UnauthorizedException();
 
-            Folder folder = this.DocumentSession.Load<Folder>(folderId);
+            var folder = this.DocumentSession.Load<Folder>(folderId);
 
             this.DocumentSession.Delete(folder);
 

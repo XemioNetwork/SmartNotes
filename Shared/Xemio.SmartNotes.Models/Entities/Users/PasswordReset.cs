@@ -13,7 +13,7 @@ namespace Xemio.SmartNotes.Models.Entities.Users
     {
         public string UserId { get; set; }
         public string Secret { get; set; }
-        public DateTime RequestedAt { get; set; }
+        public DateTimeOffset RequestedAt { get; set; }
         public bool PasswordWasReset { get; set; }
     }
 }

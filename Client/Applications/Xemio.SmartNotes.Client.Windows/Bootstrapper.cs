@@ -122,7 +122,7 @@ namespace Xemio.SmartNotes.Client.Windows
         /// <param name="e">The event args.</param>
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            ILoggerFactory loggerFactory = this._container.Resolve<ILoggerFactory>();
+            var loggerFactory = this._container.Resolve<ILoggerFactory>();
 
             ILogger logger = loggerFactory.Create("Default");
             logger.Error("An unhandled error occured.", e.Exception);
@@ -137,7 +137,7 @@ namespace Xemio.SmartNotes.Client.Windows
         {
             var loginViewModel = this._container.Resolve<LoginViewModel>();
 
-            IWindowManager windowManager = this._container.Resolve<IWindowManager>();
+            var windowManager = this._container.Resolve<IWindowManager>();
 
             dynamic settings = new ExpandoObject();
             settings.ResizeMode = ResizeMode.CanMinimize;
@@ -151,7 +151,7 @@ namespace Xemio.SmartNotes.Client.Windows
         /// </summary>
         private bool ShowShellView()
         {
-            IWindowManager windowManager = this._container.Resolve<IWindowManager>();
+            var windowManager = this._container.Resolve<IWindowManager>();
 
             var shellViewModel = this._container.Resolve<ShellViewModel>();
             bool? loggedOut = windowManager.ShowDialog(shellViewModel);

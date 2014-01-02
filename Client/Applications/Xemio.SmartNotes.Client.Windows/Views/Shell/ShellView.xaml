@@ -17,6 +17,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
         <!-- The header view -->
@@ -39,7 +41,6 @@
 
                 <!-- The "Search" button -->
                 <Button x:Name="ShowSearch" Style="{StaticResource HeaderButton}" Content="SUCHE" />
-                <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
                 <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
                 <!-- For some reason the divider line is not visible, but it is if I add a second one -->
                 
@@ -71,6 +72,25 @@
 
         <!-- The current content -->
         <ContentControl x:Name="CurrentContent" Grid.Row="1" />
-        
+
+        <!-- The Information Bar -->
+        <Grid Grid.Row="3" Background="{StaticResource headerBackgroundBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- The StackPanel for the "Show All Actions" Button -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+
+                <!-- The "Show All Actions" button -->
+                <Button x:Name="ShowAllActions" Style="{StaticResource HeaderButton}" Content="=" />
+                <Line X1="0" Y1="0" X2="0" Y2="30" Style="{StaticResource DividerLine}" />
+                
+            </StackPanel>
+
+            <!-- The Information Message -->
+            <Label Grid.Column="1" x:Name="CurrentAction" VerticalAlignment="Center" />
+        </Grid>
     </Grid>
 </UserControl>

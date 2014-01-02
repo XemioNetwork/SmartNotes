@@ -62,9 +62,11 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         private void Execute(ITask task)
         {
             this.CurrentTask = task;
-            this._eventAggregator.Publish(new CurrentTaskChangedEvent(this.CurrentTask));
+            this._eventAggregator.Publish(new ExecutingTaskEvent(task));
 
             task.Execute().Wait();
+
+            this._eventAggregator.Publish(new ExecutedTaskEvent(task));
         }
         /// <summary>
         /// Called when an exception happens while executing a task.
@@ -73,6 +75,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// <param name="arg">The arg.</param>
         private bool OnException(ITask task, Exception arg)
         {
+            this._eventAggregator.Publish(new ExecutedTaskEvent(task));
+
             this.Logger.ErrorFormat(arg, string.Format("An exception occured in the task '{0}'.", task.GetType().Name));
 
             return true;

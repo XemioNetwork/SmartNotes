@@ -15,7 +15,6 @@ using Raven.Abstractions.Data;
 using Raven.Client;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
-using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
@@ -28,7 +27,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
     /// <summary>
     /// Controller for the <see cref="User"/> class.
     /// </summary>
-    public class UsersController : BaseController, IUsersController
+    public class UsersController : BaseController
     {
         #region Fields
         private readonly IEmailValidationService _emailValidationService;

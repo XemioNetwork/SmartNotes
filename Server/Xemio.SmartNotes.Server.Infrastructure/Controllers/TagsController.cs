@@ -9,7 +9,6 @@ using System.Web.Http;
 using Raven.Client;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
-using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
@@ -19,7 +18,7 @@ using Xemio.SmartNotes.Server.Infrastructure.Raven.Indexes;
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
     [RoutePrefix("Users/{userId:int}")]
-    public class TagsController : BaseController, ITagsController
+    public class TagsController : BaseController
     {
         #region Fields
         private readonly IRightsService _rightsService;
@@ -54,7 +53,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             var query = this.DocumentSession.Query<Tag, TagsByCount>().Where(f => f.UserId == stringUserId);
 
-            List<Tag> result = new List<Tag>();
+            var result = new List<Tag>();
             using (var enumerator = this.DocumentSession.Advanced.Stream(query))
             {
                 while (enumerator.MoveNext())

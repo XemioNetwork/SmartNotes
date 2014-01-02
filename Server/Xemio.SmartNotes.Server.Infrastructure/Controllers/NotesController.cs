@@ -9,7 +9,6 @@ using System.Web.Http;
 using Raven.Client;
 using Xemio.SmartNotes.Models.Entities.Notes;
 using Xemio.SmartNotes.Models.Entities.Users;
-using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
@@ -22,7 +21,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
     /// Controller for the <see cref="Note"/> class.
     /// </summary>
     [RoutePrefix("Users/{userId:int}")]
-    public class NotesController : BaseController, INotesController
+    public class NotesController : BaseController
     {
         #region Fields
         private readonly IRightsService _rightsService;
@@ -57,13 +56,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
                 throw new UnauthorizedException();
 
-            if (this._rightsService.CanCurrentUserAccessFolder(folderId) == false)
+            if (this._rightsService.CanCurrentUserAccessFolder(folderId, false) == false)
                 throw new UnauthorizedException();
 
             string folderStringId = this.DocumentSession.Advanced.GetStringIdFor<Folder>(folderId);
             var query = this.DocumentSession.Query<Note, NotesBySearchTextAndFolderId>().Where(f => f.FolderId == folderStringId);
 
-            List<Note> result = new List<Note>();
+            var result = new List<Note>();
             using (var enumerator = this.DocumentSession.Advanced.Stream(query))
             {
                 while (enumerator.MoveNext())
@@ -83,6 +82,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         [RequiresAuthorization]
         public HttpResponseMessage GetAllNotes(int userId, string searchText)
         {
+            if (string.IsNullOrWhiteSpace(searchText))
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+
             if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
                 throw new UnauthorizedException();
 
@@ -90,7 +92,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                                             .Search(f => f.SearchText, searchText)
                                             .As<Note>();
 
-            List<Note> result = new List<Note>();
+            var result = new List<Note>();
             using (var enumerator = this.DocumentSession.Advanced.Stream(query))
             {
                 while (enumerator.MoveNext())
@@ -119,7 +121,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
                 throw new UnauthorizedException();
 
-            Folder folder = this.DocumentSession.Load<Folder>(note.FolderId);
+            var folder = this.DocumentSession.Load<Folder>(note.FolderId);
             if (folder == null)
                 throw new FolderNotFoundException(note.FolderId);
 
@@ -130,7 +132,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             note.UserId = this.DocumentSession.Advanced.GetStringIdFor<User>(userId);
 
             this.DocumentSession.Store(note);
-
             this.DocumentSession.Advanced.AddCascadeDelete(folder, note.Id);
 
             this.Logger.DebugFormat("Created note '{0}' for user '{1}'.", note.Id, note.UserId);
@@ -157,13 +158,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
                 throw new UnauthorizedException();
 
-            if (this._rightsService.CanCurrentUserAccessFolder(note.FolderId) == false)
+            if (this._rightsService.CanCurrentUserAccessFolder(note.FolderId, false) == false)
                 throw new UnauthorizedException();
 
-            if (this._rightsService.CanCurrentUserAccessNote(noteId) == false)
+            if (this._rightsService.CanCurrentUserAccessNote(noteId, false) == false)
                 throw new UnauthorizedException();
 
-            Note storedNote = this.DocumentSession.Load<Note>(noteId);
+            var storedNote = this.DocumentSession.Load<Note>(noteId);
 
             storedNote.Name = note.Name;
             storedNote.Content = note.Content;
@@ -172,10 +173,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             bool folderHasChanged = storedNote.FolderId != note.FolderId;
             if (folderHasChanged)
             {
-                Folder oldFolder = this.DocumentSession.Load<Folder>(storedNote.FolderId);
+                var oldFolder = this.DocumentSession.Load<Folder>(storedNote.FolderId);
                 this.DocumentSession.Advanced.RemoveCascadeDelete(oldFolder, storedNote.Id);
 
-                Folder newFolder = this.DocumentSession.Load<Folder>(note.FolderId);
+                var newFolder = this.DocumentSession.Load<Folder>(note.FolderId);
                 this.DocumentSession.Advanced.AddCascadeDelete(newFolder, storedNote.Id);
 
                 storedNote.FolderId = note.FolderId;
@@ -197,16 +198,16 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (this._rightsService.HasCurrentUserTheUserId(userId) == false)
                 throw new UnauthorizedException();
 
-            if (this._rightsService.CanCurrentUserAccessNote(noteId) == false)
+            if (this._rightsService.CanCurrentUserAccessNote(noteId, false) == false)
                 throw new UnauthorizedException();
 
-            Note note = this.DocumentSession
-                .Include<Note>(f => f.FolderId)
-                .Load<Note>(noteId);
-            Folder folder = this.DocumentSession.Load<Folder>(note.FolderId);
+            var note = this.DocumentSession
+                           .Include<Note>(f => f.FolderId)
+                           .Load<Note>(noteId);
+
+            var folder = this.DocumentSession.Load<Folder>(note.FolderId);
 
             this.DocumentSession.Advanced.RemoveCascadeDelete(folder, note.Id);
-
             this.DocumentSession.Delete(note);
 
             this.Logger.DebugFormat("Deleted note '{0}' from user '{1}'.", note.Id, note.UserId);

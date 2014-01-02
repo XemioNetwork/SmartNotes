@@ -11,7 +11,8 @@ namespace Xemio.SmartNotes.Client.Abstractions.Clients
         /// Returns all <see cref="Folder"/>s from the given <see cref="User"/>.
         /// </summary>
         /// <param name="userId">The user id.</param>
-        Task<HttpResponseMessage> GetAllFolders(int userId);
+        /// <param name="parentFolderId">The parent folder id.</param>
+        Task<HttpResponseMessage> GetAllFolders(int userId, string parentFolderId);
 
         /// <summary>
         /// Creates a new <see cref="Folder"/>.

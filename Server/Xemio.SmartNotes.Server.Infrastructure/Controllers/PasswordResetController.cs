@@ -11,17 +11,16 @@ using Raven.Client;
 using Xemio.SmartNotes.Abstractions.Authorization;
 using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Models.Models;
-using Xemio.SmartNotes.Server.Abstractions.Controllers;
 using Xemio.SmartNotes.Server.Abstractions.Email;
 using Xemio.SmartNotes.Server.Abstractions.Security;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
-    public class PasswordResetController : BaseController, IPasswordResetController
+    public class PasswordResetController : BaseController
     {
         #region Constants
-        private readonly TimeSpan TimeToResetPassword = TimeSpan.FromHours(2);
+        private static readonly TimeSpan TimeToResetPassword = TimeSpan.FromHours(2);
         #endregion
 
         #region Fields
@@ -64,7 +63,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                                 {
                                     UserId = user.Id,
                                     Secret = this._secretGenerator.Generate(),
-                                    RequestedAt = DateTime.Now
+                                    RequestedAt = DateTimeOffset.Now
                                 };
 
             this.DocumentSession.Store(passwordReset);
@@ -97,7 +96,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (passwordReset.PasswordWasReset)
                 throw new PasswordAlreadyResetException();
 
-            if (DateTime.Now > passwordReset.RequestedAt.Add(TimeToResetPassword))
+            if (DateTimeOffset.UtcNow > passwordReset.RequestedAt.Add(TimeToResetPassword))
                 throw new PasswordResetTimedOutException();
 
             var user = this.DocumentSession.Load<User>(passwordReset.UserId);

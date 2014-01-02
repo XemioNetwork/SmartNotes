@@ -7,16 +7,18 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
+using Xemio.SmartNotes.Client.Abstractions.Tasks;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
+using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.Search;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.UserSettings;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 {
-    public class ShellViewModel : Screen, IHandle<LogoutEvent>
+    public class ShellViewModel : Screen, IHandle<LogoutEvent>, IHandle<ExecutingTaskEvent>, IHandle<ExecutedTaskEvent>
     {
         #region Fields
         private readonly DisplayManager _windowManager;
@@ -29,6 +31,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 
         private Screen _currentContent;
         private BitmapImage _userAvatar;
+        private string _currentAction;
         #endregion
 
         #region Properties
@@ -62,6 +65,21 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
                 }
             }
         }
+        /// <summary>
+        /// Gets or sets the current executing action.
+        /// </summary>
+        public string CurrentAction
+        {
+            get { return this._currentAction; }
+            set
+            {
+                if (this._currentAction != value)
+                { 
+                    this._currentAction = value;
+                    this.NotifyOfPropertyChange(() => this.CurrentAction);
+                }
+            }
+        }
         #endregion
 
         #region Constructors
@@ -82,10 +100,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
             this._allNotesViewModel = IoC.Get<AllNotesViewModel>();
             this._searchViewModel = IoC.Get<SearchViewModel>();
             this._userSettingsViewModel = IoC.Get<UserSettingsViewModel>();
+            
+            this._eventAggregator.Subscribe(this);
 
             this.CurrentContent = this._allNotesViewModel;
-
-            this._eventAggregator.Subscribe(this);
         }
         #endregion
 
@@ -132,12 +150,34 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 
         #region Implementation of IHandle<LogoutEvent>
         /// <summary>
-        /// Handles the specified message.
+        /// Handles the <see cref="LogoutEvent"/>.
         /// </summary>
         /// <param name="message">The message.</param>
         public void Handle(LogoutEvent message)
         {
             this.TryClose(true);
+        }
+        #endregion
+
+        #region Implementation of IHandle<ExecutingTaskEvent>
+        /// <summary>
+        /// Handles the <see cref="ExecutingTaskEvent"/>.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void Handle(ExecutingTaskEvent message)
+        {
+            this.CurrentAction = message.Task.DisplayName;
+        }
+        #endregion
+
+        #region Implementation of IHandle<ExecutedTaskEvent>
+        /// <summary>
+        /// Handles the <see cref="ExecutedTaskEvent"/>
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void Handle(ExecutedTaskEvent message)
+        {
+            this.CurrentAction = string.Empty;
         }
         #endregion
 
@@ -151,12 +191,12 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 
             if (response.StatusCode == HttpStatusCode.Found)
             {
-                BitmapImage image = new BitmapImage();
+                var image = new BitmapImage();
                 image.BeginInit();
                 image.StreamSource = await response.Content.ReadAsStreamAsync();
                 image.EndInit();
 
-                this.UserAvatar = image.Clone();
+                this.UserAvatar = image;
             }
         }
         #endregion

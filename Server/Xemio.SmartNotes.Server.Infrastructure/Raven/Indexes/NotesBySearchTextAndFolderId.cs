@@ -26,9 +26,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Raven.Indexes
         {
             this.Map = notes => from note in notes
                                 let folder = this.LoadDocument<Folder>(note.FolderId)
+                                from parentFolder in this.Recurse(folder, f => this.LoadDocument<Folder>(f.ParentFolderId))
                                 select new
                                            {
-                                               SeachText = note.Tags.Concat(folder.Tags).Concat(new[] { note.Name, note.Content }),
+                                               SearchText = note.Tags.Concat(parentFolder.Tags).Concat(new[] { note.Name, note.Content, parentFolder.Name }),
                                                note.FolderId
                                            };
 
