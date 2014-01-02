@@ -32,7 +32,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
                                                                                              host = "mail.xemio.net",
                                                                                              port = 587,
                                                                                              username = "notes@xemio.net",
-                                                                                             password = "X3M10nOtez!",
+                                                                                             password = "IShouldNotCommitThisPasswordToGitHub",
 
                                                                                          }),
                 Component.For<IEmailFactory>().ImplementedBy<SmtpEmailFactory>().DependsOn(new
