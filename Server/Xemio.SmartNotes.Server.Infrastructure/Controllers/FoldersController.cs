@@ -51,7 +51,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         {
             User currentUser = this.UserService.GetCurrentUser();
 
-            var folders = this.DocumentSession.Query<Folder>().Where(f => f.UserId == currentUser.Id && f.ParentFolderId == parentFolderId).ToList();
+            var folders = this.DocumentSession.Query<Folder>()
+                                              .Where(f => f.UserId == currentUser.Id && f.ParentFolderId == parentFolderId)
+                                              .ToList();
 
             return Request.CreateResponse(HttpStatusCode.Found, folders);
         }

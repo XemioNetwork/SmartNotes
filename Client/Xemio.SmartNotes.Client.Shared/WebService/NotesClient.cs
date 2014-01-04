@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Specialized;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
@@ -31,8 +33,8 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <param name="folderId">The note id.</param>
         public Task<HttpResponseMessage> GetAllNotes(int folderId)
         {
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["folder"] = folderId.ToString();
+            var query = new HttpQueryBuilder();
+            query.AddParameter("folder", folderId);
 
             var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Notes?{0}", query));
             return this.Client.SendAsync(request);
@@ -43,8 +45,8 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <param name="searchText">The search text.</param>
         public Task<HttpResponseMessage> GetAllNotes(string searchText)
         {
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["searchText"] = searchText;
+            var query = new HttpQueryBuilder();
+            query.AddParameter("searchText", searchText);
 
             var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Notes?{0}", query));
             return this.Client.SendAsync(request);
@@ -67,7 +69,6 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
             var request = this.CreateRequest(HttpMethod.Put, string.Format("Users/Authorized/Notes/{0}", note.Id.GetIntId()), note);
             return this.Client.SendAsync(request);
         }
-
         /// <summary>
         /// Deletes the <see cref="Note"/>.
         /// </summary>

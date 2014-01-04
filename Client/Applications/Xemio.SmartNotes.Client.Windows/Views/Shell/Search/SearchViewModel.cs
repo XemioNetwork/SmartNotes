@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Windows;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Shared.WebService;
@@ -75,6 +76,24 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
                 {
                     this.FoundNotes.Add(string.Format("{0}, {1}", note.Name, note.Content));
                 }
+            }
+            else if (response.StatusCode == HttpStatusCode.SeeOther)
+            {
+                string[] suggestions = await response.Content.ReadAsAsync<string[]>();
+                
+                var message = new StringBuilder();
+                message.AppendFormat("Es wurden keine Notizen gefunden die '{0}' enthalten.", this.SearchText);
+                message.AppendLine("Meinten Sie vielleicht:");
+                foreach (string suggestion in suggestions)
+                {
+                    message.AppendLine(suggestion);
+                }
+
+                MessageBox.Show(message.ToString());
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                this.FoundNotes.Clear();
             }
             else
             {

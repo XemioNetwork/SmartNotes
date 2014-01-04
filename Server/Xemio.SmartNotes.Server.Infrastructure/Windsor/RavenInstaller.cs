@@ -11,6 +11,7 @@ using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
+using Xemio.RavenDB.NGramAnalyzer;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
 {
@@ -68,10 +69,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
                     UseEmbeddedHttpServer = true
                 };
 
+                var catalog = new AggregateCatalog();
+                catalog.Catalogs.Add(new AssemblyCatalog(typeof(CascadeDeleteTrigger).Assembly));
+                catalog.Catalogs.Add(new AssemblyCatalog(typeof(NGramAnalyzer).Assembly));
+                //Add other catalogs here
+                store.DocumentDatabase.Configuration.Catalog.Catalogs.Add(catalog);
+                
                 store.Initialize();
-
-                var catalogs = store.DocumentDatabase.Configuration.Catalog.Catalogs;
-                catalogs.Add(new AssemblyCatalog(typeof(CascadeDeleteTrigger).Assembly));
 
                 return store;
             }

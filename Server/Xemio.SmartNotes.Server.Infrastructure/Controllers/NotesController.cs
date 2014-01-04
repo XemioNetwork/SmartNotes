@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Castle.Core.Internal;
+using Raven.Abstractions.Data;
 using Raven.Client;
 using Xemio.SmartNotes.Models.Entities.Notes;
 using Xemio.SmartNotes.Models.Entities.Users;
@@ -59,7 +61,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             string folderStringId = this.DocumentSession.Advanced.GetStringIdFor<Folder>(folderId);
 
-            var notes = this.DocumentSession.Query<Note, NotesBySearchTextAndFolderId>()
+            var notes = this.DocumentSession.Query<Note, NotesBySearchTextAndFolderIdAndUserId>()
                                             .Where(f => f.FolderId == folderStringId).ToList();
             
             return Request.CreateResponse(HttpStatusCode.Found, notes);
@@ -75,12 +77,32 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (string.IsNullOrWhiteSpace(searchText))
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
-            var notes = this.DocumentSession.Query<NotesBySearchTextAndFolderId.Result, NotesBySearchTextAndFolderId>()
-                                            .Search(f => f.SearchText, searchText)
+            User currentUser = this.UserService.GetCurrentUser();
+
+            var notes = this.DocumentSession.Query<NotesBySearchTextAndFolderIdAndUserId.Result, NotesBySearchTextAndFolderIdAndUserId>()
+                                            .Where(f => f.UserId == currentUser.Id)
+                                            .Search(f => f.SearchText, searchText, options: SearchOptions.And)
                                             .As<Note>()
                                             .ToList();
+            
+            if (notes.Count > 0)
+                return Request.CreateResponse(HttpStatusCode.Found, notes);
 
-            return Request.CreateResponse(HttpStatusCode.Found, notes);
+            var suggestQuery = new SuggestionQuery
+            {
+                Field = "SearchText",
+                Popularity = true,
+            };
+
+            SuggestionQueryResult suggestionResult = this.DocumentSession.Query<NotesBySearchTextAndUserIdForSuggestions.Result, NotesBySearchTextAndUserIdForSuggestions>()
+                                                                         .Where(f => f.UserId == currentUser.Id)
+                                                                         .Search(f => f.SearchText, searchText, options: SearchOptions.And)
+                                                                         .Suggest(suggestQuery);
+
+            if (suggestionResult.Suggestions.Length == 0)
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+
+            return Request.CreateResponse(HttpStatusCode.SeeOther, suggestionResult.Suggestions);
         }
         /// <summary>
         /// Creates a new <see cref="Note" />.
