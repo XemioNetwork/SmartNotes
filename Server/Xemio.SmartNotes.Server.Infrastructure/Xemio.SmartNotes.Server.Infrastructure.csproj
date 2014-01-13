@@ -204,9 +204,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Raven\Indexes\NotesBySearchTextAndFolderIdAndUserId.cs" />
-    <Compile Include="Raven\Indexes\NotesBySearchTextAndUserIdForSuggestions.cs" />
-    <Compile Include="Raven\Indexes\TagsByCount.cs" />
+    <Compile Include="RavenDB\Indexes\NotesBySearchTextAndFolderIdAndUserId.cs" />
+    <Compile Include="RavenDB\Indexes\NotesBySearchTextAndUserIdForSuggestions.cs" />
+    <Compile Include="RavenDB\Indexes\TagsByCount.cs" />
     <Compile Include="Implementations\Services\EmailValidationService.cs" />
     <Compile Include="Implementations\Services\RightsService.cs" />
     <Compile Include="Implementations\Services\UserService.cs" />
@@ -224,7 +224,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Raven\ResultTransformers\" />
+    <Folder Include="RavenDB\ResultTransformers\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Exceptions\Resources\ExceptionMessages.de.resx">

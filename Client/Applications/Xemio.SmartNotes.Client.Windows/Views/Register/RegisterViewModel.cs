@@ -109,7 +109,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
         /// <summary>
         /// Registers the user.
         /// </summary>
-        public async void Register()
+        public async Task Register()
         {
             var user = new User
                        {

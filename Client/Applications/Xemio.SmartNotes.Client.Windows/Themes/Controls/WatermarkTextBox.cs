@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
@@ -15,11 +18,7 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
         private const string WatermarkVisibleState = "WatermarkVisible";
         private const string WatermarkHiddenState = "WatermarkHidden";
         #endregion
-
-        #region Fields
-        private bool _isWatermarkVisible = true;
-        #endregion
-
+        
         #region Properties
         /// <summary>
         /// The dependency property of the <see cref="Watermark"/> property.
@@ -50,7 +49,13 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
         /// </summary>
         public WatermarkTextBox()
         {
-            this.TextChanged += OnTextChanged;
+            this.TextChanged += this.OnTextChanged;
+            this.IsVisibleChanged += async (s, e) =>
+            {
+                //For some reason it doesn't work synchronously, so we use a very low delay to update the visual state.
+                await Task.Delay(1);
+                this.OnTextChanged(this, null);
+            };
         }
         #endregion
 
@@ -62,16 +67,13 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
         /// <param name="textChangedEventArgs">The <see cref="TextChangedEventArgs"/> instance containing the event data.</param>
         private void OnTextChanged(object sender, TextChangedEventArgs textChangedEventArgs)
         {
-            if (this.Text.Length == 0 && this._isWatermarkVisible == false)
+            if (this.Text.Length == 0)
             {
                 VisualStateManager.GoToState(this, WatermarkVisibleState, true);
-                this._isWatermarkVisible = true;
             }
-
-            if (this.Text.Length > 0 && this._isWatermarkVisible)
+            else
             {
                 VisualStateManager.GoToState(this, WatermarkHiddenState, true);
-                this._isWatermarkVisible = false;
             }
         }
         #endregion

@@ -10,13 +10,13 @@ namespace Xemio.SmartNotes.Client.Abstractions.Clients
         /// Returns all <see cref="Note" />s from the given <see cref="Folder" />.
         /// </summary>
         /// <param name="folderId">The note id.</param>
-        Task<HttpResponseMessage> GetAllNotes(int folderId);
+        Task<HttpResponseMessage> GetAllNotes(string folderId);
 
         /// <summary>
         /// Gets all notes.
         /// </summary>
         /// <param name="searchText">The search text.</param>
-        Task<HttpResponseMessage> GetAllNotes(string searchText);
+        Task<HttpResponseMessage> SearchNotes(string searchText);
 
         /// <summary>
         /// Creates a new <see cref="Note" />.
@@ -34,6 +34,6 @@ namespace Xemio.SmartNotes.Client.Abstractions.Clients
         /// Deletes the <see cref="Note"/>.
         /// </summary>
         /// <param name="noteId">The note id.</param>
-        Task<HttpResponseMessage> DeleteNote(int noteId);
+        Task<HttpResponseMessage> DeleteNote(string noteId);
     }
 }

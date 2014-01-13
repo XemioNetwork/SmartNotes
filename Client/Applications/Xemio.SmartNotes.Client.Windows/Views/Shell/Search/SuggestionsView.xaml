@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Xemio.SmartNotes.Client.Windows.Views.Shell.Search.SuggestionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Xemio.SmartNotes.Client.Windows.Themes.Controls"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:cal="http://www.caliburnproject.org"
+             
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             
+             lex:LocalizeDictionary.DesignCulture="de-DE"
+             lex:ResxLocalizationProvider.DefaultAssembly="Xemio.SmartNotes.Client.Windows"
+             lex:ResxLocalizationProvider.DefaultDictionary="SearchMessages"
+             
+             d:DesignWidth="300"
+             d:DesignHeight="300">
+    <Grid x:Name="root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" 
+               Content="{lex:Loc DidYouMean}" 
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Center" 
+               FontSize="18" 
+               FontFamily="{StaticResource semiBoldFont}" />
+        
+        <ItemsControl x:Name="Suggestions" Grid.Row="1">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Style="{StaticResource LinkTextBlockStyle}" 
+                               Text="{Binding}" 
+                               HorizontalAlignment="Center"
+                               FontSize="14"
+                               Width="Auto"
+                               cal:Message.Attach="[Event MouseLeftButtonUp] = [Action SelectSuggestion($dataContext)]" 
+                               cal:Action.TargetWithoutContext="{Binding DataContext, ElementName=root}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

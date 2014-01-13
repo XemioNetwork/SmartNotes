@@ -22,8 +22,19 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <controls:WatermarkTextBox x:Name="SearchText" Grid.Row="0" Margin="5" Watermark="{lex:Loc SearchText}" KeyDown="SearchTextKeyDown" />
-        
-        <ListBox x:Name="FoundNotes" Grid.Row="1" Margin="5" />
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStop Offset="0.0" Color="{StaticResource blackColor}" />
+                        <GradientStop Offset="1.0" Color="#3A3A3A" />
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <controls:WatermarkTextBox x:Name="SearchText" Margin="5" Watermark="{lex:Loc SearchText}" KeyDown="SearchTextKeyDown" />
+        </Grid>
+
+        <ContentControl x:Name="ActiveItem" Grid.Row="1" Margin="5" />
     </Grid>
 </UserControl>

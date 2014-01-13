@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using Castle.Core.Logging;
 using Raven.Client;
+using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
@@ -90,21 +91,35 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="context">The context.</param>
         private void HandleAcceptLanguageHeader(HttpControllerContext context)
         {
-            string language = string.Empty;
-
             //Extract the language, the request language has a higher priority than the user language
             if (this.UserService.GetCurrentUser(false) != null)
             {
-                language = this.UserService.GetCurrentUser().PreferredLanguage;
-            }
-            if (context.Request.Headers.AcceptLanguage != null && context.Request.Headers.AcceptLanguage.Count > 0)
-            {
-                language = context.Request.Headers.AcceptLanguage.First().Value;
+                User currentUser = this.UserService.GetCurrentUser();
+                this.SetLanguage(currentUser);
             }
 
-            //Accept the language if we got one
+            if (context.Request.Headers.AcceptLanguage != null && context.Request.Headers.AcceptLanguage.Count > 0)
+            {
+                string language = context.Request.Headers.AcceptLanguage.First().Value;
+                this.SetLanguage(language);
+            }
+        }
+        /// <summary>
+        /// Sets the language to the preferred language of the <paramref name="user"/>.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        protected void SetLanguage(User user)
+        {
+            this.SetLanguage(user.PreferredLanguage);
+        }
+        /// <summary>
+        /// Sets the language to the specified <paramref name="language"/>.
+        /// </summary>
+        /// <param name="language">The language.</param>
+        protected void SetLanguage(string language)
+        {
             if (string.IsNullOrWhiteSpace(language) == false)
-            { 
+            {
                 var culture = CultureInfo.CreateSpecificCulture(language);
 
                 Thread.CurrentThread.CurrentCulture = culture;

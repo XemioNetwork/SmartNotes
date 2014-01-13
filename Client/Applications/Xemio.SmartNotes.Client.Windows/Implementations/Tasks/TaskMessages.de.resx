@@ -123,4 +123,10 @@
   <data name="ChangeAvatarTaskFailed" xml:space="preserve">
     <value>Fehler beim Ändern des Avatars.</value>
   </data>
+  <data name="CreateFolderTask" xml:space="preserve">
+    <value>Ersteller Ordner...</value>
+  </data>
+  <data name="ErrorInTask" xml:space="preserve">
+    <value>Fehler beim Ausführen.</value>
+  </data>
 </root>

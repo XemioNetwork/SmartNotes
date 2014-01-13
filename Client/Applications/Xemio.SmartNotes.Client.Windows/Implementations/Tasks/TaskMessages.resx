@@ -118,9 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ChangeAvatarTask" xml:space="preserve">
-    <value>Change avatar...</value>
+    <value>Changing avatar...</value>
   </data>
   <data name="ChangeAvatarTaskFailed" xml:space="preserve">
     <value>Error while changing the avatar.</value>
+  </data>
+  <data name="CreateFolderTask" xml:space="preserve">
+    <value>Creating folder...</value>
+  </data>
+  <data name="ErrorInTask" xml:space="preserve">
+    <value>Error while executing.</value>
   </data>
 </root>

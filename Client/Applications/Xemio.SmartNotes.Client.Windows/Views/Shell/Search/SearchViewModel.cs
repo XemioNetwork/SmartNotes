@@ -3,23 +3,32 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
+using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Shared.WebService;
+using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Models.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
 {
-    public class SearchViewModel : Screen
+    public class SearchViewModel : Conductor<Screen>, IHandleWithTask<SuggestionSelectedEvent>
     {
         #region Fields
         private readonly WebServiceClient _client;
 
         private string _searchText;
-        private ObservableCollection<string> _foundNotes;
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets or sets the logger.
+        /// </summary>
+        public ILogger Logger { get; set; }
+        /// <summary>
+        /// Gets or sets the search text.
+        /// </summary>
         public string SearchText
         {
             get { return this._searchText; }
@@ -32,19 +41,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
                 }
             }
         }
-
-        public ObservableCollection<string> FoundNotes
-        {
-            get { return this._foundNotes; }
-            set
-            {
-                if (value != this._foundNotes)
-                {
-                    this._foundNotes = value;
-                    this.NotifyOfPropertyChange(() => this.FoundNotes);
-                }
-            }
-        }
         #endregion
 
         #region Constructors
@@ -52,11 +48,13 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
         /// Initializes a new instance of the <see cref="SearchViewModel"/> class.
         /// </summary>
         /// <param name="client">The client.</param>
-        public SearchViewModel(WebServiceClient client)
+        /// <param name="eventAggregator">The event aggregator.</param>
+        public SearchViewModel(WebServiceClient client, IEventAggregator eventAggregator)
         {
+            this.Logger = NullLogger.Instance;
             this._client = client;
 
-            this.FoundNotes = new ObservableCollection<string>();
+            eventAggregator.Subscribe(this);
         }
         #endregion
 
@@ -64,42 +62,58 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
         /// <summary>
         /// Searches the <see cref="Note"/>s matching the current <see cref="SearchText"/>.
         /// </summary>
-        public async void Search()
+        public async Task Search()
         {
-            HttpResponseMessage response = await this._client.Notes.GetAllNotes(this.SearchText);
-            if (response.StatusCode == HttpStatusCode.Found)
-            {
-                this.FoundNotes.Clear();
+            HttpResponseMessage response = await this._client.Notes.SearchNotes(this.SearchText);
 
-                Note[] notes = await response.Content.ReadAsAsync<Note[]>();
-                foreach (Note note in notes)
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Found:
                 {
-                    this.FoundNotes.Add(string.Format("{0}, {1}", note.Name, note.Content));
+                    var foundNotesViewModel = IoC.Get<FoundNotesViewModel>();
+                    foundNotesViewModel.FoundNotes = await response.Content.ReadAsAsync<BindableCollection<Note>>();
+
+                    this.ActivateItem(foundNotesViewModel);
+                    break;
+                }
+                case HttpStatusCode.SeeOther:
+                {
+                    var suggestionsViewModel = IoC.Get<SuggestionsViewModel>();
+                    suggestionsViewModel.Suggestions = await response.Content.ReadAsAsync<BindableCollection<string>>();
+
+                    this.ActivateItem(suggestionsViewModel);
+                    break;
+                }
+                case HttpStatusCode.NotFound:
+                {
+                    var nothingFoundViewModel = IoC.Get<NothingFoundViewModel>();
+
+                    this.ActivateItem(nothingFoundViewModel);
+                    break;
+                }
+                default:
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    this.Logger.ErrorFormat("Error while searching for notes with searchtext '{0}': {1}", this.SearchText, error);
+
+                    //TODO: Display error to user
+
+                    break;
                 }
             }
-            else if (response.StatusCode == HttpStatusCode.SeeOther)
-            {
-                string[] suggestions = await response.Content.ReadAsAsync<string[]>();
-                
-                var message = new StringBuilder();
-                message.AppendFormat("Es wurden keine Notizen gefunden die '{0}' enthalten.", this.SearchText);
-                message.AppendLine("Meinten Sie vielleicht:");
-                foreach (string suggestion in suggestions)
-                {
-                    message.AppendLine(suggestion);
-                }
+        }
+        #endregion
 
-                MessageBox.Show(message.ToString());
-            }
-            else if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                this.FoundNotes.Clear();
-            }
-            else
-            {
-                string error = await response.Content.ReadAsStringAsync();
-                MessageBox.Show(string.Format("Something went wrong: {0}{1}", Environment.NewLine, error));
-            }
+        #region Implementation of IHandle<SuggestionSelectedEvent>
+        /// <summary>
+        /// Handles the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public async Task Handle(SuggestionSelectedEvent message)
+        {
+            this.SearchText = message.Suggestion;
+
+            await this.Search();
         }
         #endregion
     }

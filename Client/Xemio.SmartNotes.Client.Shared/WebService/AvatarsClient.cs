@@ -33,11 +33,11 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <param name="height">The height.</param>
         public Task<HttpResponseMessage> GetAvatar(int width = 0, int height = 0)
         {
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["width"] = width.ToString();
-            query["height"] = height.ToString();
+            var query = new HttpQueryBuilder();
+            query.AddParameter("width", width);
+            query.AddParameter("height", height);
 
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Avatar?{0}", query));
+            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Avatar{0}", query));
             return this.Client.SendAsync(request);
         }
         /// <summary>

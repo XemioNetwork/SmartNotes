@@ -4,7 +4,7 @@ using Raven.Client.Indexes;
 using Xemio.SmartNotes.Models.Entities.Notes;
 using Xemio.SmartNotes.Models.Models;
 
-namespace Xemio.SmartNotes.Server.Infrastructure.Raven.Indexes
+namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
 {
     /// <summary>
     /// Enables querying for a tag overview.

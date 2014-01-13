@@ -61,7 +61,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change avatar....
+        ///   Looks up a localized string similar to Changing avatar....
         /// </summary>
         internal static string ChangeAvatarTask {
             get {
@@ -75,6 +75,24 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
         internal static string ChangeAvatarTaskFailed {
             get {
                 return ResourceManager.GetString("ChangeAvatarTaskFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating folder....
+        /// </summary>
+        internal static string CreateFolderTask {
+            get {
+                return ResourceManager.GetString("CreateFolderTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while executing..
+        /// </summary>
+        internal static string ErrorInTask {
+            get {
+                return ResourceManager.GetString("ErrorInTask", resourceCulture);
             }
         }
     }

@@ -115,15 +115,18 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\Events\AvatarChangedEvent.cs" />
-    <Compile Include="Data\Events\ChangeContentEvent.cs" />
     <Compile Include="Data\Events\ExecutingTaskEvent.cs" />
     <Compile Include="Data\Events\ExecutedTaskEvent.cs" />
+    <Compile Include="Data\Events\FolderCreatedEvent.cs" />
     <Compile Include="Data\Events\LogoutEvent.cs" />
+    <Compile Include="Data\Events\SelectedFolderEvent.cs" />
+    <Compile Include="Data\Events\SuggestionSelectedEvent.cs" />
     <Compile Include="Data\Exceptions\GenericException.cs" />
     <Compile Include="Extensions\BitmapImageExtensions.cs" />
     <Compile Include="Implementations\Interaction\DisplayManager.cs" />
     <Compile Include="Implementations\Tasks\BaseTask.cs" />
     <Compile Include="Implementations\Tasks\ChangeAvatarTask.cs" />
+    <Compile Include="Implementations\Tasks\CreateFolderTask.cs" />
     <Compile Include="Implementations\Tasks\TaskMessages.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -160,10 +163,20 @@
     <Compile Include="Implementations\Settings\LanguageManager.cs" />
     <Compile Include="Implementations\Tasks\TaskExecutor.cs" />
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
+    <Compile Include="Themes\ValueConverter\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Views\Shell\AllNotes\AllNotesView.xaml.cs">
       <DependentUpon>AllNotesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell\AllNotes\AllNotesViewModel.cs" />
+    <Compile Include="Views\Shell\AllNotes\FolderViewModel.cs" />
+    <Compile Include="Views\Shell\Search\FoundNotesView.xaml.cs">
+      <DependentUpon>FoundNotesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\Search\FoundNotesViewModel.cs" />
+    <Compile Include="Views\Shell\Search\NothingFoundView.xaml.cs">
+      <DependentUpon>NothingFoundView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\Search\NothingFoundViewModel.cs" />
     <Compile Include="Views\Shell\Search\SearchMessages.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -178,6 +191,10 @@
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell\Search\SearchViewModel.cs" />
+    <Compile Include="Views\Shell\Search\SuggestionsView.xaml.cs">
+      <DependentUpon>SuggestionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\Search\SuggestionsViewModel.cs" />
     <Compile Include="Views\Shell\UserSettings\ChangeAvatar\ChangeAvatarView.xaml.cs">
       <DependentUpon>ChangeAvatarView.xaml</DependentUpon>
     </Compile>
@@ -290,6 +307,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\BaseControlStyles\TreeViewItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\NamedStyles\ContentControlRegionStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -314,11 +335,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\ExpandCollapseToggleButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\NamedStyles\HeaderButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\ResourceDictionaries\NamedStyles\LinkButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\LinkTextBlockStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -338,7 +367,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Shell\Search\FoundNotesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Shell\Search\NothingFoundView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Shell\Search\SearchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Shell\Search\SuggestionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

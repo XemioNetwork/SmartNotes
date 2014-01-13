@@ -46,7 +46,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Email
         /// <param name="password">The password.</param>
         public SmtpEmailSender(string host, int port, string username, string password)
         {
-            this._emailQueue = new BackgroundQueue<IEmail>(this.SendMail, this.OnException);
+            this._emailQueue = new BackgroundQueue<IEmail>(this.SendMail);
+            this._emailQueue.UnhandledExceptionEvent += OnException;
             this._smtpClient = new SmtpClient
                                {
                                    Host = host,
@@ -88,16 +89,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Email
                                             message.Subject,
                                             message.Body));
         }
-
         /// <summary>
-        /// Called when an exception happens.
+        /// Called when an exception happens while sending an email.
         /// </summary>
-        /// <param name="item">The item responsible for the exception.</param>
-        /// <param name="exception">The exception.</param>
-        private bool OnException(IEmail item, Exception exception)
+        /// <param name="sender">The sender.</param>
+        /// <param name="backgroundExceptionEventArgs">The background exception event arguments.</param>
+        private void OnException(object sender, BackgroundExceptionEventArgs<IEmail> backgroundExceptionEventArgs)
         {
-            this.Logger.Error("Exception while sending mail.", exception);
-            return true;
+            this.Logger.Error("Exception while sending mail.", backgroundExceptionEventArgs.Exception);
         }
         /// <summary>
         /// Extracts the <see cref="MailMessage"/> from the given <see cref="IEmail"/>.

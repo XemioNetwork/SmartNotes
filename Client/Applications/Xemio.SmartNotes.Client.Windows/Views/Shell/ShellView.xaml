@@ -9,10 +9,7 @@
              mc:Ignorable="d" 
              
              d:DesignWidth="800"
-             d:DesignHeight="600" 
-             
-             MinWidth="800" 
-             MinHeight="600">
+             d:DesignHeight="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
@@ -23,6 +20,10 @@
 
         <!-- The header view -->
         <Grid Grid.Row="0" Background="{StaticResource headerBackgroundBrush}">
+            <Grid.Effect>
+                <DropShadowEffect Color="Gray" BlurRadius="4" Direction="0" ShadowDepth="0" />
+            </Grid.Effect>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -42,8 +43,6 @@
                 <!-- The "Search" button -->
                 <Button x:Name="ShowSearch" Style="{StaticResource HeaderButton}" Content="SUCHE" />
                 <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
-                <!-- For some reason the divider line is not visible, but it is if I add a second one -->
-                
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal">
@@ -71,7 +70,7 @@
         </Grid>
 
         <!-- The current content -->
-        <ContentControl x:Name="CurrentContent" Grid.Row="1" />
+        <ContentControl x:Name="ActiveItem" Grid.Row="1" />
 
         <!-- The Information Bar -->
         <Grid Grid.Row="3" Background="{StaticResource headerBackgroundBrush}">

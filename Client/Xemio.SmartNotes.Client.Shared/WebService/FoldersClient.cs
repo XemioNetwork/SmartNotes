@@ -24,17 +24,27 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         #endregion
 
         #region Implementation of IFoldersController
-
         /// <summary>
         /// Returns all <see cref="Folder"/>s from the given <see cref="User"/>.
         /// </summary>
         /// <param name="parentFolderId">The parent folder id.</param>
         public Task<HttpResponseMessage> GetAllFolders(string parentFolderId)
         {
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["folder"] = parentFolderId;
+            var query = new HttpQueryBuilder();
 
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Folders?{0}", query));
+            if (parentFolderId != null)
+                query.AddParameter("parentFolderId", parentFolderId.GetIntId());
+
+            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Folders{0}", query));
+            return this.Client.SendAsync(request);
+        }
+        /// <summary>
+        /// Returns the folder with the given <paramref name="folderId" />.
+        /// </summary>
+        /// <param name="folderId">The folder identifier.</param>
+        public Task<HttpResponseMessage> GetFolder(string folderId)
+        {
+            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Folders/{0}", folderId.GetIntId()));
             return this.Client.SendAsync(request);
         }
         /// <summary>
@@ -43,6 +53,8 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <param name="folder">The folder.</param>
         public Task<HttpResponseMessage> PostFolder(Folder folder)
         {
+            folder.UserId = this.Session.User.Id;
+
             var request = this.CreateRequest(HttpMethod.Post, "Users/Authorized/Folders", folder);
             return this.Client.SendAsync(request);
         }
@@ -59,9 +71,9 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// Deletes the <see cref="Folder"/>.
         /// </summary>
         /// <param name="folderId">The folder id.</param>
-        public Task<HttpResponseMessage> DeleteFolder(int folderId)
+        public Task<HttpResponseMessage> DeleteFolder(string folderId)
         {
-            var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/Authorized/Folders/{0}", folderId));
+            var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/Authorized/Folders/{0}", folderId.GetIntId()));
             return this.Client.SendAsync(request);
         }
         #endregion

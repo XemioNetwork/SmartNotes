@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authorization\AuthorizationHash.cs" />
+    <Compile Include="Common\BackgroundExceptionEventArgs.cs" />
     <Compile Include="Common\BackgroundQueue.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

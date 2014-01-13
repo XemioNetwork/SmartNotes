@@ -34,35 +34,17 @@ namespace Xemio.SmartNotes.Abstractions.Common
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="BackgroundQueue{T}"/> class.
-        /// </summary>
-        /// <param name="execute">The execute.</param>
-        public BackgroundQueue(Action<T> execute)
-            : this()
-        {
-            this.Execute = execute;
-            this.OnException = this.DefaultOnException;
-        }
-        /// <summary>
         /// Initializes a new instance of the <see cref="BackgroundQueue{T}" /> class.
         /// </summary>
         /// <param name="execute">The execute.</param>
-        /// <param name="onException">The action executed when an exception happened.</param>
-        public BackgroundQueue(Action<T> execute, Func<T, Exception, bool> onException)
-            : this()
-        {
-            this.Execute = execute;
-            this.OnException = onException;
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BackgroundQueue{T}"/> class.
-        /// </summary>
-        private BackgroundQueue()
+        public BackgroundQueue(Action<T> execute)
         {
             this._queue = new ConcurrentQueue<T>();
             this._autoResetEvent = new AutoResetEvent(false);
 
             this._cancellationTokenSource = new CancellationTokenSource();
+
+            this.Execute = execute;
 
             Task.Factory.StartNew(this.ExecuteOnItems, this._cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Current);
         }
@@ -79,6 +61,10 @@ namespace Xemio.SmartNotes.Abstractions.Common
 
             this._autoResetEvent.Set();
         }
+        #endregion
+
+        #region Events
+        public event EventHandler<BackgroundExceptionEventArgs<T>> UnhandledExceptionEvent; 
         #endregion
 
         #region Private Methods
@@ -104,22 +90,19 @@ namespace Xemio.SmartNotes.Abstractions.Common
                     }
                     catch (Exception exception)
                     {
-                        if (this.OnException(item, exception) == false)
+                        if (this.UnhandledExceptionEvent != null)
                         {
-                            this._cancellationTokenSource.Cancel(false);
+                            var eventArgs = new BackgroundExceptionEventArgs<T>(item, exception);
+                            this.UnhandledExceptionEvent(this, eventArgs);
+
+                            if (eventArgs.CancelQueue)
+                            { 
+                                this._cancellationTokenSource.Cancel(false);
+                            }
                         }
                     }
                 }
             }
-        }
-        /// <summary>
-        /// The default method used for OnException.
-        /// </summary>
-        /// <param name="item">The item responsible for the exception.</param>
-        /// <param name="exception">The exception.</param>
-        private bool DefaultOnException(T item, Exception exception)
-        {
-            return true;
         }
         #endregion
 

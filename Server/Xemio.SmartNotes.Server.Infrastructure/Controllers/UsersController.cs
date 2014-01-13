@@ -20,7 +20,6 @@ using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
 using Xemio.SmartNotes.Server.Infrastructure.Properties;
-using Xemio.SmartNotes.Server.Infrastructure.Raven.Indexes;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
@@ -116,7 +115,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         private bool IsUsernameAvailable(string username)
         {
-            return this.DocumentSession.Query<User>().Any(f => f.Username == username) == false;
+            return this.DocumentSession.Query<User>()
+                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+                .Any(f => f.Username == username) == false;
         }
         /// <summary>
         /// Determines whether the given <paramref name="emailAddress"/> is available.
@@ -124,7 +125,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="emailAddress">The email address.</param>
         private bool IsEmailAddressAvailable(string emailAddress)
         {
-            return this.DocumentSession.Query<User>().Any(f => f.EmailAddress == emailAddress) == false;
+            return this.DocumentSession.Query<User>()
+                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+                .Any(f => f.EmailAddress == emailAddress) == false;
         }
         /// <summary>
         /// Gets the user with email address.
@@ -132,7 +135,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="emailAddress">The email address.</param>
         private User GetUserWithEmailAddress(string emailAddress)
         {
-            return this.DocumentSession.Query<User>().FirstOrDefault(f => f.EmailAddress == emailAddress);
+            return this.DocumentSession.Query<User>()
+                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+                .FirstOrDefault(f => f.EmailAddress == emailAddress);
         }
         #endregion
     }

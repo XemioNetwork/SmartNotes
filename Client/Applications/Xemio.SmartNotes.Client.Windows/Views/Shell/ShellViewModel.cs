@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
+using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Abstractions.Tasks;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
@@ -15,26 +16,29 @@ using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.Search;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.UserSettings;
+using Xemio.SmartNotes.Models.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 {
-    public class ShellViewModel : Screen, IHandle<LogoutEvent>, IHandle<ExecutingTaskEvent>, IHandle<ExecutedTaskEvent>
+    public class ShellViewModel : Conductor<Screen>, IHandle<LogoutEvent>, IHandle<ExecutingTaskEvent>, IHandle<ExecutedTaskEvent>, IHandleWithTask<AvatarChangedEvent>
     {
         #region Fields
         private readonly DisplayManager _windowManager;
         private readonly WebServiceClient _webServiceClient;
-        private readonly IEventAggregator _eventAggregator;
 
         private readonly AllNotesViewModel _allNotesViewModel;
         private readonly SearchViewModel _searchViewModel;
         private readonly UserSettingsViewModel _userSettingsViewModel;
 
-        private Screen _currentContent;
         private BitmapImage _userAvatar;
         private string _currentAction;
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets or sets the logger.
+        /// </summary>
+        public ILogger Logger { get; set; }
         /// <summary>
         /// Gets or sets the user avatar.
         /// </summary>
@@ -47,21 +51,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
                 {
                     this._userAvatar = value;
                     this.NotifyOfPropertyChange(() => this.UserAvatar);
-                }
-            }
-        }
-        /// <summary>
-        /// Gets or sets the current screen.
-        /// </summary>
-        public Screen CurrentContent
-        {
-            get { return this._currentContent; }
-            set
-            {
-                if (this._currentContent != value)
-                {
-                    this._currentContent = value;
-                    this.NotifyOfPropertyChange(() => this.CurrentContent);
                 }
             }
         }
@@ -91,28 +80,27 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         /// <param name="eventAggregator">The event aggregator.</param>
         public ShellViewModel(DisplayManager displayManager, WebServiceClient webServiceClient, IEventAggregator eventAggregator)
         {
+            this.Logger = NullLogger.Instance;
             this.DisplayName = "Xemio Notes";
 
             this._windowManager = displayManager;
             this._webServiceClient = webServiceClient;
-            this._eventAggregator = eventAggregator;
 
             this._allNotesViewModel = IoC.Get<AllNotesViewModel>();
             this._searchViewModel = IoC.Get<SearchViewModel>();
             this._userSettingsViewModel = IoC.Get<UserSettingsViewModel>();
-            
-            this._eventAggregator.Subscribe(this);
 
-            this.CurrentContent = this._allNotesViewModel;
+            eventAggregator.Subscribe(this);
         }
         #endregion
 
-        #region Overrides of Screen
+        #region Overrides of Conductor<Screen>
         /// <summary>
-        /// Called when initializing.
+        /// Called when [activate].
         /// </summary>
-        protected override async void OnInitialize()
+        protected override async void OnActivate()
         {
+            this.ActivateItem(this._allNotesViewModel);
             await this.LoadUserAvatar();
         }
         #endregion
@@ -130,21 +118,21 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         /// </summary>
         public void ShowAllNotes()
         {
-            this.CurrentContent = this._allNotesViewModel;
+            this.ActivateItem(this._allNotesViewModel);
         }
         /// <summary>
         /// Shows the search view.
         /// </summary>
         public void ShowSearch()
         {
-            this.CurrentContent = this._searchViewModel;
+            this.ActivateItem(this._searchViewModel);
         }
         /// <summary>
         /// Shows the user settings.
         /// </summary>
         public void ShowUserSettings()
         {
-            this.CurrentContent = this._userSettingsViewModel;
+            this.ActivateItem(this._userSettingsViewModel);
         }
         #endregion
 
@@ -178,6 +166,17 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         public void Handle(ExecutedTaskEvent message)
         {
             this.CurrentAction = string.Empty;
+        }
+        #endregion
+
+        #region Implementation of IHandleWithTask<AvatarChangedEvent>
+        /// <summary>
+        /// Handles the <see cref="AvatarChangedEvent"/>.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public async Task Handle(AvatarChangedEvent message)
+        {
+            await this.LoadUserAvatar();
         }
         #endregion
 

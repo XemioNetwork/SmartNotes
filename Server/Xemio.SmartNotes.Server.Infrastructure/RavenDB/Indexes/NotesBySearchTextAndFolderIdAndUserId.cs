@@ -4,7 +4,7 @@ using Raven.Client.Indexes;
 using Xemio.RavenDB.NGramAnalyzer;
 using Xemio.SmartNotes.Models.Entities.Notes;
 
-namespace Xemio.SmartNotes.Server.Infrastructure.Raven.Indexes
+namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
 {
     /// <summary>
     /// Enables fulltext search for <see cref="Note"/>s.

@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Brushes/DefaultColorTheme.xaml" />
+        <ResourceDictionary Source="LinkTextBlockStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
     <Style x:Key="LinkButtonStyle" TargetType="{x:Type Button}">
@@ -27,23 +28,7 @@
         <Style.Resources>
             <!-- We define a style for all TextBlock elements inside of the button.
                  They will show an underline on mouse over. -->
-            <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="FontSize" Value="12" />
-                <Setter Property="FontFamily" Value="{StaticResource lightFont}" />
-                <Setter Property="Foreground">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource blackColor}" />
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="TextDecorations" Value="Underline" />
-                    </Trigger>
-                    <Trigger Property="IsMouseOver" Value="False">
-                        <Setter Property="TextDecorations" Value="None" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource LinkTextBlockStyle}" />
         </Style.Resources>
     </Style>
     

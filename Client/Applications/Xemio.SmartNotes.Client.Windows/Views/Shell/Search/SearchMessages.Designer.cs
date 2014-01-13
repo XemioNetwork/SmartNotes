@@ -61,6 +61,15 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Did you mean:.
+        /// </summary>
+        public static string DidYouMean {
+            get {
+                return ResourceManager.GetString("DidYouMean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A tag, name or the content....
         /// </summary>
         public static string SearchText {

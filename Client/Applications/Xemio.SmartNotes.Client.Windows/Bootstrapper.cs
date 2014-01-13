@@ -135,13 +135,12 @@ namespace Xemio.SmartNotes.Client.Windows
         /// </summary>
         private bool ShowLoginView()
         {
-            var loginViewModel = this._container.Resolve<LoginViewModel>();
-
             var windowManager = this._container.Resolve<IWindowManager>();
 
             dynamic settings = new ExpandoObject();
             settings.ResizeMode = ResizeMode.CanMinimize;
 
+            var loginViewModel = this._container.Resolve<LoginViewModel>();
             bool? loggedIn = windowManager.ShowDialog(loginViewModel, null, settings);
 
             return loggedIn.HasValue && loggedIn.Value;
@@ -153,8 +152,15 @@ namespace Xemio.SmartNotes.Client.Windows
         {
             var windowManager = this._container.Resolve<IWindowManager>();
 
+            dynamic settings = new ExpandoObject();
+            settings.MinWidth = 800;
+            settings.MinHeight = 600;
+            settings.Width = 800;
+            settings.Height = 600;
+            settings.SizeToContent = SizeToContent.Manual;
+
             var shellViewModel = this._container.Resolve<ShellViewModel>();
-            bool? loggedOut = windowManager.ShowDialog(shellViewModel);
+            bool? loggedOut = windowManager.ShowDialog(shellViewModel, null, settings);
 
             return loggedOut.HasValue && loggedOut.Value;
         }

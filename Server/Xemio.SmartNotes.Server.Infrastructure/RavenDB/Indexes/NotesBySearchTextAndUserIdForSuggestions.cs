@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 using Xemio.SmartNotes.Models.Entities.Notes;
 
-namespace Xemio.SmartNotes.Server.Infrastructure.Raven.Indexes
+namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
 {
     /// <summary>
     /// Enables suggestions for <see cref="Note"/>s.

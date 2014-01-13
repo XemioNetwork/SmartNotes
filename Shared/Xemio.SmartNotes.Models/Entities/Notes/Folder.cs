@@ -28,10 +28,6 @@ namespace Xemio.SmartNotes.Models.Entities.Notes
         /// </summary>
         public ICollection<string> Tags { get; set; }
         /// <summary>
-        /// Gets or sets the parent folder tags.
-        /// </summary>
-        public ICollection<string> ParentFolderHierarchy { get; set; }
-        /// <summary>
         /// Gets or sets the user id.
         /// </summary>
         public string UserId { get; set; }

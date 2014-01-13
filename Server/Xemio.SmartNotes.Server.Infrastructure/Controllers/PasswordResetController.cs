@@ -60,6 +60,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 throw new InvalidRequestException();
 
             User user = this.GetUser(data.UsernameOrEmailAddress);
+            
+            //We have to set the language here because it's a request without authorization.
+            //Because of that we haven't set the language yet and do it now.
+            this.SetLanguage(user);
 
             var passwordReset = new PasswordReset
                                 {
@@ -89,7 +93,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             var passwordReset =  this.DocumentSession
                 .Query<PasswordReset>()
-                .Include<PasswordReset>(f => f.UserId)
+                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+                .Include(f => f.UserId)
                 .FirstOrDefault(f => f.Secret == secret);
 
             if (passwordReset == null)
@@ -102,6 +107,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 throw new PasswordResetTimedOutException();
 
             var user = this.DocumentSession.Load<User>(passwordReset.UserId);
+
+            //We have to set the language here because it's a request without authorization.
+            //Because of that we haven't set the language yet and do it now.
+            this.SetLanguage(user);
 
             string newPassword = this._secretGenerator.Generate(16);
             user.AuthorizationHash = AuthorizationHash.CreateBaseHash(user.Username, newPassword);

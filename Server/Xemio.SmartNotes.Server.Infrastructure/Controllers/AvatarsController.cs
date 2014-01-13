@@ -49,7 +49,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         public HttpResponseMessage GetAvatar(int width = 0, int height = 0)
         {
             User currentUser = this.UserService.GetCurrentUser();
-            Attachment avatarData = this.DocumentStore.DatabaseCommands.GetAttachment(currentUser.Id += AvatarSuffix);
+            Attachment avatarData = this.DocumentStore.DatabaseCommands.GetAttachment(currentUser.Id + AvatarSuffix);
 
             Stream avatarStream = avatarData != null ? avatarData.Data() : AssemblyResources.DefaultAvatar.ToPngStream();
 
@@ -74,7 +74,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             User currentUser = this.UserService.GetCurrentUser();
 
-            this.DocumentStore.DatabaseCommands.PutAttachment(currentUser.Id += AvatarSuffix, null, new MemoryStream(avatar.AvatarBytes), null);
+            this.DocumentStore.DatabaseCommands.PutAttachment(currentUser.Id + AvatarSuffix, null, new MemoryStream(avatar.AvatarBytes), null);
 
             this.Logger.DebugFormat("Updated avatar of user '{0}'.", currentUser.Id);
 

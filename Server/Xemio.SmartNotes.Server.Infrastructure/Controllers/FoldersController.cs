@@ -47,15 +47,33 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="parentFolderId">The parent folder id.</param>
         [Route("Folders")]
         [RequiresAuthorization]
-        public HttpResponseMessage GetAllFolders(string parentFolderId)
+        public HttpResponseMessage GetAllFolders(int parentFolderId = 0)
         {
             User currentUser = this.UserService.GetCurrentUser();
 
+            string parentFolderStringId = parentFolderId > 0
+                ? this.DocumentSession.Advanced.GetStringIdFor<Folder>(parentFolderId)
+                : null;
+
             var folders = this.DocumentSession.Query<Folder>()
-                                              .Where(f => f.UserId == currentUser.Id && f.ParentFolderId == parentFolderId)
+                                              .Where(f => f.UserId == currentUser.Id && f.ParentFolderId == parentFolderStringId)
                                               .ToList();
 
             return Request.CreateResponse(HttpStatusCode.Found, folders);
+        }
+        /// <summary>
+        /// Gets the folder.
+        /// </summary>
+        /// <param name="folderId">The folder identifier.</param>
+        [Route("Folders/{folderId:int}")]
+        [RequiresAuthorization]
+        public HttpResponseMessage GetFolder(int folderId)
+        {
+            if (this._rightsService.CanCurrentUserAccessFolder(folderId, false) == false)
+                throw new UnauthorizedException();
+
+            var folder = this.DocumentSession.Load<Folder>(folderId);
+            return Request.CreateResponse(HttpStatusCode.Found, folder);
         }
         /// <summary>
         /// Creates a new folder.
@@ -131,7 +149,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Deletes the folder.
         /// </summary>
-        /// <param name="userId">The user id.</param>
         /// <param name="folderId">The folder id.</param>
         [Route("Folders/{folderId:int}")]
         [RequiresAuthorization]

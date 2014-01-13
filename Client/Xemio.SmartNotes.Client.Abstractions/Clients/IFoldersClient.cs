@@ -14,6 +14,12 @@ namespace Xemio.SmartNotes.Client.Abstractions.Clients
         Task<HttpResponseMessage> GetAllFolders(string parentFolderId);
 
         /// <summary>
+        /// Returns the folder with the given <paramref name="folderId"/>.
+        /// </summary>
+        /// <param name="folderId">The folder identifier.</param>
+        Task<HttpResponseMessage> GetFolder(string folderId);
+
+        /// <summary>
         /// Creates a new <see cref="Folder"/>.
         /// </summary>
         /// <param name="folder">The folder.</param>
@@ -29,6 +35,6 @@ namespace Xemio.SmartNotes.Client.Abstractions.Clients
         /// Deletes the <see cref="Folder"/>.
         /// </summary>
         /// <param name="folderId">The folder id.</param>
-        Task<HttpResponseMessage> DeleteFolder(int folderId);
+        Task<HttpResponseMessage> DeleteFolder(string folderId);
     }
 }

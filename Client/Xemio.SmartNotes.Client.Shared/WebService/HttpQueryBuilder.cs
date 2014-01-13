@@ -17,8 +17,8 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
 
         public void AddParameter(string key, object value)
         {
-            if (this._queryStringBuilder.Length > 0)
-                this._queryStringBuilder.Append("&");
+            bool firstParameter = this._queryStringBuilder.Length == 0;
+            this._queryStringBuilder.Append(firstParameter ? "?" : "&");
 
             this._queryStringBuilder.AppendFormat("{0}={1}", key, value);
         }

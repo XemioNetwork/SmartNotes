@@ -11,6 +11,7 @@
         <ResourceDictionary Source="BaseControlStyles/GroupBoxStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/LabelStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/PasswordBoxStyle.xaml" />
+        <ResourceDictionary Source="BaseControlStyles/TreeViewItemStyle.xaml" />
 
         <!-- Named Styles -->
         <ResourceDictionary Source="NamedStyles/ContentControlRegionStyle.xaml" />

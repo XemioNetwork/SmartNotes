@@ -27,19 +27,6 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         private BitmapImage _newAvatar;
         #endregion
 
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ChangeAvatarTask"/> class.
-        /// </summary>
-        /// <param name="eventAggregator">The event aggregator.</param>
-        /// <param name="webServiceClient">The web service client.</param>
-        public ChangeAvatarTask(IEventAggregator eventAggregator, WebServiceClient webServiceClient)
-        {
-            this._eventAggregator = eventAggregator;
-            this._webServiceClient = webServiceClient;
-        }
-        #endregion
-
         #region Properties
         /// <summary>
         /// Gets or sets the new avatar.
@@ -54,6 +41,19 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 
                 this._newAvatar = value;
             }
+        }
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChangeAvatarTask"/> class.
+        /// </summary>
+        /// <param name="eventAggregator">The event aggregator.</param>
+        /// <param name="webServiceClient">The web service client.</param>
+        public ChangeAvatarTask(IEventAggregator eventAggregator, WebServiceClient webServiceClient)
+        {
+            this._eventAggregator = eventAggregator;
+            this._webServiceClient = webServiceClient;
         }
         #endregion
 
@@ -84,6 +84,9 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
                 }
                 else
                 {
+                    string message = await response.Content.ReadAsStringAsync();
+                    this.Logger.Error(message);
+
                     throw new GenericException(TaskMessages.ChangeAvatarTaskFailed);
                 }
             }

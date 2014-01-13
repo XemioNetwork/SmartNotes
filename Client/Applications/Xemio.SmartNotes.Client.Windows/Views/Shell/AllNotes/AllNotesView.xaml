@@ -11,6 +11,36 @@
              
              Background="White">
     <Grid>
-
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStop Offset="0.0" Color="{StaticResource blackColor}" />
+                        <GradientStop Offset="1.0" Color="#3A3A3A" />
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+        
+        <TreeView x:Name="Folders" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Stretch" BorderThickness="0, 0, 1, 0">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding SubFolders}">
+                    <TextBlock Text="{Binding Name}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        
+        <Button x:Name="CreateNewSubFolder" Grid.Row="0" Grid.Column="0" Content="Button" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Width="76" Height="30"/>
     </Grid>
 </UserControl>

@@ -15,7 +15,7 @@ using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
-using Xemio.SmartNotes.Server.Infrastructure.Raven.Indexes;
+using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
