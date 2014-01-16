@@ -4,7 +4,7 @@
         <ResourceDictionary Source="../Brushes/DefaultColorTheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="LinkTextBlockStyle" TargetType="{x:Type TextBlock}">
+    <Style x:Key="LinkTextBlock" TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontFamily" Value="{StaticResource lightFont}" />
         <Setter Property="Foreground">

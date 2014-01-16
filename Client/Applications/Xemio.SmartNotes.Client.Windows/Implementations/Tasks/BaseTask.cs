@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Abstractions.Tasks;
+using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
     /// <summary>
     /// A base class for the <see cref="ITask"/> interface providing a <see cref="ILogger"/>.
+    /// Tasks should throw in property setters to avoid wrong values.
+    /// If something goes wrong while executing the task, log and throw an <see cref="GenericException"/>.
     /// </summary>
     public abstract class BaseTask : ITask
     {

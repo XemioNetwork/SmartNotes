@@ -151,7 +151,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                 this.SubFolders.AddRange(folders.Select(f =>
                 {
                     var viewModel = IoC.Get<FolderViewModel>();
-                    //We need to use "Wait" here because we can't use async-await in LINQ lambdas
                     viewModel.Initialize(f, false);
 
                     return viewModel;
@@ -159,8 +158,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this.Logger.ErrorFormat("Error while loading subfolders from folder '{0}': {1}", this.FolderId, message);
+                string error = await response.Content.ReadAsStringAsync();
+                this.Logger.ErrorFormat("Error while loading subfolders from folder '{0}': {1}", this.FolderId, error);
+
+                //TODO: Display error to user
             }
         }
         #endregion

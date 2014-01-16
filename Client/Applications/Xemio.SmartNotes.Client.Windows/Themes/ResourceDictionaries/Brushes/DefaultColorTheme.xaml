@@ -19,11 +19,6 @@
     
     <Color x:Key="blackColor" A="255" R="91" G="81" B="71" />
     <Color x:Key="grayColor" A="255" R="141" G="128" B="112" />
-
-    <!-- Fonts -->
-    <FontFamily x:Key="lightFont">/Xemio.SmartNotes.Client.Shared;Component/Resources/Fonts/#Open Sans Light</FontFamily>
-    <FontFamily x:Key="semiBoldFont">/Xemio.SmartNotes.Client.Shared;Component/Resources/Fonts/#Open Sans Semibold</FontFamily>
-    <FontFamily x:Key="boldFont">/Xemio.SmartNotes.Client.Shared;Component/Resources/Fonts/#Open Sans Bold</FontFamily>
     
     <!-- Brushes -->
     <LinearGradientBrush x:Key="dividerBrush" StartPoint="0, 0" EndPoint="0, 1">
@@ -36,8 +31,15 @@
         <GradientStop Offset="1" Color="#E5E5E5" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="subHeaderBackgroundBrush"  StartPoint="0, 0" EndPoint="0, 1">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="{StaticResource blackColor}" />
+            <GradientStop Offset="1.0" Color="#3A3A3A" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+    
     <SolidColorBrush x:Key="blueColorBrush" Color="{StaticResource blueColor}" />
-    <SolidColorBrush x:Key="ligherBlueColorBrush" Color="{StaticResource lighterBlueColor}" />
+    <SolidColorBrush x:Key="lighterBlueColorBrush" Color="{StaticResource lighterBlueColor}" />
     <SolidColorBrush x:Key="darkerBlueColorBrush" Color="{StaticResource darkerBlueColor}" />
     <SolidColorBrush x:Key="desaturatedBlueColorBrush" Color="{StaticResource desaturatedBlueColor}" />
 
@@ -52,5 +54,10 @@
     
     <SolidColorBrush x:Key="blackColorBrush" Color="{StaticResource blackColor}" />
     <SolidColorBrush x:Key="grayColorBrush" Color="{StaticResource grayColor}" />
+
+    <!-- Fonts -->
+    <FontFamily x:Key="lightFont">/Xemio.SmartNotes.Client.Shared;Component/Resources/Fonts/#Open Sans Light</FontFamily>
+    <FontFamily x:Key="semiBoldFont">/Xemio.SmartNotes.Client.Shared;Component/Resources/Fonts/#Open Sans Semibold</FontFamily>
+    <FontFamily x:Key="boldFont">/Xemio.SmartNotes.Client.Shared;Component/Resources/Fonts/#Open Sans Bold</FontFamily>
 
 </ResourceDictionary>

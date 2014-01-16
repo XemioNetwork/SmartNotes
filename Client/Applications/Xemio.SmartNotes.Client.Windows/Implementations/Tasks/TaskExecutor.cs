@@ -90,6 +90,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 
             if (eventArgs.Exception is GenericException)
             {
+                //TODO: Display error to user
                 this._displayManager.Messages.ShowMessageBox(eventArgs.Exception.Message, TaskMessages.ErrorInTask, MessageBoxButton.OK);
             }
         }

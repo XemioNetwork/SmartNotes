@@ -22,16 +22,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
-                    <LinearGradientBrush.GradientStops>
-                        <GradientStop Offset="0.0" Color="{StaticResource blackColor}" />
-                        <GradientStop Offset="1.0" Color="#3A3A3A" />
-                    </LinearGradientBrush.GradientStops>
-                </LinearGradientBrush>
-            </Grid.Background>
-
+        <Grid Grid.Row="0" Background="{StaticResource subHeaderBackgroundBrush}">
             <controls:WatermarkTextBox x:Name="SearchText" Margin="5" Watermark="{lex:Loc SearchText}" KeyDown="SearchTextKeyDown" />
         </Grid>
 

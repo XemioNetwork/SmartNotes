@@ -307,11 +307,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\ResourceDictionaries\BaseControlStyles\TreeViewItemStyle.xaml">
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\GroupTreeViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ResourceDictionaries\NamedStyles\ContentControlRegionStyle.xaml">
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\RegionContentControlStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -335,10 +335,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\ResourceDictionaries\NamedStyles\ExpandCollapseToggleButtonStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\ResourceDictionaries\NamedStyles\HeaderButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -356,6 +352,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\ResourceDictionaries\NamedStyles\RedButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\SubHeaderButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

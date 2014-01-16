@@ -58,19 +58,19 @@
             </Grid.ColumnDefinitions>
 
             <!-- The register button -->
-            <Button x:Name="Register" Grid.Column="0" Style="{StaticResource LinkButtonStyle}">
+            <Button x:Name="Register" Grid.Column="0" Style="{StaticResource LinkButton}">
                 <TextBlock Text="{lex:Loc Register}" />
             </Button>
             
             <!-- The forgot password button -->
-            <Button x:Name="ForgotPassword" Grid.Column="1" Style="{StaticResource LinkButtonStyle}">
+            <Button x:Name="ForgotPassword" Grid.Column="1" Style="{StaticResource LinkButton}">
                 <TextBlock Text="{lex:Loc ForgotPassword}" />
             </Button>
             
             <!-- The language button -->
             <ToggleButton x:Name="ChangeLanguage" 
                           Grid.Column="2" 
-                          Style="{StaticResource LinkToggleButtonStyle}"
+                          Style="{StaticResource LinkToggleButton}"
                           IsChecked="{Binding IsOpen, ElementName=languagePopup, Mode=TwoWay}">
                 <TextBlock Text="{lex:Loc Language}" />
             </ToggleButton>

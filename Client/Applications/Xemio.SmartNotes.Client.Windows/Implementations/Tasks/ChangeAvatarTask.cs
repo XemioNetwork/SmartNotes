@@ -84,8 +84,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
                 }
                 else
                 {
-                    string message = await response.Content.ReadAsStringAsync();
-                    this.Logger.Error(message);
+                    string error = await response.Content.ReadAsStringAsync();
+                    this.Logger.ErrorFormat("Error while changing avatar from user '{0}': {1}", this._webServiceClient.Session.User.Id, error);
 
                     throw new GenericException(TaskMessages.ChangeAvatarTaskFailed);
                 }

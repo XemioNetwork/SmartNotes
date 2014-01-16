@@ -29,7 +29,7 @@
         </ScrollViewer>
         
         <Label Content="User Settings" HorizontalAlignment="Left" Margin="98,106,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="Logout" Style="{StaticResource RedButtonStyle}" Content="Logout" HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top" Width="91" Height="42"/>
+        <Button x:Name="Logout" Style="{StaticResource RedButton}" Content="Logout" HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top" Width="91" Height="42"/>
 
     </Grid>
 </UserControl>

@@ -4,7 +4,7 @@
         <ResourceDictionary Source="../Brushes/DefaultColorTheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
-    <Style TargetType="{x:Type ContentControl}" x:Key="RegionContentControlStyle">
+    <Style TargetType="{x:Type ContentControl}" x:Key="RegionContentControl">
         <Setter Property="Background" Value="White" />
         <Setter Property="Padding" Value="4" />
         <Setter Property="Template">

@@ -4,7 +4,7 @@
         <ResourceDictionary Source="../Brushes/DefaultColorTheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type Button}" x:Key="RedButtonStyle">
+    <Style TargetType="{x:Type Button}" x:Key="RedButton">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="BorderThickness" Value="0" />

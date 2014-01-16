@@ -78,7 +78,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// <summary>
         /// Handles the <see cref="FolderCreatedEvent"/>.
         /// </summary>
-        /// <param name="message">The selectedFolderEvent.</param>
+        /// <param name="message">The FolderCreatedEvent.</param>
         public void Handle(FolderCreatedEvent message)
         {
             var folderViewModel = IoC.Get<FolderViewModel>();
@@ -91,7 +91,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
             else
             {
-                //We search for it's parent folder and add it to his SubFolders
+                //We search for its parent folder and add it to its SubFolders
                 FolderViewModel parentFolder = this.GetAllFolders().FirstOrDefault(f => f.FolderId == message.Folder.ParentFolderId);
                 if (parentFolder != null)
                 {
@@ -105,7 +105,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// <summary>
         /// Handles the <see cref="SelectedFolderEvent"/>.
         /// </summary>
-        /// <param name="selectedFolderEvent">The selectedFolderEvent.</param>
+        /// <param name="selectedFolderEvent">The SelectedFolderEvent.</param>
         public async Task Handle(SelectedFolderEvent selectedFolderEvent)
         {
             HttpResponseMessage response = await this._client.Notes.GetAllNotes(selectedFolderEvent.FolderId);
@@ -146,6 +146,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             {
                 string message = await response.Content.ReadAsStringAsync();
                 this.Logger.ErrorFormat("Error while loading all folders: {0}", message);
+
+                //TODO: Display error to user
             }
         }
         /// <summary>

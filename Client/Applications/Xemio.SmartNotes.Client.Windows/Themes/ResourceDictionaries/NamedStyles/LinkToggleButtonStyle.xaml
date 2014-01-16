@@ -5,7 +5,7 @@
         <ResourceDictionary Source="LinkTextBlockStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="LinkToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="LinkToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -28,7 +28,7 @@
         <Style.Resources>
             <!-- We define a style for all TextBlock elements inside of the button.
                  They will show an underline on mouse over. -->
-            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource LinkTextBlockStyle}" />
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource LinkTextBlock}" />
         </Style.Resources>
     </Style>
     

@@ -197,6 +197,13 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 
                 this.UserAvatar = image;
             }
+            else
+            {
+                string error = await response.Content.ReadAsStringAsync();
+                this.Logger.ErrorFormat("Error while loading avatar from user '{0}': {1}", this._webServiceClient.Session.User.Id, error);
+
+                //TODO: Display error to user
+            }
         }
         #endregion
     }
