@@ -13,9 +13,9 @@
     <Grid>
         
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="3" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" MinWidth="160" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" MinWidth="200" />
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
@@ -26,7 +26,7 @@
         <!-- The background for the items list -->
         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource subHeaderBackgroundBrush}" />
 
-        <!-- The buttons above the Group tree -->
+        <!-- The buttons above the group tree -->
         <Grid Grid.Row="0" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -38,18 +38,21 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Style="{StaticResource SubHeaderButton}" Foreground="White" FontSize="20" Content="+" />
+            <Button x:Name="AddGroup" Grid.Column="0" Style="{StaticResource SubHeaderButton}" Foreground="White" FontSize="20" Content="+" />
             <Line Grid.Column="1" Style="{StaticResource DividerLine}" Y1="0" Y2="40" />
         </Grid>
 
         <!-- The group tree -->
-        <TreeView x:Name="Folders" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Stretch" BorderThickness="0, 0, 1, 0" Style="{StaticResource GroupTreeView}">
+        <TreeView x:Name="Folders" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Stretch" BorderThickness="0" BorderBrush="{StaticResource grayColorBrush}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding SubFolders}">
                     <TextBlock Text="{Binding Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
+
+        <!-- The splitter -->
+        <GridSplitter Grid.Row="1" Grid.Column="1"  Width="5" ResizeBehavior="PreviousAndNext" BorderBrush="Transparent" />
         
     </Grid>
 </UserControl>

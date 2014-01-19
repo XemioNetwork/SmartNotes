@@ -61,6 +61,21 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         {
             this._taskQueue.Enqueue(task);
         }
+        /// <summary>
+        /// Determines whether this instance has tasks.
+        /// </summary>
+        public bool HasTasks()
+        {
+            //We have tasks in the queue or we are executing a task
+            return this._taskQueue.Count > 0 || this.CurrentTask != null;
+        }
+        /// <summary>
+        /// Cancels the execution.
+        /// </summary>
+        public void CancelExecution()
+        {
+            this._taskQueue.Dispose();
+        }
         #endregion
 
         #region Private Methods
@@ -75,6 +90,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 
             task.Execute().Wait();
 
+            this.CurrentTask = null;
             this._eventAggregator.Publish(new ExecutedTaskEvent(task));
         }
         /// <summary>

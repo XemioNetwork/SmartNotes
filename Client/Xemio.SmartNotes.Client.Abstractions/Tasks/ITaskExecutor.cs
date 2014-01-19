@@ -17,5 +17,13 @@ namespace Xemio.SmartNotes.Client.Abstractions.Tasks
         /// </summary>
         /// <param name="task">The task.</param>
         void StartTask(ITask task);
+        /// <summary>
+        /// Determines whether this instance has tasks.
+        /// </summary>
+        bool HasTasks();
+        /// <summary>
+        /// Cancels the execution.
+        /// </summary>
+        void CancelExecution();
     }
 }

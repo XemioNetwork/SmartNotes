@@ -67,13 +67,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
                 {
                     ConnectionStringName = ConnectionStringName,
                     UseEmbeddedHttpServer = true
-                };
+                }; 
+
 
                 var catalog = new AggregateCatalog();
                 catalog.Catalogs.Add(new AssemblyCatalog(typeof(CascadeDeleteTrigger).Assembly));
                 catalog.Catalogs.Add(new AssemblyCatalog(typeof(NGramAnalyzer).Assembly));
                 //Add other catalogs here
-                store.DocumentDatabase.Configuration.Catalog.Catalogs.Add(catalog);
+                store.Configuration.Catalog.Catalogs.Add(catalog);
                 
                 store.Initialize();
 

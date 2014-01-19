@@ -27,9 +27,12 @@ namespace Xemio.SmartNotes.Abstractions.Common
         /// </summary>
         public Action<T> Execute { get; private set; }
         /// <summary>
-        /// Gets the action executed when an exception happened.
+        /// Gets the count.
         /// </summary>
-        public Func<T, Exception, bool> OnException { get; private set; }
+        public int Count
+        {
+            get { return this._queue.Count; }
+        }
         #endregion
 
         #region Constructors

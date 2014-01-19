@@ -64,6 +64,14 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         }
         #endregion
 
+        #region Methods
+
+        public void AddGroup()
+        {
+            this._taskExecutor.StartTask(new DelayedTask(5000));
+        }
+        #endregion
+
         #region Overrides of Screen
         /// <summary>
         /// Called when initializing.
@@ -169,6 +177,29 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             return allSubFolders;
         }
+        #endregion
+    }
+
+    public class DelayedTask : ITask
+    {
+        private readonly int _amount;
+
+        public DelayedTask(int amount)
+        {
+            _amount = amount;
+        }
+
+        #region Implementation of ITask
+
+        public string DisplayName
+        {
+            get { return "Delay"; }
+        }
+        public async Task Execute()
+        {
+            await Task.Delay(this._amount);
+        }
+
         #endregion
     }
 }

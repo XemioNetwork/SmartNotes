@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Castle.Core.Logging;
@@ -25,6 +26,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         #region Fields
         private readonly DisplayManager _windowManager;
         private readonly WebServiceClient _webServiceClient;
+        private readonly ITaskExecutor _taskExecutor;
 
         private readonly AllNotesViewModel _allNotesViewModel;
         private readonly SearchViewModel _searchViewModel;
@@ -78,13 +80,15 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         /// <param name="displayManager">The display manager.</param>
         /// <param name="webServiceClient">The webservice client.</param>
         /// <param name="eventAggregator">The event aggregator.</param>
-        public ShellViewModel(DisplayManager displayManager, WebServiceClient webServiceClient, IEventAggregator eventAggregator)
+        /// <param name="taskExecutor">The task executor.</param>
+        public ShellViewModel(DisplayManager displayManager, WebServiceClient webServiceClient, IEventAggregator eventAggregator, ITaskExecutor taskExecutor)
         {
             this.Logger = NullLogger.Instance;
             this.DisplayName = "Xemio Notes";
 
             this._windowManager = displayManager;
             this._webServiceClient = webServiceClient;
+            this._taskExecutor = taskExecutor;
 
             this._allNotesViewModel = IoC.Get<AllNotesViewModel>();
             this._searchViewModel = IoC.Get<SearchViewModel>();
@@ -103,6 +107,27 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
             this.ActivateItem(this._allNotesViewModel);
             await this.LoadUserAvatar();
         }
+
+        public override void CanClose(Action<bool> callback)
+        {
+            if (this._taskExecutor.HasTasks() == false)
+            {
+                callback(true);
+                return;
+            }
+
+            MessageBoxResult result = this._windowManager.Messages.ShowMessageBox("Es gibt noch Tasks die ausgeführt werden müssen, möchten Sie das Programm wirklich beenden?", "Beenden?", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            { 
+                this._taskExecutor.CancelExecution();
+                callback(true);
+            }
+            else
+            {
+                callback(false);
+            }
+        }
+
         #endregion
 
         #region Methods

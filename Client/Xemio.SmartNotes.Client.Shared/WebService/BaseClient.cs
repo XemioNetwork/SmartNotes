@@ -12,7 +12,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
     /// <summary>
     /// A base class for all webservice clients.
     /// </summary>
-    public abstract class BaseClient
+    public abstract class BaseClient : IDisposable
     {
         #region Properties
         /// <summary>
@@ -67,6 +67,16 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
             request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(Thread.CurrentThread.CurrentUICulture.Name));
 
             return request;
+        }
+        #endregion
+
+        #region Implementation of IDisposable
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Client.Dispose();
         }
         #endregion
     }
