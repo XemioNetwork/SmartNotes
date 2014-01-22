@@ -12,11 +12,11 @@
                 <ControlTemplate TargetType="{x:Type ContentControl}">
                     
                     <Border Background="{TemplateBinding Background}" CornerRadius="2" Margin="{TemplateBinding Padding}" >
-                        
+
                         <Border.Effect>
                             <DropShadowEffect Color="Gray" BlurRadius="4" Direction="0" ShadowDepth="0" />
                         </Border.Effect>
-
+                        
                         <ContentPresenter
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"

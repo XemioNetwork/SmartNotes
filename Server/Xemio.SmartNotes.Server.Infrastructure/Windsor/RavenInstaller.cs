@@ -61,6 +61,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
             if (this.HasConnectionString() == false)
                 throw new ConfigurationErrorsException(string.Format("No connection string for RavenDB was found. {0}Make sure you have a 'RavenDB' connection string in the app.config", Environment.NewLine));
 
+            //We support the RavenDB embedded version
             if (this.IsEmbeddedConnectionString())
             {
                 var store = new EmbeddableDocumentStore
@@ -69,16 +70,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
                     UseEmbeddedHttpServer = true
                 }; 
 
-
                 var catalog = new AggregateCatalog();
                 catalog.Catalogs.Add(new AssemblyCatalog(typeof(CascadeDeleteTrigger).Assembly));
                 catalog.Catalogs.Add(new AssemblyCatalog(typeof(NGramAnalyzer).Assembly));
                 //Add other catalogs here
                 store.Configuration.Catalog.Catalogs.Add(catalog);
                 
-                store.Initialize();
-
-                return store;
+                return store.Initialize();
             }
             else 
             { 
@@ -103,7 +101,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         {
             var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringName].ConnectionString.ToLower();
 
-            return connectionString.Contains("datadir") && connectionString.Contains("url") == false;
+            return connectionString.Contains("datadir") && 
+                   connectionString.Contains("url") == false;
         }
         #endregion
     }

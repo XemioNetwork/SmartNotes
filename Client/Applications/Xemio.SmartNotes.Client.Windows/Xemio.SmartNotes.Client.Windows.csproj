@@ -164,6 +164,15 @@
     <Compile Include="Implementations\Tasks\TaskExecutor.cs" />
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
     <Compile Include="Themes\ValueConverter\LeftMarginMultiplierConverter.cs" />
+    <Compile Include="Views\CreateFolder\CreateFolderMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CreateFolderMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateFolder\CreateFolderView.xaml.cs">
+      <DependentUpon>CreateFolderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateFolder\CreateFolderViewModel.cs" />
     <Compile Include="Views\Shell\AllNotes\AllNotesView.xaml.cs">
       <DependentUpon>AllNotesView.xaml</DependentUpon>
     </Compile>
@@ -379,6 +388,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\CreateFolder\CreateFolderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Shell\AllNotes\AllNotesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -465,6 +478,11 @@
     <EmbeddedResource Include="Themes\Native\ExceptionMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CreateFolder\CreateFolderMessages.de.resx" />
+    <EmbeddedResource Include="Views\CreateFolder\CreateFolderMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CreateFolderMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Login\LoginMessages.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Castle.Core.Logging;
 using Xemio.CommonLibrary.Security;
 using Xemio.SmartNotes.Client.Abstractions.Tasks;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
+using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
+using Xemio.SmartNotes.Client.Windows.Views.CreateFolder;
 using Xemio.SmartNotes.Models.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
@@ -19,6 +23,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
     {
         #region Fields
         private readonly WebServiceClient _client;
+        private readonly DisplayManager _displayManager;
         private readonly ITaskExecutor _taskExecutor;
 
         private BindableCollection<FolderViewModel> _folders;
@@ -51,13 +56,15 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// Initializes a new instance of the <see cref="AllNotesViewModel"/> class.
         /// </summary>
         /// <param name="client">The client.</param>
+        /// <param name="displayManager">The display manager.</param>
         /// <param name="taskExecutor">The task executor.</param>
         /// <param name="eventAggregator">The selectedFolderEvent aggregator.</param>
-        public AllNotesViewModel(WebServiceClient client, ITaskExecutor taskExecutor, IEventAggregator eventAggregator)
+        public AllNotesViewModel(WebServiceClient client, DisplayManager displayManager, ITaskExecutor taskExecutor, IEventAggregator eventAggregator)
         {
             this.Logger = NullLogger.Instance;
 
             this._client = client;
+            this._displayManager = displayManager;
             this._taskExecutor = taskExecutor;
             
             eventAggregator.Subscribe(this);
@@ -65,10 +72,28 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         #endregion
 
         #region Methods
-
-        public void AddGroup()
+        public void CreateRootFolder()
         {
-            this._taskExecutor.StartTask(new DelayedTask(5000));
+            var createFolderViewModel = IoC.Get<CreateFolderViewModel>();
+            
+            dynamic settings = new ExpandoObject();
+            settings.ResizeMode = ResizeMode.CanMinimize;
+
+            this._displayManager.Windows.ShowDialog(createFolderViewModel, null, settings);
+        }
+        public void CreateFolder()
+        {
+            FolderViewModel selectedFolder = this.GetAllFolders().SingleOrDefault(f => f.IsSelected);
+            if (selectedFolder == null)
+                return;
+
+            var createFolderViewModel = IoC.Get<CreateFolderViewModel>();
+            createFolderViewModel.ParentFolderId = selectedFolder.FolderId;
+
+            dynamic settings = new ExpandoObject();
+            settings.ResizeMode = ResizeMode.CanMinimize;
+
+            this._displayManager.Windows.ShowDialog(createFolderViewModel, null, settings);
         }
         #endregion
 
@@ -177,29 +202,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             return allSubFolders;
         }
-        #endregion
-    }
-
-    public class DelayedTask : ITask
-    {
-        private readonly int _amount;
-
-        public DelayedTask(int amount)
-        {
-            _amount = amount;
-        }
-
-        #region Implementation of ITask
-
-        public string DisplayName
-        {
-            get { return "Delay"; }
-        }
-        public async Task Execute()
-        {
-            await Task.Delay(this._amount);
-        }
-
         #endregion
     }
 }
