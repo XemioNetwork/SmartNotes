@@ -34,10 +34,10 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> GetAllNotes(string folderId)
         {
             var query = new HttpQueryBuilder();
-            query.AddParameter("folder", folderId.GetIntId());
+            query.AddParameter("folderId", folderId.GetIntId());
 
             var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Notes{0}", query));
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Gets all notes.
@@ -49,7 +49,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
             query.AddParameter("searchText", searchText);
 
             var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Notes{0}", query));
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Creates a new <see cref="Note" />.
@@ -58,7 +58,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> PostNote(Note note)
         {
             var request = this.CreateRequest(HttpMethod.Post, "Users/Authorized/Notes", note);
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Updates the <see cref="Note"/>.
@@ -67,7 +67,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> PutNote(Note note)
         {
             var request = this.CreateRequest(HttpMethod.Put, string.Format("Users/Authorized/Notes/{0}", note.Id.GetIntId()), note);
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Deletes the <see cref="Note"/>.
@@ -76,7 +76,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> DeleteNote(string noteId)
         {
             var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/Authorized/Notes/{0}", noteId.GetIntId()));
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         #endregion
     }

@@ -30,7 +30,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> GetTags()
         {
             var request = this.CreateRequest(HttpMethod.Get, "Users/Authorized/Tags");
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         #endregion
     }

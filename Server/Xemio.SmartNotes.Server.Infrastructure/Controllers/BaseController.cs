@@ -66,7 +66,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             var response = await base.ExecuteAsync(controllerContext, cancellationToken);
 
-            this.Logger.Debug(string.Format("Executed request: {0} {1}", Request.Method.Method, Request.RequestUri));
+            this.Logger.InfoFormat("Executed request: {0} {1}", Request.Method.Method, Request.RequestUri);
 
             using (this.DocumentSession)
             {

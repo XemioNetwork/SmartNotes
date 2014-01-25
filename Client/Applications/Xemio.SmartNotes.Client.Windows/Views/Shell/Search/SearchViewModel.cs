@@ -9,6 +9,7 @@ using Caliburn.Micro;
 using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
+using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Models.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
@@ -17,6 +18,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
     {
         #region Fields
         private readonly WebServiceClient _client;
+        private readonly DisplayManager _displayManager;
 
         private string _searchText;
         #endregion
@@ -44,15 +46,19 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchViewModel"/> class.
         /// </summary>
         /// <param name="client">The client.</param>
+        /// <param name="displayManager">The display manager.</param>
         /// <param name="eventAggregator">The event aggregator.</param>
-        public SearchViewModel(WebServiceClient client, IEventAggregator eventAggregator)
+        public SearchViewModel(WebServiceClient client, DisplayManager displayManager, IEventAggregator eventAggregator)
         {
             this.Logger = NullLogger.Instance;
+
             this._client = client;
+            this._displayManager = displayManager;
 
             eventAggregator.Subscribe(this);
         }
@@ -94,10 +100,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
                 default:
                 {
                     string error = await response.Content.ReadAsStringAsync();
+                    this._displayManager.Messages.ShowMessageBox(error, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+
                     this.Logger.ErrorFormat("Error while searching for notes with searchtext '{0}': {1}", this.SearchText, error);
-
-                    //TODO: Display error to user
-
                     break;
                 }
             }

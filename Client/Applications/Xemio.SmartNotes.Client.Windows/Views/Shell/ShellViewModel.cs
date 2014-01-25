@@ -24,7 +24,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
     public class ShellViewModel : Conductor<Screen>, IHandle<LogoutEvent>, IHandle<ExecutingTaskEvent>, IHandle<ExecutedTaskEvent>, IHandleWithTask<AvatarChangedEvent>
     {
         #region Fields
-        private readonly DisplayManager _windowManager;
+        private readonly DisplayManager _displayManager;
         private readonly WebServiceClient _webServiceClient;
         private readonly ITaskExecutor _taskExecutor;
 
@@ -86,7 +86,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
             this.Logger = NullLogger.Instance;
             this.DisplayName = "Xemio Notes";
 
-            this._windowManager = displayManager;
+            this._displayManager = displayManager;
             this._webServiceClient = webServiceClient;
             this._taskExecutor = taskExecutor;
 
@@ -107,7 +107,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
             this.ActivateItem(this._allNotesViewModel);
             await this.LoadUserAvatar();
         }
-
+        /// <summary>
+        /// Determines whether the view can be closed.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
         public override void CanClose(Action<bool> callback)
         {
             if (this._taskExecutor.HasTasks() == false)
@@ -116,7 +119,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
                 return;
             }
 
-            MessageBoxResult result = this._windowManager.Messages.ShowMessageBox("Es gibt noch Tasks die ausgeführt werden müssen, möchten Sie das Programm wirklich beenden?", "Beenden?", MessageBoxButton.YesNo);
+            MessageBoxResult result = this._displayManager.Messages.ShowMessageBox("Es gibt noch Tasks die ausgeführt werden müssen, möchten Sie das Programm wirklich beenden?", "Beenden?", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             { 
                 this._taskExecutor.CancelExecution();
@@ -224,10 +227,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
             }
             else
             {
-                string error = await response.Content.ReadAsStringAsync();
-                this.Logger.ErrorFormat("Error while loading avatar from user '{0}': {1}", this._webServiceClient.Session.User.Id, error);
+                string message = await response.Content.ReadAsStringAsync();
+                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                //TODO: Display error to user
+                this.Logger.ErrorFormat("Error while loading avatar from user '{0}': {1}", this._webServiceClient.Session.User.Id, message);
             }
         }
         #endregion

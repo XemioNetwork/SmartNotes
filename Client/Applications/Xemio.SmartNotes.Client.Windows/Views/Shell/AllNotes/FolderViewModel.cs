@@ -5,10 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
+using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Models.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
@@ -17,6 +19,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
     {
         #region Fields
         private readonly WebServiceClient _client;
+        private readonly DisplayManager _displayManager;
         private readonly IEventAggregator _eventAggregator;
 
         private string _name;
@@ -32,14 +35,16 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// Initializes a new instance of the <see cref="FolderViewModel"/> class.
         /// </summary>
         /// <param name="client">The client.</param>
+        /// <param name="displayManager">The display manager.</param>
         /// <param name="eventAggregator">The event aggregator.</param>
-        public FolderViewModel(WebServiceClient client, IEventAggregator eventAggregator)
+        public FolderViewModel(WebServiceClient client, DisplayManager displayManager, IEventAggregator eventAggregator)
         {
             this.Logger = NullLogger.Instance;
             this.SubFolders = new BindableCollection<FolderViewModel>();
             this.Tags = new BindableCollection<string>();
 
             this._client = client;
+            this._displayManager = displayManager;
             this._eventAggregator = eventAggregator;
         }
         #endregion
@@ -158,10 +163,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
             else
             {
-                string error = await response.Content.ReadAsStringAsync();
-                this.Logger.ErrorFormat("Error while loading subfolders from folder '{0}': {1}", this.FolderId, error);
+                string message = await response.Content.ReadAsStringAsync();
+                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                //TODO: Display error to user
+                this.Logger.ErrorFormat("Error while loading subfolders from folder '{0}': {1}", this.FolderId, message);
             }
         }
         #endregion

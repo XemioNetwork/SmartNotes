@@ -123,10 +123,15 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
             {
                 this.TryClose(true);
             }
-            else
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 string message = await response.Content.ReadAsStringAsync();
                 this._displayManager.Messages.ShowMessageBox(message, RegisterMessages.RegistrationFailed, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                string message = await response.Content.ReadAsStringAsync();
+                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         #endregion

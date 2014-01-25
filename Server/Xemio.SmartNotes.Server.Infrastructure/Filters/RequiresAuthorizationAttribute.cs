@@ -58,6 +58,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             if (givenContentHash != computedContentHash)
                 return false;
 
+            if (this.IsRequestDateValid(context) == false)
+                return false;
+
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(user.Id), new string[0]);
             return true;
         }
@@ -80,7 +83,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         /// <param name="context">The context.</param>
         private bool AreRequiredDataPresent(HttpActionContext context)
         {
-            return context.Request.Headers.Authorization.Parameter.Split(':').Length == 2;
+            return context.Request.Headers.Authorization.Parameter.Split(':').Length == 2 &&
+                   context.Request.Headers.Date.HasValue;
         }
         /// <summary>
         /// Determines whether the given username exists.
@@ -123,7 +127,16 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         {
             string content = context.Request.Content.ReadAsStringAsync().Result;
 
-            return AuthorizationHash.Create(user.AuthorizationHash, content);
+            return AuthorizationHash.Create(user.AuthorizationHash, context.Request.Headers.Date.Value, content);
+        }
+        /// <summary>
+        /// Determines whether the request date is valid.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        private bool IsRequestDateValid(HttpActionContext context)
+        {
+            var invalidDate = context.Request.Headers.Date.Value.AddMinutes(1);
+            return invalidDate >= DateTimeOffset.Now;
         }
         #endregion
     }

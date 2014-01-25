@@ -72,6 +72,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Creates a new root folder.
+        /// </summary>
         public void CreateRootFolder()
         {
             var createFolderViewModel = IoC.Get<CreateFolderViewModel>();
@@ -81,6 +84,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             this._displayManager.Windows.ShowDialog(createFolderViewModel, null, settings);
         }
+        /// <summary>
+        /// Creates a new folder.
+        /// </summary>
         public void CreateFolder()
         {
             FolderViewModel selectedFolder = this.GetAllFolders().SingleOrDefault(f => f.IsSelected);
@@ -149,9 +155,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             else
             {
                 string message = await response.Content.ReadAsStringAsync();
-                this.Logger.ErrorFormat("Error while loading notes from folder '{0}': {1}", selectedFolderEvent.FolderId, message);
+                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                //TODO: Display error to user
+                this.Logger.ErrorFormat("Error while loading notes from folder '{0}': {1}", selectedFolderEvent.FolderId, message);
             }
         }
         #endregion
@@ -178,9 +184,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             else
             {
                 string message = await response.Content.ReadAsStringAsync();
-                this.Logger.ErrorFormat("Error while loading all folders: {0}", message);
+                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                //TODO: Display error to user
+                this.Logger.ErrorFormat("Error while loading all folders: {0}", message);
             }
         }
         /// <summary>

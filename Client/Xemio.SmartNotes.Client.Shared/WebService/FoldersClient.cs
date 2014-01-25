@@ -36,7 +36,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
                 query.AddParameter("parentFolderId", parentFolderId.GetIntId());
 
             var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Folders{0}", query));
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Returns the folder with the given <paramref name="folderId" />.
@@ -45,7 +45,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> GetFolder(string folderId)
         {
             var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Folders/{0}", folderId.GetIntId()));
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Creates a new <see cref="Folder"/>.
@@ -56,7 +56,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
             folder.UserId = this.Session.User.Id;
 
             var request = this.CreateRequest(HttpMethod.Post, "Users/Authorized/Folders", folder);
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Updates the <see cref="Folder"/>.
@@ -65,7 +65,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> PutFolder(Folder folder)
         {
             var request = this.CreateRequest(HttpMethod.Put, string.Format("Users/Authorized/Folders/{0}", folder.Id.GetIntId()), folder);
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Deletes the <see cref="Folder"/>.
@@ -74,7 +74,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> DeleteFolder(string folderId)
         {
             var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/Authorized/Folders/{0}", folderId.GetIntId()));
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         #endregion
     }

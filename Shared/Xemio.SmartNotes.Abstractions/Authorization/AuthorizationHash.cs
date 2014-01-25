@@ -17,21 +17,23 @@ namespace Xemio.SmartNotes.Abstractions.Authorization
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
+        /// <param name="requestDate">The request date.</param>
         /// <param name="content">The content.</param>
-        public static string Create(string username, string password, string content = "")
+        public static string Create(string username, string password, DateTimeOffset requestDate, string content = "")
         {
             byte[] baseHash = CreateBaseHash(username, password);
 
-            return Create(baseHash, content);
+            return Create(baseHash, requestDate, content);
         }
         /// <summary>
         /// Creates the authorization hash from the given <paramref name="baseHash"/> and <paramref name="content"/>.
         /// </summary>
         /// <param name="baseHash">The authorization hash.</param>
+        /// <param name="requestDate">The request date.</param>
         /// <param name="content">The content.</param>
-        public static string Create(byte[] baseHash, string content = "")
+        public static string Create(byte[] baseHash, DateTimeOffset requestDate, string content = "")
         {
-            byte[] contentBytes = Encoding.UTF8.GetBytes(content);
+            byte[] contentBytes = Encoding.UTF8.GetBytes(content + requestDate.ToString("O"));
             byte[] contentHash = new HMACSHA256(baseHash).ComputeHash(contentBytes);
             return Convert.ToBase64String(contentHash);
         }

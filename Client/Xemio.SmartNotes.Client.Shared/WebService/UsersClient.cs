@@ -31,7 +31,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> GetAuthorized()
         {
             var request = this.CreateRequest(HttpMethod.Get, "Users/Authorized");
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Creates a new <see cref="User"/>.
@@ -40,7 +40,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> PostUser(User user)
         {
             var request = this.CreateRequest(HttpMethod.Post, "Users", user);
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Updates the <see cref="User"/>.
@@ -49,7 +49,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> PutUser(User user)
         {
             var request = this.CreateRequest(HttpMethod.Put, "Users/Authorized", user);
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         #endregion
     }

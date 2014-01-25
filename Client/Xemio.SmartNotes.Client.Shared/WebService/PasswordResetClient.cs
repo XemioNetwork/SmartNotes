@@ -33,7 +33,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> PostPasswordReset(CreatePasswordReset data)
         {
             var request = this.CreateRequest(HttpMethod.Post, "PasswordResets", data);
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         #endregion
     }

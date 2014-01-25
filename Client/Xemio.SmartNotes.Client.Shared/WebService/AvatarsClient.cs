@@ -38,7 +38,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
             query.AddParameter("height", height);
 
             var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Avatar{0}", query));
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         /// <summary>
         /// Updates the avatar.
@@ -47,7 +47,7 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         public Task<HttpResponseMessage> PutAvatar(CreateAvatar avatar)
         {
             var request = this.CreateRequest(HttpMethod.Get, "Users/Authorized/Avatar", avatar);
-            return this.Client.SendAsync(request);
+            return this.SendAsync(request);
         }
         #endregion
     }
