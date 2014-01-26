@@ -26,6 +26,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         #region Fields
         private readonly DisplayManager _displayManager;
         private readonly WebServiceClient _webServiceClient;
+        private readonly IEventAggregator _eventAggregator;
         private readonly ITaskExecutor _taskExecutor;
 
         private readonly AllNotesViewModel _allNotesViewModel;
@@ -88,49 +89,15 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 
             this._displayManager = displayManager;
             this._webServiceClient = webServiceClient;
+            this._eventAggregator = eventAggregator;
             this._taskExecutor = taskExecutor;
 
             this._allNotesViewModel = IoC.Get<AllNotesViewModel>();
             this._searchViewModel = IoC.Get<SearchViewModel>();
             this._userSettingsViewModel = IoC.Get<UserSettingsViewModel>();
 
-            eventAggregator.Subscribe(this);
+            this._eventAggregator.Subscribe(this);
         }
-        #endregion
-
-        #region Overrides of Conductor<Screen>
-        /// <summary>
-        /// Called when [activate].
-        /// </summary>
-        protected override async void OnActivate()
-        {
-            this.ActivateItem(this._allNotesViewModel);
-            await this.LoadUserAvatar();
-        }
-        /// <summary>
-        /// Determines whether the view can be closed.
-        /// </summary>
-        /// <param name="callback">The callback.</param>
-        public override void CanClose(Action<bool> callback)
-        {
-            if (this._taskExecutor.HasTasks() == false)
-            {
-                callback(true);
-                return;
-            }
-
-            MessageBoxResult result = this._displayManager.Messages.ShowMessageBox("Es gibt noch Tasks die ausgeführt werden müssen, möchten Sie das Programm wirklich beenden?", "Beenden?", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
-            { 
-                this._taskExecutor.CancelExecution();
-                callback(true);
-            }
-            else
-            {
-                callback(false);
-            }
-        }
-
         #endregion
 
         #region Methods
@@ -161,6 +128,51 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         public void ShowUserSettings()
         {
             this.ActivateItem(this._userSettingsViewModel);
+        }
+        #endregion
+
+        #region Overrides of Conductor<Screen>
+        /// <summary>
+        /// Called when activating.
+        /// </summary>
+        protected override async void OnActivate()
+        {
+            this.ActivateItem(this._allNotesViewModel);
+            await this.LoadUserAvatar();
+        }
+        /// <summary>
+        /// Called when deactivating.
+        /// </summary>
+        /// <param name="close">Inidicates whether this instance will be closed.</param>
+        protected override void OnDeactivate(bool close)
+        {
+            base.OnDeactivate(close);
+
+            if (close)
+                this._eventAggregator.Unsubscribe(this);
+        }
+        /// <summary>
+        /// Determines whether the view can be closed.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        public override void CanClose(Action<bool> callback)
+        {
+            if (this._taskExecutor.HasTasks() == false)
+            {
+                callback(true);
+                return;
+            }
+
+            MessageBoxResult result = this._displayManager.Messages.ShowMessageBox("Es gibt noch Tasks die ausgeführt werden müssen, möchten Sie das Programm wirklich beenden?", "Beenden?", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            { 
+                this._taskExecutor.CancelExecution();
+                callback(true);
+            }
+            else
+            {
+                callback(false);
+            }
         }
         #endregion
 

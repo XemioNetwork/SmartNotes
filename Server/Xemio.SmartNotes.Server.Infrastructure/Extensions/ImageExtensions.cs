@@ -15,8 +15,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
     /// </summary>
     public static class ImageExtensions
     {
-
-
+        /// <summary>
+        /// Returns a <see cref="Stream"/> containing the image in PNG format.
+        /// </summary>
+        /// <param name="image">The image.</param>
         public static Stream ToPngStream(this Image image)
         {
             MemoryStream stream = new MemoryStream();
@@ -24,7 +26,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
 
             return stream;
         }
-
         /// <summary>
         /// Resizes the given image.
         /// </summary>
@@ -36,7 +37,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
             if (width == 0 || height == 0)
                 return new Bitmap(image);
 
-            Bitmap resizedBitmap = new Bitmap(width, height);
+            var resizedBitmap = new Bitmap(width, height);
             resizedBitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
             using (Graphics graphics = Graphics.FromImage(resizedBitmap))

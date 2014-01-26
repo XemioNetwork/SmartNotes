@@ -48,8 +48,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         [RequiresAuthorization]
         public HttpResponseMessage GetAvatar(int width = 0, int height = 0)
         {
-            User currentUser = this.UserService.GetCurrentUser();
-            Attachment avatarData = this.DocumentStore.DatabaseCommands.GetAttachment(currentUser.Id + AvatarSuffix);
+            string avatarId = this.GetAvatarAttachmentId();
+            Attachment avatarData = this.DocumentStore.DatabaseCommands.GetAttachment(avatarId);
 
             Stream avatarStream = avatarData != null ? avatarData.Data() : AssemblyResources.DefaultAvatar.ToPngStream();
 
@@ -71,14 +71,25 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 throw new InvalidRequestException();
             if (avatar.AvatarBytes == null || avatar.AvatarBytes.Length == 0)
                 throw new InvalidRequestException();
+            
+            string avatarId = this.GetAvatarAttachmentId();
 
-            User currentUser = this.UserService.GetCurrentUser();
+            this.DocumentStore.DatabaseCommands.PutAttachment(avatarId, null, new MemoryStream(avatar.AvatarBytes), null);
 
-            this.DocumentStore.DatabaseCommands.PutAttachment(currentUser.Id + AvatarSuffix, null, new MemoryStream(avatar.AvatarBytes), null);
-
-            this.Logger.DebugFormat("Updated avatar of user '{0}'.", currentUser.Id);
+            this.Logger.DebugFormat("Updated avatar '{0}'.", avatarId);
 
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Returns the avatar attachment identifier.
+        /// </summary>
+        private string GetAvatarAttachmentId()
+        {
+            User currentUser = this.UserService.GetCurrentUser();
+            return currentUser.Id + AvatarSuffix;
         }
         #endregion
     }

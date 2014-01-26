@@ -19,6 +19,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
         #region Fields
         private readonly WebServiceClient _client;
         private readonly DisplayManager _displayManager;
+        private readonly IEventAggregator _eventAggregator;
 
         private string _searchText;
         #endregion
@@ -46,7 +47,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
         #endregion
 
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchViewModel"/> class.
         /// </summary>
@@ -59,8 +59,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
 
             this._client = client;
             this._displayManager = displayManager;
+            this._eventAggregator = eventAggregator;
 
-            eventAggregator.Subscribe(this);
+            this._eventAggregator.Subscribe(this);
         }
         #endregion
 
@@ -106,6 +107,20 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
                     break;
                 }
             }
+        }
+        #endregion
+
+        #region Overrides of Conductor<Screen>
+        /// <summary>
+        /// Called when deactivating.
+        /// </summary>
+        /// <param name="close">Inidicates whether this instance will be closed.</param>
+        protected override void OnDeactivate(bool close)
+        {
+            base.OnDeactivate(close);
+            
+            if (close)
+                this._eventAggregator.Unsubscribe(this);
         }
         #endregion
 

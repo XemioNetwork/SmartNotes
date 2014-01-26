@@ -25,6 +25,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         private readonly WebServiceClient _client;
         private readonly DisplayManager _displayManager;
         private readonly ITaskExecutor _taskExecutor;
+        private readonly IEventAggregator _eventAggregator;
 
         private BindableCollection<FolderViewModel> _folders;
         #endregion
@@ -66,8 +67,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             this._client = client;
             this._displayManager = displayManager;
             this._taskExecutor = taskExecutor;
-            
-            eventAggregator.Subscribe(this);
+            this._eventAggregator = eventAggregator;
+
+            this._eventAggregator.Subscribe(this);
         }
         #endregion
 
@@ -110,6 +112,17 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         protected override async void OnInitialize()
         {
             await this.LoadFolders();
+        }
+        /// <summary>
+        /// Called when deactivating.
+        /// </summary>
+        /// <param name="close">Inidicates whether this instance will be closed.</param>
+        protected override void OnDeactivate(bool close)
+        {
+            base.OnDeactivate(close);
+
+            if (close)
+                this._eventAggregator.Unsubscribe(this);
         }
         #endregion
 

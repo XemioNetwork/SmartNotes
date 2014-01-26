@@ -18,62 +18,62 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="60" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="1" />
                 <RowDefinition Height="30" />
             </Grid.RowDefinitions>
-                <!-- The header view -->
-                <Grid Grid.Row="0" Background="{StaticResource headerBackgroundBrush}">
+            
+            <!-- The header view -->
+            <Grid Grid.Row="0" Background="{StaticResource headerBackgroundBrush}">
                     
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <!-- The xemio icon -->
-                        <Button  x:Name="OpenXemioWebsite" Style="{StaticResource HeaderButton}">
-                            <Image Source="/Xemio.SmartNotes.Client.Shared;component/Resources/Images/XemioLogo.png" Margin="10" RenderOptions.BitmapScalingMode="HighQuality" />
-                        </Button>
-                        <Line X1="0" X2="0" Y1="0" Y2="60" Style="{StaticResource DividerLine}" />
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <!-- The xemio icon -->
+                    <Button  x:Name="OpenXemioWebsite" Style="{StaticResource HeaderButton}">
+                        <Image Source="/Xemio.SmartNotes.Client.Shared;component/Resources/Images/XemioLogo.png" Margin="10" RenderOptions.BitmapScalingMode="HighQuality" />
+                    </Button>
+                    <Line X1="0" X2="0" Y1="0" Y2="60" Style="{StaticResource DividerLine}" />
 
-                        <!-- The "All Notes" button -->
-                        <Button x:Name="ShowAllNotes" Style="{StaticResource HeaderButton}" Content="ALLE NOTIZEN" />
-                        <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+                    <!-- The "All Notes" button -->
+                    <Button x:Name="ShowAllNotes" Style="{StaticResource HeaderButton}" Content="ALLE NOTIZEN" />
+                    <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
 
-                        <!-- The "Search" button -->
-                        <Button x:Name="ShowSearch" Style="{StaticResource HeaderButton}" Content="SUCHE" />
-                        <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
-                    </StackPanel>
+                    <!-- The "Search" button -->
+                    <Button x:Name="ShowSearch" Style="{StaticResource HeaderButton}" Content="SUCHE" />
+                    <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+                </StackPanel>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <!-- The divider line -->
-                        <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <!-- The divider line -->
+                    <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
 
-                        <!-- The user icon -->
-                        <Button x:Name="ShowUserSettings" Width="60" Style="{StaticResource HeaderButton}">
-                            <Rectangle Width="40"
-                                   Height="40"
-                                   RadiusX="20" 
-                                   RadiusY="20"
-                                   RenderOptions.BitmapScalingMode="HighQuality" >
-                                <Rectangle.Fill>
-                                    <VisualBrush>
-                                        <VisualBrush.Visual>
-                                            <Image Source="{Binding UserAvatar}" />
-                                        </VisualBrush.Visual>
-                                    </VisualBrush>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                        </Button>
+                    <!-- The user icon -->
+                    <Button x:Name="ShowUserSettings" Width="60" Style="{StaticResource HeaderButton}">
+                        <Rectangle Width="40"
+                                Height="40"
+                                RadiusX="20" 
+                                RadiusY="20"
+                                RenderOptions.BitmapScalingMode="HighQuality" >
+                            <Rectangle.Fill>
+                                <VisualBrush>
+                                    <VisualBrush.Visual>
+                                        <Image Source="{Binding UserAvatar}" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Button>
 
-                    </StackPanel>
-                </Grid>
+                </StackPanel>
+            </Grid>
 
-                <!-- The current content -->
+            <!-- The current content -->
             <ContentControl x:Name="ActiveItem" Grid.Row="1" />
 
             <!-- The Information Bar -->
-            <Grid Grid.Row="3" Background="{StaticResource headerBackgroundBrush}">
+            <Grid Grid.Row="2" Background="{StaticResource subHeaderBackgroundBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
