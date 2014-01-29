@@ -118,15 +118,18 @@
     <Compile Include="Data\Events\ExecutingTaskEvent.cs" />
     <Compile Include="Data\Events\ExecutedTaskEvent.cs" />
     <Compile Include="Data\Events\FolderCreatedEvent.cs" />
+    <Compile Include="Data\Events\FolderDeletedEvent.cs" />
     <Compile Include="Data\Events\LogoutEvent.cs" />
     <Compile Include="Data\Events\SelectedFolderEvent.cs" />
     <Compile Include="Data\Events\SuggestionSelectedEvent.cs" />
     <Compile Include="Data\Exceptions\GenericException.cs" />
     <Compile Include="Extensions\BitmapImageExtensions.cs" />
+    <Compile Include="Extensions\VisualTree.cs" />
     <Compile Include="Implementations\Interaction\DisplayManager.cs" />
     <Compile Include="Implementations\Tasks\BaseTask.cs" />
     <Compile Include="Implementations\Tasks\ChangeAvatarTask.cs" />
     <Compile Include="Implementations\Tasks\CreateFolderTask.cs" />
+    <Compile Include="Implementations\Tasks\DeleteFolderTask.cs" />
     <Compile Include="Implementations\Tasks\TaskMessages.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -140,6 +143,8 @@
     <Compile Include="Themes\Controls\GlassWindow.cs" />
     <Compile Include="Themes\Controls\PasswordScore.cs" />
     <Compile Include="Themes\Controls\PasswordValidator.cs" />
+    <Compile Include="Themes\Controls\TagListView.cs" />
+    <Compile Include="Themes\Controls\TagListViewItem.cs" />
     <Compile Include="Themes\Controls\TogglePopup.cs" />
     <Compile Include="Themes\Controls\WatermarkPasswordBox.cs" />
     <Compile Include="Themes\Controls\WatermarkTextBox.cs" />
@@ -163,7 +168,6 @@
     <Compile Include="Implementations\Settings\LanguageManager.cs" />
     <Compile Include="Implementations\Tasks\TaskExecutor.cs" />
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
-    <Compile Include="Themes\ValueConverter\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Views\CreateFolder\CreateFolderMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -204,6 +208,16 @@
       <DependentUpon>SuggestionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell\Search\SuggestionsViewModel.cs" />
+    <Compile Include="Views\Shell\ShellMessages.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShellMessages.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\ShellMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShellMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shell\UserSettings\ChangeAvatar\ChangeAvatarView.xaml.cs">
       <DependentUpon>ChangeAvatarView.xaml</DependentUpon>
     </Compile>
@@ -324,6 +338,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\CustomControlStyles\TagListViewItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\CustomControlStyles\TogglePopupStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -339,10 +357,6 @@
     <Page Include="Themes\ResourceDictionaries\CustomControlStyles\PasswordValidatorStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\ResourceDictionaries\CustomControlStyles\LinkTogglePopupStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\ResourceDictionaries\CustomControlStyles\WatermarkPasswordBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -515,6 +529,14 @@
     <EmbeddedResource Include="Views\Shell\Search\SearchMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SearchMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shell\ShellMessages.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ShellMessages.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shell\ShellMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ShellMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Shell\UserSettings\ChangeAvatar\ChangeAvatarMessages.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

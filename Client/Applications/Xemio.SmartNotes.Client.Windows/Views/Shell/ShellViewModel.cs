@@ -95,8 +95,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
             this._allNotesViewModel = IoC.Get<AllNotesViewModel>();
             this._searchViewModel = IoC.Get<SearchViewModel>();
             this._userSettingsViewModel = IoC.Get<UserSettingsViewModel>();
-
-            this._eventAggregator.Subscribe(this);
         }
         #endregion
 
@@ -131,26 +129,20 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         }
         #endregion
 
-        #region Overrides of Conductor<Screen>
+        #region Overrides of Screen
         /// <summary>
-        /// Called when activating.
+        /// Called when initializing.
         /// </summary>
-        protected override async void OnActivate()
+        protected override async void OnInitialize()
         {
-            this.ActivateItem(this._allNotesViewModel);
+            this._eventAggregator.Subscribe(this);
             await this.LoadUserAvatar();
+            this.ActivateItem(this._allNotesViewModel);
         }
-        /// <summary>
-        /// Called when deactivating.
-        /// </summary>
-        /// <param name="close">Inidicates whether this instance will be closed.</param>
-        protected override void OnDeactivate(bool close)
-        {
-            base.OnDeactivate(close);
 
-            if (close)
-                this._eventAggregator.Unsubscribe(this);
-        }
+        #endregion
+
+        #region Overrides of Conductor<Screen>
         /// <summary>
         /// Determines whether the view can be closed.
         /// </summary>

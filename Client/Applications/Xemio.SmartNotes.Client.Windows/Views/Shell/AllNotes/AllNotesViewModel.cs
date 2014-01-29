@@ -19,7 +19,7 @@ using Xemio.SmartNotes.Models.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {
-    public class AllNotesViewModel : Screen, IHandle<FolderCreatedEvent>, IHandleWithTask<SelectedFolderEvent>
+    public class AllNotesViewModel : Screen, IHandle<FolderCreatedEvent>, IHandleWithTask<SelectedFolderEvent>, IHandle<FolderDeletedEvent>
     {
         #region Fields
         private readonly WebServiceClient _client;
@@ -68,8 +68,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             this._displayManager = displayManager;
             this._taskExecutor = taskExecutor;
             this._eventAggregator = eventAggregator;
-
-            this._eventAggregator.Subscribe(this);
         }
         #endregion
 
@@ -103,6 +101,22 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             this._displayManager.Windows.ShowDialog(createFolderViewModel, null, settings);
         }
+
+        /// <summary>
+        /// Deletes the currently selected folder.
+        /// </summary>
+        public void DeleteFolder()
+        {
+            FolderViewModel selectedFolder = this.GetAllFolders().SingleOrDefault(f => f.IsSelected);
+            if (selectedFolder == null)
+                return;
+
+            var task = IoC.Get<DeleteFolderTask>();
+            task.FolderId = selectedFolder.FolderId;
+            task.FolderName = selectedFolder.Name;
+
+            this._taskExecutor.StartTask(task);
+        }
         #endregion
 
         #region Overrides of Screen
@@ -111,18 +125,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// </summary>
         protected override async void OnInitialize()
         {
+            this._eventAggregator.Subscribe(this);
             await this.LoadFolders();
-        }
-        /// <summary>
-        /// Called when deactivating.
-        /// </summary>
-        /// <param name="close">Inidicates whether this instance will be closed.</param>
-        protected override void OnDeactivate(bool close)
-        {
-            base.OnDeactivate(close);
-
-            if (close)
-                this._eventAggregator.Unsubscribe(this);
         }
         #endregion
 
@@ -149,6 +153,30 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                 {
                     parentFolder.SubFolders.Add(folderViewModel);
                 }
+            }
+        }
+        #endregion
+
+        #region Implementation of IHandle<FolderDeletedEvent>
+        /// <summary>
+        /// Handles the <see cref="FolderDeletedEvent"/>.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void Handle(FolderDeletedEvent message)
+        {
+            FolderViewModel deletedFolder = this.GetAllFolders().SingleOrDefault(f => f.FolderId == message.FolderId);
+
+            if (deletedFolder == null)
+                return;
+
+            FolderViewModel parentFolder = this.GetAllFolders().SingleOrDefault(f => f.SubFolders.Contains(deletedFolder));
+            if (parentFolder != null)
+            {
+                parentFolder.SubFolders.Remove(deletedFolder);
+            }
+            else
+            {
+                this.Folders.Remove(deletedFolder);
             }
         }
         #endregion

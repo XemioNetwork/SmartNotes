@@ -3,10 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:Xemio.SmartNotes.Client.Windows.Themes.Controls"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
+             
+             lex:LocalizeDictionary.DesignCulture="de-DE"
+             lex:ResxLocalizationProvider.DefaultAssembly="Xemio.SmartNotes.Client.Windows"
+             lex:ResxLocalizationProvider.DefaultDictionary="ShellMessages"
              
              d:DesignWidth="800"
              d:DesignHeight="600"
@@ -37,11 +42,11 @@
                     <Line X1="0" X2="0" Y1="0" Y2="60" Style="{StaticResource DividerLine}" />
 
                     <!-- The "All Notes" button -->
-                    <Button x:Name="ShowAllNotes" Style="{StaticResource HeaderButton}" Content="ALLE NOTIZEN" />
+                    <Button x:Name="ShowAllNotes" Style="{StaticResource HeaderButton}" Content="{lex:Loc AllNotes}" />
                     <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
 
                     <!-- The "Search" button -->
-                    <Button x:Name="ShowSearch" Style="{StaticResource HeaderButton}" Content="SUCHE" />
+                    <Button x:Name="ShowSearch" Style="{StaticResource HeaderButton}" Content="{lex:Loc Search}" />
                     <Line X1="0" Y1="0" X2="0" Y2="60" Style="{StaticResource DividerLine}" />
                 </StackPanel>
 
@@ -83,13 +88,15 @@
                 <StackPanel Grid.Column="0" Orientation="Horizontal">
 
                     <!-- The "Show All Actions" button -->
-                    <Button x:Name="ShowAllActions" Style="{StaticResource HeaderButton}" Content="=" />
+                    <Button x:Name="ShowAllActions" Style="{StaticResource SubHeaderButton}">
+                        <Image Source="/Xemio.SmartNotes.Client.Shared;component/Resources/Icons/List-Tasks.png" Height="24" />    
+                    </Button>
                     <Line X1="0" Y1="0" X2="0" Y2="30" Style="{StaticResource DividerLine}" />
                 
                 </StackPanel>
 
                 <!-- The Information Message -->
-                <Label Grid.Column="1" x:Name="CurrentAction" VerticalAlignment="Center" />
+                <Label Grid.Column="1" x:Name="CurrentAction" VerticalAlignment="Center" Foreground="White" />
             </Grid>
         </Grid>
     </ContentControl>

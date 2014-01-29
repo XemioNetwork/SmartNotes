@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
+namespace Xemio.SmartNotes.Client.Windows.Views.Shell {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TaskMessages {
+    public class ShellMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TaskMessages() {
+        internal ShellMessages() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Xemio.SmartNotes.Client.Windows.Implementations.Tasks.TaskMessages", typeof(TaskMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Xemio.SmartNotes.Client.Windows.Views.Shell.ShellMessages", typeof(ShellMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,56 +61,20 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changing avatar....
+        ///   Looks up a localized string similar to ALL NOTES.
         /// </summary>
-        internal static string ChangeAvatarTask {
+        public static string AllNotes {
             get {
-                return ResourceManager.GetString("ChangeAvatarTask", resourceCulture);
+                return ResourceManager.GetString("AllNotes", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error while changing the avatar..
+        ///   Looks up a localized string similar to SEARCH.
         /// </summary>
-        internal static string ChangeAvatarTaskFailed {
+        public static string Search {
             get {
-                return ResourceManager.GetString("ChangeAvatarTaskFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Creating folder....
-        /// </summary>
-        internal static string CreateFolderTask {
-            get {
-                return ResourceManager.GetString("CreateFolderTask", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Deleting folder &apos;{0}&apos; ....
-        /// </summary>
-        internal static string DeleteFolderTask {
-            get {
-                return ResourceManager.GetString("DeleteFolderTask", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error while deleting the folder &apos;{0}&apos;..
-        /// </summary>
-        internal static string DeleteFolderTaskFailed {
-            get {
-                return ResourceManager.GetString("DeleteFolderTaskFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error while executing..
-        /// </summary>
-        internal static string ErrorInTask {
-            get {
-                return ResourceManager.GetString("ErrorInTask", resourceCulture);
+                return ResourceManager.GetString("Search", resourceCulture);
             }
         }
     }

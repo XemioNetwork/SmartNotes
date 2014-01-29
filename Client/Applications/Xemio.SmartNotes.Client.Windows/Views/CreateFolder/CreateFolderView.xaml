@@ -16,8 +16,11 @@
              d:DesignWidth="300"
              d:DesignHeight="300"
              
+             MinWidth="300"
+             MinHeight="200"
+             
              Margin="10">
     <GroupBox Header="{lex:Loc Title}">
-        
+        <controls:TagListView x:Name="Tags" />
     </GroupBox>
 </UserControl>

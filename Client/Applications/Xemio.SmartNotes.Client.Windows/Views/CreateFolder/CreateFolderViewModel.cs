@@ -27,6 +27,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         {
             this._taskExecutor = taskExecutor;
 
+            this.Tags = new BindableCollection<string> {"hallo", "test", "123"};
+
             this.DisplayName = "Xemio Notes";
         }
         #endregion

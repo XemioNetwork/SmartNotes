@@ -60,8 +60,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
             this._client = client;
             this._displayManager = displayManager;
             this._eventAggregator = eventAggregator;
-
-            this._eventAggregator.Subscribe(this);
         }
         #endregion
 
@@ -109,22 +107,18 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
             }
         }
         #endregion
-
-        #region Overrides of Conductor<Screen>
+        
+        #region Overrides of Screen
         /// <summary>
-        /// Called when deactivating.
+        /// Called when initializing.
         /// </summary>
-        /// <param name="close">Inidicates whether this instance will be closed.</param>
-        protected override void OnDeactivate(bool close)
+        protected override void OnInitialize()
         {
-            base.OnDeactivate(close);
-            
-            if (close)
-                this._eventAggregator.Unsubscribe(this);
+            this._eventAggregator.Subscribe(this);
         }
         #endregion
 
-        #region Implementation of IHandle<SuggestionSelectedEvent>
+        #region Implementation of IHandleWithTask<SuggestionSelectedEvent>
         /// <summary>
         /// Handles the specified message.
         /// </summary>

@@ -126,6 +126,12 @@
   <data name="CreateFolderTask" xml:space="preserve">
     <value>Ersteller Ordner...</value>
   </data>
+  <data name="DeleteFolderTask" xml:space="preserve">
+    <value>Lösche Ordner '{0}' ...</value>
+  </data>
+  <data name="DeleteFolderTaskFailed" xml:space="preserve">
+    <value>Fehler beim Löschen des Ordners '{0}'.</value>
+  </data>
   <data name="ErrorInTask" xml:space="preserve">
     <value>Fehler beim Ausführen.</value>
   </data>

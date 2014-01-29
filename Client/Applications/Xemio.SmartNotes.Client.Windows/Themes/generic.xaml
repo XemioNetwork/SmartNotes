@@ -3,10 +3,11 @@
     <ResourceDictionary.MergedDictionaries>
 
         <ResourceDictionary Source="/Xemio.SmartNotes.Client.Windows;component/Themes/ResourceDictionaries/CustomControlStyles/GlassWindowStyle.xaml" />
+        <ResourceDictionary Source="/Xemio.SmartNotes.Client.Windows;component/Themes/ResourceDictionaries/CustomControlStyles/PasswordValidatorStyle.xaml" />
+        <ResourceDictionary Source="/Xemio.SmartNotes.Client.Windows;component/Themes/ResourceDictionaries/CustomControlStyles/TagListViewItemStyle.xaml" />
         <ResourceDictionary Source="/Xemio.SmartNotes.Client.Windows;component/Themes/ResourceDictionaries/CustomControlStyles/TogglePopupStyle.xaml" />
         <ResourceDictionary Source="/Xemio.SmartNotes.Client.Windows;component/Themes/ResourceDictionaries/CustomControlStyles/WatermarkPasswordBoxStyle.xaml" />
         <ResourceDictionary Source="/Xemio.SmartNotes.Client.Windows;component/Themes/ResourceDictionaries/CustomControlStyles/WatermarkTextBoxStyle.xaml" />
-        <ResourceDictionary Source="/Xemio.SmartNotes.Client.Windows;component/Themes/ResourceDictionaries/CustomControlStyles/PasswordValidatorStyle.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

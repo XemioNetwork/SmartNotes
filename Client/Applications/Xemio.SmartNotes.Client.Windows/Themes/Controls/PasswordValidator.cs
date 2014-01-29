@@ -189,8 +189,8 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.Controls
         {
             base.OnApplyTemplate();
 
-            this._textBlock = (TextBlock)Template.FindName(TextBlockPart, this);
-            this._titleTextBlock = (TextBlock)Template.FindName(TitleTextBlockPart, this);
+            this._textBlock = (TextBlock)this.Template.FindName(TextBlockPart, this);
+            this._titleTextBlock = (TextBlock)this.Template.FindName(TitleTextBlockPart, this);
 
             this._titleTextBlock.Text = this.TitleMessage;
         }
