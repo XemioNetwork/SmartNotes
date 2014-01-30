@@ -113,7 +113,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             this.SetLanguage(user);
 
             string newPassword = this._secretGenerator.Generate(16);
-            user.AuthorizationHash = AuthorizationHash.CreateBaseHash(user.Username, newPassword);
+            user.AuthorizationHash = AuthorizationHash.CreateBaseHash(user.Username, newPassword).Result;
 
             this._emailSender.SendAsync(this._emailFactory.CreatePasswordResetEmail(user, newPassword));
 

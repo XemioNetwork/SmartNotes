@@ -19,7 +19,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         private string _folderName;
         private string _folderTags;
         private bool _isRootFolder;
-
         #endregion
 
         #region Constructors
@@ -36,7 +35,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         #endregion
 
         #region Properties
-
         /// <summary>
         /// Gets or sets the parent folder identifier.
         /// </summary>
@@ -86,7 +84,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
                 }
             }
         }
-
         /// <summary>
         /// Gets a value indicating whether the new folder will be a sub folder.
         /// </summary>

@@ -31,52 +31,52 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// Returns all <see cref="Note" />s from the given <see cref="Folder" />.
         /// </summary>
         /// <param name="folderId">The note id.</param>
-        public Task<HttpResponseMessage> GetAllNotes(string folderId)
+        public async Task<HttpResponseMessage> GetAllNotes(string folderId)
         {
             var query = new HttpQueryBuilder();
             query.AddParameter("folderId", folderId.GetIntId());
 
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Notes{0}", query));
-            return this.SendAsync(request);
+            var request = await this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Notes{0}", query));
+            return await this.SendAsync(request);
         }
         /// <summary>
         /// Gets all notes.
         /// </summary>
         /// <param name="searchText">The search text.</param>
-        public Task<HttpResponseMessage> SearchNotes(string searchText)
+        public async Task<HttpResponseMessage> SearchNotes(string searchText)
         {
             var query = new HttpQueryBuilder();
             query.AddParameter("searchText", searchText);
 
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Notes{0}", query));
-            return this.SendAsync(request);
+            var request = await this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Notes{0}", query));
+            return await this.SendAsync(request);
         }
         /// <summary>
         /// Creates a new <see cref="Note" />.
         /// </summary>
         /// <param name="note">The note.</param>
-        public Task<HttpResponseMessage> PostNote(Note note)
+        public async Task<HttpResponseMessage> PostNote(Note note)
         {
-            var request = this.CreateRequest(HttpMethod.Post, "Users/Authorized/Notes", note);
-            return this.SendAsync(request);
+            var request = await this.CreateRequest(HttpMethod.Post, "Users/Authorized/Notes", note);
+            return await this.SendAsync(request);
         }
         /// <summary>
         /// Updates the <see cref="Note"/>.
         /// </summary>
         /// <param name="note">The note.</param>
-        public Task<HttpResponseMessage> PutNote(Note note)
+        public async Task<HttpResponseMessage> PutNote(Note note)
         {
-            var request = this.CreateRequest(HttpMethod.Put, string.Format("Users/Authorized/Notes/{0}", note.Id.GetIntId()), note);
-            return this.SendAsync(request);
+            var request = await this.CreateRequest(HttpMethod.Put, string.Format("Users/Authorized/Notes/{0}", note.Id.GetIntId()), note);
+            return await this.SendAsync(request);
         }
         /// <summary>
         /// Deletes the <see cref="Note"/>.
         /// </summary>
         /// <param name="noteId">The note id.</param>
-        public Task<HttpResponseMessage> DeleteNote(string noteId)
+        public async Task<HttpResponseMessage> DeleteNote(string noteId)
         {
-            var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/Authorized/Notes/{0}", noteId.GetIntId()));
-            return this.SendAsync(request);
+            var request = await this.CreateRequest(HttpMethod.Delete, string.Format("Users/Authorized/Notes/{0}", noteId.GetIntId()));
+            return await this.SendAsync(request);
         }
         #endregion
     }

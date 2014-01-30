@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -115,7 +116,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
                        {
                            Username = this.Username,
                            EmailAddress = this.EMailAddress,
-                           AuthorizationHash = AuthorizationHash.CreateBaseHash(this.Username, this.Password)
+                           AuthorizationHash = await AuthorizationHash.CreateBaseHash(this.Username, this.Password),
+                           PreferredLanguage = this._displayManager.Languages.CurrentLanguage.Name
                        };
 
             HttpResponseMessage response = await this._webServiceClient.Users.PostUser(user);

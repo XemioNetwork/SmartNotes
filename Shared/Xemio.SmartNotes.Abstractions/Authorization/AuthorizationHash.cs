@@ -13,15 +13,20 @@ namespace Xemio.SmartNotes.Abstractions.Authorization
     public static class AuthorizationHash
     {
         /// <summary>
+        /// The number of iterations for the PBKDF2 algorithm.
+        /// </summary>
+        public const int Iterations = 10000;
+
+        /// <summary>
         /// Creates the authorization hash from the given <paramref name="username"/>, <paramref name="password"/> and <paramref name="content"/>.
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
         /// <param name="requestDate">The request date.</param>
         /// <param name="content">The content.</param>
-        public static string Create(string username, string password, DateTimeOffset requestDate, string content = "")
+        public static async Task<string> Create(string username, string password, DateTimeOffset requestDate, string content = "")
         {
-            byte[] baseHash = CreateBaseHash(username, password);
+            byte[] baseHash = await CreateBaseHash(username, password);
 
             return Create(baseHash, requestDate, content);
         }
@@ -42,10 +47,22 @@ namespace Xemio.SmartNotes.Abstractions.Authorization
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
-        public static byte[] CreateBaseHash(string username, string password)
+        public static Task<byte[]> CreateBaseHash(string username, string password)
         {
-            byte[] authorizationBytes = Encoding.UTF8.GetBytes(username + password);
-            return SHA256.Create().ComputeHash(authorizationBytes);
+            return Task.Run(() =>
+            {
+                if (username == null)
+                    username = string.Empty;
+
+                if (username.Length < 8)
+                    username = username.PadRight(8);
+
+                byte[] salt = Encoding.UTF8.GetBytes(username);
+                using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations))
+                {
+                    return pbkdf2.GetBytes(128);
+                }
+            });
         }
     }
 }

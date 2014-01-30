@@ -136,8 +136,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         protected override async void OnInitialize()
         {
             this._eventAggregator.Subscribe(this);
-            await this.LoadUserAvatar();
+
             this.ActivateItem(this._allNotesViewModel);
+
+            await this.LoadUserAvatar();
         }
 
         #endregion

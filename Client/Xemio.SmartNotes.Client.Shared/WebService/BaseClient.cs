@@ -58,11 +58,11 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <param name="method">The method.</param>
         /// <param name="relativeUri">The relative URI.</param>
         /// <param name="content">The content.</param>
-        protected HttpRequestMessage CreateRequest(HttpMethod method, string relativeUri, object content = null)
+        protected async Task<HttpRequestMessage> CreateRequest(HttpMethod method, string relativeUri, object content = null)
         {
             DateTimeOffset requestDate = this.GetCurrentDate();
             string contentString = content != null ? JsonConvert.SerializeObject(content) : null;
-            string authorizationHash = AuthorizationHash.Create(this.Session.Username, this.Session.Password, requestDate, contentString);
+            string authorizationHash = await AuthorizationHash.Create(this.Session.Username, this.Session.Password, requestDate, contentString);
 
             var request = new HttpRequestMessage(method, relativeUri)
                               {
