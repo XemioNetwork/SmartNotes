@@ -73,28 +73,14 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
         #region Methods
         /// <summary>
-        /// Creates a new root folder.
-        /// </summary>
-        public void CreateRootFolder()
-        {
-            var createFolderViewModel = IoC.Get<CreateFolderViewModel>();
-            
-            dynamic settings = new ExpandoObject();
-            settings.ResizeMode = ResizeMode.CanMinimize;
-
-            this._displayManager.Windows.ShowDialog(createFolderViewModel, null, settings);
-        }
-        /// <summary>
         /// Creates a new folder.
         /// </summary>
         public void CreateFolder()
         {
             FolderViewModel selectedFolder = this.GetAllFolders().SingleOrDefault(f => f.IsSelected);
-            if (selectedFolder == null)
-                return;
 
             var createFolderViewModel = IoC.Get<CreateFolderViewModel>();
-            createFolderViewModel.ParentFolderId = selectedFolder.FolderId;
+            createFolderViewModel.ParentFolderId = selectedFolder != null ? selectedFolder.FolderId : null;
 
             dynamic settings = new ExpandoObject();
             settings.ResizeMode = ResizeMode.CanMinimize;

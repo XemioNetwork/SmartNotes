@@ -50,6 +50,7 @@
         <!-- The login button -->
         <Button Grid.Row="3" x:Name="Login" Content="{lex:Loc Login}" IsDefault="True" />
         
+        <!-- The row underneat the login button -->
         <Grid Grid.Row="4" HorizontalAlignment="Center" Width="300" Margin="0, 5, 0, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />

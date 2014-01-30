@@ -13,14 +13,38 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              
-             d:DesignWidth="300"
-             d:DesignHeight="300"
-             
-             MinWidth="300"
-             MinHeight="200"
+             Width="300"
              
              Margin="10">
-    <GroupBox Header="{lex:Loc Title}">
-        <controls:TagListView x:Name="Tags" />
-    </GroupBox>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10" /> <!-- Distance between GroupBox and Button -->
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <!-- The GroupBox -->
+        <GroupBox Grid.Row="0" Header="{lex:Loc Title}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                
+                <!-- The folder name textbox -->
+                <controls:WatermarkTextBox x:Name="FolderName" Grid.Row="1" Watermark="{lex:Loc FolderName}" Margin="5, 0, 5, 0" />
+                <!-- The folder tags textbox -->
+                <controls:WatermarkTextBox x:Name="FolderTags" Grid.Row="3" Watermark="{lex:Loc FolderTags}" Margin="5, 0, 5, 0" />
+                
+                <!-- Indicates if this folder is a sub folder -->
+                <CheckBox x:Name="IsRootFolder" Grid.Row="4" HorizontalAlignment="Center" Content="{lex:Loc IsRootFolder}" />
+            </Grid>
+        </GroupBox>
+        
+        <!-- The button -->
+        <Button Grid.Row="2" x:Name="CreateFolder" Content="{lex:Loc CreateFolder}" IsDefault="True" />
+    </Grid>
 </UserControl>

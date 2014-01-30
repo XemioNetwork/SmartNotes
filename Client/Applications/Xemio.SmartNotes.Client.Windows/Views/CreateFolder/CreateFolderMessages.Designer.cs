@@ -61,6 +61,42 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create the folder.
+        /// </summary>
+        internal static string CreateFolder {
+            get {
+                return ResourceManager.GetString("CreateFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The folder&apos;s name.
+        /// </summary>
+        internal static string FolderName {
+            get {
+                return ResourceManager.GetString("FolderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The folder&apos;s tags.
+        /// </summary>
+        internal static string FolderTags {
+            get {
+                return ResourceManager.GetString("FolderTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is a root folder.
+        /// </summary>
+        internal static string IsRootFolder {
+            get {
+                return ResourceManager.GetString("IsRootFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NEW FOLDER.
         /// </summary>
         internal static string Title {

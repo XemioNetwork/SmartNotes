@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Abstractions.Tasks;
+using Xemio.SmartNotes.Client.Windows.Extensions;
 using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
@@ -14,8 +15,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         #region Fields
         private readonly ITaskExecutor _taskExecutor;
 
+        private string _parentFolderId;
         private string _folderName;
-        private BindableCollection<string> _tags;
+        private string _folderTags;
+        private bool _isRootFolder;
+
         #endregion
 
         #region Constructors
@@ -27,17 +31,30 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         {
             this._taskExecutor = taskExecutor;
 
-            this.Tags = new BindableCollection<string> {"hallo", "test", "123"};
-
             this.DisplayName = "Xemio Notes";
         }
         #endregion
 
         #region Properties
+
         /// <summary>
         /// Gets or sets the parent folder identifier.
         /// </summary>
-        public string ParentFolderId { get; set; }
+        public string ParentFolderId
+        {
+            get { return this._parentFolderId; }
+            set
+            {
+                if (this._parentFolderId != value)
+                { 
+                    this._parentFolderId = value;
+
+                    this.IsRootFolder = string.IsNullOrWhiteSpace(this.ParentFolderId);
+
+                    this.NotifyOfPropertyChange(() => this.ParentFolderId);
+                }
+            }
+        }
         /// <summary>
         /// Gets or sets the name of the folder.
         /// </summary>
@@ -57,15 +74,31 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         /// <summary>
         /// Gets or sets the tags of the folder.
         /// </summary>
-        public BindableCollection<string> Tags
+        public string FolderTags
         {
-            get { return this._tags; }
+            get { return this._folderTags; }
             set
             {
-                if (this._tags != value)
+                if (this._folderTags != value)
                 {
-                    this._tags = value;
-                    this.NotifyOfPropertyChange(() => this.Tags);
+                    this._folderTags = value;
+                    this.NotifyOfPropertyChange(() => this.FolderTags);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the new folder will be a sub folder.
+        /// </summary>
+        public bool IsRootFolder
+        {
+            get { return _isRootFolder; }
+            set
+            {
+                if (this._isRootFolder != value)
+                { 
+                    this._isRootFolder = value;
+                    this.NotifyOfPropertyChange(() => this.IsRootFolder);
                 }
             }
         }
@@ -86,8 +119,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         {
             var task = IoC.Get<CreateFolderTask>();
             task.FolderName = this.FolderName;
-            task.FolderTags = this.Tags.ToArray();
-            task.ParentFolderId = this.ParentFolderId;
+            task.FolderTags = this.FolderTags.GetTags();
+            task.ParentFolderId = this.IsRootFolder ? null :  this.ParentFolderId;
 
             this._taskExecutor.StartTask(task);
 

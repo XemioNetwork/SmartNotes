@@ -25,6 +25,13 @@
         <GradientStop Offset="0" Color="Transparent" />
         <GradientStop Offset="0.6" Color="Gray" />
     </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="gridSplitterBrush" StartPoint="0, 0" EndPoint="0, 1">
+        <GradientStop Offset="0" Color="Transparent" />
+        <GradientStop Offset="0.3" Color="#B4B4B4" />
+        <GradientStop Offset="0.7" Color="#B4B4B4" />
+        <GradientStop Offset="1" Color="Transparent" />
+    </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="headerBackgroundBrush"  StartPoint="0, 0" EndPoint="0, 1">
         <GradientStop Offset="0" Color="White" />

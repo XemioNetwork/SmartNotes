@@ -124,6 +124,7 @@
     <Compile Include="Data\Events\SuggestionSelectedEvent.cs" />
     <Compile Include="Data\Exceptions\GenericException.cs" />
     <Compile Include="Extensions\BitmapImageExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\VisualTree.cs" />
     <Compile Include="Implementations\Interaction\DisplayManager.cs" />
     <Compile Include="Implementations\Tasks\BaseTask.cs" />
@@ -143,8 +144,6 @@
     <Compile Include="Themes\Controls\GlassWindow.cs" />
     <Compile Include="Themes\Controls\PasswordScore.cs" />
     <Compile Include="Themes\Controls\PasswordValidator.cs" />
-    <Compile Include="Themes\Controls\TagListView.cs" />
-    <Compile Include="Themes\Controls\TagListViewItem.cs" />
     <Compile Include="Themes\Controls\TogglePopup.cs" />
     <Compile Include="Themes\Controls\WatermarkPasswordBox.cs" />
     <Compile Include="Themes\Controls\WatermarkTextBox.cs" />
@@ -168,6 +167,11 @@
     <Compile Include="Implementations\Settings\LanguageManager.cs" />
     <Compile Include="Implementations\Tasks\TaskExecutor.cs" />
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
+    <Compile Include="Views\CreateFolder\CreateFolderMessages.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CreateFolderMessages.de.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreateFolder\CreateFolderMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -306,6 +310,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\BaseControlStyles\GridSplitterStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\BaseControlStyles\GroupBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -337,10 +345,6 @@
     <Page Include="Themes\ResourceDictionaries\CustomControlStyles\GlassWindowStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\ResourceDictionaries\CustomControlStyles\TagListViewItemStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ResourceDictionaries\CustomControlStyles\TogglePopupStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -493,7 +497,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\CreateFolder\CreateFolderMessages.de.resx" />
+    <EmbeddedResource Include="Views\CreateFolder\CreateFolderMessages.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CreateFolderMessages.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\CreateFolder\CreateFolderMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CreateFolderMessages.Designer.cs</LastGenOutput>

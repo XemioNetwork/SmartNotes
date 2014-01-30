@@ -14,7 +14,6 @@
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220" MinWidth="220" />
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
@@ -24,48 +23,37 @@
         </Grid.RowDefinitions>
 
         <!-- The background for the items list -->
-        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource subHeaderBackgroundBrush}" />
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="{StaticResource subHeaderBackgroundBrush}" />
 
         <!-- The buttons above the group tree -->
         <Grid Grid.Row="0" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="1" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="1" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="1" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="1" />
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="CreateRootFolder" Grid.Column="0" Style="{StaticResource SubHeaderButton}" Foreground="White">
+            <Button x:Name="CreateFolder" Grid.Column="0" Style="{StaticResource SubHeaderButton}" Foreground="White">
                 <Image Source="/Xemio.SmartNotes.Client.Shared;component/Resources/Icons/Add-Root-Folder.png" Width="32" />
             </Button>
             
-            <Line Grid.Column="1" Style="{StaticResource DividerLine}" Y1="0" Y2="40" />
+            <Line Grid.Column="0" Style="{StaticResource DividerLine}" Y1="0" Y2="40" HorizontalAlignment="Right" />
             
-            <Button x:Name="CreateFolder" Grid.Column="2" Style="{StaticResource SubHeaderButton}" Foreground="White">
-                <Image Source="/Xemio.SmartNotes.Client.Shared;component/Resources/Icons/Add-Folder.png" Width="32" />
-            </Button>
-            
-            <Line Grid.Column="3" Style="{StaticResource DividerLine}" Y1="0" Y2="40" />
-            
-            <Button x:Name="EditFolder" Grid.Column="4" Style="{StaticResource SubHeaderButton}" Foreground="White">
+            <Button x:Name="EditFolder" Grid.Column="1" Style="{StaticResource SubHeaderButton}" Foreground="White">
                 <Image Source="/Xemio.SmartNotes.Client.Shared;component/Resources/Icons/Edit-Folder.png" Width="32" />
             </Button>
+
+            <Line Grid.Column="1" Style="{StaticResource DividerLine}" Y1="0" Y2="40" HorizontalAlignment="Right" />
             
-            <Line Grid.Column="5" Style="{StaticResource DividerLine}" Y1="0" Y2="40" />
-            
-            <Button x:Name="DeleteFolder" Grid.Column="6" Style="{StaticResource SubHeaderButton}" Foreground="White">
+            <Button x:Name="DeleteFolder" Grid.Column="2" Style="{StaticResource SubHeaderButton}" Foreground="White">
                 <Image Source="/Xemio.SmartNotes.Client.Shared;component/Resources/Icons/Delete-Folder.png" Width="32" />
             </Button>
-            
-            <Line Grid.Column="7" Style="{StaticResource DividerLine}" Y1="0" Y2="40" />
+
+            <Line Grid.Column="2" Style="{StaticResource DividerLine}" Y1="0" Y2="40" HorizontalAlignment="Right" />
         </Grid>
 
         <!-- The group tree -->
-        <TreeView x:Name="Folders" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Stretch" BorderThickness="0" BorderBrush="{StaticResource grayColorBrush}">
+        <TreeView x:Name="Folders" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Stretch" BorderThickness="0" BorderBrush="{StaticResource grayColorBrush}" Margin="0, 0, 2, 0">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding SubFolders}">
                     <TextBlock Text="{Binding Name}" />
@@ -74,7 +62,7 @@
         </TreeView>
 
         <!-- The splitter -->
-        <GridSplitter Grid.Row="1" Grid.Column="1"  Width="5" ResizeBehavior="PreviousAndNext" BorderBrush="Transparent" />
+        <GridSplitter Grid.Row="1" Grid.Column="0" Width="2" ResizeBehavior="CurrentAndNext" />
         
     </Grid>
 </UserControl>
