@@ -126,6 +126,9 @@
   <data name="FolderTags" xml:space="preserve">
     <value>Tags des Ordners</value>
   </data>
+  <data name="ForExample" xml:space="preserve">
+    <value>z. B.</value>
+  </data>
   <data name="IsRootFolder" xml:space="preserve">
     <value>Ist ein Hauptordner</value>
   </data>

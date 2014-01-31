@@ -27,9 +27,13 @@ namespace Xemio.SmartNotes.Client.Shared.WebService
         /// <summary>
         /// Gets the tags from the <see cref="User" />.
         /// </summary>
-        public async Task<HttpResponseMessage> GetTags()
+        /// <param name="count">The count of tags returned.</param>
+        public async Task<HttpResponseMessage> GetTags(int count = 20)
         {
-            var request = await this.CreateRequest(HttpMethod.Get, "Users/Authorized/Tags");
+            var query = new HttpQueryBuilder();
+            query.AddParameter("count", count);
+
+            var request = await this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Tags{0}", query));
             return await this.SendAsync(request);
         }
         #endregion

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Abstractions.Tasks;
+using Xemio.SmartNotes.Client.Shared.WebService;
 using Xemio.SmartNotes.Client.Windows.Extensions;
 using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
+using Xemio.SmartNotes.Models.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
 {
@@ -14,11 +18,13 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
     {
         #region Fields
         private readonly ITaskExecutor _taskExecutor;
+        private readonly WebServiceClient _client;
 
         private string _parentFolderId;
         private string _folderName;
         private string _folderTags;
         private bool _isRootFolder;
+        private string _exampleTags;
         #endregion
 
         #region Constructors
@@ -26,9 +32,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         /// Initializes a new instance of the <see cref="CreateFolderViewModel"/> class.
         /// </summary>
         /// <param name="taskExecutor">The task executor.</param>
-        public CreateFolderViewModel(ITaskExecutor taskExecutor)
+        /// <param name="client">The webservice client.</param>
+        public CreateFolderViewModel(ITaskExecutor taskExecutor, WebServiceClient client)
         {
             this._taskExecutor = taskExecutor;
+            this._client = client;
 
             this.DisplayName = "Xemio Notes";
         }
@@ -85,6 +93,21 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
             }
         }
         /// <summary>
+        /// Gets or sets the example tags.
+        /// </summary>
+        public string ExampleTags
+        {
+            get { return this._exampleTags; }
+            set
+            {
+                if (this._exampleTags != value)
+                {
+                    this._exampleTags = value;
+                    this.NotifyOfPropertyChange(() => this.ExampleTags);
+                }
+            }
+        }
+        /// <summary>
         /// Gets a value indicating whether the new folder will be a sub folder.
         /// </summary>
         public bool IsRootFolder
@@ -98,6 +121,16 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
                     this.NotifyOfPropertyChange(() => this.IsRootFolder);
                 }
             }
+        }
+        #endregion
+
+        #region Overrides of Screen
+        /// <summary>
+        /// Called when initializing.
+        /// </summary>
+        protected override async void OnInitialize()
+        {
+            await LoadTags();
         }
         #endregion
 
@@ -122,6 +155,28 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
             this._taskExecutor.StartTask(task);
 
             this.TryClose();
+        }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Loads the commonly used tags.
+        /// </summary>
+        private async Task LoadTags()
+        {
+            HttpResponseMessage response = await this._client.Tags.GetTags(5);
+            if (response.StatusCode == HttpStatusCode.Found)
+            {
+                Tag[] tags = await response.Content.ReadAsAsync<Tag[]>();
+                if (tags.Any())
+                {
+                    this.ExampleTags = string.Format("{0} {1}", CreateFolderMessages.ForExample, string.Join(", ", tags.Select(f => f.Name)));
+                }
+            }
+            else
+            {
+                
+            }
         }
         #endregion
     }

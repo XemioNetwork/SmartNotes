@@ -15,7 +15,7 @@ namespace Xemio.SmartNotes.Abstractions.Authorization
         /// <summary>
         /// The number of iterations for the PBKDF2 algorithm.
         /// </summary>
-        public const int Iterations = 10000;
+        public const int Iterations = 5000;
 
         /// <summary>
         /// Creates the authorization hash from the given <paramref name="username"/>, <paramref name="password"/> and <paramref name="content"/>.

@@ -31,6 +31,7 @@
                     <RowDefinition Height="30" />
                     <RowDefinition Height="5" />
                     <RowDefinition Height="30" />
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
                 
@@ -39,8 +40,11 @@
                 <!-- The folder tags textbox -->
                 <controls:WatermarkTextBox x:Name="FolderTags" Grid.Row="3" Watermark="{lex:Loc FolderTags}" Margin="5, 0, 5, 0" />
                 
+                <!-- The tags example list -->
+                <Label x:Name="ExampleTags" Grid.Row="4" FontSize="11" HorizontalAlignment="Center" Foreground="{StaticResource grayColorBrush}" />
+                
                 <!-- Indicates if this folder is a sub folder -->
-                <CheckBox x:Name="IsRootFolder" Grid.Row="4" HorizontalAlignment="Center" Content="{lex:Loc IsRootFolder}" />
+                <CheckBox x:Name="IsRootFolder" Grid.Row="5" HorizontalAlignment="Center" Content="{lex:Loc IsRootFolder}" />
             </Grid>
         </GroupBox>
         

@@ -143,6 +143,7 @@ namespace Xemio.SmartNotes.Client.Windows
 
             var loginViewModel = this._container.Resolve<LoginViewModel>();
             bool? loggedIn = windowManager.ShowDialog(loginViewModel, null, settings);
+            this._container.Release(loginViewModel);
 
             return loggedIn.HasValue && loggedIn.Value;
         }
@@ -162,6 +163,7 @@ namespace Xemio.SmartNotes.Client.Windows
 
             var shellViewModel = this._container.Resolve<ShellViewModel>();
             bool? loggedOut = windowManager.ShowDialog(shellViewModel, null, settings);
+            this._container.Release(shellViewModel);
 
             return loggedOut.HasValue && loggedOut.Value;
         }

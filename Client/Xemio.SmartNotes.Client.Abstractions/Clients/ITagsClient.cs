@@ -9,6 +9,7 @@ namespace Xemio.SmartNotes.Client.Abstractions.Clients
         /// <summary>
         /// Gets the tags from the <see cref="User" />.
         /// </summary>
-        Task<HttpResponseMessage> GetTags();
+        /// <param name="count">The count of tags returned.</param>
+        Task<HttpResponseMessage> GetTags(int count = 20);
     }
 }

@@ -44,14 +44,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         [Route("Tags")]
         [RequiresAuthorization]
-        public HttpResponseMessage GetTags()
+        public HttpResponseMessage GetTags(int count = 20)
         {
             var currentUser = this.UserService.GetCurrentUser();
 
             var tags = this.DocumentSession.Query<Tag, TagsByCount>()
                                            .Where(f => f.UserId == currentUser.Id)
                                            .OrderByDescending(f => f.Count)
-                                           .Take(20)
+                                           .Take(count)
                                            .ToList();
             
             return Request.CreateResponse(HttpStatusCode.Found, tags);
