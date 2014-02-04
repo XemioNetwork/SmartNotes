@@ -35,45 +35,69 @@
     <Reference Include="Castle.Core">
       <HintPath>..\..\packages\Castle.Core.3.2.2\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Castle.Facilities.Logging">
+      <HintPath>..\..\packages\Castle.LoggingFacility.3.2.0\lib\net45\Castle.Facilities.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Services.Logging.NLogIntegration">
+      <HintPath>..\..\packages\Castle.Core-NLog.3.2.0\lib\net40\Castle.Services.Logging.NLogIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\..\packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clients\IAvatarsClient.cs" />
+    <Compile Include="Clients\IClient.cs" />
+    <Compile Include="Clients\IFoldersClient.cs" />
+    <Compile Include="Clients\INotesClient.cs" />
+    <Compile Include="Clients\IPasswordResetClient.cs" />
+    <Compile Include="Clients\ITagsClient.cs" />
+    <Compile Include="Clients\IUsersClient.cs" />
+    <Compile Include="Extensions\HttpContentExtensions.cs" />
+    <Compile Include="Interaction\IMessageManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebService\AvatarsClient.cs" />
-    <Compile Include="WebService\BaseClient.cs" />
-    <Compile Include="WebService\ClientMessages.de.Designer.cs">
+    <Compile Include="Settings\ILanguageManager.cs" />
+    <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\ITaskExecutor.cs" />
+    <Compile Include="Clients\AvatarsClient.cs" />
+    <Compile Include="Clients\BaseClient.cs" />
+    <Compile Include="Clients\ClientMessages.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ClientMessages.de.resx</DependentUpon>
     </Compile>
-    <Compile Include="WebService\ClientMessages.Designer.cs">
+    <Compile Include="Clients\ClientMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ClientMessages.resx</DependentUpon>
     </Compile>
-    <Compile Include="WebService\FoldersClient.cs" />
-    <Compile Include="WebService\HttpQueryBuilder.cs" />
-    <Compile Include="WebService\NotesClient.cs" />
-    <Compile Include="WebService\PasswordResetClient.cs" />
-    <Compile Include="WebService\Session.cs" />
-    <Compile Include="WebService\TagsClient.cs" />
-    <Compile Include="WebService\UsersClient.cs" />
-    <Compile Include="WebService\WebServiceClient.cs" />
+    <Compile Include="Clients\FoldersClient.cs" />
+    <Compile Include="Clients\HttpQueryBuilder.cs" />
+    <Compile Include="Clients\NotesClient.cs" />
+    <Compile Include="Clients\PasswordResetClient.cs" />
+    <Compile Include="Clients\Session.cs" />
+    <Compile Include="Clients\TagsClient.cs" />
+    <Compile Include="Clients\UsersClient.cs" />
+    <Compile Include="Clients\WebServiceClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <Resource Include="Resources\Fonts\OpenSans-Bold.ttf" />
     <Resource Include="Resources\Fonts\OpenSans-Light.ttf" />
     <Resource Include="Resources\Fonts\OpenSans-Semibold.ttf" />
@@ -83,31 +107,17 @@
     <Resource Include="Resources\Images\XemioLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\Xemio.SmartNotes.Abstractions\Xemio.SmartNotes.Abstractions.csproj">
-      <Project>{FDF40887-6BEA-4406-A810-38ABCAF86357}</Project>
-      <Name>Xemio.SmartNotes.Abstractions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Shared\Xemio.SmartNotes.Models\Xemio.SmartNotes.Models.csproj">
-      <Project>{1D489576-6434-4F31-8296-9D5B6C849CB4}</Project>
-      <Name>Xemio.SmartNotes.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Xemio.SmartNotes.Client.Abstractions\Xemio.SmartNotes.Client.Abstractions.csproj">
-      <Project>{C98F502D-AF7E-4753-A8E6-ED0F7C96A750}</Project>
-      <Name>Xemio.SmartNotes.Client.Abstractions</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Icons\Language-DE.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\Language-EN.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WebService\ClientMessages.de.resx">
+    <EmbeddedResource Include="Clients\ClientMessages.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ClientMessages.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="WebService\ClientMessages.resx">
+    <EmbeddedResource Include="Clients\ClientMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ClientMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -121,8 +131,16 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\List-Tasks.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Xemio.SmartNotes.Shared\Xemio.SmartNotes.Shared.csproj">
+      <Project>{1daa9def-9d63-44aa-9078-0985e3d0450f}</Project>
+      <Name>Xemio.SmartNotes.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

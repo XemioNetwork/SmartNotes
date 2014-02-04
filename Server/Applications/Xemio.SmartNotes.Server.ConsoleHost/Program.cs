@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommandLine;
 using Microsoft.Owin.Hosting;
 using Xemio.SmartNotes.Server.Infrastructure;
+using Xemio.SmartNotes.Shared.Extensions;
 
 namespace Xemio.SmartNotes.Server.ConsoleHost
 {
@@ -16,15 +18,25 @@ namespace Xemio.SmartNotes.Server.ConsoleHost
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static void Main()
+        static void Main(string[] args)
         {
-            const string baseAddress = "http://localhost/";
+            var options = new Options();
 
-            using (WebApp.Start<Startup>(baseAddress))
+            if (Parser.Default.ParseArguments(args, options))
             {
-                Console.WriteLine("Xemio SmartNotes Server started at {0}...", baseAddress);
-                Console.WriteLine("Press <Enter> to close...");
+                var startOptions = new StartOptions();
+                startOptions.Urls.AddRange(options.Addresses);
 
+                using (WebApp.Start<Startup>(startOptions))
+                {
+                    Console.WriteLine("Xemio SmartNotes Server started at {0}...", string.Join(", ", options.Addresses));
+                    Console.WriteLine("Press <Enter> to close...");
+
+                    Console.ReadLine();
+                }
+            }
+            else
+            {
                 Console.ReadLine();
             }
         }

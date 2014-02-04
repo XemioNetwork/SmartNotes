@@ -7,14 +7,14 @@ using System.Windows;
 using System.Windows.Navigation;
 using Caliburn.Micro;
 using Xemio.CommonLibrary.Storage;
-using Xemio.SmartNotes.Client.Abstractions.Interaction;
-using Xemio.SmartNotes.Client.Abstractions.Settings;
-using Xemio.SmartNotes.Client.Shared.WebService;
+using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Extensions;
+using Xemio.SmartNotes.Client.Shared.Settings;
 using Xemio.SmartNotes.Client.Windows.Data;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Views.PasswordReset;
 using Xemio.SmartNotes.Client.Windows.Views.Register;
-using Xemio.SmartNotes.Models.Entities.Users;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Login
 {

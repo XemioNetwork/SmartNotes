@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Castle.Core.Logging;
-using Xemio.SmartNotes.Client.Shared.WebService;
+using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
-using Xemio.SmartNotes.Models.Entities.Notes;
+using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {

@@ -54,6 +54,9 @@ namespace Xemio.SmartNotes.Abstractions.Authorization
                 if (username == null)
                     username = string.Empty;
 
+                if (password == null)
+                    password = string.Empty;
+
                 if (username.Length < 8)
                     username = username.PadRight(8);
 

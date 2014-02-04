@@ -1,8 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Xemio.SmartNotes.Client.Abstractions.Clients;
-using Xemio.SmartNotes.Client.Shared.WebService;
+using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Windows.Data;
 
 namespace Xemio.SmartNotes.Client.Windows.Windsor

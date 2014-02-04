@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Raven.Client;
-using Xemio.SmartNotes.Abstractions.Authorization;
-using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters.Resources;
+using Xemio.SmartNotes.Shared.Authorization;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Filters
 {

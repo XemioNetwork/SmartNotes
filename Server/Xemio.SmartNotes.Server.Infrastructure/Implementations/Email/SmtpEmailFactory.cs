@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Server.Abstractions.Email;
 using Xemio.SmartNotes.Server.Infrastructure.Implementations.Email.Resources;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Email
 {

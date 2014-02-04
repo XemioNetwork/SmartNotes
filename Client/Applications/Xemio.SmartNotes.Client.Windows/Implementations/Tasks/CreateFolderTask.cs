@@ -7,10 +7,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using Xemio.SmartNotes.Client.Abstractions.Tasks;
-using Xemio.SmartNotes.Client.Shared.WebService;
+using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
-using Xemio.SmartNotes.Models.Entities.Notes;
+using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {

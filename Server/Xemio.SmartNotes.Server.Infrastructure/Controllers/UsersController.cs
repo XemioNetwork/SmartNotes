@@ -13,13 +13,12 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using Raven.Abstractions.Data;
 using Raven.Client;
-using Xemio.SmartNotes.Models.Entities.Users;
-using Xemio.SmartNotes.Models.Models;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
 using Xemio.SmartNotes.Server.Infrastructure.Properties;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {

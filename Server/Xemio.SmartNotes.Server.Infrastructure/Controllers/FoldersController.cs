@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Raven.Client;
-using Xemio.SmartNotes.Models.Entities.Notes;
-using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
+using Xemio.SmartNotes.Shared.Entities.Notes;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
@@ -57,23 +57,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             var folders = this.DocumentSession.Query<Folder>()
                                               .Where(f => f.UserId == currentUser.Id && f.ParentFolderId == parentFolderStringId)
+                                              .OrderBy(f => f.Name)
                                               .ToList();
 
             return Request.CreateResponse(HttpStatusCode.Found, folders);
-        }
-        /// <summary>
-        /// Gets the folder.
-        /// </summary>
-        /// <param name="folderId">The folder identifier.</param>
-        [Route("Folders/{folderId:int}")]
-        [RequiresAuthorization]
-        public HttpResponseMessage GetFolder(int folderId)
-        {
-            if (this._rightsService.CanCurrentUserAccessFolder(folderId, false) == false)
-                throw new UnauthorizedException();
-
-            var folder = this.DocumentSession.Load<Folder>(folderId);
-            return Request.CreateResponse(HttpStatusCode.Found, folder);
         }
         /// <summary>
         /// Creates a new folder.

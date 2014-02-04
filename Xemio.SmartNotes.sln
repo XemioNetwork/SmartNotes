@@ -1,13 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8438BC57-C6E0-44D3-A835-36F5CEC54A6A}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{75F188F9-3058-45C7-9438-5ECF02DDB0A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{C2A80173-21C1-45DF-9738-72B6BADA454F}"
@@ -24,12 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Server.Con
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Server.ServiceHost", "Server\Applications\Xemio.SmartNotes.Server.ServiceHost\Xemio.SmartNotes.Server.ServiceHost.csproj", "{4926811A-3CE3-4287-8895-F7AEE5B7A990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Models", "Shared\Xemio.SmartNotes.Models\Xemio.SmartNotes.Models.csproj", "{1D489576-6434-4F31-8296-9D5B6C849CB4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Abstractions", "Shared\Xemio.SmartNotes.Abstractions\Xemio.SmartNotes.Abstractions.csproj", "{FDF40887-6BEA-4406-A810-38ABCAF86357}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Client.Abstractions", "Client\Xemio.SmartNotes.Client.Abstractions\Xemio.SmartNotes.Client.Abstractions.csproj", "{C98F502D-AF7E-4753-A8E6-ED0F7C96A750}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{FE830DA7-2F15-49D9-B249-B288EF4BDE73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Client.Windows", "Client\Applications\Xemio.SmartNotes.Client.Windows\Xemio.SmartNotes.Client.Windows.csproj", "{641E0A05-44E2-42BA-9F90-BDDAB7C56824}"
@@ -38,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Client.Sha
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BE518046-B01C-41E2-8418-644F478ABE19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Tests.FastCall", "Tests\Xemio.SmartNotes.Tests.FastCall\Xemio.SmartNotes.Tests.FastCall.csproj", "{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Shared", "Shared\Xemio.SmartNotes.Shared\Xemio.SmartNotes.Shared.csproj", "{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,18 +51,6 @@ Global
 		{4926811A-3CE3-4287-8895-F7AEE5B7A990}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4926811A-3CE3-4287-8895-F7AEE5B7A990}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4926811A-3CE3-4287-8895-F7AEE5B7A990}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D489576-6434-4F31-8296-9D5B6C849CB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D489576-6434-4F31-8296-9D5B6C849CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D489576-6434-4F31-8296-9D5B6C849CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D489576-6434-4F31-8296-9D5B6C849CB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FDF40887-6BEA-4406-A810-38ABCAF86357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDF40887-6BEA-4406-A810-38ABCAF86357}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDF40887-6BEA-4406-A810-38ABCAF86357}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDF40887-6BEA-4406-A810-38ABCAF86357}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C98F502D-AF7E-4753-A8E6-ED0F7C96A750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C98F502D-AF7E-4753-A8E6-ED0F7C96A750}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C98F502D-AF7E-4753-A8E6-ED0F7C96A750}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C98F502D-AF7E-4753-A8E6-ED0F7C96A750}.Release|Any CPU.Build.0 = Release|Any CPU
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -82,26 +59,23 @@ Global
 		{82877666-2147-48A5-86B8-C0440AEDE5E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82877666-2147-48A5-86B8-C0440AEDE5E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82877666-2147-48A5-86B8-C0440AEDE5E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C98F502D-AF7E-4753-A8E6-ED0F7C96A750} = {75F188F9-3058-45C7-9438-5ECF02DDB0A2}
 		{FE830DA7-2F15-49D9-B249-B288EF4BDE73} = {75F188F9-3058-45C7-9438-5ECF02DDB0A2}
 		{82877666-2147-48A5-86B8-C0440AEDE5E1} = {75F188F9-3058-45C7-9438-5ECF02DDB0A2}
 		{8E67ABDF-9144-48A5-8412-0735C51AC247} = {C2A80173-21C1-45DF-9738-72B6BADA454F}
 		{93A178C5-4F55-4E32-B9FA-083BE16F668A} = {C2A80173-21C1-45DF-9738-72B6BADA454F}
 		{F30B1D65-681B-481F-A462-6047C9A98D82} = {C2A80173-21C1-45DF-9738-72B6BADA454F}
-		{1D489576-6434-4F31-8296-9D5B6C849CB4} = {4E79071E-1AB2-4052-B862-2D129D68C719}
-		{FDF40887-6BEA-4406-A810-38ABCAF86357} = {4E79071E-1AB2-4052-B862-2D129D68C719}
+		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F} = {4E79071E-1AB2-4052-B862-2D129D68C719}
 		{1343877A-CA52-44E4-B00F-D0126A23C720} = {F30B1D65-681B-481F-A462-6047C9A98D82}
 		{4926811A-3CE3-4287-8895-F7AEE5B7A990} = {F30B1D65-681B-481F-A462-6047C9A98D82}
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824} = {FE830DA7-2F15-49D9-B249-B288EF4BDE73}
-		{3B5AFFFB-BD9F-4BC8-B0E6-010FBC75FED7} = {BE518046-B01C-41E2-8418-644F478ABE19}
 	EndGlobalSection
 EndGlobal

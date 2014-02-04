@@ -8,8 +8,8 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using Castle.Core.Logging;
 using Raven.Client;
-using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Server.Abstractions.Services;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
@@ -49,6 +49,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         protected BaseController(IDocumentSession documentSession, IUserService userService)
         {
             this.Logger = NullLogger.Instance;
+
             this.DocumentSession = documentSession;
             this.UserService = userService;
         }

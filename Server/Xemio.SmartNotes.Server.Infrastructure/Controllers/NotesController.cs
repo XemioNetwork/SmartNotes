@@ -9,13 +9,13 @@ using System.Web.Http;
 using Castle.Core.Internal;
 using Raven.Abstractions.Data;
 using Raven.Client;
-using Xemio.SmartNotes.Models.Entities.Notes;
-using Xemio.SmartNotes.Models.Entities.Users;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
 using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes;
+using Xemio.SmartNotes.Shared.Entities.Notes;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
@@ -83,6 +83,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                                             .Where(f => f.UserId == currentUser.Id)
                                             .Search(f => f.SearchText, searchText, options: SearchOptions.And)
                                             .As<Note>()
+                                            .OrderBy(f => f.Name)
                                             .ToList();
             
             if (notes.Count > 0)

@@ -2,7 +2,7 @@
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 using Xemio.RavenDB.NGramAnalyzer;
-using Xemio.SmartNotes.Models.Entities.Notes;
+using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
 {

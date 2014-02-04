@@ -18,11 +18,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
             get { return (SearchViewModel)this.DataContext; }
         }
 
-        private void SearchTextKeyDown(object sender, KeyEventArgs e)
+        private async void SearchTextKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                this.ViewModel.Search();
+                await this.ViewModel.Search();
             }
         }
     }

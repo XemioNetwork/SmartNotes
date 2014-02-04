@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using Xemio.SmartNotes.Client.Shared.WebService;
+using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
-using Xemio.SmartNotes.Models.Models;
+using Xemio.SmartNotes.Shared.Models;
 using Screen = Caliburn.Micro.Screen;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset

@@ -8,12 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using Xemio.SmartNotes.Abstractions.Authorization;
-using Xemio.SmartNotes.Client.Abstractions.Interaction;
-using Xemio.SmartNotes.Client.Shared.WebService;
+using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
-using Xemio.SmartNotes.Models.Entities.Users;
-using Xemio.SmartNotes.Models.Models;
+using Xemio.SmartNotes.Shared.Authorization;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Register
 {

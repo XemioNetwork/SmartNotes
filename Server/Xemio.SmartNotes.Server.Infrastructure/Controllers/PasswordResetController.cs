@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Raven.Abstractions.Data;
 using Raven.Client;
-using Xemio.SmartNotes.Abstractions.Authorization;
-using Xemio.SmartNotes.Models.Entities.Users;
-using Xemio.SmartNotes.Models.Models;
 using Xemio.SmartNotes.Server.Abstractions.Email;
 using Xemio.SmartNotes.Server.Abstractions.Security;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
+using Xemio.SmartNotes.Shared.Authorization;
+using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {

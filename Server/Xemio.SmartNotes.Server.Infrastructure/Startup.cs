@@ -7,8 +7,8 @@ using System.Web.Http;
 using Owin;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
-using WebApiContrib.IoC.CastleWindsor;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
+using Xemio.SmartNotes.Server.Infrastructure.Windsor;
 
 namespace Xemio.SmartNotes.Server.Infrastructure
 {

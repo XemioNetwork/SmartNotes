@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xemio.SmartNotes.Client.Abstractions.Tasks;
+using Xemio.SmartNotes.Client.Shared.Tasks;
 
 namespace Xemio.SmartNotes.Client.Windows.Data.Events
 {

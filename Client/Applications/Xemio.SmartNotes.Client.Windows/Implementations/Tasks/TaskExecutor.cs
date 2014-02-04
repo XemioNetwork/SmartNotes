@@ -9,11 +9,11 @@ using System.Windows;
 using System.Windows.Forms;
 using Caliburn.Micro;
 using Castle.Core.Logging;
-using Xemio.SmartNotes.Abstractions.Common;
-using Xemio.SmartNotes.Client.Abstractions.Tasks;
+using Xemio.SmartNotes.Client.Shared.Tasks;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
+using Xemio.SmartNotes.Shared.Common;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {

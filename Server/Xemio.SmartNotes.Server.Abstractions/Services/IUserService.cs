@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Xemio.SmartNotes.Models.Entities.Users;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Abstractions.Services
 {

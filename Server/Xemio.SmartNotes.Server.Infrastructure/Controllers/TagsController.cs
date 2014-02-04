@@ -7,13 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Raven.Client;
-using Xemio.SmartNotes.Models.Entities.Users;
-using Xemio.SmartNotes.Models.Models;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
 using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes;
+using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {

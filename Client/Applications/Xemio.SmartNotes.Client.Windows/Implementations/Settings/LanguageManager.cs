@@ -7,8 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using WPFLocalizeExtension.Engine;
 using Xemio.CommonLibrary.Storage;
-using Xemio.SmartNotes.Client.Abstractions.Settings;
-using Xemio.SmartNotes.Models.Entities.Users;
+using Xemio.SmartNotes.Client.Shared.Settings;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Settings
 {

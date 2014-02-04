@@ -39,12 +39,8 @@
     <Reference Include="Caliburn.Micro">
       <HintPath>..\..\..\packages\Caliburn.Micro.1.5.2\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Castle.Core">
       <HintPath>..\..\..\packages\Castle.Core.3.2.2\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Facilities.FactorySupport">
-      <HintPath>..\..\..\packages\Castle.FactorySupportFacility.3.2.0\lib\net45\Castle.Facilities.FactorySupport.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Facilities.Logging">
       <HintPath>..\..\..\packages\Castle.LoggingFacility.3.2.0\lib\net45\Castle.Facilities.Logging.dll</HintPath>
@@ -55,19 +51,14 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\..\..\packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="Esent.Collections, Version=1.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\ManagedEsent.1.9.0\lib\net40\Esent.Collections.dll</HintPath>
+    <Reference Include="Esent.Collections">
+      <HintPath>..\..\..\packages\ManagedEsent.1.8.3.2\lib\net40\Esent.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="Esent.Interop, Version=1.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\ManagedEsent.1.9.0\lib\net40\Esent.Interop.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Esent.Interop">
+      <HintPath>..\..\..\packages\ManagedEsent.1.8.3.2\lib\net40\Esent.Interop.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
-      <HintPath>..\..\..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\..\..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -75,10 +66,6 @@
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
@@ -96,15 +83,13 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFLocalizeExtension, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="WPFLocalizeExtension">
       <HintPath>..\..\..\packages\WpfLocalizeExtension.2.2.0\lib\net35\WPFLocalizeExtension.dll</HintPath>
     </Reference>
     <Reference Include="XAMLMarkupExtensions">
       <HintPath>..\..\..\packages\XAMLMarkupExtensions.1.1.6.3\lib\net40\XAMLMarkupExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="Xemio.CommonLibrary, Version=0.1.0.4, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Xemio.CommonLibrary">
       <HintPath>..\..\..\packages\Xemio-CommonLibrary.0.1.0.4\lib\net45\Xemio.CommonLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -556,9 +541,7 @@
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -571,17 +554,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Xemio.SmartNotes.Abstractions\Xemio.SmartNotes.Abstractions.csproj">
-      <Project>{FDF40887-6BEA-4406-A810-38ABCAF86357}</Project>
-      <Name>Xemio.SmartNotes.Abstractions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Shared\Xemio.SmartNotes.Models\Xemio.SmartNotes.Models.csproj">
-      <Project>{1D489576-6434-4F31-8296-9D5B6C849CB4}</Project>
-      <Name>Xemio.SmartNotes.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Xemio.SmartNotes.Client.Abstractions\Xemio.SmartNotes.Client.Abstractions.csproj">
-      <Project>{C98F502D-AF7E-4753-A8E6-ED0F7C96A750}</Project>
-      <Name>Xemio.SmartNotes.Client.Abstractions</Name>
+    <ProjectReference Include="..\..\..\Shared\Xemio.SmartNotes.Shared\Xemio.SmartNotes.Shared.csproj">
+      <Project>{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}</Project>
+      <Name>Xemio.SmartNotes.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Xemio.SmartNotes.Client.Shared\Xemio.SmartNotes.Client.Shared.csproj">
       <Project>{82877666-2147-48a5-86b8-c0440aede5e1}</Project>
@@ -592,7 +567,6 @@
     <Folder Include="Views\EditFolder\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

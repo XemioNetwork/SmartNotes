@@ -7,8 +7,10 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using CommandLine;
 using Microsoft.Owin.Hosting;
 using Xemio.SmartNotes.Server.Infrastructure;
+using Xemio.SmartNotes.Shared.Extensions;
 
 namespace Xemio.SmartNotes.Server.ServiceHost
 {
@@ -38,16 +40,23 @@ namespace Xemio.SmartNotes.Server.ServiceHost
         /// <param name="args">Data passed by the start command.</param>
         protected override void OnStart(string[] args)
         {
-            const string baseAddress = "http://localhost/";
+            var options = new Options();
 
-            this._webService = WebApp.Start<Startup>(baseAddress);
+            if (Parser.Default.ParseArguments(args, options))
+            {
+                var startOptions = new StartOptions();
+                startOptions.Urls.AddRange(options.Addresses);
+
+                this._webService = WebApp.Start<Startup>(startOptions);
+            }
         }
         /// <summary>
         /// When implemented in a derived class, executes when a Stop command is sent to the service by the Service Control Manager (SCM). Specifies actions to take when a service stops running.
         /// </summary>
         protected override void OnStop()
         {
-            this._webService.Dispose();
+            if (this._webService != null)
+                this._webService.Dispose();
         }
         #endregion
     }

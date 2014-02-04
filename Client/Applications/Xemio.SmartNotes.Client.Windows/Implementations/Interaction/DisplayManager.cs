@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using Xemio.SmartNotes.Client.Abstractions.Interaction;
-using Xemio.SmartNotes.Client.Abstractions.Settings;
+using Xemio.SmartNotes.Client.Shared.Interaction;
+using Xemio.SmartNotes.Client.Shared.Settings;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Interaction
 {

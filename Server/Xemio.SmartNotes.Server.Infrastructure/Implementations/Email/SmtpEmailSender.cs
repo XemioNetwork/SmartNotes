@@ -8,8 +8,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
-using Xemio.SmartNotes.Abstractions.Common;
 using Xemio.SmartNotes.Server.Abstractions.Email;
+using Xemio.SmartNotes.Shared.Common;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Email
 {

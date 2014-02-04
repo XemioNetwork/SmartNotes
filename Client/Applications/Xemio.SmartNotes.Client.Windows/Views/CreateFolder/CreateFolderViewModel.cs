@@ -5,12 +5,16 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
-using Xemio.SmartNotes.Client.Abstractions.Tasks;
-using Xemio.SmartNotes.Client.Shared.WebService;
+using Castle.Core.Logging;
+using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Extensions;
+using Xemio.SmartNotes.Client.Shared.Tasks;
 using Xemio.SmartNotes.Client.Windows.Extensions;
+using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
-using Xemio.SmartNotes.Models.Models;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
 {
@@ -19,6 +23,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         #region Fields
         private readonly ITaskExecutor _taskExecutor;
         private readonly WebServiceClient _client;
+        private readonly DisplayManager _displayManager;
 
         private string _parentFolderId;
         private string _folderName;
@@ -28,21 +33,30 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateFolderViewModel"/> class.
         /// </summary>
         /// <param name="taskExecutor">The task executor.</param>
         /// <param name="client">The webservice client.</param>
-        public CreateFolderViewModel(ITaskExecutor taskExecutor, WebServiceClient client)
+        /// <param name="displayManager">The display manager.</param>
+        public CreateFolderViewModel(ITaskExecutor taskExecutor, WebServiceClient client, DisplayManager displayManager)
         {
+            this.Logger = NullLogger.Instance;
+
             this._taskExecutor = taskExecutor;
             this._client = client;
+            this._displayManager = displayManager;
 
             this.DisplayName = "Xemio Notes";
         }
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets or sets the logger.
+        /// </summary>
+        public ILogger Logger { get; set; }
         /// <summary>
         /// Gets or sets the parent folder identifier.
         /// </summary>
@@ -175,7 +189,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
             }
             else
             {
-                
+                string message = await response.Content.ReadAsStringAsync();
+                this.Logger.ErrorFormat("Error while loading the tags: {0}", message);
+
+                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         #endregion

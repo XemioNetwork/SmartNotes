@@ -9,15 +9,14 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Castle.Core.Logging;
-using Xemio.SmartNotes.Client.Abstractions.Tasks;
-using Xemio.SmartNotes.Client.Shared.WebService;
+using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Tasks;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.Search;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.UserSettings;
-using Xemio.SmartNotes.Models.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 {

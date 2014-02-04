@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
-using Xemio.SmartNotes.Models.Entities.Notes;
+using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
 {

@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 using Raven.Abstractions.Data;
 using Raven.Client;
-using Xemio.SmartNotes.Models.Entities.Users;
-using Xemio.SmartNotes.Models.Models;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
+using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 using AssemblyResources = Xemio.SmartNotes.Server.Infrastructure.Properties.Resources;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers

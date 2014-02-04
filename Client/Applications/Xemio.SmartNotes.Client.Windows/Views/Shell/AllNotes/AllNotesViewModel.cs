@@ -9,13 +9,14 @@ using System.Windows;
 using Caliburn.Micro;
 using Castle.Core.Logging;
 using Xemio.CommonLibrary.Security;
-using Xemio.SmartNotes.Client.Abstractions.Tasks;
-using Xemio.SmartNotes.Client.Shared.WebService;
+using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Extensions;
+using Xemio.SmartNotes.Client.Shared.Tasks;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 using Xemio.SmartNotes.Client.Windows.Views.CreateFolder;
-using Xemio.SmartNotes.Models.Entities.Notes;
+using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {
@@ -211,9 +212,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             else
             {
                 string message = await response.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
-
                 this.Logger.ErrorFormat("Error while loading all folders: {0}", message);
+
+                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         /// <summary>
