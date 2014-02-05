@@ -19,6 +19,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
             public string[] SearchText { get; set; }
             public string FolderId { get; set; }
             public string UserId { get; set; }
+            public string Name { get; set; }
         }
 
         /// <summary>
@@ -33,7 +34,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
                                            {
                                                SearchText = note.Tags.Concat(parentFolder.Tags).Concat(new[] { note.Name, note.Content, parentFolder.Name }),
                                                note.FolderId,
-                                               note.UserId
+                                               note.UserId,
+                                               note.Name
                                            };
 
             this.Index(f => f.SearchText, FieldIndexing.Analyzed);

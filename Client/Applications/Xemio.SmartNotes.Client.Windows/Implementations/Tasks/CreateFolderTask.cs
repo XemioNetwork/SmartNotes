@@ -10,6 +10,7 @@ using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
+using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
@@ -91,6 +92,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             {
                 string message = await response.Content.ReadAsStringAsync();
                 this.Logger.Error(message);
+
+                throw new GenericException(TaskMessages.CreateFolderTaskFailed);
             }
         }
         #endregion

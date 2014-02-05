@@ -117,19 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateFolder" xml:space="preserve">
-    <value>Create the folder</value>
+  <data name="EditFolder" xml:space="preserve">
+    <value>Edit the folder</value>
   </data>
   <data name="FolderName" xml:space="preserve">
-    <value>Name des Ordners</value>
+    <value>The folder's name</value>
   </data>
   <data name="FolderTags" xml:space="preserve">
-    <value>Tags des Ordners</value>
+    <value>The folder's tags</value>
   </data>
   <data name="ForExample" xml:space="preserve">
-    <value>z. B.</value>
+    <value>e.g.</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>NEW FOLDER</value>
+    <value>EDIT FOLDER</value>
   </data>
 </root>

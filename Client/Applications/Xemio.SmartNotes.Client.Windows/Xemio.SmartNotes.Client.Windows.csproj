@@ -104,6 +104,7 @@
     <Compile Include="Data\Events\ExecutedTaskEvent.cs" />
     <Compile Include="Data\Events\FolderCreatedEvent.cs" />
     <Compile Include="Data\Events\FolderDeletedEvent.cs" />
+    <Compile Include="Data\Events\FolderEditedEvent.cs" />
     <Compile Include="Data\Events\LogoutEvent.cs" />
     <Compile Include="Data\Events\SelectedFolderEvent.cs" />
     <Compile Include="Data\Events\SuggestionSelectedEvent.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Implementations\Tasks\ChangeAvatarTask.cs" />
     <Compile Include="Implementations\Tasks\CreateFolderTask.cs" />
     <Compile Include="Implementations\Tasks\DeleteFolderTask.cs" />
+    <Compile Include="Implementations\Tasks\EditFolderTask.cs" />
     <Compile Include="Implementations\Tasks\TaskMessages.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -166,6 +168,20 @@
       <DependentUpon>CreateFolderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CreateFolder\CreateFolderViewModel.cs" />
+    <Compile Include="Views\EditFolder\EditFolderMessages.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditFolderMessages.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditFolder\EditFolderMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditFolderMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditFolder\EditFolderView.xaml.cs">
+      <DependentUpon>EditFolderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditFolder\EditFolderViewModel.cs" />
     <Compile Include="Views\Shell\AllNotes\AllNotesView.xaml.cs">
       <DependentUpon>AllNotesView.xaml</DependentUpon>
     </Compile>
@@ -395,6 +411,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EditFolder\EditFolderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Shell\AllNotes\AllNotesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -490,6 +510,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CreateFolderMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\EditFolder\EditFolderMessages.de.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditFolderMessages.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EditFolder\EditFolderMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditFolderMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Login\LoginMessages.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LoginMessages.de.Designer.cs</LastGenOutput>
@@ -563,9 +591,7 @@
       <Name>Xemio.SmartNotes.Client.Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\EditFolder\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

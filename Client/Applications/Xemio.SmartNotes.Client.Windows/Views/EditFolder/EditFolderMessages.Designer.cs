@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
+namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TaskMessages {
+    internal class EditFolderMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TaskMessages() {
+        internal EditFolderMessages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Xemio.SmartNotes.Client.Windows.Implementations.Tasks.TaskMessages", typeof(TaskMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Xemio.SmartNotes.Client.Windows.Views.EditFolder.EditFolderMessages", typeof(EditFolderMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,83 +61,47 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changing avatar....
+        ///   Looks up a localized string similar to Edit the folder.
         /// </summary>
-        internal static string ChangeAvatarTask {
+        internal static string EditFolder {
             get {
-                return ResourceManager.GetString("ChangeAvatarTask", resourceCulture);
+                return ResourceManager.GetString("EditFolder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error while changing the avatar..
+        ///   Looks up a localized string similar to The folder&apos;s name.
         /// </summary>
-        internal static string ChangeAvatarTaskFailed {
+        internal static string FolderName {
             get {
-                return ResourceManager.GetString("ChangeAvatarTaskFailed", resourceCulture);
+                return ResourceManager.GetString("FolderName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Creating folder....
+        ///   Looks up a localized string similar to The folder&apos;s tags.
         /// </summary>
-        internal static string CreateFolderTask {
+        internal static string FolderTags {
             get {
-                return ResourceManager.GetString("CreateFolderTask", resourceCulture);
+                return ResourceManager.GetString("FolderTags", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error while creating the folder..
+        ///   Looks up a localized string similar to e.g..
         /// </summary>
-        internal static string CreateFolderTaskFailed {
+        internal static string ForExample {
             get {
-                return ResourceManager.GetString("CreateFolderTaskFailed", resourceCulture);
+                return ResourceManager.GetString("ForExample", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deleting folder &apos;{0}&apos; ....
+        ///   Looks up a localized string similar to EDIT FOLDER.
         /// </summary>
-        internal static string DeleteFolderTask {
+        internal static string Title {
             get {
-                return ResourceManager.GetString("DeleteFolderTask", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error while deleting the folder &apos;{0}&apos;..
-        /// </summary>
-        internal static string DeleteFolderTaskFailed {
-            get {
-                return ResourceManager.GetString("DeleteFolderTaskFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Editing folder &apos;{0}&apos;....
-        /// </summary>
-        internal static string EditFolderTask {
-            get {
-                return ResourceManager.GetString("EditFolderTask", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error while editing the folder &apos;{0}&apos;..
-        /// </summary>
-        internal static string EditFolderTaskFailed {
-            get {
-                return ResourceManager.GetString("EditFolderTaskFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error while executing..
-        /// </summary>
-        internal static string ErrorInTask {
-            get {
-                return ResourceManager.GetString("ErrorInTask", resourceCulture);
+                return ResourceManager.GetString("Title", resourceCulture);
             }
         }
     }

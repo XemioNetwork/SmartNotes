@@ -61,6 +61,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="noteCanBeNull">If set to <c>true</c> the note can be null.</param>
         public bool CanCurrentUserAccessNote(string noteId, bool noteCanBeNull)
         {
+            if (string.IsNullOrWhiteSpace(noteId))
+                return true;
+
             var note = this._documentSession.Load<Note>(noteId);
             if (note == null && noteCanBeNull == false)
                 throw new NoteNotFoundException(noteId);
@@ -84,6 +87,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="folderCanBeNull">If set to <c>true</c> the folder can be null.</param>
         public bool CanCurrentUserAccessFolder(string folderId, bool folderCanBeNull)
         {
+            if (string.IsNullOrWhiteSpace(folderId))
+                return true;
+
             var folder = this._documentSession.Load<Folder>(folderId);
             if (folder == null && folderCanBeNull == false)
                 throw new FolderNotFoundException(folderId);

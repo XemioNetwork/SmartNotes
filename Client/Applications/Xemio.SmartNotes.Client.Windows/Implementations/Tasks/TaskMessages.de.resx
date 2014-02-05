@@ -126,13 +126,22 @@
   <data name="CreateFolderTask" xml:space="preserve">
     <value>Ersteller Ordner...</value>
   </data>
+  <data name="CreateFolderTaskFailed" xml:space="preserve">
+    <value>Fehler beim Erstellen des Ordners.</value>
+  </data>
   <data name="DeleteFolderTask" xml:space="preserve">
     <value>Lösche Ordner '{0}' ...</value>
   </data>
   <data name="DeleteFolderTaskFailed" xml:space="preserve">
     <value>Fehler beim Löschen des Ordners '{0}'.</value>
   </data>
+  <data name="EditFolderTask" xml:space="preserve">
+    <value>Bearbeite Ordner '{0}'...</value>
+  </data>
+  <data name="EditFolderTaskFailed" xml:space="preserve">
+    <value>Fehler beim Bearbeiten des Ordners '{0}'.</value>
+  </data>
   <data name="ErrorInTask" xml:space="preserve">
-    <value>Fehler beim Ausführen.</value>
+    <value>Fehler</value>
   </data>
 </root>

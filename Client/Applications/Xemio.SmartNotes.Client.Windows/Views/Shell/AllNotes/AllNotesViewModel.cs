@@ -16,11 +16,12 @@ using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 using Xemio.SmartNotes.Client.Windows.Views.CreateFolder;
+using Xemio.SmartNotes.Client.Windows.Views.EditFolder;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {
-    public class AllNotesViewModel : Screen, IHandle<FolderCreatedEvent>, IHandleWithTask<SelectedFolderEvent>, IHandle<FolderDeletedEvent>
+    public class AllNotesViewModel : Screen, IHandle<FolderCreatedEvent>, IHandleWithTask<SelectedFolderEvent>, IHandle<FolderDeletedEvent>, IHandle<FolderEditedEvent>
     {
         #region Fields
         private readonly WebServiceClient _client;
@@ -88,6 +89,29 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             this._displayManager.Windows.ShowDialog(createFolderViewModel, null, settings);
         }
+        /// <summary>
+        /// Edits the currently selected folder.
+        /// </summary>
+        public void EditFolder()
+        {
+            FolderViewModel selectedFolder = this.GetAllFolders().SingleOrDefault(f => f.IsSelected);
+            if (selectedFolder == null)
+                return;
+
+            FolderViewModel parentFolder = this.GetAllFolders().SingleOrDefault(f => f.SubFolders.Contains(selectedFolder));
+
+            var editFolderViewModel = IoC.Get<EditFolderViewModel>();
+            editFolderViewModel.UserId = this._client.Session.User.Id;
+            editFolderViewModel.FolderId = selectedFolder.FolderId;
+            editFolderViewModel.ParentFolderId = parentFolder != null ? parentFolder.FolderId : null;
+            editFolderViewModel.FolderTags = string.Join(", ", selectedFolder.Tags);
+            editFolderViewModel.FolderName = selectedFolder.Name;
+
+            dynamic settings = new ExpandoObject();
+            settings.ResizeMode = ResizeMode.CanMinimize;
+
+            this._displayManager.Windows.ShowDialog(editFolderViewModel, null, settings);
+        }
 
         /// <summary>
         /// Deletes the currently selected folder.
@@ -143,6 +167,20 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
         }
         #endregion
+        
+        #region Implementation of IHandle<FolderEditedEvent>
+        /// <summary>
+        /// Handles the <see cref="FolderEditedEvent"/>.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void Handle(FolderEditedEvent message)
+        {
+            FolderViewModel editedFolder = this.GetAllFolders().SingleOrDefault(f => f.FolderId == message.Folder.Id);
+
+            if (editedFolder != null)
+                editedFolder.Initialize(message.Folder, false);
+        }
+        #endregion
 
         #region Implementation of IHandle<FolderDeletedEvent>
         /// <summary>
@@ -168,7 +206,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         }
         #endregion
 
-        #region Implementation of IHandle<SelectedFolderEvent>
+        #region Implementation of IHandleWithTask<SelectedFolderEvent>
         /// <summary>
         /// Handles the <see cref="SelectedFolderEvent"/>.
         /// </summary>
