@@ -67,8 +67,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
                               {
                                   Headers =
                                   {
-                                      Authorization = new AuthenticationHeaderValue("Xemio", string.Format("{0}:{1}", this.Session.Username, authorizationHash)),
-                                      Date = requestDate
+                                      Authorization = new AuthenticationHeaderValue("Xemio", string.Format("{0}:{1}", this.Session.Username, authorizationHash))
                                   }
                               };
             request.Headers.Add("Request-Date", requestDate.ToString("yyyy-MM-ddTHH:mm:ssZ"));

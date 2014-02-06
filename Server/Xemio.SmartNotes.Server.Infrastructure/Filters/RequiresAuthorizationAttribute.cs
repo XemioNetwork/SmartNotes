@@ -145,8 +145,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         private string ComputeContentHash(HttpActionContext context, User user)
         {
             string content = context.Request.Content.ReadAsStringAsync().Result;
+            DateTimeOffset requestDate = DateTimeOffset.Parse(context.Request.Headers.GetValues("Request-Date").First());
 
-            return AuthorizationHash.Create(user.AuthorizationHash, context.Request.Headers.Date.Value, content);
+            return AuthorizationHash.Create(user.AuthorizationHash, requestDate, content);
         }
         /// <summary>
         /// Determines whether the request date is valid.
