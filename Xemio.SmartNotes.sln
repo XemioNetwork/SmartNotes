@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{75F188F9-3058-45C7-9438-5ECF02DDB0A2}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BE518046-B01C-41E2-8418-644F478ABE19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Shared", "Shared\Xemio.SmartNotes.Shared\Xemio.SmartNotes.Shared.csproj", "{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.AuthorizationHashTesting", "Xemio.SmartNotes.AuthorizationHashTesting\Xemio.SmartNotes.AuthorizationHashTesting.csproj", "{37EA4D33-C431-4D98-A29A-B08A737092F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,5 +83,6 @@ Global
 		{1343877A-CA52-44E4-B00F-D0126A23C720} = {F30B1D65-681B-481F-A462-6047C9A98D82}
 		{4926811A-3CE3-4287-8895-F7AEE5B7A990} = {F30B1D65-681B-481F-A462-6047C9A98D82}
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824} = {FE830DA7-2F15-49D9-B249-B288EF4BDE73}
+		{37EA4D33-C431-4D98-A29A-B08A737092F5} = {BE518046-B01C-41E2-8418-644F478ABE19}
 	EndGlobalSection
 EndGlobal

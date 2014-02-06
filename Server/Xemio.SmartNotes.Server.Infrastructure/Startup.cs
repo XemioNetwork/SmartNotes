@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Owin;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
@@ -25,6 +26,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         public void Configuration(IAppBuilder appBuilder)
         {
             var config = new HttpConfiguration();
+
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             this.ConfigureWindsor(config);
             this.ConfigureFilters(config);

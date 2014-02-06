@@ -13,7 +13,7 @@ namespace Xemio.SmartNotes.Shared.Authorization
         /// <summary>
         /// The number of iterations for the PBKDF2 algorithm.
         /// </summary>
-        public const int Iterations = 5000;
+        public const int Iterations = 2000;
 
         /// <summary>
         /// Creates the authorization hash from the given <paramref name="username"/>, <paramref name="password"/> and <paramref name="content"/>.
@@ -36,7 +36,7 @@ namespace Xemio.SmartNotes.Shared.Authorization
         /// <param name="content">The content.</param>
         public static string Create(byte[] baseHash, DateTimeOffset requestDate, string content = "")
         {
-            byte[] contentBytes = Encoding.UTF8.GetBytes(content + requestDate.ToString("O"));
+            byte[] contentBytes = Encoding.UTF8.GetBytes(content + requestDate.UtcDateTime.ToString("yyyy-MM-ddThh:mm:ssZ"));
             byte[] contentHash = new HMACSHA256(baseHash).ComputeHash(contentBytes);
             return Convert.ToBase64String(contentHash);
         }
@@ -55,14 +55,8 @@ namespace Xemio.SmartNotes.Shared.Authorization
                 if (password == null)
                     password = string.Empty;
 
-                if (username.Length < 8)
-                    username = username.PadRight(8);
-
-                byte[] salt = Encoding.UTF8.GetBytes(username);
-                using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations))
-                {
-                    return pbkdf2.GetBytes(128);
-                }
+                byte[] authorizationBytes = Encoding.UTF8.GetBytes(username + password);
+                return SHA256.Create().ComputeHash(authorizationBytes);
             });
         }
     }
