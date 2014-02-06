@@ -29,6 +29,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
         private string _folderName;
         private string _folderTags;
         private string _exampleTags;
+        private Folder _folder;
 
         public EditFolderViewModel(ITaskExecutor taskExecutor, WebServiceClient client, DisplayManager displayManager)
         {
@@ -47,17 +48,24 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
         /// </summary>
         public ILogger Logger { get; set; }
         /// <summary>
-        /// Gets or sets the folder identifier.
+        /// Gets or sets the folder.
         /// </summary>
-        public string FolderId { get; set; }
-        /// <summary>
-        /// Gets or sets the parent folder identifier.
-        /// </summary>
-        public string ParentFolderId { get; set; }
-        /// <summary>
-        /// Gets or sets the user identifier.
-        /// </summary>
-        public string UserId { get; set; }
+        public Folder Folder
+        {
+            get { return this._folder; }
+            set
+            {
+                if (this._folder != value)
+                { 
+                    this._folder = value;
+
+                    this.FolderName = this.Folder.Name;
+                    this.FolderTags = string.Join(", ", this.Folder.Tags);
+
+                    this.NotifyOfPropertyChange(() => this.Folder);
+                }
+            }
+        }
         /// <summary>
         /// Gets or sets the name of the folder.
         /// </summary>
@@ -132,11 +140,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
             var task = IoC.Get<EditFolderTask>();
             task.Folder = new Folder
             {
-                Id = this.FolderId,
-                ParentFolderId = this.ParentFolderId,
+                Id = this.Folder.Id,
+                ParentFolderId = this.Folder.ParentFolderId,
                 Name = this.FolderName,
                 Tags = this.FolderTags.GetTags(),
-                UserId = this.UserId
+                UserId = this.Folder.UserId
             };
 
             this._taskExecutor.StartTask(task);

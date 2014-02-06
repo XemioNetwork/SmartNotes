@@ -98,14 +98,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             if (selectedFolder == null)
                 return;
 
-            FolderViewModel parentFolder = this.GetAllFolders().SingleOrDefault(f => f.SubFolders.Contains(selectedFolder));
-
             var editFolderViewModel = IoC.Get<EditFolderViewModel>();
-            editFolderViewModel.UserId = this._client.Session.User.Id;
-            editFolderViewModel.FolderId = selectedFolder.FolderId;
-            editFolderViewModel.ParentFolderId = parentFolder != null ? parentFolder.FolderId : null;
-            editFolderViewModel.FolderTags = string.Join(", ", selectedFolder.Tags);
-            editFolderViewModel.FolderName = selectedFolder.Name;
+            editFolderViewModel.Folder = selectedFolder.Folder;
 
             dynamic settings = new ExpandoObject();
             settings.ResizeMode = ResizeMode.CanMinimize;

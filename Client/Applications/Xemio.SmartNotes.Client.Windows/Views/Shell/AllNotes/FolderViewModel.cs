@@ -56,16 +56,20 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// </summary>
         public ILogger Logger { get; set; }
         /// <summary>
+        /// Gets the folder.
+        /// </summary>
+        public Folder Folder { get; private set; }
+        /// <summary>
         /// Gets or sets the folder identifier.
         /// </summary>
-        public string FolderId { get; set; }
+        public string FolderId { get; private set; }
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         public string Name
         {
             get { return this._name; }
-            set
+            private set
             {
                 if (value != _name)
                 { 
@@ -77,11 +81,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// <summary>
         /// Gets or sets the tags.
         /// </summary>
-        public BindableCollection<string> Tags { get; set; }
+        public BindableCollection<string> Tags { get; private set; }
         /// <summary>
         /// Gets or sets the sub folders.
         /// </summary>
-        public BindableCollection<FolderViewModel> SubFolders { get; set; }
+        public BindableCollection<FolderViewModel> SubFolders { get; private set; }
         /// <summary>
         /// Gets or sets a value indicating whether this folder is expanded.
         /// </summary>
@@ -132,6 +136,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// <param name="loadSubFolders">if set to <c>true</c> we load the sub folders.</param>
         public void Initialize(Folder folder, bool loadSubFolders = true)
         {
+            this.Folder = folder;
+
             this.FolderId = folder.Id;
             this.Name = folder.Name;
             this.Tags = new BindableCollection<string>(folder.Tags);
