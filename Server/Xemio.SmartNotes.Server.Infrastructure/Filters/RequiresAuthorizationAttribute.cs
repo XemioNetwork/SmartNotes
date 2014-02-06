@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
@@ -10,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using Castle.Core.Logging;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters.Resources;
@@ -42,13 +44,22 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         protected override bool IsAuthorized(HttpActionContext context)
         {
             if (this.IsXemioAuthorization(context) == false)
+            { 
+                this.LogMessage(context, "Login failed. No 'Xemio' authorization");
                 return false;
+            }
 
             if (this.AreRequiredDataPresent(context) == false)
+            {
+                this.LogMessage(context, "Login failed. Authorization data missing.");
                 return false;
+            }
 
             if (this.UsernameExists(context) == false)
-                return false;
+            {
+                this.LogMessage(context, "Login failed. Username does not exist.");
+                return false;   
+            }
 
             User user = this.GetUser(context);
 
@@ -56,10 +67,16 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             string computedContentHash = this.ComputeContentHash(context, user);
 
             if (givenContentHash != computedContentHash)
+            {
+                this.LogMessage(context, "Login failed. The calculated hash doesn't match the given one.");
                 return false;
+            }
 
             if (this.IsRequestDateValid(context) == false)
+            {
+                this.LogMessage(context, "Login failed. The request timed out.");
                 return false;
+            }
 
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(user.Id), new string[0]);
             return true;
@@ -140,6 +157,17 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             DateTimeOffset requestDate = DateTimeOffset.Parse(context.Request.Headers.GetValues("Request-Date").First());
             var invalidDate = requestDate.AddMinutes(1);
             return invalidDate >= DateTimeOffset.Now;
+        }
+        /// <summary>
+        /// Logs the specified message.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="message">The message.</param>
+        private void LogMessage(HttpActionContext context, string message)
+        {
+            var loggerFactory = context.ControllerContext.Configuration.DependencyResolver.GetService<ILoggerFactory>();
+            ILogger logger = loggerFactory.Create(this.GetType());
+            logger.Debug(message);
         }
         #endregion
     }
