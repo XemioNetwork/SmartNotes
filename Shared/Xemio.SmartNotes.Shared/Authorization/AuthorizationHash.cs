@@ -36,7 +36,7 @@ namespace Xemio.SmartNotes.Shared.Authorization
         /// <param name="content">The content.</param>
         public static string Create(byte[] baseHash, DateTimeOffset requestDate, string content = "")
         {
-            byte[] contentBytes = Encoding.UTF8.GetBytes(content + requestDate.UtcDateTime.ToString("yyyy-MM-ddThh:mm:ssZ"));
+            byte[] contentBytes = Encoding.UTF8.GetBytes(content + requestDate.UtcDateTime.ToString("yyyy-MM-ddTHH:mm:ssZ"));
             byte[] contentHash = new HMACSHA256(baseHash).ComputeHash(contentBytes);
             return Convert.ToBase64String(contentHash);
         }

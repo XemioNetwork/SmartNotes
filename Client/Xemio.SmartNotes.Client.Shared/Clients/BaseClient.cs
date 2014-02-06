@@ -56,6 +56,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="method">The method.</param>
         /// <param name="relativeUri">The relative URI.</param>
         /// <param name="content">The content.</param>
+        /// <returns></returns>
         protected async Task<HttpRequestMessage> CreateRequest(HttpMethod method, string relativeUri, object content = null)
         {
             DateTimeOffset requestDate = this.GetCurrentDate();
@@ -70,6 +71,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
                                       Date = requestDate
                                   }
                               };
+            request.Headers.Add("Request-Date", requestDate.ToString("yyyy-MM-ddTHH:mm:ssZ"));
 
             if (string.IsNullOrWhiteSpace(contentString) == false)
                 request.Content = new StringContent(contentString, Encoding.UTF8, "application/json");

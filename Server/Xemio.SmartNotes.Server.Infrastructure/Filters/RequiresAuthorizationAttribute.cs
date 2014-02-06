@@ -83,8 +83,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         /// <param name="context">The context.</param>
         private bool AreRequiredDataPresent(HttpActionContext context)
         {
+            IEnumerable<string> requestDateValues;
+
             return context.Request.Headers.Authorization.Parameter.Split(':').Length == 2 &&
-                   context.Request.Headers.Date.HasValue;
+                   context.Request.Headers.TryGetValues("Request-Date", out requestDateValues);
         }
         /// <summary>
         /// Determines whether the given username exists.
@@ -135,7 +137,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         /// <param name="context">The context.</param>
         private bool IsRequestDateValid(HttpActionContext context)
         {
-            var invalidDate = context.Request.Headers.Date.Value.AddMinutes(1);
+            DateTimeOffset requestDate = DateTimeOffset.Parse(context.Request.Headers.GetValues("Request-Date").First());
+            var invalidDate = requestDate.AddMinutes(1);
             return invalidDate >= DateTimeOffset.Now;
         }
         #endregion
