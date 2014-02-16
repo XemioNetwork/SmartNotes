@@ -8,8 +8,11 @@ using System.Web.Http.Cors;
 using Owin;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Raven.Client;
+using Xemio.SmartNotes.Server.Abstractions.Mailing;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
 using Xemio.SmartNotes.Server.Infrastructure.Windsor;
+using Xemio.SmartNotes.Shared.Entities.Mailing;
 
 namespace Xemio.SmartNotes.Server.Infrastructure
 {
@@ -27,8 +30,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         {
             var config = new HttpConfiguration();
 
-            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
-
+            this.ConfigureCrossOriginRequests(config);
             this.ConfigureWindsor(config);
             this.ConfigureFilters(config);
             this.ConfigureRoutes(config);
@@ -39,6 +41,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure
 
         #region Private Methods
         /// <summary>
+        /// Configures the cross origin requests.
+        /// </summary>
+        /// <param name="config">The configuration.</param>
+        private void ConfigureCrossOriginRequests(HttpConfiguration config)
+        {
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+        }
+        /// <summary>
         /// Configures the castle windsor IoC container.
         /// </summary>
         /// <param name="config">The config.</param>
@@ -48,6 +58,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure
             container.Install(FromAssembly.This());
 
             config.DependencyResolver = new WindsorResolver(container);
+
+            this.StartEmailSending(container);
         }
         /// <summary>
         /// Configures the filters.
@@ -64,6 +76,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         private void ConfigureRoutes(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
+        }
+        /// <summary>
+        /// Starts the email sending.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        private void StartEmailSending(IWindsorContainer container)
+        {
+            var emailManager = container.Resolve<IEmailManager>();
+            emailManager.StartSendingEmails();
         }
         #endregion
     }

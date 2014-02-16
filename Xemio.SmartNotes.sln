@@ -15,10 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Server.Inf
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{F30B1D65-681B-481F-A462-6047C9A98D82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Server.ConsoleHost", "Server\Applications\Xemio.SmartNotes.Server.ConsoleHost\Xemio.SmartNotes.Server.ConsoleHost.csproj", "{1343877A-CA52-44E4-B00F-D0126A23C720}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Server.ServiceHost", "Server\Applications\Xemio.SmartNotes.Server.ServiceHost\Xemio.SmartNotes.Server.ServiceHost.csproj", "{4926811A-3CE3-4287-8895-F7AEE5B7A990}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{FE830DA7-2F15-49D9-B249-B288EF4BDE73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Client.Windows", "Client\Applications\Xemio.SmartNotes.Client.Windows\Xemio.SmartNotes.Client.Windows.csproj", "{641E0A05-44E2-42BA-9F90-BDDAB7C56824}"
@@ -29,7 +25,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BE518046
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Shared", "Shared\Xemio.SmartNotes.Shared\Xemio.SmartNotes.Shared.csproj", "{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.AuthorizationHashTesting", "Xemio.SmartNotes.AuthorizationHashTesting\Xemio.SmartNotes.AuthorizationHashTesting.csproj", "{37EA4D33-C431-4D98-A29A-B08A737092F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.AuthorizationHashTesting", "Tests\Xemio.SmartNotes.AuthorizationHashTesting\Xemio.SmartNotes.AuthorizationHashTesting.csproj", "{37EA4D33-C431-4D98-A29A-B08A737092F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Server.Host", "Server\Applications\Xemio.SmartNotes.Server.Host\Xemio.SmartNotes.Server.Host.csproj", "{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,14 +43,6 @@ Global
 		{93A178C5-4F55-4E32-B9FA-083BE16F668A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93A178C5-4F55-4E32-B9FA-083BE16F668A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93A178C5-4F55-4E32-B9FA-083BE16F668A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1343877A-CA52-44E4-B00F-D0126A23C720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1343877A-CA52-44E4-B00F-D0126A23C720}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1343877A-CA52-44E4-B00F-D0126A23C720}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1343877A-CA52-44E4-B00F-D0126A23C720}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4926811A-3CE3-4287-8895-F7AEE5B7A990}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4926811A-3CE3-4287-8895-F7AEE5B7A990}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4926811A-3CE3-4287-8895-F7AEE5B7A990}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4926811A-3CE3-4287-8895-F7AEE5B7A990}.Release|Any CPU.Build.0 = Release|Any CPU
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +59,10 @@ Global
 		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,8 +74,7 @@ Global
 		{93A178C5-4F55-4E32-B9FA-083BE16F668A} = {C2A80173-21C1-45DF-9738-72B6BADA454F}
 		{F30B1D65-681B-481F-A462-6047C9A98D82} = {C2A80173-21C1-45DF-9738-72B6BADA454F}
 		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F} = {4E79071E-1AB2-4052-B862-2D129D68C719}
-		{1343877A-CA52-44E4-B00F-D0126A23C720} = {F30B1D65-681B-481F-A462-6047C9A98D82}
-		{4926811A-3CE3-4287-8895-F7AEE5B7A990} = {F30B1D65-681B-481F-A462-6047C9A98D82}
+		{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7} = {F30B1D65-681B-481F-A462-6047C9A98D82}
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824} = {FE830DA7-2F15-49D9-B249-B288EF4BDE73}
 		{37EA4D33-C431-4D98-A29A-B08A737092F5} = {BE518046-B01C-41E2-8418-644F478ABE19}
 	EndGlobalSection

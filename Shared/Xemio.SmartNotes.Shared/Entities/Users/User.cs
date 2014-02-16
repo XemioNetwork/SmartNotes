@@ -31,5 +31,9 @@
         /// Gets or sets the preferred language.
         /// </summary>
         public string PreferredLanguage { get; set; }
+        /// <summary>
+        /// Gets or sets the time zone identifier (IANA TimeZones).
+        /// </summary>
+        public string TimeZoneId { get; set; }
     }
 }

@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Raven.Abstractions.Data;
 using Raven.Client;
-using Xemio.SmartNotes.Server.Abstractions.Email;
+using Xemio.SmartNotes.Server.Abstractions.Mailing;
 using Xemio.SmartNotes.Server.Abstractions.Security;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
+using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Shared.Authorization;
 using Xemio.SmartNotes.Shared.Entities.Users;
 using Xemio.SmartNotes.Shared.Models;
@@ -26,7 +27,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
         #region Fields
         private readonly ISecretGenerator _secretGenerator;
-        private readonly IEmailSender _emailSender;
         private readonly IEmailFactory _emailFactory;
         #endregion
 
@@ -37,13 +37,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="documentSession">The document session.</param>
         /// <param name="userService">The user service.</param>
         /// <param name="secretGenerator">The secret generator.</param>
-        /// <param name="emailSender">The email sender.</param>
         /// <param name="emailFactory">The email factory.</param>
-        public PasswordResetController(IDocumentSession documentSession, IUserService userService, ISecretGenerator secretGenerator, IEmailSender emailSender, IEmailFactory emailFactory)
+        public PasswordResetController(IDocumentSession documentSession, IUserService userService, ISecretGenerator secretGenerator, IEmailFactory emailFactory)
             : base(documentSession, userService)
         {
             this._secretGenerator = secretGenerator;
-            this._emailSender = emailSender;
             this._emailFactory = emailFactory;
         }
         #endregion
@@ -75,7 +73,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             this.DocumentSession.Store(passwordReset);
 
             string uri = this.GetBaseUri() + "/PasswordResets?secret=" + passwordReset.Secret;
-            this._emailSender.SendAsync(this._emailFactory.CreatePasswordForgotEmail(user, uri));
+            this._emailFactory.SendPasswordForgotEmail(user, uri);
 
             this.Logger.DebugFormat("User '{0}' requested a password reset.", user.Id);
 
@@ -115,7 +113,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             string newPassword = this._secretGenerator.Generate(16);
             user.AuthorizationHash = AuthorizationHash.CreateBaseHash(user.Username, newPassword).Result;
 
-            this._emailSender.SendAsync(this._emailFactory.CreatePasswordResetEmail(user, newPassword));
+            this._emailFactory.SendPasswordResetEmail(user, newPassword);
 
             passwordReset.PasswordWasReset = true;
 

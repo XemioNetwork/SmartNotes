@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{37EA4D33-C431-4D98-A29A-B08A737092F5}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xemio.SmartNotes.Shared</RootNamespace>
-    <AssemblyName>Xemio.SmartNotes.Shared</AssemblyName>
+    <RootNamespace>Xemio.SmartNotes.AuthorizationHashTesting</RootNamespace>
+    <AssemblyName>Xemio.SmartNotes.AuthorizationHashTesting</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -39,33 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authorization\AuthorizationHash.cs" />
-    <Compile Include="Common\BackgroundExceptionEventArgs.cs" />
-    <Compile Include="Common\BackgroundQueue.cs" />
-    <Compile Include="Entities\AggregateRoot.cs" />
-    <Compile Include="Entities\Mailing\Email.cs" />
-    <Compile Include="Entities\Mailing\EmailAttachment.cs" />
-    <Compile Include="Entities\Mailing\EmailBody.cs" />
-    <Compile Include="Entities\Mailing\EmailPerson.cs" />
-    <Compile Include="Entities\Mailing\EmailSendType.cs" />
-    <Compile Include="Entities\Mailing\EmailTemplate.cs" />
-    <Compile Include="Entities\Mailing\SentEmail.cs" />
-    <Compile Include="Entities\Notes\AttachedFile.cs" />
-    <Compile Include="Entities\Notes\Folder.cs" />
-    <Compile Include="Entities\Notes\ITagContainer.cs" />
-    <Compile Include="Entities\Notes\Note.cs" />
-    <Compile Include="Entities\Users\IUserSpecificEntity.cs" />
-    <Compile Include="Entities\Users\PasswordReset.cs" />
-    <Compile Include="Entities\Users\User.cs" />
-    <Compile Include="Extensions\ICollectionExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Models\CreateAvatar.cs" />
-    <Compile Include="Models\CreatePasswordReset.cs" />
-    <Compile Include="Models\Tag.cs" />
-    <Compile Include="Models\UpdatePassword.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Xemio.SmartNotes.Shared\Xemio.SmartNotes.Shared.csproj">
+      <Project>{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}</Project>
+      <Name>Xemio.SmartNotes.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

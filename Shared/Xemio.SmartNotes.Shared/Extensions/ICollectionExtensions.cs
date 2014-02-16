@@ -9,7 +9,7 @@ namespace Xemio.SmartNotes.Shared.Extensions
     public static class ICollectionExtensions
     {
         /// <summary>
-        /// Adds the range.
+        /// Adds all items to the specified <paramref name="collection"/>.
         /// </summary>
         /// <typeparam name="T">The item type.</typeparam>
         /// <param name="collection">The collection.</param>

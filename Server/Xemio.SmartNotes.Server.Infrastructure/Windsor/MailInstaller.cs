@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Xemio.SmartNotes.Server.Abstractions.Email;
-using Xemio.SmartNotes.Server.Infrastructure.Implementations.Email;
+using Xemio.SmartNotes.Server.Abstractions.Mailing;
+using Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing;
+using Xemio.SmartNotes.Shared.Entities.Mailing;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
 {
@@ -26,20 +27,28 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register
-            (
-                Component.For<IEmailSender>().ImplementedBy<SmtpEmailSender>().DependsOn(new
-                                                                                         {
-                                                                                             host = "localhost",
-                                                                                             port = 25,
-                                                                                             username = string.Empty,
-                                                                                             password = string.Empty,
+                (
+                    Component.For<IEmailSender>().ImplementedBy<SmtpEmailSender>().LifestyleSingleton().DependsOn(new
+                                                                                                                      {
+                                                                                                                          host = "localhost",
+                                                                                                                          port = 25,
+                                                                                                                          username = string.Empty,
+                                                                                                                          password = string.Empty,
+                                                                                                                          sender = new EmailPerson
+                                                                                                                          {
+                                                                                                                              Name = "Xemio Notes",
+                                                                                                                              Address = "info@xemio-notes.net"
+                                                                                                                          }
+                                                                                                                      }),
 
-                                                                                         }),
-                Component.For<IEmailFactory>().ImplementedBy<SmtpEmailFactory>().DependsOn(new
-                                                                                           {
-                                                                                               senderEmailAddress = "notes@xemio.net",
-                                                                                               senderName = "Xemio Notes"
-                                                                                           })
+                    Component.For<IEmailManager>()
+                             .ImplementedBy<EmailManager>()
+                             .LifestyleSingleton()
+                             .OnDestroy(f => f.Stop()),
+
+                    Component.For<IEmailFactory>()
+                             .ImplementedBy<EmailFactory>()
+                             .LifestyleSingleton()
             );
         }
         #endregion
