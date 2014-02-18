@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
+using NodaTime;
 using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Shared.Authorization;
@@ -115,7 +116,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
                            Username = this.Username,
                            EmailAddress = this.EMailAddress,
                            AuthorizationHash = await AuthorizationHash.CreateBaseHash(this.Username, this.Password),
-                           PreferredLanguage = this._displayManager.Languages.CurrentLanguage.Name
+                           PreferredLanguage = this._displayManager.Languages.CurrentLanguage.Name,
+                           TimeZoneId = DateTimeZoneProviders.Tzdb.GetSystemDefault().Id
                        };
 
             HttpResponseMessage response = await this._webServiceClient.Users.PostUser(user);

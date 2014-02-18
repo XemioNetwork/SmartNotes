@@ -50,6 +50,7 @@
     <Compile Include="Entities\Mailing\EmailSendType.cs" />
     <Compile Include="Entities\Mailing\EmailTemplate.cs" />
     <Compile Include="Entities\Mailing\SentEmail.cs" />
+    <Compile Include="Entities\Mailing\SubjectAndBody.cs" />
     <Compile Include="Entities\Notes\AttachedFile.cs" />
     <Compile Include="Entities\Notes\Folder.cs" />
     <Compile Include="Entities\Notes\ITagContainer.cs" />

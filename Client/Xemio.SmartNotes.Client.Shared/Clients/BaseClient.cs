@@ -59,8 +59,9 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <returns></returns>
         protected async Task<HttpRequestMessage> CreateRequest(HttpMethod method, string relativeUri, object content = null)
         {
-            DateTimeOffset requestDate = this.GetCurrentDate();
+            DateTimeOffset requestDate = DateTimeOffset.UtcNow;
             string contentString = content != null ? JsonConvert.SerializeObject(content) : null;
+
             string authorizationHash = await AuthorizationHash.Create(this.Session.Username, this.Session.Password, requestDate, contentString);
 
             var request = new HttpRequestMessage(method, relativeUri)
@@ -98,15 +99,6 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         #endregion
 
         #region Private Methods
-        /// <summary>
-        /// Returns the current date without milliseconds.
-        /// We need to remove the milliseconds because the HTTP Header does not transport them, so we lose them on the server and the authentication fails.
-        /// </summary>
-        private DateTimeOffset GetCurrentDate()
-        {
-            var current = DateTimeOffset.UtcNow;
-            return new DateTimeOffset(current.Year, current.Month, current.Day, current.Hour, current.Minute, current.Second, current.Offset);
-        }
         /// <summary>
         /// Creates the response when you can't reach the web-service.
         /// </summary>

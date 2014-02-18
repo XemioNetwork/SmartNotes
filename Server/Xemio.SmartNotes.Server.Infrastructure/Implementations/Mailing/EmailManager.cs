@@ -13,6 +13,7 @@ using Xemio.SmartNotes.Shared.Entities.Mailing;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
 {
+    [System.Runtime.InteropServices.GuidAttribute("ECD986F2-69C8-4372-B87A-03369884D36D")]
     public class EmailManager : IEmailManager
     {
         #region Fields
