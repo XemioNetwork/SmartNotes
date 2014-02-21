@@ -104,8 +104,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
 
             if (metadata == null)
                 throw new InvalidOperationException("The entity must be tracked in the session before calling this method.");
-
-
+            
             RavenJToken token;
             if (!metadata.TryGetValue(metadataKey, out token))
                 token = new RavenJArray();

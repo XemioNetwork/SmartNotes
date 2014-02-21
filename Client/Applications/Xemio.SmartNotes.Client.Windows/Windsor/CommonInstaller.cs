@@ -38,7 +38,7 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
                 Component.For<ILanguageManager>().ImplementedBy<LanguageManager>().LifestyleSingleton(),
                 Component.For<IDataStorage>().UsingFactoryMethod(() => new DataStorage(new DataStorageSettings
                                                                                        {
-                                                                                           FileSystem = new EsentFileSystem(),
+                                                                                           FileSystem = new FileSystem(),
                                                                                            Encrypter = new RijndaelEncryptor("Xemio.SmartNotes.RijndaelEncryptor.Secret")
                                                                                        })).LifestyleSingleton(),
                 Component.For<ITaskExecutor>().ImplementedBy<TaskExecutor>().LifestyleSingleton()

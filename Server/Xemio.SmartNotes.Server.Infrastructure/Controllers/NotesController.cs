@@ -30,7 +30,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         #endregion
 
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NotesController"/> class.
         /// </summary>
@@ -44,7 +43,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         }
         #endregion
 
-        #region Implementation of INotesController
+        #region Methods
         /// <summary>
         /// Returns all <see cref="Note" />s from the given <see cref="Folder" />.
         /// </summary>
@@ -123,12 +122,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 throw new UnauthorizedException();
 
             var currentUser = this.UserService.GetCurrentUser();
-            var folder = this.DocumentSession.Load<Folder>(note.FolderId);
-
             note.UserId = currentUser.Id;
 
             this.DocumentSession.Store(note);
-            this.DocumentSession.Advanced.AddCascadeDelete(folder, note.Id);
 
             this.Logger.DebugFormat("Created note '{0}' for user '{1}'.", note.Id, note.UserId);
 
@@ -161,18 +157,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             storedNote.Name = note.Name;
             storedNote.Content = note.Content;
             storedNote.Tags = note.Tags;
-
-            bool folderHasChanged = storedNote.FolderId != note.FolderId;
-            if (folderHasChanged)
-            {
-                var oldFolder = this.DocumentSession.Load<Folder>(storedNote.FolderId);
-                this.DocumentSession.Advanced.RemoveCascadeDelete(oldFolder, storedNote.Id);
-
-                var newFolder = this.DocumentSession.Load<Folder>(note.FolderId);
-                this.DocumentSession.Advanced.AddCascadeDelete(newFolder, storedNote.Id);
-
-                storedNote.FolderId = note.FolderId;
-            }
+            storedNote.FolderId = note.FolderId;
 
             this.Logger.DebugFormat("Updated note '{0}'.", storedNote.Id);
 

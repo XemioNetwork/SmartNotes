@@ -16,7 +16,6 @@ namespace Xemio.SmartNotes.Shared.Entities.Notes
         public Note()
         {
             this.Tags = new Collection<string>();
-            this.AttachedFiles = new Collection<AttachedFile>();
         }
         #endregion
 
@@ -32,10 +31,6 @@ namespace Xemio.SmartNotes.Shared.Entities.Notes
         /// Gets or sets the tags.
         /// </summary>
         public ICollection<string> Tags { get; set; }
-        /// <summary>
-        /// Gets or sets the attached files.
-        /// </summary>
-        public ICollection<AttachedFile> AttachedFiles { get; set; }
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>

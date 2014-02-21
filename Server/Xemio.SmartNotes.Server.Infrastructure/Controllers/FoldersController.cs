@@ -13,6 +13,7 @@ using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Extensions;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
@@ -40,7 +41,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         }
         #endregion
 
-        #region Implementation of IFoldersController
+        #region Methods
         /// <summary>
         /// Returns all <see cref="Folder"/>s from the given <see cref="User"/>.
         /// </summary>
@@ -54,7 +55,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             string parentFolderStringId = parentFolderId > 0
                 ? this.DocumentSession.Advanced.GetStringIdFor<Folder>(parentFolderId)
                 : null;
-
+            
             var folders = this.DocumentSession.Query<Folder>()
                                               .Where(f => f.UserId == currentUser.Id && f.ParentFolderId == parentFolderStringId)
                                               .OrderBy(f => f.Name)
@@ -77,18 +78,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 throw new InvalidFolderNameException();
             
             User currentUser = this.UserService.GetCurrentUser();
-
             folder.UserId = currentUser.Id;
 
             this.DocumentSession.Store(folder);
-
-            //If we have a parent folder
-            if (string.IsNullOrWhiteSpace(folder.ParentFolderId) == false)
-            {
-                //Add the cascade delete
-                Folder parentFolder = this.DocumentSession.Load<Folder>(folder.ParentFolderId);
-                this.DocumentSession.Advanced.AddCascadeDelete(parentFolder, folder.Id);
-            }
 
             this.Logger.DebugFormat("Created new folder '{0}' for user '{1}'.", folder.Id, currentUser.Id);
 
@@ -119,28 +111,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             storedFolder.Name = folder.Name;
             storedFolder.Tags = folder.Tags;
-
-            //If the folder has changed
-            bool folderHasChanged = storedFolder.ParentFolderId != folder.ParentFolderId;
-            if (folderHasChanged)
-            {
-                //Look if we had a parent folder
-                if (string.IsNullOrWhiteSpace(storedFolder.ParentFolderId) == false)
-                {
-                    //Remove the cascade delete from the old parent folder
-                    var oldFolder = this.DocumentSession.Load<Folder>(storedFolder.ParentFolderId);
-                    this.DocumentSession.Advanced.RemoveCascadeDelete(oldFolder, storedFolder.Id);
-                }
-                //Look if we have a new parent folder
-                if (string.IsNullOrWhiteSpace(folder.ParentFolderId) == false)
-                {
-                    //Add cascade delete to the new parent folder
-                    var newFolder = this.DocumentSession.Load<Folder>(folder.ParentFolderId);
-                    this.DocumentSession.Advanced.AddCascadeDelete(newFolder, storedFolder.Id);
-                }
-
-                storedFolder.ParentFolderId = folder.ParentFolderId;
-            }
+            storedFolder.ParentFolderId = folder.ParentFolderId;
 
             this.Logger.DebugFormat("Updated folder '{0}'.", storedFolder.Id);
 

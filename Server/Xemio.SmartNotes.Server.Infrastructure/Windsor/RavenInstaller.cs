@@ -6,12 +6,16 @@ using Castle.MicroKernel.Context;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Lucene.Net.Documents;
 using Raven.Bundles.CascadeDelete;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
+using Raven.Client.Listeners;
 using Xemio.RavenDB.NGramAnalyzer;
+using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Listeners;
+using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
 {
@@ -34,7 +38,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
             container.Register
             (
                 Component.For<IDocumentStore>().UsingFactoryMethod(this.GetDocumentStore).LifestyleSingleton(),
-                Component.For<IDocumentSession>().UsingFactoryMethod((kernel, context) => kernel.Resolve<IDocumentStore>().OpenSession()).LifestyleTransient()
+                Component.For<IDocumentSession>().UsingFactoryMethod((kernel, context) => kernel.Resolve<IDocumentStore>().OpenSession()).LifestyleScoped()
             );
         }
         #endregion
@@ -47,16 +51,21 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         /// <param name="context">The context.</param>
         private IDocumentStore GetDocumentStore(IKernel kernel, CreationContext context)
         {
-            IDocumentStore documentStore = this.CreateDocumentStore();
+            DocumentStore documentStore = this.CreateDocumentStore();
+            documentStore.RegisterListener(new NoteCascadeDeleteListener(documentStore));
+            documentStore.RegisterListener(new FolderCascadeDeleteListener(documentStore));
+
+            documentStore.Initialize();
 
             IndexCreation.CreateIndexes(this.GetType().Assembly, documentStore);
 
             return documentStore;
         }
+
         /// <summary>
         /// Creates the document store depending on the connection string.
         /// </summary>
-        private IDocumentStore CreateDocumentStore()
+        private DocumentStore CreateDocumentStore()
         {
             if (this.HasConnectionString() == false)
                 throw new ConfigurationErrorsException(string.Format("No connection string for RavenDB was found. {0}Make sure you have a 'RavenDB' connection string in the app.config", Environment.NewLine));
@@ -76,7 +85,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
                 //Add other catalogs here
                 store.Configuration.Catalog.Catalogs.Add(catalog);
                 
-                return store.Initialize();
+                return store;
             }
             else 
             { 
@@ -84,7 +93,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
                 {
                     ConnectionStringName = ConnectionStringName,
                     DefaultDatabase = "XemioNotes"
-                }.Initialize();
+                };
             }
         }
         /// <summary>

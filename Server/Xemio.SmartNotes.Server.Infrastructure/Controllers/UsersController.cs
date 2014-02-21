@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +30,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
     {
         #region Fields
         private readonly IEmailValidationService _emailValidationService;
+        private readonly IExampleDataService _exampleDataService;
+
         #endregion
 
         #region Constructors
@@ -38,10 +41,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="documentSession">The document session.</param>
         /// <param name="emailValidationService">The email validator.</param>
         /// <param name="userService">The user service.</param>
-        public UsersController(IDocumentSession documentSession, IEmailValidationService emailValidationService, IUserService userService)
+        /// <param name="exampleDataService">The example data service.</param>
+        public UsersController(IDocumentSession documentSession, IEmailValidationService emailValidationService, IUserService userService, IExampleDataService exampleDataService)
             : base(documentSession, userService)
         {
             this._emailValidationService = emailValidationService;
+            this._exampleDataService = exampleDataService;
         }
         #endregion
 
@@ -81,6 +86,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         [RequiresAuthorization]
         public HttpResponseMessage GetAuthorized()
         {
+            this._exampleDataService.CreateExampleDataForCurrentUser();
+
             return Request.CreateResponse(HttpStatusCode.Found, this.UserService.GetCurrentUser());
         }
         /// <summary>

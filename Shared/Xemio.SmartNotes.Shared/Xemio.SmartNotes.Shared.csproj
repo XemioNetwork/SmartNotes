@@ -51,7 +51,6 @@
     <Compile Include="Entities\Mailing\EmailTemplate.cs" />
     <Compile Include="Entities\Mailing\SentEmail.cs" />
     <Compile Include="Entities\Mailing\SubjectAndBody.cs" />
-    <Compile Include="Entities\Notes\AttachedFile.cs" />
     <Compile Include="Entities\Notes\Folder.cs" />
     <Compile Include="Entities\Notes\ITagContainer.cs" />
     <Compile Include="Entities\Notes\Note.cs" />
@@ -60,6 +59,7 @@
     <Compile Include="Entities\Users\User.cs" />
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Models\CreateAvatar.cs" />
     <Compile Include="Models\CreatePasswordReset.cs" />
     <Compile Include="Models\Tag.cs" />

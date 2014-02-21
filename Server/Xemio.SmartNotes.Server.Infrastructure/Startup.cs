@@ -11,6 +11,7 @@ using Castle.Windsor.Installer;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Mailing;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
+using Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing;
 using Xemio.SmartNotes.Server.Infrastructure.Windsor;
 using Xemio.SmartNotes.Shared.Entities.Mailing;
 
@@ -85,6 +86,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         {
             var emailManager = container.Resolve<IEmailManager>();
             emailManager.StartSendingEmails();
+
+            container.Resolve<ImmediateEmailSendingJob>();
         }
         #endregion
     }

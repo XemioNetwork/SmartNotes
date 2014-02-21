@@ -32,6 +32,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
                         .LifestyleSingleton(),
                     Classes.FromThisAssembly()
                         .BasedOn<IJob>()
+                        .WithServiceSelf()
                         .LifestyleTransient()
                 );
         }

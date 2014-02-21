@@ -125,11 +125,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
 
             var timeZone = DateTimeZoneProviders.Tzdb[user.TimeZoneId];
 
-            //We check in the User's timezone if it's after 6 PM
+            //We check in the User's timezone if it's after 2 PM
             ZonedDateTime sendDate = timeZone.AtLeniently(LocalDateTime.FromDateTime(DateTime.Now));
-            if (sendDate.Hour > 18)
+            if (sendDate.Hour > 14)
             {
-                //Add a day if it's after 6 PM
+                //Add a day if it's after 2 PM
                 sendDate = sendDate.Plus(Duration.FromStandardDays(1));
             }
 

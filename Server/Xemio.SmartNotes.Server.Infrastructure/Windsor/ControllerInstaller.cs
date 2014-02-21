@@ -22,7 +22,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         /// <param name="container">The container.</param><param name="store">The configuration store.</param>
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Classes.FromThisAssembly().BasedOn<BaseController>().LifestyleTransient());
+            container.Register(Classes.FromThisAssembly().BasedOn<BaseController>().WithServiceSelf().LifestyleScoped());
         }
         #endregion
     }
