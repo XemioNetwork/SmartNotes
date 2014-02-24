@@ -108,6 +108,7 @@
     <Compile Include="Data\Events\FolderCreatedEvent.cs" />
     <Compile Include="Data\Events\FolderDeletedEvent.cs" />
     <Compile Include="Data\Events\FolderEditedEvent.cs" />
+    <Compile Include="Data\Events\FolderMovedEvent.cs" />
     <Compile Include="Data\Events\LogoutEvent.cs" />
     <Compile Include="Data\Events\SelectedFolderEvent.cs" />
     <Compile Include="Data\Events\SuggestionSelectedEvent.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Implementations\Tasks\CreateFolderTask.cs" />
     <Compile Include="Implementations\Tasks\DeleteFolderTask.cs" />
     <Compile Include="Implementations\Tasks\EditFolderTask.cs" />
+    <Compile Include="Implementations\Tasks\MoveFolderTask.cs" />
     <Compile Include="Implementations\Tasks\TaskMessages.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

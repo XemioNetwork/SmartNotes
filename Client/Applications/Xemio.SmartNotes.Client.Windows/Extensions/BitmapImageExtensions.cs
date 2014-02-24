@@ -19,10 +19,10 @@ namespace Xemio.SmartNotes.Client.Windows.Extensions
         /// <param name="image">The image.</param>
         public static MemoryStream ToPngMemoryStream(this BitmapImage image)
         {
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            var encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(image));
 
-            MemoryStream stream = new MemoryStream();
+            var stream = new MemoryStream();
             encoder.Save(stream);
 
             return stream;

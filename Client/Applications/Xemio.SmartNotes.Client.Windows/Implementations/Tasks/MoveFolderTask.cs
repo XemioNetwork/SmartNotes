@@ -14,23 +14,22 @@ using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
-    public class EditFolderTask : BaseTask
+    public class MoveFolderTask : BaseTask
     {
         #region Fields
         private readonly IEventAggregator _eventAggregator;
         private readonly WebServiceClient _client;
 
         private Folder _folder;
-
         #endregion
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="EditFolderTask"/> class.
+        /// Initializes a new instance of the <see cref="MoveFolderTask"/> class.
         /// </summary>
         /// <param name="eventAggregator">The event aggregator.</param>
         /// <param name="client">The client.</param>
-        public EditFolderTask(IEventAggregator eventAggregator, WebServiceClient client)
+        public MoveFolderTask(IEventAggregator eventAggregator, WebServiceClient client)
         {
             this._eventAggregator = eventAggregator;
             this._client = client;
@@ -39,7 +38,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 
         #region Properties
         /// <summary>
-        /// Gets or sets the folder that will be updated.
+        /// Gets or sets the folder.
         /// </summary>
         public Folder Folder
         {
@@ -54,13 +53,13 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         }
         #endregion
 
-        #region Implementation of ITask
+        #region Overrides of BaseTask
         /// <summary>
         /// Gets the display name for this task.
         /// </summary>
         public override string DisplayName
         {
-            get { return string.Format(TaskMessages.EditFolderTask, this.Folder.Name); }
+            get { return string.Format(TaskMessages.MoveFolderTask, this.Folder.Name); }
         }
         /// <summary>
         /// Executes this task.
@@ -71,14 +70,14 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Folder folder = await response.Content.ReadAsAsync<Folder>();
-                this._eventAggregator.Publish(new FolderEditedEvent(folder));
+                this._eventAggregator.Publish(new FolderMovedEvent(folder));
             }
             else
             {
                 string message = await response.Content.ReadAsStringAsync();
                 this.Logger.Error(message);
 
-                throw new GenericException(TaskMessages.EditFolderTaskFailed);
+                throw new GenericException(TaskMessages.MoveFolderTaskFailed);
             }
         }
         #endregion

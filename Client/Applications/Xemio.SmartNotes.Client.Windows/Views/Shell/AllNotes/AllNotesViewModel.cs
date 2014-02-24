@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -21,7 +22,13 @@ using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {
-    public class AllNotesViewModel : Screen, IHandle<FolderCreatedEvent>, IHandleWithTask<SelectedFolderEvent>, IHandle<FolderDeletedEvent>, IHandle<FolderEditedEvent>
+    public class AllNotesViewModel : Screen, 
+        IHandle<FolderCreatedEvent>, 
+        IHandleWithTask<SelectedFolderEvent>, 
+        IHandle<FolderDeletedEvent>, 
+        IHandle<FolderEditedEvent>,
+        IHandle<FolderMovedEvent>
+
     {
         #region Fields
         private readonly WebServiceClient _client;
@@ -122,6 +129,42 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             this._taskExecutor.StartTask(task);
         }
+        /// <summary>
+        /// Moves the specified <paramref name="folderToMove"/> to the specified <paramref name="newParentFolder"/>.
+        /// </summary>
+        /// <param name="folderToMove">The folder to move.</param>
+        /// <param name="newParentFolder">The new parent.</param>
+        public void MoveFolder(FolderViewModel folderToMove, FolderViewModel newParentFolder)
+        {
+            if (folderToMove == null)
+                throw new ArgumentNullException("folderToMove");
+            
+            //We want to move the folder to itself
+            if (folderToMove == newParentFolder)
+                return;
+
+            //We want to move the folder to a subfolder of itself
+            if (newParentFolder != null && folderToMove.SubFolders.Contains(newParentFolder))
+                return;
+
+            string newParentFolderId = newParentFolder != null ? newParentFolder.Folder.Id : null;
+
+            //The parent folder did not change
+            if (folderToMove.Folder.ParentFolderId == newParentFolderId)
+                return;
+            
+            var task = IoC.Get<MoveFolderTask>();
+            task.Folder = new Folder
+            {
+                Id = folderToMove.Folder.Id,
+                Name = folderToMove.Folder.Name,
+                Tags = folderToMove.Folder.Tags,
+                ParentFolderId = newParentFolderId,
+                UserId = folderToMove.Folder.UserId
+            };
+
+            this._taskExecutor.StartTask(task);
+        }
         #endregion
 
         #region Overrides of Screen
@@ -169,7 +212,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// <param name="message">The message.</param>
         public void Handle(FolderEditedEvent message)
         {
-            FolderViewModel editedFolder = this.GetAllFolders().SingleOrDefault(f => f.FolderId == message.Folder.Id);
+            FolderViewModel editedFolder = this.GetAllFolders().Single(f => f.FolderId == message.Folder.Id);
 
             if (editedFolder != null)
                 editedFolder.Initialize(message.Folder, false);
@@ -218,6 +261,40 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                 this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
                 this.Logger.ErrorFormat("Error while loading notes from folder '{0}': {1}", selectedFolderEvent.FolderId, message);
+            }
+        }
+        #endregion
+
+        #region Implementation of IHandle<FolderMovedEvent>
+        /// <summary>
+        /// Handles the <see cref="FolderMovedEvent"/>.
+        /// </summary>
+        /// <param name="message">The FolderMovedEvent.</param>
+        public void Handle(FolderMovedEvent message)
+        {
+            FolderViewModel movedFolder = this.GetAllFolders().Single(f => f.FolderId == message.Folder.Id);
+            movedFolder.Initialize(message.Folder);
+
+            //Remove the folder from it's old parent folder
+            FolderViewModel oldParentFolder = this.GetAllFolders().SingleOrDefault(f => f.SubFolders.Contains(movedFolder));
+            if (oldParentFolder == null)
+            {
+                this.Folders.Remove(movedFolder);
+            }
+            else
+            {
+                oldParentFolder.SubFolders.Remove(movedFolder);
+            }
+            
+            //Add the folder to it's new parent folder
+            FolderViewModel newParentFolder = this.GetAllFolders().SingleOrDefault(f => f.FolderId == message.Folder.ParentFolderId);
+            if (newParentFolder == null)
+            {
+                this.Folders.Add(movedFolder);
+            }
+            else
+            {
+                newParentFolder.SubFolders.Add(movedFolder);
             }
         }
         #endregion
