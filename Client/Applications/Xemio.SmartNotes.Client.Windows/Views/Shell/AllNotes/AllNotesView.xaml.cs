@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Xemio.SmartNotes.Client.Windows.Extensions;
+using Xemio.SmartNotes.Client.Windows.Themes.ResourceDictionaries.Brushes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {
@@ -54,25 +57,35 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// Display effects on the hovered <see cref="TreeViewItem"/> here.
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
-        private void TreeViewItemOnDragEnter(object sender, DragEventArgs e)
+        /// <param name="eventArgs">The <see cref="DragEventArgs"/> instance containing the event data.</param>
+        private void TreeViewItemOnDragEnter(object sender, DragEventArgs eventArgs)
         {
-            e.Effects = DragDropEffects.None;
-
             var treeViewItem = sender as TreeViewItem;
-            var folder = treeViewItem.DataContext as FolderViewModel;
 
-            //TODO: Add adorner layer
+            if (treeViewItem == null)
+                return;
+
+            treeViewItem.Foreground = new DefaultColorTheme().DarkerBlueColorBrush;
+
+            eventArgs.Handled = true;
         }
         /// <summary>
         /// Called when a Drag operation leaves a <see cref="TreeViewItem"/>.
         /// Remove effects on the hovered <see cref="TreeViewItem"/> here.
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
-        private void TreeViewItemOnDragLeave(object sender, DragEventArgs e)
+        /// <param name="eventArgs">The <see cref="DragEventArgs"/> instance containing the event data.</param>
+        private void TreeViewItemOnDragLeave(object sender, DragEventArgs eventArgs)
         {
-            //TODO Remove adorner layer
+            var treeViewItem = sender as TreeViewItem;
+
+            if (treeViewItem == null)
+                return;
+
+            treeViewItem.ClearValue(ForegroundProperty);
+
+            if (eventArgs != null)
+                eventArgs.Handled = true;
         }
         /// <summary>
         /// Called when the dragged item is dropped.
@@ -82,6 +95,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         private void TreeViewOnDrop(object sender, DragEventArgs e)
         {
             var newParentItem = VisualTree.FindParentControl<TreeViewItem>((DependencyObject)e.OriginalSource);
+
+            //Reset the foreground if we drop
+            this.TreeViewItemOnDragLeave(newParentItem, null);
+
             FolderViewModel newParentFolder = newParentItem != null ? (FolderViewModel)newParentItem.DataContext : null;
 
             var draggedFolder = (FolderViewModel)e.Data.GetData(typeof(FolderViewModel));

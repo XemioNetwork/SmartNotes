@@ -114,6 +114,7 @@
     <Compile Include="Data\Events\SuggestionSelectedEvent.cs" />
     <Compile Include="Data\Exceptions\GenericException.cs" />
     <Compile Include="Extensions\BitmapImageExtensions.cs" />
+    <Compile Include="Extensions\ResourceDictionaryExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\VisualTree.cs" />
     <Compile Include="Implementations\Interaction\DisplayManager.cs" />
@@ -158,6 +159,9 @@
     <Compile Include="Implementations\Interaction\XemioWindowManager.cs" />
     <Compile Include="Implementations\Settings\LanguageManager.cs" />
     <Compile Include="Implementations\Tasks\TaskExecutor.cs" />
+    <Compile Include="Themes\ResourceDictionaries\Brushes\DefaultColorTheme.xaml.cs">
+      <DependentUpon>DefaultColorTheme.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
     <Compile Include="Views\CreateFolder\CreateFolderMessages.de.Designer.cs">
       <AutoGen>True</AutoGen>

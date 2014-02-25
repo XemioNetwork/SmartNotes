@@ -144,4 +144,10 @@
   <data name="ErrorInTask" xml:space="preserve">
     <value>Fehler</value>
   </data>
+  <data name="MoveFolderTask" xml:space="preserve">
+    <value>Verschiebe Ordner '{0}' ...</value>
+  </data>
+  <data name="MoveFolderTaskFailed" xml:space="preserve">
+    <value>Fehler beim Verschieben des Ornders '{0}'.</value>
+  </data>
 </root>

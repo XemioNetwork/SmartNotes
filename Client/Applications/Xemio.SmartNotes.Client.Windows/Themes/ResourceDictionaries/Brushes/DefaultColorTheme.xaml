@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:Class="Xemio.SmartNotes.Client.Windows.Themes.ResourceDictionaries.Brushes.DefaultColorTheme">
 
     <!-- Colors -->
     <Color x:Key="lighterBlueColor" A="255" R="62" G="182" B="255" />

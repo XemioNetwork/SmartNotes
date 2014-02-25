@@ -20,5 +20,13 @@ namespace Xemio.SmartNotes.Client.Windows.Extensions
             return (from tag in tagString.Split(new []{',', ' '}, StringSplitOptions.RemoveEmptyEntries)
                     select tag.Trim()).ToArray();
         }
+        /// <summary>
+        /// Makes the first character lower case.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        public static string MakeFirstCharLowerCase(this string text)
+        {
+            return text.Substring(0, 1).ToLower() + text.Substring(1, text.Length - 1);
+        }
     }
 }
