@@ -22,15 +22,24 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
 {
     public class EditFolderViewModel : Screen
     {
+        #region Fields
         private readonly ITaskExecutor _taskExecutor;
         private readonly WebServiceClient _client;
         private readonly DisplayManager _displayManager;
 
         private string _folderName;
-        private string _folderTags;
+        private IEnumerable<string> _folderTags;
         private string _exampleTags;
         private Folder _folder;
+        #endregion
 
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditFolderViewModel"/> class.
+        /// </summary>
+        /// <param name="taskExecutor">The task executor.</param>
+        /// <param name="client">The client.</param>
+        /// <param name="displayManager">The display manager.</param>
         public EditFolderViewModel(ITaskExecutor taskExecutor, WebServiceClient client, DisplayManager displayManager)
         {
             this.Logger = NullLogger.Instance;
@@ -41,6 +50,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
 
             this.DisplayName = "Xemio Notes";
         }
+        #endregion
 
         #region Properties
         /// <summary>
@@ -60,7 +70,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
                     this._folder = value;
 
                     this.FolderName = this.Folder.Name;
-                    this.FolderTags = string.Join(", ", this.Folder.Tags);
+                    this.FolderTags = this.Folder.Tags;
 
                     this.NotifyOfPropertyChange(() => this.Folder);
                 }
@@ -85,7 +95,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
         /// <summary>
         /// Gets or sets the tags of the folder.
         /// </summary>
-        public string FolderTags
+        public IEnumerable<string> FolderTags
         {
             get { return this._folderTags; }
             set
@@ -143,7 +153,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
                 Id = this.Folder.Id,
                 ParentFolderId = this.Folder.ParentFolderId,
                 Name = this.FolderName,
-                Tags = this.FolderTags.GetTags(),
+                Tags = this.FolderTags.ToList(),
                 UserId = this.Folder.UserId
             };
 

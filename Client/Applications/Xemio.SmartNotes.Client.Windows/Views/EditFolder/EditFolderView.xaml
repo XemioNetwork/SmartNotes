@@ -10,7 +10,8 @@
              lex:ResxLocalizationProvider.DefaultDictionary="EditFolderMessages"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:valueConverter="clr-namespace:Xemio.SmartNotes.Client.Windows.Themes.ValueConverter"
              mc:Ignorable="d" 
              
              Width="300"
@@ -38,7 +39,7 @@
                 <!-- The folder name textbox -->
                 <controls:WatermarkTextBox x:Name="FolderName" Grid.Row="1" Watermark="{lex:Loc FolderName}" Margin="5, 0, 5, 0" />
                 <!-- The folder tags textbox -->
-                <controls:WatermarkTextBox x:Name="FolderTags" Grid.Row="3" Watermark="{lex:Loc FolderTags}" Margin="5, 0, 5, 0" />
+                <controls:WatermarkTextBox Text="{Binding FolderTags, Converter={valueConverter:TagsToStringConverter}}" Grid.Row="3" Watermark="{lex:Loc FolderTags}" Margin="5, 0, 5, 0" />
 
                 <!-- The tags example list -->
                 <Label x:Name="ExampleTags" Grid.Row="4" FontSize="11" HorizontalAlignment="Center" Foreground="{StaticResource grayColorBrush}" />

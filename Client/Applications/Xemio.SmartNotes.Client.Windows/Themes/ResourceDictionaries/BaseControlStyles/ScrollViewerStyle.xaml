@@ -5,7 +5,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
-        <Setter Property="Padding" Value="0, 0, 3, 3"/>
+        <Setter Property="Padding" Value="0, 0, 0, 0"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>

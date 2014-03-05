@@ -14,11 +14,12 @@
         <ResourceDictionary Source="BaseControlStyles/PasswordBoxStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/ScrollBarStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/ScrollViewerStyle.xaml" />
-        <ResourceDictionary Source="BaseControlStyles/TreeViewItemStyle.xaml" />
 
         <!-- Named Styles -->
         <ResourceDictionary Source="NamedStyles/DividerLineStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/ExpandCollapseToggleButtonStyle.xaml" />
+        <ResourceDictionary Source="NamedStyles/FolderTreeViewItemStyle.xaml" />
+        <ResourceDictionary Source="NamedStyles/FolderTreeViewStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/HeaderButtonStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/LinkButtonStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/LinkTextBlockStyle.xaml" />

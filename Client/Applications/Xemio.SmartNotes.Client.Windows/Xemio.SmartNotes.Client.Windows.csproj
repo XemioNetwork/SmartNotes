@@ -57,6 +57,9 @@
     <Reference Include="Esent.Interop">
       <HintPath>..\..\..\packages\ManagedEsent.1.8.3.2\lib\net40\Esent.Interop.dll</HintPath>
     </Reference>
+    <Reference Include="MarkdownSharp">
+      <HintPath>..\..\..\packages\MarkdownSharp.1.13.0.0\lib\35\MarkdownSharp.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\..\..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -134,6 +137,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Themes\AttachedProperties\WebBrowserHelper.cs" />
     <Compile Include="Themes\Controls\GlassWindow.cs" />
     <Compile Include="Themes\Controls\PasswordScore.cs" />
     <Compile Include="Themes\Controls\PasswordValidator.cs" />
@@ -163,6 +167,10 @@
       <DependentUpon>DefaultColorTheme.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
+    <Compile Include="Themes\ValueConverter\MarkdownToHtmlConverter.cs" />
+    <Compile Include="Themes\ValueConverter\MarkdownToStringPreviewConverter.cs" />
+    <Compile Include="Themes\ValueConverter\TagsToStringConverter.cs" />
+    <Compile Include="Themes\ValueConverter\TreeViewItemWholeSelectionConverter.cs" />
     <Compile Include="Views\CreateFolder\CreateFolderMessages.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -196,6 +204,7 @@
     </Compile>
     <Compile Include="Views\Shell\AllNotes\AllNotesViewModel.cs" />
     <Compile Include="Views\Shell\AllNotes\FolderViewModel.cs" />
+    <Compile Include="Views\Shell\AllNotes\NoteViewModel.cs" />
     <Compile Include="Views\Shell\Search\FoundNotesView.xaml.cs">
       <DependentUpon>FoundNotesView.xaml</DependentUpon>
     </Compile>
@@ -344,7 +353,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ResourceDictionaries\BaseControlStyles\TreeViewItemStyle.xaml">
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\FolderTreeViewItemStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -361,6 +370,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\ResourceDictionaries\NamedStyles\ExpandCollapseToggleButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\FolderTreeViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

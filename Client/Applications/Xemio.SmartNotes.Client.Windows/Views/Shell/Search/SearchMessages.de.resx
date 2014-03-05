@@ -121,6 +121,6 @@
     <value>Meinten Sie:</value>
   </data>
   <data name="SearchText" xml:space="preserve">
-    <value>Ein Tag, Name oder der Inhalt...</value>
+    <value>Ein Tag, Title oder der Inhalt...</value>
   </data>
 </root>

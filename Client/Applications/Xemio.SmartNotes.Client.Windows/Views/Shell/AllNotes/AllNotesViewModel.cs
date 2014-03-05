@@ -37,6 +37,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         private readonly IEventAggregator _eventAggregator;
 
         private BindableCollection<FolderViewModel> _folders;
+        private BindableCollection<NoteViewModel> _notes;
         #endregion
 
         #region Properties
@@ -56,6 +57,21 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                 {
                     this._folders = value;
                     this.NotifyOfPropertyChange(() => this.Folders);
+                }
+            }
+        }
+        /// <summary>
+        /// Gets or sets the notes.
+        /// </summary>
+        public BindableCollection<NoteViewModel> Notes
+        {
+            get { return this._notes; }
+            set
+            {
+                if (this._notes != value)
+                {
+                    this._notes = value;
+                    this.NotifyOfPropertyChange(() => this.Notes);
                 }
             }
         }
@@ -253,7 +269,15 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             HttpResponseMessage response = await this._client.Notes.GetAllNotes(selectedFolderEvent.FolderId);
             if (response.StatusCode == HttpStatusCode.Found)
             {
-                //TODO: Load notes and display them in the grid
+                Note[] notes = await response.Content.ReadAsAsync<Note[]>();
+
+                this.Notes = new BindableCollection<NoteViewModel>(notes.Select(f =>
+                {
+                    var viewModel = IoC.Get<NoteViewModel>();
+                    viewModel.Initialize(f);
+
+                    return viewModel;
+                }));
             }
             else
             {

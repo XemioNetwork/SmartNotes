@@ -42,6 +42,7 @@
     <Compile Include="Authorization\AuthorizationHash.cs" />
     <Compile Include="Common\BackgroundExceptionEventArgs.cs" />
     <Compile Include="Common\BackgroundQueue.cs" />
+    <Compile Include="Common\Singleton.cs" />
     <Compile Include="Entities\AggregateRoot.cs" />
     <Compile Include="Entities\Mailing\Email.cs" />
     <Compile Include="Entities\Mailing\EmailAttachment.cs" />
@@ -62,8 +63,8 @@
     <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Models\CreateAvatar.cs" />
     <Compile Include="Models\CreatePasswordReset.cs" />
+    <Compile Include="Models\FolderNoteCount.cs" />
     <Compile Include="Models\Tag.cs" />
-    <Compile Include="Models\UpdatePassword.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
