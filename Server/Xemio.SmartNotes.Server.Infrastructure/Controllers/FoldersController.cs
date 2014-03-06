@@ -78,7 +78,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 throw new InvalidFolderNameException();
             
             User currentUser = this.UserService.GetCurrentUser();
+
             folder.UserId = currentUser.Id;
+            folder.CreatedDate = DateTimeOffset.Now;
 
             this.DocumentSession.Store(folder);
 

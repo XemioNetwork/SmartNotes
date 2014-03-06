@@ -45,5 +45,21 @@ namespace Xemio.SmartNotes.Client.Windows.Extensions
             }        
             return (T)parent;
         }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="child"/> is a child of the specified <paramref name="parent"/>.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <param name="parent">The parent.</param>
+        public static bool IsChildOf(DependencyObject child, DependencyObject parent)
+        {
+            DependencyObject foundParent = VisualTreeHelper.GetParent(child);
+            while (foundParent != null && foundParent != parent)
+            {
+                foundParent = VisualTreeHelper.GetParent(foundParent);
+            }
+
+            return foundParent != null;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xemio.SmartNotes.Shared.Entities.Users;
 
@@ -16,6 +17,7 @@ namespace Xemio.SmartNotes.Shared.Entities.Notes
         public Folder()
         {
             this.Tags = new Collection<string>();
+            this.CreatedDate = DateTimeOffset.Now;
         }
         #endregion
 
@@ -35,5 +37,9 @@ namespace Xemio.SmartNotes.Shared.Entities.Notes
         /// Gets or sets the parent folder identifier.
         /// </summary>
         public string ParentFolderId { get; set; }
+        /// <summary>
+        /// Gets or sets the created date.
+        /// </summary>
+        public DateTimeOffset CreatedDate { get; set; }
     }
 }

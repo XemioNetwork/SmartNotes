@@ -341,6 +341,13 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
                     return viewModel;
                 }));
+
+                FolderViewModel firstFolder = this.Folders.FirstOrDefault();
+                if (firstFolder != null)
+                { 
+                    firstFolder.IsSelected = true;
+                    await this.Handle(new SelectedFolderEvent(firstFolder.FolderId));
+                }
             }
             else
             {

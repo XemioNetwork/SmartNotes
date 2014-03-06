@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using Xemio.SmartNotes.Client.Windows.Extensions;
 using Xemio.SmartNotes.Client.Windows.Themes.ResourceDictionaries.Brushes;
 

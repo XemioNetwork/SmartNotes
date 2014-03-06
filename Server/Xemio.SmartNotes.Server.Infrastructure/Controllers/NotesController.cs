@@ -122,7 +122,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 throw new UnauthorizedException();
 
             var currentUser = this.UserService.GetCurrentUser();
+
             note.UserId = currentUser.Id;
+            note.CreatedDate = DateTimeOffset.Now;
 
             this.DocumentSession.Store(note);
 

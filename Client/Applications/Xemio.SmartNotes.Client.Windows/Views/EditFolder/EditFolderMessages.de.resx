@@ -121,7 +121,7 @@
     <value>Ordner bearbeiten</value>
   </data>
   <data name="FolderName" xml:space="preserve">
-    <value>Title des Ordners</value>
+    <value>Name des Ordners</value>
   </data>
   <data name="FolderTags" xml:space="preserve">
     <value>Tags des Ordners</value>

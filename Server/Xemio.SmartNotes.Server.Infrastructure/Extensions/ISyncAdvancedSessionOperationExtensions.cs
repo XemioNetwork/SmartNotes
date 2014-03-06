@@ -109,6 +109,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
             if (!metadata.TryGetValue(metadataKey, out token))
                 token = new RavenJArray();
 
+            //Removes error when the Token has "IsSnapshot" true
+            token = token.CloneToken();
+
             var list = (RavenJArray)token;
             execute(list);
             
