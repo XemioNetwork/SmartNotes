@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 
-namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
+namespace Xemio.SmartNotes.Client.Windows.ViewParts
 {
     public class NoteViewModel : PropertyChangedBase
     {
@@ -14,6 +11,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         private string _title;
         private string _content;
         private ICollection<string> _tags;
+        private DateTimeOffset _createdDate;
         #endregion
 
         #region Properties
@@ -66,6 +64,21 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                 }
             }
         }
+        /// <summary>
+        /// Gets the created date.
+        /// </summary>
+        public DateTimeOffset CreatedDate
+        {
+            get { return this._createdDate; }
+            private set
+            {
+                if (this._createdDate != value)
+                {
+                    this._createdDate = value;
+                    this.NotifyOfPropertyChange(() => this.CreatedDate);
+                }
+            }
+        }
         #endregion 
 
         #region Methods
@@ -83,6 +96,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             this.Title = note.Name;
             this.Content = note.Content;
             this.Tags = note.Tags;
+            this.CreatedDate = note.CreatedDate;
         }
         #endregion
     }

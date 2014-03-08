@@ -11,7 +11,7 @@
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:valueConverter="clr-namespace:Xemio.SmartNotes.Client.Windows.Themes.ValueConverter"
+             xmlns:valueConverter="clr-namespace:Xemio.SmartNotes.Client.Windows.ValueConverter"
              mc:Ignorable="d" 
              
              Width="300"

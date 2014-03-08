@@ -17,9 +17,10 @@
 
     <Color x:Key="lighterOrangeColor" A="255" R="230" G="126" B="34" />
     <Color x:Key="orangeColor" A="255" R="211" G="84" B="0" />
-    
-    <Color x:Key="blackColor" A="255" R="91" G="81" B="71" />
-    <Color x:Key="grayColor" A="255" R="141" G="128" B="112" />
+
+    <Color x:Key="blackColor">#5B5147</Color>
+    <Color x:Key="grayColor">#8D8070</Color>
+    <Color x:Key="lighterGrayColor">#E6E6E6</Color>
     
     <!-- Brushes -->
     <LinearGradientBrush x:Key="dividerBrush" StartPoint="0, 0" EndPoint="0, 1">
@@ -62,6 +63,7 @@
     
     <SolidColorBrush x:Key="blackColorBrush" Color="{StaticResource blackColor}" />
     <SolidColorBrush x:Key="grayColorBrush" Color="{StaticResource grayColor}" />
+    <SolidColorBrush x:Key="lighterGrayColorBrush" Color="{StaticResource lighterGrayColor}" />
 
     <!-- Fonts -->
     <FontFamily x:Key="lightFont">/Xemio.SmartNotes.Client.Shared;Component/Resources/Fonts/#Open Sans Light</FontFamily>

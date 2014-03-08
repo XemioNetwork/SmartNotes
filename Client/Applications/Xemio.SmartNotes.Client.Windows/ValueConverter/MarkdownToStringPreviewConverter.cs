@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using Xemio.SmartNotes.Client.Windows.Extensions;
 using Xemio.SmartNotes.Shared.Common;
 
-namespace Xemio.SmartNotes.Client.Windows.Themes.ValueConverter
+namespace Xemio.SmartNotes.Client.Windows.ValueConverter
 {
     [ValueConversion(typeof(string), typeof(string))]
     public class MarkdownToStringPreviewConverter : MarkupExtension, IValueConverter

@@ -6,7 +6,6 @@
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:valueConverter="clr-namespace:Xemio.SmartNotes.Client.Windows.Themes.ValueConverter"
              mc:Ignorable="d" 
                           
              lex:LocalizeDictionary.DesignCulture="de-DE"
@@ -68,7 +67,7 @@
                   Drop="TreeViewOnDrop"
                   DragEnter="TreeViewItemOnDragEnter">
             <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource FolderTreeViewItem}">
                     <EventSetter Event="DragEnter" Handler="TreeViewItemOnDragEnter" />
                     <EventSetter Event="DragLeave" Handler="TreeViewItemOnDragLeave" />
                     <EventSetter Event="MouseMove" Handler="TreeViewItemOnMouseMove" />
@@ -85,23 +84,10 @@
         <!--<GridSplitter Grid.Row="1" Grid.Column="0" Width="2" ResizeBehavior="CurrentAndNext" />-->
 
         <!-- The notes grid -->
-        <DataGrid x:Name="Notes" 
-                  Grid.Row="1" 
-                  Grid.Column="1" 
-                  Foreground="{StaticResource blackColorBrush}"
-                  Background="#E6E6E6" 
-                  BorderThickness="0" 
-                  HeadersVisibility="None" 
-                  VerticalGridLinesBrush="Transparent" 
-                  HorizontalGridLinesBrush="LightGray" 
-                  AutoGenerateColumns="False" 
-                  ScrollViewer.CanContentScroll="false"
-                  CanUserAddRows="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Title}" />
-                <DataGridTextColumn Binding="{Binding Content, Converter={valueConverter:MarkdownToStringPreviewConverter}}" />
-                <DataGridTextColumn Binding="{Binding Tags, Converter={valueConverter:TagsToStringConverter}}" />
-            </DataGrid.Columns>    
-        </DataGrid>
+        <ListBox x:Name="Notes" 
+                 Grid.Column="1"
+                 Grid.Row="1" 
+                 Background="{StaticResource lighterGrayColorBrush}"
+                 ItemContainerStyle="{StaticResource RoundedListBoxItem}" />
     </Grid>
 </UserControl>

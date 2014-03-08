@@ -11,6 +11,7 @@
         <ResourceDictionary Source="BaseControlStyles/GridSplitterStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/GroupBoxStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/LabelStyle.xaml" />
+        <ResourceDictionary Source="BaseControlStyles/ListBoxStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/PasswordBoxStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/ScrollBarStyle.xaml" />
         <ResourceDictionary Source="BaseControlStyles/ScrollViewerStyle.xaml" />
@@ -26,6 +27,7 @@
         <ResourceDictionary Source="NamedStyles/LinkToggleButtonStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/RedButtonStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/RegionContentControlStyle.xaml" />
+        <ResourceDictionary Source="NamedStyles/RoundedListBoxItemStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/ScrollBarThumbStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/SubHeaderButtonStyle.xaml" />
         

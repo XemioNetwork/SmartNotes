@@ -137,7 +137,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskMessages.resx</DependentUpon>
     </Compile>
-    <Compile Include="Themes\AttachedProperties\WebBrowserHelper.cs" />
+    <Compile Include="AttachedProperties\WebBrowserHelper.cs" />
     <Compile Include="Themes\Controls\GlassWindow.cs" />
     <Compile Include="Themes\Controls\PasswordScore.cs" />
     <Compile Include="Themes\Controls\PasswordValidator.cs" />
@@ -167,10 +167,13 @@
       <DependentUpon>DefaultColorTheme.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
-    <Compile Include="Themes\ValueConverter\MarkdownToHtmlConverter.cs" />
-    <Compile Include="Themes\ValueConverter\MarkdownToStringPreviewConverter.cs" />
-    <Compile Include="Themes\ValueConverter\TagsToStringConverter.cs" />
-    <Compile Include="Themes\ValueConverter\TreeViewItemWholeSelectionConverter.cs" />
+    <Compile Include="ValueConverter\MarkdownToHtmlConverter.cs" />
+    <Compile Include="ValueConverter\MarkdownToStringPreviewConverter.cs" />
+    <Compile Include="ValueConverter\TagsToStringConverter.cs" />
+    <Compile Include="ValueConverter\TreeViewItemWholeSelectionConverter.cs" />
+    <Compile Include="ViewParts\NoteView.xaml.cs">
+      <DependentUpon>NoteView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreateFolder\CreateFolderMessages.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -204,7 +207,7 @@
     </Compile>
     <Compile Include="Views\Shell\AllNotes\AllNotesViewModel.cs" />
     <Compile Include="Views\Shell\AllNotes\FolderViewModel.cs" />
-    <Compile Include="Views\Shell\AllNotes\NoteViewModel.cs" />
+    <Compile Include="ViewParts\NoteViewModel.cs" />
     <Compile Include="Views\Shell\Search\FoundNotesView.xaml.cs">
       <DependentUpon>FoundNotesView.xaml</DependentUpon>
     </Compile>
@@ -341,6 +344,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\BaseControlStyles\ListBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\BaseControlStyles\PasswordBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -425,9 +432,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\RoundedListBoxItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\ResourceLibrary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ViewParts\NoteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CreateFolder\CreateFolderView.xaml">
       <SubType>Designer</SubType>

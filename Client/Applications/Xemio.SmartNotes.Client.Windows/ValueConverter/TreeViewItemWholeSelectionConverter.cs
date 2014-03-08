@@ -1,26 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
 using Xemio.SmartNotes.Client.Windows.Extensions;
 using Xemio.SmartNotes.Shared.Common;
 
-namespace Xemio.SmartNotes.Client.Windows.Themes.ValueConverter
+namespace Xemio.SmartNotes.Client.Windows.ValueConverter
 {
-    [ValueConversion(typeof(IEnumerable<string>), typeof(string))]
-    public class TagsToStringConverter : MarkupExtension, IValueConverter
+    [ValueConversion(typeof(TreeViewItem), typeof(Thickness), ParameterType = typeof(double))]
+    public class TreeViewItemWholeSelectionConverter : MarkupExtension, IValueConverter
     {
         #region Singleton
         /// <summary>
         /// Gets the instance.
         /// </summary>
-        public static TagsToStringConverter Instance
+        public TreeViewItemWholeSelectionConverter Instance
         {
-            get { return Singleton<TagsToStringConverter>.Instance; }
+            get { return Singleton<TreeViewItemWholeSelectionConverter>.Instance; }
         }
         #endregion
 
@@ -34,7 +32,7 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.ValueConverter
             return Instance;
         }
         #endregion
-
+        
         #region Implementation of IValueConverter
         /// <summary>
         /// Converts a value.
@@ -45,12 +43,14 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.ValueConverter
         /// <param name="culture">The culture to use in the converter.</param>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var input = (IEnumerable<string>)value;
+            var treeViewItem = (TreeViewItem) value;
 
-            if (input == null)
-                return string.Empty;
+            if (value == null)
+                return DependencyProperty.UnsetValue;
 
-            return string.Join(", ", input);
+            var length = double.Parse(parameter.ToString());
+            
+            return new Thickness(-length * this.GetDepth(treeViewItem), 0, 0, 0);
         }
         /// <summary>
         /// Converts a value.
@@ -61,13 +61,24 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.ValueConverter
         /// <param name="culture">The culture to use in the converter.</param>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var input = (string) value;
+            return DependencyProperty.UnsetValue;
+        }
+        #endregion
 
-            if (input == null)
-                return new string[0];
+        #region Private Methods
+        /// <summary>
+        /// Gets the depth of the specified <paramref name="item"/>.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        private int GetDepth(TreeViewItem item)
+        {
+            TreeViewItem parent;
 
-            return (from tag in input.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                    select tag.Trim()).ToArray();
+            while ((parent = (VisualTree.FindParentControl<TreeViewItem>(item))) != null)
+            {
+                return GetDepth(parent) + 1;
+            }
+            return 0;
         }
         #endregion
     }

@@ -17,6 +17,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeView}">
+                    
                     <Grid Background="{TemplateBinding Background}">
                         
                         <Grid.ColumnDefinitions>

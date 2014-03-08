@@ -16,6 +16,7 @@ using Xemio.SmartNotes.Client.Shared.Tasks;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
+using Xemio.SmartNotes.Client.Windows.ViewParts;
 using Xemio.SmartNotes.Client.Windows.Views.CreateFolder;
 using Xemio.SmartNotes.Client.Windows.Views.EditFolder;
 using Xemio.SmartNotes.Shared.Entities.Notes;
@@ -69,7 +70,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             set
             {
                 if (this._notes != value)
-                {
+                { 
                     this._notes = value;
                     this.NotifyOfPropertyChange(() => this.Notes);
                 }
