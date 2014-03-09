@@ -150,4 +150,10 @@
   <data name="MoveFolderTaskFailed" xml:space="preserve">
     <value>Error while moving the folder '{0}'.</value>
   </data>
+  <data name="MoveNoteTask" xml:space="preserve">
+    <value>Moving note '{0}' ...</value>
+  </data>
+  <data name="MoveNoteTaskFailed" xml:space="preserve">
+    <value>Error while moving the note '{0}'.</value>
+  </data>
 </root>

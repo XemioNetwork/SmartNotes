@@ -20,6 +20,7 @@ using Xemio.SmartNotes.Client.Windows.ViewParts;
 using Xemio.SmartNotes.Client.Windows.Views.CreateFolder;
 using Xemio.SmartNotes.Client.Windows.Views.EditFolder;
 using Xemio.SmartNotes.Shared.Entities.Notes;
+using Xemio.SmartNotes.Shared.Extensions;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {
@@ -28,7 +29,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         IHandleWithTask<SelectedFolderEvent>, 
         IHandle<FolderDeletedEvent>, 
         IHandle<FolderEditedEvent>,
-        IHandle<FolderMovedEvent>
+        IHandle<FolderMovedEvent>,
+        IHandle<NoteMovedEvent>
 
     {
         #region Fields
@@ -147,6 +149,29 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             this._taskExecutor.StartTask(task);
         }
         /// <summary>
+        /// Moves the specified <paramref name="noteToMove"/> to the specified <paramref name="newParentFolder"/>.
+        /// </summary>
+        /// <param name="noteToMove">The note to move.</param>
+        /// <param name="newParentFolder">The new parent folder.</param>
+        public void MoveNote(NoteViewModel noteToMove, FolderViewModel newParentFolder)
+        {
+            if (noteToMove == null)
+                throw new ArgumentNullException("noteToMove");
+
+            if (newParentFolder == null)
+                throw new ArgumentNullException("newParentFolder");
+
+            //We want to move the note to it's current parent folder
+            if (noteToMove.FolderId == newParentFolder.FolderId)
+                return;
+
+            var task = IoC.Get<MoveNoteTask>();
+            task.Note = noteToMove.Note.DeepClone();
+            task.Note.FolderId = newParentFolder.FolderId;
+
+            this._taskExecutor.StartTask(task);
+        }
+        /// <summary>
         /// Moves the specified <paramref name="folderToMove"/> to the specified <paramref name="newParentFolder"/>.
         /// </summary>
         /// <param name="folderToMove">The folder to move.</param>
@@ -171,14 +196,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                 return;
             
             var task = IoC.Get<MoveFolderTask>();
-            task.Folder = new Folder
-            {
-                Id = folderToMove.Folder.Id,
-                Name = folderToMove.Folder.Name,
-                Tags = folderToMove.Folder.Tags,
-                ParentFolderId = newParentFolderId,
-                UserId = folderToMove.Folder.UserId
-            };
+            task.Folder = folderToMove.Folder.DeepClone();
+            task.Folder.ParentFolderId = newParentFolderId;
 
             this._taskExecutor.StartTask(task);
         }
@@ -320,6 +339,34 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             else
             {
                 newParentFolder.SubFolders.Add(movedFolder);
+            }
+        }
+        #endregion
+
+        #region Implementation of IHandle<NoteMovedEvent>
+        /// <summary>
+        /// Handles the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void Handle(NoteMovedEvent message)
+        {
+            NoteViewModel movedNote = this.Notes.FirstOrDefault(f => f.NoteId == message.Note.Id);
+
+            //The note moved to another folder
+            if (movedNote != null && movedNote.FolderId != message.Note.FolderId)
+            {
+                this.Notes.Remove(movedNote);
+                return;
+            }
+
+            //The note moved to the current folder
+            FolderViewModel selectedFolder = this.GetAllFolders().FirstOrDefault(f => f.IsSelected);
+            if (selectedFolder != null && message.Note.FolderId == selectedFolder.FolderId)
+            {
+                var viewModel = IoC.Get<NoteViewModel>();
+                viewModel.Initialize(message.Note);
+
+                this.Notes.Add(viewModel);
             }
         }
         #endregion

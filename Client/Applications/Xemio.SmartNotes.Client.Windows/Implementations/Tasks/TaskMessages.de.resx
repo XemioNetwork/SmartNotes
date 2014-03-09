@@ -148,6 +148,12 @@
     <value>Verschiebe Ordner '{0}' ...</value>
   </data>
   <data name="MoveFolderTaskFailed" xml:space="preserve">
-    <value>Fehler beim Verschieben des Ornders '{0}'.</value>
+    <value>Fehler beim Verschieben des Ordners '{0}'.</value>
+  </data>
+  <data name="MoveNoteTask" xml:space="preserve">
+    <value>Verschiebe Notiz '{0}' ...</value>
+  </data>
+  <data name="MoveNoteTaskFailed" xml:space="preserve">
+    <value>Fehler beim Verschieben der Notiz '{0}'.</value>
   </data>
 </root>

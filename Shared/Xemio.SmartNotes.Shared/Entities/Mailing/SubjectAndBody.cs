@@ -1,4 +1,6 @@
-﻿namespace Xemio.SmartNotes.Shared.Entities.Mailing
+﻿using System;
+
+namespace Xemio.SmartNotes.Shared.Entities.Mailing
 {
     public class SubjectAndBody
     {

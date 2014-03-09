@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Shared.Entities.Notes
@@ -49,5 +50,23 @@ namespace Xemio.SmartNotes.Shared.Entities.Notes
         /// Gets or sets a value indicating whether it's a favorite.
         /// </summary>
         public bool IsFavorite { get; set; }
+
+        /// <summary>
+        /// Creates a deep clone of this instance.
+        /// </summary>
+        public Note DeepClone()
+        {
+            return new Note
+            {
+                Id = this.Id,
+                Name = this.Name,
+                Content = this.Content,
+                Tags = this.Tags.ToList(),
+                UserId = this.UserId,
+                FolderId = this.FolderId,
+                CreatedDate = this.CreatedDate,
+                IsFavorite = this.IsFavorite
+            };
+        }
     }
 }

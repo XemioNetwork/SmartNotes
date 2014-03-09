@@ -158,5 +158,23 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
                 return ResourceManager.GetString("MoveFolderTaskFailed", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moving note &apos;{0}&apos; ....
+        /// </summary>
+        internal static string MoveNoteTask {
+            get {
+                return ResourceManager.GetString("MoveNoteTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while moving the note &apos;{0}&apos;..
+        /// </summary>
+        internal static string MoveNoteTaskFailed {
+            get {
+                return ResourceManager.GetString("MoveNoteTaskFailed", resourceCulture);
+            }
+        }
     }
 }

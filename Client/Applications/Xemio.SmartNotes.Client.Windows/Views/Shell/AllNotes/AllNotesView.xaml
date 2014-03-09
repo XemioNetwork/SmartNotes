@@ -86,8 +86,13 @@
                  Grid.Column="1"
                  Grid.Row="1" 
                  Background="{StaticResource lighterGrayColorBrush}"
-                 ScrollViewer.CanContentScroll="False"
-                 ItemContainerStyle="{StaticResource RoundedListBoxItem}" />
+                 ScrollViewer.CanContentScroll="False">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource RoundedListBoxItem}">
+                    <EventSetter Event="MouseMove" Handler="ListBoxItemOnMouseMove" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
 
         <!-- The splitter -->
         <GridSplitter Grid.Row="1" Grid.Column="1" Width="3" Background="Transparent" ResizeBehavior="PreviousAndCurrent" HorizontalAlignment="Left" />

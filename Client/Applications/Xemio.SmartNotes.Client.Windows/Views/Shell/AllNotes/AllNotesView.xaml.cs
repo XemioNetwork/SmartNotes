@@ -7,6 +7,8 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using Xemio.SmartNotes.Client.Windows.Extensions;
 using Xemio.SmartNotes.Client.Windows.Themes.ResourceDictionaries.Brushes;
+using Xemio.SmartNotes.Client.Windows.ViewParts;
+using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {
@@ -52,6 +54,23 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             var data = new DataObject(this.Folders.SelectedItem);
             DragDrop.DoDragDrop(this.Folders, data, DragDropEffects.Move);
+        }
+        /// <summary>
+        /// Called when the mouse moves on a <see cref="ListBoxItem"/>.
+        /// Starts the Drag and Drop operation for <see cref="Note"/>s.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+        private void ListBoxItemOnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton != MouseButtonState.Pressed)
+                return;
+
+            if (this.Notes.SelectedItem == null)
+                return;
+
+            var data = new DataObject(this.Notes.SelectedItem);
+            DragDrop.DoDragDrop(this.Notes, data, DragDropEffects.Move);
         }
         /// <summary>
         /// Called when a Drag operation enters a <see cref="TreeViewItem"/>.
@@ -102,8 +121,23 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             FolderViewModel newParentFolder = newParentItem != null ? (FolderViewModel)newParentItem.DataContext : null;
 
-            var draggedFolder = (FolderViewModel)e.Data.GetData(typeof(FolderViewModel));
-            this.ViewModel.MoveFolder(draggedFolder, newParentFolder);
+            //Move the folder
+            if (e.Data.GetDataPresent(typeof(FolderViewModel)))
+            {
+                var draggedFolder = (FolderViewModel)e.Data.GetData(typeof(FolderViewModel));
+                this.ViewModel.MoveFolder(draggedFolder, newParentFolder);
+
+                return;
+            }
+            
+            //Move the note
+            if(e.Data.GetDataPresent(typeof(NoteViewModel)) && newParentFolder != null)
+            {
+                var draggedNote = (NoteViewModel) e.Data.GetData(typeof (NoteViewModel));
+                this.ViewModel.MoveNote(draggedNote, newParentFolder);
+
+                return;
+            }
         }
         #endregion
     }

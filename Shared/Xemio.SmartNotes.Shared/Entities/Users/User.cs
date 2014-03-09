@@ -1,4 +1,6 @@
-﻿namespace Xemio.SmartNotes.Shared.Entities.Users
+﻿using System;
+
+namespace Xemio.SmartNotes.Shared.Entities.Users
 {
     /// <summary>
     /// Contains information about a single <see cref="User" />.

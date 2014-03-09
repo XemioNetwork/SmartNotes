@@ -1,4 +1,6 @@
-﻿namespace Xemio.SmartNotes.Shared.Entities
+﻿using System;
+
+namespace Xemio.SmartNotes.Shared.Entities
 {
     /// <summary>
     /// A base class for all <see cref="AggregateRoot"/>s.
