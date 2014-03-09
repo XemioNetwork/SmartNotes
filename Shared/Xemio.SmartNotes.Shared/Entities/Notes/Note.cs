@@ -45,5 +45,9 @@ namespace Xemio.SmartNotes.Shared.Entities.Notes
         /// Gets or sets the created date.
         /// </summary>
         public DateTimeOffset CreatedDate { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether it's a favorite.
+        /// </summary>
+        public bool IsFavorite { get; set; }
     }
 }

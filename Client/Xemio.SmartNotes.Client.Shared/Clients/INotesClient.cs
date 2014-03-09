@@ -19,6 +19,11 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         Task<HttpResponseMessage> SearchNotes(string searchText);
 
         /// <summary>
+        /// Gets the favorite notes.
+        /// </summary>
+        Task<HttpResponseMessage> GetFavoriteNotes();
+
+        /// <summary>
         /// Creates a new <see cref="Note" />.
         /// </summary>
         /// <param name="note">The note.</param>

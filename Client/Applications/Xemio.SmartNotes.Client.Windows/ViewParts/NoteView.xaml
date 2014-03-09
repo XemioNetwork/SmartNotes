@@ -4,42 +4,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:valueConverter="clr-namespace:Xemio.SmartNotes.Client.Windows.ValueConverter"
              mc:Ignorable="d" 
              
-             d:DesignWidth="800"
-             d:DesignHeight="300" 
+             d:DesignWidth="400"
              
-             HorizontalAlignment="Stretch"
-             >
+             HorizontalAlignment="Stretch">
         
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="40" />
-            </Grid.RowDefinitions>
-        
-            <!-- The Title -->
-            <Label x:Name="Title" 
-                   Grid.Row="0" 
-                   HorizontalAlignment="Left" 
-                   Content="alsödfjlöasjdf" 
-                   Foreground="{StaticResource blackColorBrush}"
-                   FontFamily="{StaticResource semiBoldFont}" 
-                   FontSize="16" 
-                   VerticalContentAlignment="Center" />
-        
-            <!-- The Date -->
-            <Label Grid.Row="0" 
-                   HorizontalAlignment="Right" 
-                   ContentStringFormat="f"
-                   Content="{Binding CreatedDate}" 
-                   Foreground="{StaticResource blackColorBrush}" 
-                   VerticalContentAlignment="Center" 
-                   FontSize="11" />
+    <Grid Margin="10, 0, 10, 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
 
-            <!-- The Tags -->
+        <!-- The Title -->
+        <Label x:Name="Title" 
+               Grid.Row="0"
+               Content="Title" 
+               Foreground="{StaticResource blackColorBrush}"
+               FontFamily="{StaticResource semiBoldFont}" 
+               FontSize="16" 
+               VerticalContentAlignment="Center" />
+
+        <!-- The Date -->
+        <Label Grid.Row="0"
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center">
+            <TextBlock Text="{Binding CreatedDate, Converter={valueConverter:LongDateFormatConverter}}" 
+                       Foreground="{StaticResource blackColorBrush}" 
+                       TextWrapping="Wrap"
+                       FontSize="11" 
+                       TextOptions.TextFormattingMode="Display" />
+        </Label>
+
+        <!-- The Upper Line -->
+        <Rectangle Grid.Row="0" VerticalAlignment="Bottom" Height="1"  Fill="{StaticResource lighterGrayColorBrush}" />
+
+        <!-- The Content -->
+        <Label Grid.Row="1" 
+               MaxHeight="300" >
+            <TextBlock Text="{Binding Content, Converter={valueConverter:MarkdownToStringPreviewConverter}}" 
+                       TextWrapping="Wrap"
+                       Foreground="{StaticResource blackColorBrush}"
+                       TextOptions.TextFormattingMode="Display" />
+        </Label>
+
+        <!-- The Lower Line -->
+        <Rectangle Grid.Row="2" VerticalAlignment="Top" Height="1"  Fill="{StaticResource lighterGrayColorBrush}" />
+        
+        <!-- The Tags -->
+        <Grid Grid.Row ="2" 
+              VerticalAlignment="Center">
+            <Label Content="Tags" FontFamily="{StaticResource semiBoldFont}" />
+
+            <Label Content="{Binding Tags, Converter={valueConverter:TagsToStringConverter}}"
+                   Margin="40, 0, 0, 0"/>
             
         </Grid>
+
+    </Grid>
 </UserControl>

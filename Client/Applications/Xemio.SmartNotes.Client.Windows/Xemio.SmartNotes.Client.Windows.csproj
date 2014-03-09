@@ -167,6 +167,7 @@
       <DependentUpon>DefaultColorTheme.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
+    <Compile Include="ValueConverter\LongDateFormatConverter.cs" />
     <Compile Include="ValueConverter\MarkdownToHtmlConverter.cs" />
     <Compile Include="ValueConverter\MarkdownToStringPreviewConverter.cs" />
     <Compile Include="ValueConverter\TagsToStringConverter.cs" />

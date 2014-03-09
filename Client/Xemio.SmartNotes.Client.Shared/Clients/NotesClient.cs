@@ -46,6 +46,14 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
             return await this.SendAsync(request);
         }
         /// <summary>
+        /// Gets the favorite notes.
+        /// </summary>
+        public async Task<HttpResponseMessage> GetFavoriteNotes()
+        {
+            var request = await this.CreateRequest(HttpMethod.Get, "Users/Authorized/Notes/Favorites");
+            return await this.SendAsync(request);
+        }
+        /// <summary>
         /// Creates a new <see cref="Note" />.
         /// </summary>
         /// <param name="note">The note.</param>

@@ -15,7 +15,7 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
         /// <summary>
         /// The maximum character count.
         /// </summary>
-        public const int MaxCharCount = 200;
+        public const int MaxCharCount = 400;
         #endregion
 
         #region Singleton

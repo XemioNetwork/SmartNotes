@@ -6,11 +6,13 @@
     </ResourceDictionary.MergedDictionaries>
     
     <Style TargetType="{x:Type GridSplitter}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource gridSplitterBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GridSplitter}">
-                    <Grid Width="3" Background="White">
-                        <Rectangle Width="1" Fill="{StaticResource gridSplitterBrush}" />
+                    <Grid Width="{TemplateBinding Width}" Background="{TemplateBinding Background}">
+                        <Rectangle Width="1" Fill="{TemplateBinding Foreground}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

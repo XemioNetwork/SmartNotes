@@ -80,14 +80,16 @@
             </TreeView.ItemTemplate>
         </TreeView>
 
-        <!-- The splitter -->
-        <!--<GridSplitter Grid.Row="1" Grid.Column="0" Width="2" ResizeBehavior="CurrentAndNext" />-->
 
         <!-- The notes grid -->
         <ListBox x:Name="Notes" 
                  Grid.Column="1"
                  Grid.Row="1" 
                  Background="{StaticResource lighterGrayColorBrush}"
+                 ScrollViewer.CanContentScroll="False"
                  ItemContainerStyle="{StaticResource RoundedListBoxItem}" />
+
+        <!-- The splitter -->
+        <GridSplitter Grid.Row="1" Grid.Column="1" Width="3" Background="Transparent" ResizeBehavior="PreviousAndCurrent" HorizontalAlignment="Left" />
     </Grid>
 </UserControl>

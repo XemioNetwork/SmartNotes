@@ -45,6 +45,22 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
         #region Methods
         /// <summary>
+        /// Returns all favorite <see cref="Note"/>s.
+        /// </summary>
+        [Route("Notes/Favorites")]
+        [RequiresAuthorization]
+        public HttpResponseMessage GetAllFavoriteNotes()
+        {
+            User currentUser = this.UserService.GetCurrentUser();
+
+            var notes = this.DocumentSession.Query<Note>()
+                                            .Where(f => f.UserId == currentUser.Id && f.IsFavorite)
+                                            .OrderByDescending(f => f.CreatedDate)
+                                            .ToList();
+
+            return Request.CreateResponse(HttpStatusCode.Found, notes);
+        }
+        /// <summary>
         /// Returns all <see cref="Note" />s from the given <see cref="Folder" />.
         /// </summary>
         /// <param name="folderId">The note id.</param>
@@ -57,11 +73,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             
             if (this._rightsService.CanCurrentUserAccessFolder(folderId, false) == false)
                 throw new UnauthorizedException();
-
+            
             string folderStringId = this.DocumentSession.Advanced.GetStringIdFor<Folder>(folderId);
 
-            var notes = this.DocumentSession.Query<Note, NotesBySearchTextAndFolderIdAndUserId>()
-                                            .Where(f => f.FolderId == folderStringId).ToList();
+            var notes = this.DocumentSession.Query<Note>()
+                                            .Where(f => f.FolderId == folderStringId)
+                                            .OrderByDescending(f => f.CreatedDate)
+                                            .ToList();
             
             return Request.CreateResponse(HttpStatusCode.Found, notes);
         }
@@ -82,7 +100,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                                             .Where(f => f.UserId == currentUser.Id)
                                             .Search(f => f.SearchText, searchText, options: SearchOptions.And)
                                             .As<Note>()
-                                            .OrderBy(f => f.Name)
+                                            .OrderByDescending(f => f.CreatedDate)
                                             .ToList();
             
             if (notes.Count > 0)
@@ -160,6 +178,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             storedNote.Content = note.Content;
             storedNote.Tags = note.Tags;
             storedNote.FolderId = note.FolderId;
+            storedNote.IsFavorite = note.IsFavorite;
 
             this.Logger.DebugFormat("Updated note '{0}'.", storedNote.Id);
 

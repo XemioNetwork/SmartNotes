@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
 using Xemio.RavenDB.NGramAnalyzer;
@@ -20,6 +21,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
             public string FolderId { get; set; }
             public string UserId { get; set; }
             public string Name { get; set; }
+            public DateTimeOffset CreatedDate { get; set; }
         }
 
         /// <summary>
@@ -35,7 +37,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
                                                SearchText = note.Tags.Concat(parentFolder.Tags).Concat(new[] { note.Name, note.Content, parentFolder.Name }),
                                                note.FolderId,
                                                note.UserId,
-                                               note.Name
+                                               note.Name,
+                                               note.CreatedDate
                                            };
 
             this.Index(f => f.SearchText, FieldIndexing.Analyzed);

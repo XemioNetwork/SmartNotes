@@ -35,6 +35,13 @@
         <GradientStop Offset="1" Color="Transparent" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="gridSplitterHorizontalBrush" StartPoint="0, 0" EndPoint="1, 0">
+        <GradientStop Offset="0" Color="Transparent" />
+        <GradientStop Offset="0.3" Color="#B4B4B4" />
+        <GradientStop Offset="0.7" Color="#B4B4B4" />
+        <GradientStop Offset="1" Color="Transparent" />
+    </LinearGradientBrush>
+
     <LinearGradientBrush x:Key="headerBackgroundBrush"  StartPoint="0, 0" EndPoint="0, 1">
         <GradientStop Offset="0" Color="White" />
         <GradientStop Offset="1" Color="#E5E5E5" />
@@ -53,7 +60,7 @@
     <SolidColorBrush x:Key="desaturatedBlueColorBrush" Color="{StaticResource desaturatedBlueColor}" />
 
     <SolidColorBrush x:Key="greenColorBrush" Color="{StaticResource greenColor}" />
-    <SolidColorBrush x:Key="LighterGreenColorBrush" Color="{StaticResource lighterGreenColor}" />
+    <SolidColorBrush x:Key="lighterGreenColorBrush" Color="{StaticResource lighterGreenColor}" />
 
     <SolidColorBrush x:Key="redColorBrush" Color="{StaticResource redColor}" />
     <SolidColorBrush x:Key="lighterRedColorBrush" Color="{StaticResource lighterRedColor}" />
