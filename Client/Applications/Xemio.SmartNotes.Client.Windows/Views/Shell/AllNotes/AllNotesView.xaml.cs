@@ -85,7 +85,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             if (treeViewItem == null)
                 return;
 
-            treeViewItem.Foreground = new DefaultColorTheme().DarkerBlueColorBrush;
+            //Not highlight the currently selected folder
+            if (this.Folders.ItemContainerGenerator.ContainerFromItem(this.Folders.SelectedItem) == treeViewItem)
+                return;
+
+            treeViewItem.Foreground = Brushes.White;
 
             eventArgs.Handled = true;
         }

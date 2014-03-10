@@ -84,7 +84,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
                     SendType =
                     {
                         Immediate = emailTemplate.SendImmediate,
-                        AtTime = emailTemplate.SendImmediate ? default(DateTimeOffset) : this.GetSendTime(emailTemplate, user)
+                        AtTime = emailTemplate.SendImmediate ? (DateTimeOffset?)null : this.GetSendTime(emailTemplate, user)
                     }
                 };
 

@@ -10,6 +10,6 @@ namespace Xemio.SmartNotes.Shared.Entities.Mailing
     {
         public bool Immediate { get; set; }
 
-        public DateTimeOffset AtTime { get; set; }
+        public DateTimeOffset? AtTime { get; set; }
     }
 }

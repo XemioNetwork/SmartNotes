@@ -31,6 +31,7 @@
                                       Grid.ColumnSpan="2"
                                       HorizontalScrollBarVisibility="Auto" 
                                       VerticalScrollBarVisibility="Auto" 
+                                      FocusVisualStyle="{x:Null}"
                                       Background="{x:Null}" 
                                       BorderBrush="Transparent" 
                                       BorderThickness="0" 
