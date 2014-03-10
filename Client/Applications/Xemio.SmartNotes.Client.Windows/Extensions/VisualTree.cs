@@ -25,7 +25,7 @@ namespace Xemio.SmartNotes.Client.Windows.Extensions
                 if (child is T)
                     return (T)child;
                 
-                VisualTree.FindChildControl<T>(child);
+                return VisualTree.FindChildControl<T>(child);
             }
             return null;
         }

@@ -65,6 +65,7 @@
                   Grid.Column="0" 
                   AllowDrop="True" 
                   Drop="TreeViewOnDrop"
+                  DragOver="TreeViewOnDragOver"
                   DragEnter="TreeViewItemOnDragEnter">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource FolderTreeViewItem}">
