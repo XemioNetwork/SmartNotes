@@ -232,7 +232,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RavenDB\Indexes\FoldersByNoteCount.cs" />
     <Compile Include="RavenDB\Indexes\NotesBySearchTextAndFolderIdAndUserId.cs" />
     <Compile Include="RavenDB\Indexes\NotesBySearchTextAndUserIdForSuggestions.cs" />
     <Compile Include="RavenDB\Indexes\TagsByCount.cs" />
@@ -256,6 +255,7 @@
     <None Include="app.config" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>

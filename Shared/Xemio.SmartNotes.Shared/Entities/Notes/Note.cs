@@ -51,6 +51,7 @@ namespace Xemio.SmartNotes.Shared.Entities.Notes
         /// </summary>
         public bool IsFavorite { get; set; }
 
+        #region Methods
         /// <summary>
         /// Creates a deep clone of this instance.
         /// </summary>
@@ -68,5 +69,6 @@ namespace Xemio.SmartNotes.Shared.Entities.Notes
                 IsFavorite = this.IsFavorite
             };
         }
+        #endregion
     }
 }

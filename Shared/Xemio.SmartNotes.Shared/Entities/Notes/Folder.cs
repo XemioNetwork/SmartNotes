@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Shared.Entities.Notes
@@ -41,5 +42,23 @@ namespace Xemio.SmartNotes.Shared.Entities.Notes
         /// Gets or sets the created date.
         /// </summary>
         public DateTimeOffset CreatedDate { get; set; }
+
+        #region Methods
+        /// <summary>
+        /// Creates a deep clone from this instance.
+        /// </summary>
+        public Folder DeepClone()
+        {
+            return new Folder
+            {
+                Id = this.Id,
+                Name = this.Name,
+                Tags = this.Tags.ToList(),
+                UserId = this.UserId,
+                ParentFolderId = this.ParentFolderId,
+                CreatedDate = this.CreatedDate
+            };
+        }
+        #endregion
     }
 }

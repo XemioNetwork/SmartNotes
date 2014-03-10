@@ -143,7 +143,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskMessages.resx</DependentUpon>
     </Compile>
-    <Compile Include="AttachedProperties\WebBrowserHelper.cs" />
     <Compile Include="Themes\Controls\GlassWindow.cs" />
     <Compile Include="Themes\Controls\PasswordScore.cs" />
     <Compile Include="Themes\Controls\PasswordValidator.cs" />
