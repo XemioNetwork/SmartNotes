@@ -108,6 +108,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AttachedProperties\DragAndDrop.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\Events\AvatarChangedEvent.cs" />
     <Compile Include="Data\Events\ExecutingTaskEvent.cs" />

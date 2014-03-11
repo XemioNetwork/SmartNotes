@@ -6,6 +6,7 @@
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:attachedProperties="clr-namespace:Xemio.SmartNotes.Client.Windows.AttachedProperties"
              mc:Ignorable="d" 
                           
              lex:LocalizeDictionary.DesignCulture="de-DE"
@@ -63,9 +64,9 @@
                   Style="{StaticResource FolderTreeView}"
                   Grid.Row="1" 
                   Grid.Column="0" 
+                  attachedProperties:DragAndDrop.IsAutoScrollingEnabled="True"
                   AllowDrop="True" 
                   Drop="TreeViewOnDrop"
-                  DragOver="TreeViewOnDragOver"
                   DragEnter="TreeViewItemOnDragEnter">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource FolderTreeViewItem}">

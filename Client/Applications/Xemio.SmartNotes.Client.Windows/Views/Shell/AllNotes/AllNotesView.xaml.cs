@@ -18,17 +18,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
     /// </summary>
     public partial class AllNotesView : UserControl
     {
-        #region Constants
-        /// <summary>
-        /// The distance for the cursor so the scrollview will scroll.
-        /// </summary>
-        private static readonly double DistanceForScrolling = 10.0;
-        /// <summary>
-        /// The offset the scrollviewer will be moved.
-        /// </summary>
-        private static readonly double OffsetWhenScrolling = 3.0;
-        #endregion
-
         #region Properties
         /// <summary>
         /// Gets the view model.
@@ -83,26 +72,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             var data = new DataObject(this.Notes.SelectedItem);
             DragDrop.DoDragDrop(this.Notes, data, DragDropEffects.Move);
-        }
-        /// <summary>
-        /// Called when you drag over the TreeView.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
-        private void TreeViewOnDragOver(object sender, DragEventArgs e)
-        {
-            var scrollViewer = VisualTree.FindChildControl<ScrollViewer>(this.Folders);
-
-            double verticalPosition = e.GetPosition(scrollViewer).Y;
-
-            if (verticalPosition < DistanceForScrolling)
-            {
-                scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - OffsetWhenScrolling);
-            }
-            else if (verticalPosition > this.Folders.ActualHeight - DistanceForScrolling)
-            {
-                scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + OffsetWhenScrolling);
-            }
         }
         /// <summary>
         /// Called when a Drag operation enters a <see cref="TreeViewItem"/>.
