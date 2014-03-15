@@ -86,8 +86,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         {
             var emailManager = container.Resolve<IEmailManager>();
             emailManager.StartSendingEmails();
-
-            container.Resolve<ImmediateEmailSendingJob>();
         }
         #endregion
     }

@@ -17,7 +17,7 @@ namespace Xemio.SmartNotes.Server.Host
             {
                 x.Service<XemioNotesService>(s =>
                 {
-                    s.ConstructUsing(name => new XemioNotesService(ConfigurationManager.AppSettings["Addresses"].Split('|')));
+                    s.ConstructUsing(name => new XemioNotesService(ConfigurationManager.AppSettings["XemioNotes/Addresses"].Split('|')));
                     s.WhenStarted(f => f.Start());
                     s.WhenStopped(f => f.Stop());
                 });

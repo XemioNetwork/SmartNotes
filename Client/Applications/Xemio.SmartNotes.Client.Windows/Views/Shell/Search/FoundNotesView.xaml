@@ -6,6 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Label>Suchergebnisse!</Label>
+
+        <ListBox x:Name="FoundNotes"
+                 ItemContainerStyle="{StaticResource RoundedListBoxItem}"
+                 ScrollViewer.CanContentScroll="False" />
+
     </Grid>
 </UserControl>

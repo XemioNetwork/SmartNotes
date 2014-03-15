@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Xemio.SmartNotes.Client.Windows.ViewParts;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
@@ -13,7 +14,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
         #region Fields
         private readonly IEventAggregator _eventAggregator;
 
-        private BindableCollection<Note> _foundNotes;
+        private BindableCollection<NoteViewModel> _foundNotes;
         #endregion
 
         #region Constructors
@@ -31,7 +32,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
         /// <summary>
         /// Gets or sets the found notes.
         /// </summary>
-        public BindableCollection<Note> FoundNotes
+        public BindableCollection<NoteViewModel> FoundNotes
         {
             get { return this._foundNotes; }
             set

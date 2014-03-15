@@ -15,7 +15,7 @@
              d:DesignHeight="300" 
              d:DesignWidth="300"
              
-             Background="White">
+             Background="{StaticResource lighterGrayColorBrush}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -26,6 +26,6 @@
             <controls:WatermarkTextBox x:Name="SearchText" Margin="5" Watermark="{lex:Loc SearchText}" KeyDown="SearchTextKeyDown" />
         </Grid>
 
-        <ContentControl x:Name="ActiveItem" Grid.Row="1" Margin="5" />
+        <ContentControl x:Name="ActiveItem" Grid.Row="1" />
     </Grid>
 </UserControl>

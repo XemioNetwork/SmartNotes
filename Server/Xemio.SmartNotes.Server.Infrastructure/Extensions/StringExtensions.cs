@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
 {
-    internal static class StringFormatWithExtension
+    public static class StringExtensions
     {
         /// <summary>
         /// Formats the string with the given source object. 

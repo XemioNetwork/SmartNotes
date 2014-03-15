@@ -14,24 +14,22 @@
              lex:ResxLocalizationProvider.DefaultDictionary="SearchMessages"
              
              d:DesignWidth="300"
-             d:DesignHeight="300">
+             d:DesignHeight="300"
+             
+             Margin="10">
     <Grid x:Name="root">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" 
-               Content="{lex:Loc DidYouMean}" 
+        <Label Content="{lex:Loc DidYouMean}" 
                HorizontalAlignment="Center" 
-               VerticalAlignment="Center" 
+               VerticalAlignment="Top" 
                FontSize="18" 
                FontFamily="{StaticResource semiBoldFont}" />
         
-        <ItemsControl x:Name="Suggestions" Grid.Row="1">
+        <ItemsControl x:Name="Suggestions" Margin="0, 40, 0, 0">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Style="{StaticResource LinkTextBlock}" 
+                               Margin="0, 3, 0, 0"
                                Text="{Binding}" 
                                HorizontalAlignment="Center"
                                FontSize="14"

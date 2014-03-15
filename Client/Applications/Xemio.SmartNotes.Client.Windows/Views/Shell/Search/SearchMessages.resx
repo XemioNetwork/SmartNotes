@@ -118,7 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DidYouMean" xml:space="preserve">
-    <value>Did you mean:</value>
+    <value>Did you mean...</value>
+  </data>
+  <data name="HowToFindNotes1" xml:space="preserve">
+    <value>• Make sure the words are spelled correctly.</value>
+  </data>
+  <data name="HowToFindNotes2" xml:space="preserve">
+    <value>• Try other search words.</value>
+  </data>
+  <data name="HowToFindNotes3" xml:space="preserve">
+    <value>• Try more general words.</value>
+  </data>
+  <data name="NoNotesFound" xml:space="preserve">
+    <value>Sorry, no notes were found.</value>
   </data>
   <data name="SearchText" xml:space="preserve">
     <value>A tag, name or the content...</value>

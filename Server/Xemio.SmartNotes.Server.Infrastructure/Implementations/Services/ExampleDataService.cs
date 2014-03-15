@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Raven.Client;
+using Raven.Json.Linq;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Shared.Entities.Notes;
@@ -15,6 +16,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
 {
     public class ExampleDataService : IExampleDataService
     {
+        #region Constants
+        private const string ExampleDataCreated = "ExampleDataCreated";
+        #endregion
+
         #region Fields
         private readonly IDocumentSession _session;
         private readonly IUserService _userService;
@@ -41,13 +46,16 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         {
             User currentUser = this._userService.GetCurrentUser();
 
-            if (currentUser.ExampleDataCreated)
+            var metadata = this._session.Advanced.GetMetadataFor(currentUser);
+
+            RavenJToken token;
+            if (metadata.TryGetValue(ExampleDataCreated, out token) && token.Value<bool>())
                 return;
             
             this.CreateInternetFolder(currentUser);
             this.CreateLifeFolder(currentUser);
 
-            currentUser.ExampleDataCreated = true;
+            metadata.Add(ExampleDataCreated, true);
 
             this._session.SaveChanges();
         }

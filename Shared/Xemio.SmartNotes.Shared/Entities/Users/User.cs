@@ -37,9 +37,5 @@ namespace Xemio.SmartNotes.Shared.Entities.Users
         /// Gets or sets the time zone identifier (IANA TimeZones).
         /// </summary>
         public string TimeZoneId { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the example data has been created.
-        /// </summary>
-        public bool ExampleDataCreated { get; set; }
     }
 }

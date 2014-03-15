@@ -118,7 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DidYouMean" xml:space="preserve">
-    <value>Meinten Sie:</value>
+    <value>Meinten Sie...</value>
+  </data>
+  <data name="HowToFindNotes1" xml:space="preserve">
+    <value>• Achten Sie drauf, dass alle Wörter richtig geschrieben sind.</value>
+  </data>
+  <data name="HowToFindNotes2" xml:space="preserve">
+    <value>• Versuchen Sie es mit anderen Suchbegriffen.</value>
+  </data>
+  <data name="HowToFindNotes3" xml:space="preserve">
+    <value>• Versuchen Sie es mit allgemeineren Suchbegriffen.</value>
+  </data>
+  <data name="NoNotesFound" xml:space="preserve">
+    <value>Sorry, keine Notizen wurden gefunden.</value>
   </data>
   <data name="SearchText" xml:space="preserve">
     <value>Ein Tag, Titel oder der Inhalt...</value>

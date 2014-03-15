@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -11,6 +12,7 @@ using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
+using Xemio.SmartNotes.Client.Windows.ViewParts;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
@@ -76,8 +78,16 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
             {
                 case HttpStatusCode.Found:
                 {
+                    var notes = await response.Content.ReadAsAsync<Note[]>();
+
                     var foundNotesViewModel = IoC.Get<FoundNotesViewModel>();
-                    foundNotesViewModel.FoundNotes = await response.Content.ReadAsAsync<BindableCollection<Note>>();
+                    foundNotesViewModel.FoundNotes = new BindableCollection<NoteViewModel>(notes.Select(note =>
+                    {
+                        var viewModel = IoC.Get<NoteViewModel>();
+                        viewModel.Initialize(note);
+
+                        return viewModel;
+                    }));
 
                     this.ActivateItem(foundNotesViewModel);
                     break;
