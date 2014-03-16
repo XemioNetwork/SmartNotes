@@ -18,6 +18,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
     /// </summary>
     public partial class AllNotesView : UserControl
     {
+        #region Fields
+        private Point? _dragAndDropStart;
+        #endregion
+
         #region Properties
         /// <summary>
         /// Gets the view model.
@@ -48,13 +52,25 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         private void TreeViewItemOnMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton != MouseButtonState.Pressed)
+            {
+                this.ResetDragAndDrop();
                 return;
+            }
 
             if (this.Folders.SelectedItem == null)
                 return;
-
-            var data = new DataObject(this.Folders.SelectedItem);
-            DragDrop.DoDragDrop(this.Folders, data, DragDropEffects.Move);
+            
+            if (this._dragAndDropStart == null)
+            {
+                this.StartDragAndDrop(this.Folders, e);
+                return;
+            }
+            
+            if (this.ShouldDragAndDrop(this.Folders, e))
+            {
+                var data = new DataObject(this.Folders.SelectedItem);
+                DragDrop.DoDragDrop(this.Folders, data, DragDropEffects.Move);
+            }
         }
         /// <summary>
         /// Called when the mouse moves on a <see cref="ListBoxItem"/>.
@@ -65,13 +81,25 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         private void ListBoxItemOnMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton != MouseButtonState.Pressed)
+            {
+                this.ResetDragAndDrop();
                 return;
+            }
 
             if (this.Notes.SelectedItem == null)
                 return;
 
-            var data = new DataObject(this.Notes.SelectedItem);
-            DragDrop.DoDragDrop(this.Notes, data, DragDropEffects.Move);
+            if (this._dragAndDropStart == null)
+            {
+                this.StartDragAndDrop(this.Notes, e);
+                return;
+            }
+
+            if (this.ShouldDragAndDrop(this.Notes, e))
+            { 
+                var data = new DataObject(this.Notes.SelectedItem);
+                DragDrop.DoDragDrop(this.Notes, data, DragDropEffects.Move);
+            }
         }
         /// <summary>
         /// Called when a Drag operation enters a <see cref="TreeViewItem"/>.
@@ -143,6 +171,35 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
                 return;
             }
+        }
+        /// <summary>
+        /// Starts the drag and drop operation.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+        private void StartDragAndDrop(IInputElement control, MouseEventArgs e)
+        {
+            this._dragAndDropStart = e.GetPosition(control);
+        }
+        /// <summary>
+        /// Resets the drag and drop operation.
+        /// </summary>
+        private void ResetDragAndDrop()
+        {
+            this._dragAndDropStart = null;
+        }
+        /// <summary>
+        /// Returns whether we should do the drag and drop operation.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+        private bool ShouldDragAndDrop(IInputElement control, MouseEventArgs e)
+        {
+            Point currentMousePosition = e.GetPosition(control);
+
+            //We check if we have moved our mouse a minum distance
+            return Math.Abs(currentMousePosition.X - this._dragAndDropStart.Value.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                   Math.Abs(currentMousePosition.Y - this._dragAndDropStart.Value.Y) > SystemParameters.MinimumVerticalDragDistance;
         }
         #endregion
     }

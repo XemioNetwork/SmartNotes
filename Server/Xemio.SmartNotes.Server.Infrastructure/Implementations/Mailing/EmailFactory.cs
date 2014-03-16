@@ -66,9 +66,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
                     return;
                 }
             
-                //Replace the variables
-                EmailBody body = emailTemplate.GetEmailBody(user.PreferredLanguage);
-                string formattedBody = body.Content.FormatWith((object)additionalData);
+                //Get the localized texts
+                EmailTemplateTexts texts = this.GetEmailTemplateTexts(emailTemplate, user.PreferredLanguage, session);
 
                 //Create the mail
                 var email = new Email
@@ -76,10 +75,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
                     Attachments = emailTemplate.Attachments,
                     Body =
                     {
-                        Content = formattedBody,
-                        IsHtml = body.IsHtml
+                        Content = texts.Body.Content.FormatWith((object)additionalData),
+                        IsHtml = texts.Body.IsHtml
                     },
-                    Subject = emailTemplate.GetEmailSubject(user.PreferredLanguage),
+                    Subject = texts.Subject,
                     UserId = user.Id,
                     SendType =
                     {
@@ -107,6 +106,18 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
             string documentId = session.Advanced.DocumentStore.Conventions.FindFullDocumentKeyFromNonStringIdentifier(name, typeof(EmailTemplate), false);
 
             return session.Load<EmailTemplate>(documentId);
+        }
+        /// <summary>
+        /// Returns the <see cref="EmailTemplateTexts"/> in the specified <paramref name="language"/>.
+        /// </summary>
+        /// <param name="template">The template.</param>
+        /// <param name="language">The language.</param>
+        /// <param name="session">The session.</param>
+        private EmailTemplateTexts GetEmailTemplateTexts(EmailTemplate template, string language, IDocumentSession session)
+        {
+            string documentId = string.Format("{0}/{1}", template.Id, language);
+
+            return session.Load<EmailTemplateTexts>(documentId);
         }
         /// <summary>
         /// Returns the send time for the specified <paramref name="template"/> considering the <see cref="user"/>s time zone.

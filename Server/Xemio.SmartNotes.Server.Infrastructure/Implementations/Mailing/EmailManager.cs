@@ -43,6 +43,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
 
         #region Implementation of IEmailManager
         /// <summary>
+        /// Ensures the email templates exist.
+        /// </summary>
+        public void EnsureTemplatesExist()
+        {
+
+        }
+        /// <summary>
         /// Starts to send emails.
         /// </summary>
         public void StartSendingEmails()

@@ -173,6 +173,9 @@
       <DependentUpon>DefaultColorTheme.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
+    <Compile Include="Themes\ResourceDictionaries\NamedStyles\FolderTreeViewItemStyle.xaml.cs">
+      <DependentUpon>FolderTreeViewItemStyle.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValueConverter\LongDateFormatConverter.cs" />
     <Compile Include="ValueConverter\MarkdownToHtmlConverter.cs" />
     <Compile Include="ValueConverter\MarkdownToStringPreviewConverter.cs" />
@@ -209,6 +212,16 @@
       <DependentUpon>EditFolderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EditFolder\EditFolderViewModel.cs" />
+    <Compile Include="Views\Shell\AllNotes\AllNotesMessages.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AllNotesMessages.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\AllNotes\AllNotesMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AllNotesMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shell\AllNotes\AllNotesView.xaml.cs">
       <DependentUpon>AllNotesView.xaml</DependentUpon>
     </Compile>
@@ -585,6 +598,14 @@
     <EmbeddedResource Include="Views\Register\RegisterMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>RegisterMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shell\AllNotes\AllNotesMessages.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AllNotesMessages.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Shell\AllNotes\AllNotesMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AllNotesMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Shell\Search\SearchMessages.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

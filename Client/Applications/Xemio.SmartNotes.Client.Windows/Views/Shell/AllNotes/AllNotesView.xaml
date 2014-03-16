@@ -17,7 +17,7 @@
              d:DesignWidth="300"
              
              Background="White">
-    <Grid>
+    <Grid x:Name="RootGrid">
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220" MinWidth="220" />
@@ -77,11 +77,29 @@
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding SubFolders}">
-                    <TextBlock Text="{Binding Name}" />
+                    
+                    <!-- Workaround for using the correct ViewModel -->
+                    <TextBlock Text="{Binding Name}" 
+                               Tag="{Binding DataContext, ElementName=RootGrid}">
+                        
+                        <TextBlock.ContextMenu>
+                            <!-- The context menu is in a different visual tree, so we need to do some workarounds here -->
+                            <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Mode=Self}}"
+                                         lex:LocalizeDictionary.DesignCulture="de-DE"
+                                         lex:ResxLocalizationProvider.DefaultAssembly="Xemio.SmartNotes.Client.Windows"
+                                         lex:ResxLocalizationProvider.DefaultDictionary="AllNotesMessages">
+                                
+                                <MenuItem Header="{lex:Loc CreateFolder}" cal:Message.Attach="CreateFolder" />
+                                <MenuItem Header="{lex:Loc EditFolder}" cal:Message.Attach="EditFolder" />
+                                <MenuItem Header="{lex:Loc DeleteFolder}" cal:Message.Attach="DeleteFolder" />
+                            </ContextMenu>
+                        </TextBlock.ContextMenu>    
+                        
+                    </TextBlock>
+                    
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-
 
         <!-- The notes grid -->
         <ListBox x:Name="Notes" 
