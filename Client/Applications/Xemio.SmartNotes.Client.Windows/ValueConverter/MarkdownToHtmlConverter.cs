@@ -3,7 +3,9 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using Caliburn.Micro;
 using MarkdownSharp;
+using Xemio.SmartNotes.Client.Shared.Interaction;
 using Xemio.SmartNotes.Shared.Common;
 
 namespace Xemio.SmartNotes.Client.Windows.ValueConverter
@@ -11,21 +13,12 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
     [ValueConversion(typeof(string), typeof(string))]
     public class MarkdownToHtmlConverter : MarkupExtension, IValueConverter
     {
-        #region Fields
-        private readonly Markdown _markdown;
-        #endregion
-
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownToHtmlConverter"/> class.
         /// </summary>
         public MarkdownToHtmlConverter()
         {
-            this._markdown = new Markdown(new MarkdownOptions
-            {
-                AutoHyperlink = true,
-                LinkEmails = true
-            });
         }
         #endregion
 
@@ -65,7 +58,7 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
             if (input == null)
                 return DependencyProperty.UnsetValue;
 
-            return this._markdown.Transform(input);
+            return IoC.Get<IMarkdownConverter>().Convert(input);
         }
         /// <summary>
         /// Converts a value.

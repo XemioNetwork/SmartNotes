@@ -44,6 +44,15 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
         #region Private Methods
         /// <summary>
+        /// Called when the user double clicks a note.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
+        private void ListBoxItemOnDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            this.ViewModel.WatchSelectedNote();
+        }
+        /// <summary>
         /// Called when the mouse moves on a <see cref="TreeViewItem"/>.
         /// Starts the Drag and Drop operation.
         /// </summary>

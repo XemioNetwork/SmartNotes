@@ -51,6 +51,12 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\..\..\packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="CefSharp">
+      <HintPath>..\..\..\packages\CefSharp.Wpf.1.25.7\lib\net40\CefSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Wpf">
+      <HintPath>..\..\..\packages\CefSharp.Wpf.1.25.7\lib\net40\CefSharp.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Esent.Collections">
       <HintPath>..\..\..\packages\ManagedEsent.1.8.3.2\lib\net40\Esent.Collections.dll</HintPath>
     </Reference>
@@ -72,6 +78,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Drawing" />
@@ -109,6 +116,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AttachedProperties\DragAndDrop.cs" />
+    <Compile Include="AttachedProperties\WebViewBindings.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\Events\AvatarChangedEvent.cs" />
     <Compile Include="Data\Events\ExecutingTaskEvent.cs" />
@@ -127,6 +135,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\VisualTree.cs" />
     <Compile Include="Implementations\Interaction\DisplayManager.cs" />
+    <Compile Include="Implementations\Interaction\MarkdownConverter.cs" />
     <Compile Include="Implementations\Tasks\BaseTask.cs" />
     <Compile Include="Implementations\Tasks\ChangeAvatarTask.cs" />
     <Compile Include="Implementations\Tasks\CreateFolderTask.cs" />
@@ -336,7 +345,16 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell\ShellViewModel.cs" />
-    <Compile Include="Windsor\CommonInstaller.cs" />
+    <Compile Include="Views\WatchNote\WatchNoteView.xaml.cs">
+      <DependentUpon>WatchNoteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WatchNote\WatchNoteViewModel.cs" />
+    <Compile Include="Windsor\LoggingInstaller.cs" />
+    <Compile Include="Windsor\DataStorageInstaller.cs" />
+    <Compile Include="Windsor\DisplayManagerInstaller.cs" />
+    <Compile Include="Windsor\EventInstaller.cs" />
+    <Compile Include="Windsor\MarkdownInstaller.cs" />
+    <Compile Include="Windsor\TaskInstaller.cs" />
     <Compile Include="Windsor\ViewInstaller.cs" />
     <Compile Include="Windsor\ViewModelInstaller.cs" />
     <Compile Include="Windsor\WebServiceInstaller.cs" />
@@ -523,6 +541,10 @@
     <Page Include="Views\Shell\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\WatchNote\WatchNoteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

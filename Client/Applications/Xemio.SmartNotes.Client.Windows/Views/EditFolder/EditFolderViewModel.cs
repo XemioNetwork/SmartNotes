@@ -148,14 +148,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
         public void EditFolder()
         {
             var task = IoC.Get<EditFolderTask>();
-            task.Folder = new Folder
-            {
-                Id = this.Folder.Id,
-                ParentFolderId = this.Folder.ParentFolderId,
-                Name = this.FolderName,
-                Tags = this.FolderTags.ToList(),
-                UserId = this.Folder.UserId
-            };
+            task.Folder = this.Folder.DeepClone();
+            task.Folder.Name = this.FolderName;
+            task.Folder.Tags = this.FolderTags.ToList();
 
             this._taskExecutor.StartTask(task);
 

@@ -71,6 +71,7 @@
     <Compile Include="Clients\ITagsClient.cs" />
     <Compile Include="Clients\IUsersClient.cs" />
     <Compile Include="Extensions\HttpContentExtensions.cs" />
+    <Compile Include="Interaction\IMarkdownConverter.cs" />
     <Compile Include="Interaction\IMessageManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ILanguageManager.cs" />

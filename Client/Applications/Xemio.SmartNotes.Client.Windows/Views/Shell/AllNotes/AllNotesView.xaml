@@ -84,7 +84,7 @@
                         
                         <TextBlock.ContextMenu>
                             <!-- The context menu is in a different visual tree, so we need to do some workarounds here -->
-                            <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Mode=Self}}"
+                            <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
                                          lex:LocalizeDictionary.DesignCulture="de-DE"
                                          lex:ResxLocalizationProvider.DefaultAssembly="Xemio.SmartNotes.Client.Windows"
                                          lex:ResxLocalizationProvider.DefaultDictionary="AllNotesMessages">
@@ -106,10 +106,12 @@
                  Grid.Column="1"
                  Grid.Row="1" 
                  Background="{StaticResource lighterGrayColorBrush}"
+                 SelectedItem="{Binding SelectedNote}"
                  ScrollViewer.CanContentScroll="False">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource RoundedListBoxItem}">
                     <EventSetter Event="MouseMove" Handler="ListBoxItemOnMouseMove" />
+                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItemOnDoubleClick" />
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>

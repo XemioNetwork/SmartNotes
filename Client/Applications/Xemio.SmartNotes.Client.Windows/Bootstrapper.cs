@@ -10,6 +10,7 @@ using Caliburn.Micro;
 using Castle.Core.Logging;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using CefSharp;
 using Xemio.SmartNotes.Client.Windows.Themes.Controls;
 using Xemio.SmartNotes.Client.Windows.Views.Login;
 using Xemio.SmartNotes.Client.Windows.Views.Shell;
@@ -46,7 +47,8 @@ namespace Xemio.SmartNotes.Client.Windows
         {
             base.PrepareApplication();
 
-            ConventionManager.AddElementConvention<WatermarkPasswordBox>(WatermarkPasswordBox.PasswordProperty, "Password", "PasswordChanged");
+            this.InitializeConventions();
+            this.InitializeCef();
         }
         /// <summary>
         /// Override this to provide an IoC specific implementation.
@@ -166,6 +168,30 @@ namespace Xemio.SmartNotes.Client.Windows
             this._container.Release(shellViewModel);
 
             return loggedOut.HasValue && loggedOut.Value;
+        }
+        /// <summary>
+        /// Initializes the conventions.
+        /// </summary>
+        private void InitializeConventions()
+        {
+            ConventionManager.AddElementConvention<WatermarkPasswordBox>(WatermarkPasswordBox.PasswordProperty, "Password", "PasswordChanged");
+        }
+        /// <summary>
+        /// Initializes the chromium embedded framework.
+        /// </summary>
+        private void InitializeCef()
+        {
+            var settings = new Settings
+            {
+                AutoDetectProxySettings = true,
+                UserAgent = "Xemio Notes Desktop Client",
+                PackLoadingDisabled = true
+            };
+
+            if (CEF.Initialize(settings) == false)
+            {
+                throw new ApplicationException("Could not initialize 'CEF'.");
+            }
         }
         #endregion
     }

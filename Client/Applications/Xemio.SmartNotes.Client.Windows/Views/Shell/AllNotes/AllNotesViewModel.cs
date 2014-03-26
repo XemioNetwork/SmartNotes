@@ -19,6 +19,7 @@ using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 using Xemio.SmartNotes.Client.Windows.ViewParts;
 using Xemio.SmartNotes.Client.Windows.Views.CreateFolder;
 using Xemio.SmartNotes.Client.Windows.Views.EditFolder;
+using Xemio.SmartNotes.Client.Windows.Views.WatchNote;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 using Xemio.SmartNotes.Shared.Extensions;
 
@@ -40,7 +41,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         private readonly IEventAggregator _eventAggregator;
 
         private BindableCollection<FolderViewModel> _folders;
+        private NoteViewModel _selectedNote;
         private BindableCollection<NoteViewModel> _notes;
+
         #endregion
 
         #region Properties
@@ -49,12 +52,19 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// </summary>
         public ILogger Logger { get; set; }
         /// <summary>
+        /// Gets the selected folder.
+        /// </summary>
+        public FolderViewModel SelectedFolder
+        {
+            get { return this.GetAllFolders().FirstOrDefault(f => f.IsSelected); }
+        }
+        /// <summary>
         /// Gets or sets the folders.
         /// </summary>
         public BindableCollection<FolderViewModel> Folders
         {
             get { return this._folders; }
-            set
+            private set
             {
                 if (this._folders != value)
                 {
@@ -64,12 +74,27 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
         }
         /// <summary>
+        /// Gets or sets the selected note.
+        /// </summary>
+        public NoteViewModel SelectedNote
+        {
+            get { return this._selectedNote; }
+            set
+            {
+                if (this._selectedNote != value)
+                { 
+                    this._selectedNote = value;
+                    this.NotifyOfPropertyChange(() => this.SelectedNote);
+                }
+            }
+        }
+        /// <summary>
         /// Gets or sets the notes.
         /// </summary>
         public BindableCollection<NoteViewModel> Notes
         {
             get { return this._notes; }
-            set
+            private set
             {
                 if (this._notes != value)
                 { 
@@ -105,7 +130,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// </summary>
         public void CreateFolder()
         {
-            FolderViewModel selectedFolder = this.GetAllFolders().SingleOrDefault(f => f.IsSelected);
+            FolderViewModel selectedFolder = this.SelectedFolder;
 
             var createFolderViewModel = IoC.Get<CreateFolderViewModel>();
             createFolderViewModel.ParentFolderId = selectedFolder != null ? selectedFolder.FolderId : null;
@@ -120,7 +145,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// </summary>
         public void EditFolder()
         {
-            FolderViewModel selectedFolder = this.GetAllFolders().SingleOrDefault(f => f.IsSelected);
+            FolderViewModel selectedFolder = this.SelectedFolder;
             if (selectedFolder == null)
                 return;
 
@@ -138,7 +163,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// </summary>
         public void DeleteFolder()
         {
-            FolderViewModel selectedFolder = this.GetAllFolders().SingleOrDefault(f => f.IsSelected);
+            FolderViewModel selectedFolder = this.SelectedFolder;
             if (selectedFolder == null)
                 return;
 
@@ -200,6 +225,18 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             task.Folder.ParentFolderId = newParentFolderId;
 
             this._taskExecutor.StartTask(task);
+        }
+        /// <summary>
+        /// Watches the selected note.
+        /// </summary>
+        public void WatchSelectedNote()
+        {
+            NoteViewModel selectedNote = this.SelectedNote;
+
+            var watchNoteViewModel = IoC.Get<WatchNoteViewModel>();
+            watchNoteViewModel.Initialize(selectedNote.Note);
+
+            this._displayManager.Windows.ShowWindow(watchNoteViewModel);
         }
         #endregion
 
@@ -360,7 +397,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
 
             //The note moved to the current folder
-            FolderViewModel selectedFolder = this.GetAllFolders().FirstOrDefault(f => f.IsSelected);
+            FolderViewModel selectedFolder = this.SelectedFolder;
             if (selectedFolder != null && message.Note.FolderId == selectedFolder.FolderId)
             {
                 var viewModel = IoC.Get<NoteViewModel>();
