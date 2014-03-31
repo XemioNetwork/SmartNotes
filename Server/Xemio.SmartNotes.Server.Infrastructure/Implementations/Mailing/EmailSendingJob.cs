@@ -94,7 +94,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
                 Attachments = email.Attachments,
                 Receiver = new EmailPerson
                 {
-                    Name = user.Username,
+                    Name = user.EmailAddress,
                     Address = user.EmailAddress
                 },
                 Subject = email.Subject,

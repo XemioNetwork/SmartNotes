@@ -172,7 +172,9 @@
     <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\PasswordResetController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
+    <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Exceptions\AuthenticationFailedException.cs" />
     <Compile Include="Exceptions\BusinessException.cs" />
     <Compile Include="Exceptions\EmailAddressUnavailableException.cs" />
     <Compile Include="Exceptions\FolderNotFoundException.cs" />
@@ -201,6 +203,7 @@
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtensions.cs" />
     <Compile Include="Extensions\IEmailFactoryExtensions.cs" />
+    <Compile Include="Extensions\ISecretGeneratorExtensions.cs" />
     <Compile Include="Extensions\ISyncAdvancedSessionOperationExtensions.cs" />
     <Compile Include="Extensions\IDependencyResolverExtensions.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
@@ -217,15 +220,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FilterMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Implementations\Authentication\FacebookAuthenticationProvider.cs" />
+    <Compile Include="Implementations\Authentication\XemioAuthenticationProvider.cs" />
     <Compile Include="Implementations\Mailing\DateSpecificEmailSendingJob.cs" />
     <Compile Include="Implementations\Mailing\EmailFactory.cs" />
     <Compile Include="Implementations\Mailing\EmailManager.cs" />
     <Compile Include="Implementations\Mailing\EmailSendingJob.cs" />
     <Compile Include="Implementations\Mailing\ImmediateEmailSendingJob.cs" />
     <Compile Include="Implementations\Mailing\SmtpEmailSender.cs" />
+    <Compile Include="Implementations\Security\SaltCombiner.cs" />
     <Compile Include="Implementations\Security\SecretGenerator.cs" />
     <Compile Include="Implementations\Services\ExampleDataService.cs" />
     <Compile Include="Implementations\Services\FileService.cs" />
+    <Compile Include="Implementations\Social\FacebookService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -241,7 +248,9 @@
     <Compile Include="RavenDB\Listeners\FolderCascadeDeleteListener.cs" />
     <Compile Include="RavenDB\Listeners\NoteCascadeDeleteListener.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Windsor\AuthenticationProviderInstaller.cs" />
     <Compile Include="Windsor\ControllerInstaller.cs" />
+    <Compile Include="Windsor\FacebookInstaller.cs" />
     <Compile Include="Windsor\LoggingInstaller.cs" />
     <Compile Include="Windsor\MailInstaller.cs" />
     <Compile Include="Windsor\QuartzNetInstaller.cs" />

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Owin;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
@@ -56,6 +58,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         private void ConfigureWindsor(HttpConfiguration config)
         {
             var container = new WindsorContainer();
+            container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
+
             container.Install(FromAssembly.This());
 
             config.DependencyResolver = new WindsorResolver(container);

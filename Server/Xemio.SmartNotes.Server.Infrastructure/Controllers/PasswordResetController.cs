@@ -6,8 +6,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Newtonsoft.Json.Linq;
 using Raven.Abstractions.Data;
 using Raven.Client;
+using Xemio.SmartNotes.Server.Abstractions.Authentication;
 using Xemio.SmartNotes.Server.Abstractions.Mailing;
 using Xemio.SmartNotes.Server.Abstractions.Security;
 using Xemio.SmartNotes.Server.Abstractions.Services;
@@ -28,6 +30,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         #region Fields
         private readonly ISecretGenerator _secretGenerator;
         private readonly IEmailFactory _emailFactory;
+        private readonly IAuthenticationProvider[] _authenticationProviders;
         #endregion
 
         #region Constructors
@@ -38,11 +41,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="userService">The user service.</param>
         /// <param name="secretGenerator">The secret generator.</param>
         /// <param name="emailFactory">The email factory.</param>
-        public PasswordResetController(IDocumentSession documentSession, IUserService userService, ISecretGenerator secretGenerator, IEmailFactory emailFactory)
+        /// <param name="authenticationProviders">The authentication providers.</param>
+        public PasswordResetController(IDocumentSession documentSession, IUserService userService, ISecretGenerator secretGenerator, IEmailFactory emailFactory, IAuthenticationProvider[] authenticationProviders)
             : base(documentSession, userService)
         {
             this._secretGenerator = secretGenerator;
             this._emailFactory = emailFactory;
+            this._authenticationProviders = authenticationProviders;
         }
         #endregion
 
@@ -66,7 +71,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             var passwordReset = new PasswordReset
                                 {
                                     UserId = user.Id,
-                                    Secret = this._secretGenerator.Generate(),
+                                    Secret = this._secretGenerator.GenerateString(),
                                     RequestedAt = DateTimeOffset.Now
                                 };
 
@@ -110,8 +115,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             //Because of that we haven't set the language yet and do it now.
             this.SetLanguage(user);
 
-            string newPassword = this._secretGenerator.Generate(16);
-            user.AuthorizationHash = AuthorizationHash.CreateBaseHash(user.Username, newPassword).Result;
+            string newPassword = this._secretGenerator.GenerateString(16);
+
+            IAuthenticationProvider authenticationProvider = this._authenticationProviders.First(f => f.Type == AuthenticationType.Xemio);
+            authenticationProvider.Update(user, new JObject
+            {
+                "Password", newPassword
+            });
 
             this._emailFactory.SendPasswordResetEmail(user, newPassword);
 
@@ -130,13 +140,34 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="usernameOrEmailAddress">The username or email address.</param>
         private User GetUser(string usernameOrEmailAddress)
         {
-            User user = this.DocumentSession.Query<User>().FirstOrDefault(f => f.EmailAddress == usernameOrEmailAddress) ??
-                        this.DocumentSession.Query<User>().FirstOrDefault(f => f.Username == usernameOrEmailAddress);
+            XemioAuthentication authentication = this.GetLocalAuthentication(usernameOrEmailAddress);
+
+            if (authentication != null)
+            {
+                return this.DocumentSession.Load<User>(authentication.UserId);
+            }
+            
+            throw new InvalidRequestException();
+        }
+        /// <summary>
+        /// Gets the local authentication.
+        /// </summary>
+        /// <param name="usernameOrEmailAddress">The username or email address.</param>
+        private XemioAuthentication GetLocalAuthentication(string usernameOrEmailAddress)
+        {
+            User user = this.DocumentSession.Query<User>().FirstOrDefault(f => f.EmailAddress == usernameOrEmailAddress);
 
             if (user != null)
-                return user;
+            {
+                return this.DocumentSession.Query<XemioAuthentication>()
+                    .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+                    .FirstOrDefault(f => f.UserId == user.Id);
+            }
 
-            throw new InvalidRequestException();
+            return this.DocumentSession.Query<XemioAuthentication>()
+                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+                .Include(f => f.UserId)
+                .FirstOrDefault(f => f.Username == usernameOrEmailAddress);
         }
         #endregion
     }

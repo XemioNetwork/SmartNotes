@@ -49,36 +49,21 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
                 return false;
             }
 
-            if (this.AreRequiredDataPresent(context) == false)
+            if (this.TokenExists(context) == false)
             {
-                this.LogMessage(context, "Login failed. Authorization data missing.");
-                return false;
-            }
-
-            if (this.UsernameExists(context) == false)
-            {
-                this.LogMessage(context, "Login failed. Username does not exist.");
+                this.LogMessage(context, "Login failed. The token does not exist.");
                 return false;   
             }
+            
+            AuthenticationToken token = this.GetToken(context);
 
-            User user = this.GetUser(context);
-
-            string givenContentHash = this.GetContentHash(context);
-            string computedContentHash = this.ComputeContentHash(context, user);
-
-            if (givenContentHash != computedContentHash)
+            if (token.IsValid() == false)
             {
-                this.LogMessage(context, "Login failed. The calculated hash doesn't match the given one.");
+                this.LogMessage(context, "Login failed. The token has expired.");
                 return false;
             }
-
-            if (this.IsRequestDateValid(context) == false)
-            {
-                this.LogMessage(context, "Login failed. The request timed out.");
-                return false;
-            }
-
-            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(user.Id), new string[0]);
+            
+            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(token.UserId), new string[0]);
             return true;
         }
         #endregion
@@ -95,72 +80,33 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             return context.Request.Headers.Authorization.Scheme == "Xemio";
         }
         /// <summary>
-        /// Determines whether all data for xemio-authentication are present.
+        /// Determines whether the given token exists.
         /// </summary>
         /// <param name="context">The context.</param>
-        private bool AreRequiredDataPresent(HttpActionContext context)
+        private bool TokenExists(HttpActionContext context)
         {
-            IEnumerable<string> requestDateValues;
-
-            return context.Request.Headers.Authorization.Parameter.Split(':').Length == 2 &&
-                   context.Request.Headers.TryGetValues("Request-Date", out requestDateValues);
-        }
-        /// <summary>
-        /// Determines whether the given username exists.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        private bool UsernameExists(HttpActionContext context)
-        {
-            string username = context.Request.Headers.Authorization.Parameter.Split(':').First();
+            string tokenString = context.Request.Headers.Authorization.Parameter;
 
             var documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
-            User user = documentSession.Query<User>()
+
+            var token = documentSession.Query<AuthenticationToken>()
                 .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
-                .FirstOrDefault(f => f.Username == username);
+                .FirstOrDefault(f => f.Token == tokenString);
 
-            return user != null;
+            return token != null;
         }
         /// <summary>
-        /// Returns the content-hash from the request.
+        /// Returns the <see cref="AuthenticationToken"/> from the current request.
         /// </summary>
         /// <param name="context">The context.</param>
-        private string GetContentHash(HttpActionContext context)
+        private AuthenticationToken GetToken(HttpActionContext context)
         {
-            return context.Request.Headers.Authorization.Parameter.Split(':').Last();
-        }
-        /// <summary>
-        /// Returns the <see cref="User"/> executing the current request.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        private User GetUser(HttpActionContext context)
-        {
-            string username = context.Request.Headers.Authorization.Parameter.Split(':').First();
+            string tokenString = context.Request.Headers.Authorization.Parameter;
 
             var documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
-            return documentSession.Query<User>()
-                .First(f => f.Username == username);
-        }
-        /// <summary>
-        /// Computes the content hash using the given <paramref name="user"/>.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <param name="user">The user.</param>
-        private string ComputeContentHash(HttpActionContext context, User user)
-        {
-            string content = context.Request.Content.ReadAsStringAsync().Result;
-            DateTimeOffset requestDate = DateTimeOffset.Parse(context.Request.Headers.GetValues("Request-Date").First());
 
-            return AuthorizationHash.Create(user.AuthorizationHash, requestDate, content);
-        }
-        /// <summary>
-        /// Determines whether the request date is valid.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        private bool IsRequestDateValid(HttpActionContext context)
-        {
-            DateTimeOffset requestDate = DateTimeOffset.Parse(context.Request.Headers.GetValues("Request-Date").First());
-            var invalidDate = requestDate.AddMinutes(1);
-            return invalidDate >= DateTimeOffset.Now;
+            return documentSession.Query<AuthenticationToken>()
+                .First(f => f.Token == tokenString);
         }
         /// <summary>
         /// Logs the specified message.

@@ -14,12 +14,14 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using Raven.Abstractions.Data;
 using Raven.Client;
+using Xemio.SmartNotes.Server.Abstractions.Authentication;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
 using Xemio.SmartNotes.Server.Infrastructure.Properties;
 using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
@@ -31,7 +33,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         #region Fields
         private readonly IEmailValidationService _emailValidationService;
         private readonly IExampleDataService _exampleDataService;
-
+        private readonly IAuthenticationProvider[] _authenticationProviders;
         #endregion
 
         #region Constructors
@@ -40,13 +42,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// </summary>
         /// <param name="documentSession">The document session.</param>
         /// <param name="emailValidationService">The email validator.</param>
-        /// <param name="userService">The user service.</param>
+        /// <param name="userService">The createUser service.</param>
         /// <param name="exampleDataService">The example data service.</param>
-        public UsersController(IDocumentSession documentSession, IEmailValidationService emailValidationService, IUserService userService, IExampleDataService exampleDataService)
+        /// <param name="authenticationProviders">The authentication providers.</param>
+        public UsersController(IDocumentSession documentSession, IEmailValidationService emailValidationService, IUserService userService, IExampleDataService exampleDataService, IAuthenticationProvider[] authenticationProviders)
             : base(documentSession, userService)
         {
             this._emailValidationService = emailValidationService;
             this._exampleDataService = exampleDataService;
+            this._authenticationProviders = authenticationProviders;
         }
         #endregion
 
@@ -54,33 +58,41 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Creates a new <see cref="User"/>.
         /// </summary>
-        /// <param name="user">The new user.</param>
+        /// <param name="createUser">The new createUser.</param>
         [Route("Users")]
-        public HttpResponseMessage PostUser([FromBody]User user)
+        public HttpResponseMessage PostUser([FromBody]CreateUser createUser)
         {
-            if (user == null)
+            if (createUser == null)
                 throw new InvalidRequestException();
+            
+            if (this._emailValidationService.IsValidEmailAddress(createUser.EmailAddress) == false)
+                throw new InvalidEmailAddressException(createUser.EmailAddress);
 
-            if (string.IsNullOrWhiteSpace(user.Username))
-                throw new InvalidUsernameException();
+            if (this.IsEmailAddressAvailable(createUser.EmailAddress) == false)
+                throw new EmailAddressUnavailableException(createUser.EmailAddress);
 
-            if (this.IsUsernameAvailable(user.Username) == false)
-                throw new UsernameUnavailableException(user.Username);
-
-            if (this._emailValidationService.IsValidEmailAddress(user.EmailAddress) == false)
-                throw new InvalidEmailAddressException(user.EmailAddress);
-
-            if (this.IsEmailAddressAvailable(user.EmailAddress) == false)
-                throw new EmailAddressUnavailableException(user.EmailAddress);
+            var user = new User
+            {
+                EmailAddress = createUser.EmailAddress,
+                PreferredLanguage = createUser.PreferredLanguage,
+                TimeZoneId = createUser.TimeZoneId
+            };
 
             this.DocumentSession.Store(user);
 
-            this.Logger.DebugFormat("Created new user '{0}' with username '{1}'.", user.Id, user.Username);
+            IAuthenticationProvider authenticationProvider = this._authenticationProviders.FirstOrDefault(f => f.Type == createUser.AuthenticationType);
 
-            return Request.CreateResponse(HttpStatusCode.Created, user);
+            if (authenticationProvider == null)
+                throw new ApplicationException(string.Format("No authentication provider for the authentication type '{0}' was found.", createUser.AuthenticationType));
+
+            authenticationProvider.Register(user, createUser.AuthenticationData);
+
+            this.Logger.DebugFormat("Created new createUser '{0}' with email address '{1}'.", user.Id, createUser.EmailAddress);
+
+            return Request.CreateResponse(HttpStatusCode.Created, createUser);
         }
         /// <summary>
-        /// Gets the current user.
+        /// Gets the current createUser.
         /// </summary>
         [Route("Users/Authorized")]
         [RequiresAuthorization]
@@ -93,7 +105,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Updates the <see cref="User"/>.
         /// </summary>
-        /// <param name="user">The user.</param>
+        /// <param name="user">The createUser.</param>
         [Route("Users/Authorized")]
         [RequiresAuthorization]
         public HttpResponseMessage PutUser([FromBody]User user)
@@ -107,24 +119,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 throw new EmailAddressUnavailableException(user.EmailAddress);
 
             currentUser.EmailAddress = user.EmailAddress;
-            currentUser.AuthorizationHash = user.AuthorizationHash;
 
-            this.Logger.DebugFormat("Updated user '{0}'.", currentUser.Id);
+            this.Logger.DebugFormat("Updated createUser '{0}'.", currentUser.Id);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
         #endregion
 
         #region Private Methods
-        /// <summary>
-        /// Determines whether the given <paramref name="username"/> is available.
-        /// </summary>
-        private bool IsUsernameAvailable(string username)
-        {
-            return this.DocumentSession.Query<User>()
-                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
-                .Any(f => f.Username == username) == false;
-        }
         /// <summary>
         /// Determines whether the given <paramref name="emailAddress"/> is available.
         /// </summary>
@@ -136,7 +138,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 .Any(f => f.EmailAddress == emailAddress) == false;
         }
         /// <summary>
-        /// Gets the user with email address.
+        /// Gets the createUser with email address.
         /// </summary>
         /// <param name="emailAddress">The email address.</param>
         private User GetUserWithEmailAddress(string emailAddress)

@@ -15,11 +15,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Security
         /// <summary>
         /// Generates a new secret.
         /// </summary>
-        public string Generate(int length = 32)
+        public byte[] Generate(int length = 128)
         {
-            byte[] randomBytes = new byte[length / 4 * 3];
+            byte[] randomBytes = new byte[length];
             RandomNumberGenerator.Create().GetNonZeroBytes(randomBytes);
-            return Convert.ToBase64String(randomBytes).Replace('/', '-').Replace('+', '_');
+
+            return randomBytes;
         }
         #endregion
     }

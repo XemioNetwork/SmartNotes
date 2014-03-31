@@ -162,4 +162,7 @@
   <data name="PasswordResetTimedOut" xml:space="preserve">
     <value>You only have 2 hours to reset your password.</value>
   </data>
+  <data name="AuthenticationFailed" xml:space="preserve">
+    <value>Authentication failed.</value>
+  </data>
 </root>

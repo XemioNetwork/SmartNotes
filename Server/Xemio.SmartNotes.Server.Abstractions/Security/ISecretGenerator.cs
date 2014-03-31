@@ -12,6 +12,6 @@ namespace Xemio.SmartNotes.Server.Abstractions.Security
         /// <summary>
         /// Generates a new secret.
         /// </summary>
-        string Generate(int length = 32);
+        byte[] Generate(int length = 128);
     }
 }

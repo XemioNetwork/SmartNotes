@@ -23,7 +23,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
             emailFactory.SendEmailToUser("PasswordForgot", user, new
             {
                 Url = url,
-                user.Username
+                Username = user.EmailAddress
             });
         }
 
@@ -38,7 +38,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
             emailFactory.SendEmailToUser("PasswordReset", user, new
             {
                 NewPassword = newPassword,
-                user.Username
+                Username = user.EmailAddress
             });
         }
     }
