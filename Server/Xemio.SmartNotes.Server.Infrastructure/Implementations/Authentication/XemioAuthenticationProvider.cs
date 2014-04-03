@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Authentication;
 using Xemio.SmartNotes.Server.Abstractions.Security;
+using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
@@ -52,7 +53,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
                 throw new ArgumentNullException("data");
 
             var authenticationData = data.ToObject<AuthenticationData>();
-            
+
             var authentication = this._documentSession.Query<XemioAuthentication>()
                 .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
                 .First(f => f.Username == authenticationData.Username);
@@ -82,6 +83,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
 
             var registerData = data.ToObject<RegisterData>();
 
+            if (string.IsNullOrWhiteSpace(registerData.Username))
+                throw new InvalidUsernameException();
+
+            if (this.IsUsernameAvailable(registerData.Username) == false)
+                throw new UsernameUnavailableException(registerData.Username);
+
             byte[] salt = this._secretGenerator.Generate();
 
             var authentication = new XemioAuthentication
@@ -93,6 +100,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
             };
 
             this._documentSession.Store(authentication);
+
+            user.HasXemioAuthentication = true;
 
             return true;
         }
@@ -115,6 +124,18 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
                 .First(f => f.UserId == user.Id);
 
             authentication.PasswordHash = this._saltCombiner.Combine(authentication.Salt, updateData.Password);
+        }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Determines whether the given <paramref name="username"/> is available.
+        /// </summary>
+        private bool IsUsernameAvailable(string username)
+        {
+            return this._documentSession.Query<XemioAuthentication>()
+                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+                .Any(f => f.Username == username) == false;
         }
         #endregion
 

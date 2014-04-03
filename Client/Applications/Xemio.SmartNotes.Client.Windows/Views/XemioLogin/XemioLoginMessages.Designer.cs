@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Xemio.SmartNotes.Client.Windows.Views.Login {
+namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class LoginMessages {
+    public class XemioLoginMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal LoginMessages() {
+        internal XemioLoginMessages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Xemio.SmartNotes.Client.Windows.Views.Login.LoginMessages", typeof(LoginMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Xemio.SmartNotes.Client.Windows.Views.XemioLogin.XemioLoginMessages", typeof(XemioLoginMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,65 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Facebook.
+        ///   Looks up a localized string similar to Forgot password.
         /// </summary>
-        public static string Facebook {
+        public static string ForgotPassword {
             get {
-                return ResourceManager.GetString("Facebook", resourceCulture);
+                return ResourceManager.GetString("ForgotPassword", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Twitter.
+        ///   Looks up a localized string similar to Login.
         /// </summary>
-        public static string Twitter {
+        public static string Login {
             get {
-                return ResourceManager.GetString("Twitter", resourceCulture);
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login failed.
+        /// </summary>
+        public static string LoginFailed {
+            get {
+                return ResourceManager.GetString("LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember me.
+        /// </summary>
+        public static string RememberMe {
+            get {
+                return ResourceManager.GetString("RememberMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LOGIN.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
             }
         }
         
@@ -88,11 +133,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Xemio Notes.
+        ///   Looks up a localized string similar to Username.
         /// </summary>
-        public static string XemioNotes {
+        public static string Username {
             get {
-                return ResourceManager.GetString("XemioNotes", resourceCulture);
+                return ResourceManager.GetString("Username", resourceCulture);
             }
         }
     }

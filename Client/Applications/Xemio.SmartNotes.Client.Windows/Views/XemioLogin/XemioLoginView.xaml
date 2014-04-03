@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="Xemio.SmartNotes.Client.Windows.Views.XemioLogin.XemioLoginView"
+             
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:controls="clr-namespace:Xemio.SmartNotes.Client.Windows.Themes.Controls"
+             
+             lex:LocalizeDictionary.DesignCulture="de-DE"
+             lex:ResxLocalizationProvider.DefaultAssembly="Xemio.SmartNotes.Client.Windows"
+             lex:ResxLocalizationProvider.DefaultDictionary="XemioLoginMessages"
+             
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             
+             Margin="10">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" /> <!-- Distance between Button and GroupBox -->
+            <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- The Login area -->
+        <GroupBox Grid.Row="0" Header="{lex:Loc Title}" Width="300" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+
+                <!-- The username textbox -->
+                <controls:WatermarkTextBox Grid.Row="1" Margin="5, 0, 5, 0" Watermark="{lex:Loc Username}" Text="{Binding Username}" />
+                <!-- The password passwordbox -->
+                <controls:WatermarkPasswordBox Grid.Row="3" Margin="5, 0, 5, 0" Watermark="{lex:Loc Password}" Password="{Binding Password}" />
+
+                <!-- The remember me checkbox -->
+                <CheckBox x:Name="RememberMe" Grid.Row="4" Content="{lex:Loc RememberMe}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Grid>
+        </GroupBox>
+
+        <!-- The login button -->
+        <Button Grid.Row="2" x:Name="Login" Content="{lex:Loc Login}" IsDefault="True" />
+
+        <!-- The row underneat the login button -->
+        <Grid Grid.Row="3" HorizontalAlignment="Center" Width="300" Margin="0, 5, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- The register button -->
+            <Button x:Name="Register" Grid.Column="0" Style="{StaticResource LinkButton}">
+                <TextBlock Text="{lex:Loc Register}" />
+            </Button>
+
+            <!-- The forgot password button -->
+            <Button x:Name="ForgotPassword" Grid.Column="1" Style="{StaticResource LinkButton}">
+                <TextBlock Text="{lex:Loc ForgotPassword}" />
+            </Button>
+
+        </Grid>
+        
+    </Grid>
+</UserControl>

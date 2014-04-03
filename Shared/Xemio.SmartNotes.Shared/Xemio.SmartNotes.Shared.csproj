@@ -46,7 +46,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authorization\AuthorizationHash.cs" />
     <Compile Include="Common\BackgroundExceptionEventArgs.cs" />
     <Compile Include="Common\BackgroundQueue.cs" />
     <Compile Include="Common\Singleton.cs" />

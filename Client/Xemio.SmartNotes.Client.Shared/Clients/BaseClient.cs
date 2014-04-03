@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
 using Newtonsoft.Json;
-using Xemio.SmartNotes.Shared.Authorization;
 
 namespace Xemio.SmartNotes.Client.Shared.Clients
 {
@@ -56,22 +55,14 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="method">The method.</param>
         /// <param name="relativeUri">The relative URI.</param>
         /// <param name="content">The content.</param>
-        /// <returns></returns>
-        protected async Task<HttpRequestMessage> CreateRequest(HttpMethod method, string relativeUri, object content = null)
+        protected HttpRequestMessage CreateRequest(HttpMethod method, string relativeUri, object content = null)
         {
-            DateTimeOffset requestDate = DateTimeOffset.UtcNow;
             string contentString = content != null ? JsonConvert.SerializeObject(content) : null;
 
-            string authorizationHash = await AuthorizationHash.Create(this.Session.Username, this.Session.Password, requestDate, contentString);
+            var request = new HttpRequestMessage(method, relativeUri);
 
-            var request = new HttpRequestMessage(method, relativeUri)
-                              {
-                                  Headers =
-                                  {
-                                      Authorization = new AuthenticationHeaderValue("Xemio", string.Format("{0}:{1}", this.Session.Username, authorizationHash))
-                                  }
-                              };
-            request.Headers.Add("Request-Date", requestDate.ToString("yyyy-MM-ddTHH:mm:ssZ"));
+            if (this.Session.Token != null)
+                request.Headers.Authorization = new AuthenticationHeaderValue("Xemio", this.Session.Token.Token);
 
             if (string.IsNullOrWhiteSpace(contentString) == false)
                 request.Content = new StringContent(contentString, Encoding.UTF8, "application/json");

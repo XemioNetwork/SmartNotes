@@ -124,6 +124,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
 
             this._documentSession.Store(authentication);
 
+            user.HasFacebookAuthentication = true;
             user.PreferredLanguage = facebookUser.Locale;
             user.EmailAddress = facebookUser.Email;
 

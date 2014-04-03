@@ -117,16 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Facebook" xml:space="preserve">
-    <value>Facebook</value>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Passwort vergessen</value>
   </data>
-  <data name="Twitter" xml:space="preserve">
-    <value>Twitter</value>
+  <data name="Login" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Anmeldung fehlgeschlagen</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registrieren</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>An mich erinnern</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>ANMELDUNG</value>
   </data>
   <data name="UnknownError" xml:space="preserve">
-    <value>Unknown error</value>
+    <value>Unbekannter Fehler</value>
   </data>
-  <data name="XemioNotes" xml:space="preserve">
-    <value>Xemio Notes</value>
+  <data name="Username" xml:space="preserve">
+    <value>Benutzername</value>
   </data>
 </root>

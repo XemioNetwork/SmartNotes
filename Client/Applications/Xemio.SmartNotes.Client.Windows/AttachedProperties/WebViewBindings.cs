@@ -54,9 +54,7 @@ namespace Xemio.SmartNotes.Client.Windows.AttachedProperties
             SpinWait.SpinUntil(() => webView.IsBrowserInitialized, TimeSpan.FromSeconds(1));
 
             if (webView.IsBrowserInitialized == false)
-            {
                 throw new ApplicationException("The CEF browser did not initialize in time.");
-            }
 
             webView.LoadHtml((string) e.NewValue);
         }

@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Shared.Clients
 {
@@ -25,28 +26,30 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <summary>
         /// Gets the current user.
         /// </summary>
-        public async Task<HttpResponseMessage> GetAuthorized()
+        public Task<HttpResponseMessage> GetAuthorized()
         {
-            var request = await this.CreateRequest(HttpMethod.Get, "Users/Authorized");
-            return await this.SendAsync(request);
+            var request = this.CreateRequest(HttpMethod.Get, "Users/Authorized");
+            return this.SendAsync(request);
         }
+
         /// <summary>
         /// Creates a new <see cref="User"/>.
         /// </summary>
         /// <param name="user">The new user.</param>
-        public async Task<HttpResponseMessage> PostUser(User user)
+        public Task<HttpResponseMessage> PostUser(CreateUser user)
         {
-            var request = await this.CreateRequest(HttpMethod.Post, "Users", user);
-            return await this.SendAsync(request);
+            var request = this.CreateRequest(HttpMethod.Post, "Users", user);
+            return this.SendAsync(request);
         }
+
         /// <summary>
         /// Updates the <see cref="User"/>.
         /// </summary>
         /// <param name="user">The user.</param>
-        public async Task<HttpResponseMessage> PutUser(User user)
+        public Task<HttpResponseMessage> PutUser(User user)
         {
-            var request = await this.CreateRequest(HttpMethod.Put, "Users/Authorized", user);
-            return await this.SendAsync(request);
+            var request = this.CreateRequest(HttpMethod.Put, "Users/Authorized", user);
+            return this.SendAsync(request);
         }
         #endregion
     }

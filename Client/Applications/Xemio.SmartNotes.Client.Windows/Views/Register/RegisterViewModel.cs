@@ -8,11 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
+using Newtonsoft.Json.Linq;
 using NodaTime;
 using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
-using Xemio.SmartNotes.Shared.Authorization;
 using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Register
 {
@@ -111,13 +112,17 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
         /// </summary>
         public async Task Register()
         {
-            var user = new User
+            var user = new CreateUser
                        {
-                           Username = this.Username,
                            EmailAddress = this.EMailAddress,
-                           AuthorizationHash = await AuthorizationHash.CreateBaseHash(this.Username, this.Password),
                            PreferredLanguage = this._displayManager.Languages.CurrentLanguage.Name,
-                           TimeZoneId = DateTimeZoneProviders.Tzdb.GetSystemDefault().Id
+                           TimeZoneId = DateTimeZoneProviders.Tzdb.GetSystemDefault().Id,
+                           AuthenticationType = AuthenticationType.Xemio,
+                           AuthenticationData = new JObject
+                           {
+                               { "Username", this.Username },
+                               { "Password", this.Password }
+                           }
                        };
 
             HttpResponseMessage response = await this._webServiceClient.Users.PostUser(user);

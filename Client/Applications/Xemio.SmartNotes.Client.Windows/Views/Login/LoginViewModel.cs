@@ -3,6 +3,7 @@ using System.Dynamic;
 using System.Globalization;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
 using Caliburn.Micro;
@@ -12,213 +13,100 @@ using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Shared.Settings;
 using Xemio.SmartNotes.Client.Windows.Data;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
+using Xemio.SmartNotes.Client.Windows.Views.FacebookLogin;
 using Xemio.SmartNotes.Client.Windows.Views.PasswordReset;
 using Xemio.SmartNotes.Client.Windows.Views.Register;
+using Xemio.SmartNotes.Client.Windows.Views.XemioLogin;
 using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Login
 {
     public class LoginViewModel : Screen
     {
-        #region Constants
-        private const string UsernameKey = "Username";
-        private const string PasswordKey = "Password";
-        private const string RememberMeKey = "RememberMe";
-        #endregion
-
         #region Fields
         private readonly WebServiceClient _webServiceClient;
-        private readonly DisplayManager _displayManager;
-        private readonly IDataStorage _dataStorage;
         private readonly ILanguageManager _languageManager;
-
-        private string _username;
-        private string _password;
-        private bool _rememberMe;
+        private readonly DisplayManager _displayManager;
         #endregion
-
-        #region Properties
-        /// <summary>
-        /// Gets or sets the username.
-        /// </summary>
-        public string Username
-        {
-            get { return this._username; }
-            set
-            {
-                if (this._username != value)
-                {
-                    this._username = value;
-                    this.NotifyOfPropertyChange(() => this.Username);
-                    this.NotifyOfPropertyChange(() => this.CanLogin);
-                }
-            }
-        }
-        /// <summary>
-        /// Gets or sets the password.
-        /// </summary>
-        public string Password
-        {
-            get { return this._password; }
-            set
-            {
-                if (this._password != value)
-                {
-                    this._password = value;
-                    this.NotifyOfPropertyChange(() => this.Password);
-                    this.NotifyOfPropertyChange(() => this.CanLogin);
-                }
-            }
-        }
-        /// <summary>
-        /// Gets or sets a value indicating whether to remember the login credentials.
-        /// </summary>
-        public bool RememberMe
-        {
-            get { return this._rememberMe; }
-            set
-            {
-                if (this._rememberMe != value)
-                {
-                    this._rememberMe = value;
-                    this.NotifyOfPropertyChange(() => this.RememberMe);
-                }
-            }
-        }
-        #endregion
-
+        
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginViewModel" /> class.
         /// </summary>
         /// <param name="webServiceClient">The webservice client.</param>
-        /// <param name="displayManager">The display manager.</param>
-        /// <param name="dataStorage">The data storage.</param>
         /// <param name="languageManager">The language manager.</param>
-        public LoginViewModel(WebServiceClient webServiceClient, DisplayManager displayManager, IDataStorage dataStorage, ILanguageManager languageManager)
+        /// <param name="displayManager">The display manager.</param>
+        public LoginViewModel(WebServiceClient webServiceClient, ILanguageManager languageManager, DisplayManager displayManager)
         {
             this.DisplayName = "Xemio Notes";
 
             this._webServiceClient = webServiceClient;
-            this._displayManager = displayManager;
-            this._dataStorage = dataStorage;
             this._languageManager = languageManager;
+            this._displayManager = displayManager;
         }
         #endregion
-
-        #region Overrides of Screen
-        /// <summary>
-        /// Called when initializing.
-        /// </summary>
-        protected override void OnInitialize()
-        {
-            this.LoadRememberMe();
-        }
-        #endregion
-
+        
         #region Methods
         /// <summary>
-        /// Gets a value indicating whether the <see cref="Login"/> method can be executed.
+        /// Shows the facebook login window.
         /// </summary>
-        public bool CanLogin
+        public async Task FacebookLogin()
         {
-            get
+            var viewModel = IoC.Get<FacebookLoginViewModel>();
+            
+            dynamic settings = new ExpandoObject();
+            settings.ResizeMode = ResizeMode.CanMinimize;
+
+            bool? result = this._displayManager.Windows.ShowDialog(viewModel, null, settings);
+
+            if (result.GetValueOrDefault())
             {
-                return string.IsNullOrEmpty(this.Username) == false &&
-                       string.IsNullOrEmpty(this.Password) == false;
+                await this.FinishLogin(viewModel.Token);
             }
         }
         /// <summary>
-        /// Tries to login with the current credentials.
+        /// Shows the xemio notes login window.
         /// </summary>
-        public async void Login()
+        public async Task XemioNotesLogin()
         {
-            this._webServiceClient.Session.Username = this.Username;
-            this._webServiceClient.Session.Password = this.Password;
-
-            HttpResponseMessage response = await this._webServiceClient.Users.GetAuthorized();
-            if (response.StatusCode == HttpStatusCode.Found)
-            {
-                this.SaveRememberMe();
-
-                var user = await response.Content.ReadAsAsync<User>();
-                this._webServiceClient.Session.User = user;
-                this._languageManager.SetLanguageFromUser(user);
-
-                this.TryClose(true);
-            }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                string message = await response.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, LoginMessages.LoginFailed, MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                string message = await response.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, LoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        /// <summary>
-        /// Opens the register window.
-        /// </summary>
-        public void Register()
-        {
-            var registerViewModel = IoC.Get<RegisterViewModel>();
+            var viewModel = IoC.Get<XemioLoginViewModel>();
 
             dynamic settings = new ExpandoObject();
             settings.ResizeMode = ResizeMode.CanMinimize;
 
-            this._displayManager.Windows.ShowDialog(registerViewModel, null, settings);
-        }
-        /// <summary>
-        /// Opens the forgot-password window.
-        /// </summary>
-        public void ForgotPassword()
-        {
-            var passwordResetViewModel = IoC.Get<PasswordResetViewModel>();
+            bool? result = this._displayManager.Windows.ShowDialog(viewModel, null, settings);
 
-            dynamic settings = new ExpandoObject();
-            settings.ResizeMode = ResizeMode.CanMinimize;
-
-            this._displayManager.Windows.ShowDialog(passwordResetViewModel, null, settings);
-        }
-        /// <summary>
-        /// Changes the current language to german.
-        /// </summary>
-        public void ChangeLanguageToGerman()
-        {
-            this._languageManager.CurrentLanguage = CultureInfo.CreateSpecificCulture("DE");
-        }
-        /// <summary>
-        /// Changes the current language to english.
-        /// </summary>
-        public void ChangeLanguageToEnglish()
-        {
-            this._languageManager.CurrentLanguage = CultureInfo.CreateSpecificCulture("EN");
+            if (result.GetValueOrDefault())
+            {
+                await this.FinishLogin(viewModel.Token);
+            }
         }
         #endregion
 
         #region Private Methods
         /// <summary>
-        /// Tries to load the local settings.
+        /// Finishes the login process.
         /// </summary>
-        private void LoadRememberMe()
+        /// <param name="token">The token.</param>
+        private async Task FinishLogin(AuthenticationToken token)
         {
-            if (this._dataStorage.Retrieve<bool>(RememberMeKey))
+            this._webServiceClient.Session.Token = token;
+
+            HttpResponseMessage userResponse = await this._webServiceClient.Users.GetAuthorized();
+            if (userResponse.StatusCode == HttpStatusCode.Found)
             {
-                this.RememberMe = true;
-                this.Username = this._dataStorage.Retrieve<string>(UsernameKey);
-                this.Password = this._dataStorage.Retrieve<string>(PasswordKey);
+                var user = await userResponse.Content.ReadAsAsync<User>();
+                this._webServiceClient.Session.User = user;
+
+                this._languageManager.SetLanguageFromUser(user);
+
+                this.TryClose(true);
             }
-        }
-        /// <summary>
-        /// Saves the local settings.
-        /// </summary>
-        private void SaveRememberMe()
-        {
-            this._dataStorage.Store(this.RememberMe, RememberMeKey);
-            this._dataStorage.Store(this.Username, UsernameKey);
-            this._dataStorage.Store(this.Password, PasswordKey);
+            else
+            {
+                string message = await userResponse.Content.ReadAsStringAsync();
+                this._displayManager.Messages.ShowMessageBox(message, LoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         #endregion
     }

@@ -47,7 +47,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Creates a new token.
         /// </summary>
         /// <param name="createToken">The create token data.</param>
-        [Route("Tokens")]
+        [Route("Token")]
         public HttpResponseMessage PostToken([FromBody]CreateToken createToken)
         {
             IAuthenticationProvider provider = this._authenticationProviders.SingleOrDefault(f => f.Type == createToken.Type);

@@ -29,5 +29,13 @@ namespace Xemio.SmartNotes.Shared.Entities.Users
         /// Gets or sets the time zone identifier (IANA TimeZones).
         /// </summary>
         public string TimeZoneId { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this user has xemio authentication.
+        /// </summary>
+        public bool HasXemioAuthentication { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this user has facebook authentication.
+        /// </summary>
+        public bool HasFacebookAuthentication { get; set; }
     }
 }

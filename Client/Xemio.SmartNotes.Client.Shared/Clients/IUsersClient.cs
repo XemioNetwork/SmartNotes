@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Shared.Clients
 {
@@ -15,7 +16,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// Creates a new <see cref="User"/>.
         /// </summary>
         /// <param name="user">The new user.</param>
-        Task<HttpResponseMessage> PostUser(User user);
+        Task<HttpResponseMessage> PostUser(CreateUser user);
 
         /// <summary>
         /// Updates the <see cref="User"/>.

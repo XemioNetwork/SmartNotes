@@ -28,6 +28,10 @@
         /// </summary>
         public ITagsClient Tags { get; private set; }
         /// <summary>
+        /// Gets the <see cref="ITokenClient"/>.
+        /// </summary>
+        public ITokenClient Tokens { get; private set; }
+        /// <summary>
         /// Gets the <see cref="Session"/>.
         /// </summary>
         public Session Session { get; private set; }
@@ -43,8 +47,9 @@
         /// <param name="passwordResets">The password resets Client.</param>
         /// <param name="tagsClient">The tags Client.</param>
         /// <param name="avatarsClient">The avatars Client.</param>
+        /// <param name="tokenClient">The token Client.</param>
         /// <param name="session">The session.</param>
-        public WebServiceClient(IFoldersClient folders, INotesClient notes, IUsersClient users, IPasswordResetClient passwordResets, ITagsClient tagsClient, IAvatarsClient avatarsClient, Session session)
+        public WebServiceClient(IFoldersClient folders, INotesClient notes, IUsersClient users, IPasswordResetClient passwordResets, ITagsClient tagsClient, IAvatarsClient avatarsClient, ITokenClient tokenClient, Session session)
         {
             this.Folders = folders;
             this.Notes = notes;
@@ -52,6 +57,7 @@
             this.PasswordResets = passwordResets;
             this.Avatars = avatarsClient;
             this.Tags = tagsClient;
+            this.Tokens = tokenClient;
             this.Session = session;
         }
         #endregion

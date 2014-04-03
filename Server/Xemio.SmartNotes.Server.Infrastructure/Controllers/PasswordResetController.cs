@@ -15,7 +15,6 @@ using Xemio.SmartNotes.Server.Abstractions.Security;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
-using Xemio.SmartNotes.Shared.Authorization;
 using Xemio.SmartNotes.Shared.Entities.Users;
 using Xemio.SmartNotes.Shared.Models;
 

@@ -10,30 +10,13 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
     public class Session
     {
         /// <summary>
-        /// Gets or sets the username.
+        /// Gets or sets the token.
         /// </summary>
-        public string Username { get; set; }
-        /// <summary>
-        /// Gets or sets the password.
-        /// </summary>
-        public string Password { get; set; }
+        public AuthenticationToken Token { get; set; }
 
         /// <summary>
         /// Gets or sets the current user.
         /// </summary>
         public User User { get; set; }
-
-        #region Methods
-        /// <summary>
-        /// Gets the user identifier.
-        /// </summary>
-        public int GetUserId()
-        {
-            if (this.User == null)
-                throw new InvalidOperationException("The 'User' is null. You need to set the 'User' property to user the 'GetUserId' method.");
-
-            return this.User.Id.GetIntId();
-        }
-        #endregion
     }
 }

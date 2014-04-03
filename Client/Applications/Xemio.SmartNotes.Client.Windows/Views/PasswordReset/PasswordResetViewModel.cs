@@ -85,7 +85,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset
             else
             {
                 string message = await response.Content.ReadAsStringAsync();
-                this._windowManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                this._windowManager.Messages.ShowMessageBox(message, PasswordResetMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         #endregion

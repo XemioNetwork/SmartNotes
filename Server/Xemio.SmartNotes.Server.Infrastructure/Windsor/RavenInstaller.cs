@@ -6,7 +6,6 @@ using Castle.MicroKernel.Context;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Lucene.Net.Documents;
 using Raven.Bundles.CascadeDelete;
 using Raven.Client;
 using Raven.Client.Document;
