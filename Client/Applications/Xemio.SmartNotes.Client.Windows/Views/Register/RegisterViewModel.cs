@@ -112,20 +112,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
         /// </summary>
         public async Task Register()
         {
-            var user = new CreateUser
-                       {
-                           EmailAddress = this.EMailAddress,
-                           PreferredLanguage = this._displayManager.Languages.CurrentLanguage.Name,
-                           TimeZoneId = DateTimeZoneProviders.Tzdb.GetSystemDefault().Id,
-                           AuthenticationType = AuthenticationType.Xemio,
-                           AuthenticationData = new JObject
-                           {
-                               { "Username", this.Username },
-                               { "Password", this.Password }
-                           }
-                       };
+            string language = this._displayManager.Languages.CurrentLanguage.Name;
+            string timeZone = DateTimeZoneProviders.Tzdb.GetSystemDefault().Id;
 
-            HttpResponseMessage response = await this._webServiceClient.Users.PostUser(user);
+            HttpResponseMessage response = await this._webServiceClient.Users.PostXemioUser(this.EMailAddress, language, timeZone, this.Username, this.Password);
             if (response.StatusCode == HttpStatusCode.Created)
             {
                 this.TryClose(true);

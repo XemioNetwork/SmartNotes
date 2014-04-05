@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -39,35 +41,63 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
         {
             InitializeComponent();
         }
-
-        private void WebView_OnLoadCompleted(object sender, LoadCompletedEventArgs e)
-        {
-            Execute.OnUIThread(() =>
-            {
-                var uri = new Uri(e.Url);
-                if (new Uri(RedirectUrl).IsBaseOf(uri))
-                {
-
-                    string code = HttpUtility.ParseQueryString(uri.Query)["code"];
-                    this.ViewModel.UserLoggedIn(code);
-                }
-            });
-        }
-
+        
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            SpinWait.SpinUntil(() => this.WebView.IsBrowserInitialized, TimeSpan.FromSeconds(1));
-
-            if (this.WebView.IsBrowserInitialized == false)
-                throw new ApplicationException("The CEF browser did not initialize in time.");
+            this.ResetBrowserCookie();
 
             string url = this.GetLoginUrl();
-            this.WebView.Load(url);
+            this.WebBrowser.Navigate(url);
         }
 
         private string GetLoginUrl()
         {
             return string.Format(Format, this.ViewModel.AppId, Scope, RedirectUrl);
+        }
+
+        private void WebBrowser_OnNavigating(object sender, NavigatingCancelEventArgs e)
+        {
+            if (e.Uri != null && e.Uri.LocalPath == "/r.php")
+            {
+                Process.Start(e.Uri.ToString());
+                e.Cancel = true;
+            }
+
+            if (e.Uri != null && new Uri(RedirectUrl).IsBaseOf(e.Uri))
+            {
+                Execute.OnUIThread(async () =>
+                {
+                    e.Cancel = true;
+
+                    string code = HttpUtility.ParseQueryString(e.Uri.Query)["code"];
+
+                    if (string.IsNullOrWhiteSpace(code))
+                    {
+                        this.ViewModel.UserCanceled();
+                    }
+                    else
+                    {
+                        this.WebBrowser.NavigateToString("<h1>Login erfolgreich!</h1>");
+
+                        await this.ViewModel.UserLoggedIn(code, RedirectUrl);
+                    }
+                });
+            }
+        }
+
+        private IntPtr WebBrowser_OnMessageHook(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
+        {
+            if (msg == 130)
+            {
+                this.ViewModel.UserCanceled();
+            }
+            return IntPtr.Zero;
+        }
+
+        private void ResetBrowserCookie()
+        {
+            string cookie = String.Format("c_user=; expires={0:R}; path=/; domain=.facebook.com", DateTime.UtcNow.AddDays(-1).ToString("R"));
+            Application.SetCookie(new Uri("https://www.facebook.com"), cookie);
         }
     }
 }

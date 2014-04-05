@@ -1,7 +1,9 @@
 ﻿using Caliburn.Micro;
+using Castle.Core;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Windows.Views.FacebookLogin;
 
 namespace Xemio.SmartNotes.Client.Windows.Windsor
@@ -22,10 +24,9 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
                 .FromThisAssembly()
                 .BasedOn<PropertyChangedBase>()
                 .LifestyleTransient()
-                .ConfigureFor<FacebookLoginViewModel>(f => f.DependsOn(new 
-                {
-                    appId = "547331422049204"
-                })));
+                .ConfigureFor<FacebookLoginViewModel>(f => f.DependsOn(
+                    Dependency.OnValue<string>("547331422049204"), 
+                    Dependency.OnComponent<WebServiceClient, WebServiceClient>())));
         }
         #endregion
     }

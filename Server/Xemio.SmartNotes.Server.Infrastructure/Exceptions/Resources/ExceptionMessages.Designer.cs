@@ -178,6 +178,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registration failed..
+        /// </summary>
+        internal static string RegistrationFailed {
+            get {
+                return ResourceManager.GetString("RegistrationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have the right to access this resource..
         /// </summary>
         internal static string Unauthorized {

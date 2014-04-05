@@ -165,4 +165,7 @@
   <data name="AuthenticationFailed" xml:space="preserve">
     <value>Anmeldung fehlgeschlagen.</value>
   </data>
+  <data name="RegistrationFailed" xml:space="preserve">
+    <value>Registrierung fehlgeschlagen.</value>
+  </data>
 </root>

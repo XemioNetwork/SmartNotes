@@ -61,7 +61,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
 
             var authenticationData = data.ToObject<FacebookData>();
 
-            string accessToken = this._facebookService.ExchangeTokenForAccessToken(authenticationData.Token, authenticationData.OriginalRedirectUri);
+            string accessToken = this._facebookService.ExchangeTokenForAccessToken(authenticationData.Code, authenticationData.RedirectUri);
             if (accessToken == null)
             {
                 this.Logger.Debug("Could not exchange the token for an access-token while authenticating.");
@@ -102,7 +102,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
 
             var registerData = data.ToObject<FacebookData>();
 
-            string accessToken = this._facebookService.ExchangeTokenForAccessToken(registerData.Token, registerData.OriginalRedirectUri);
+            string accessToken = this._facebookService.ExchangeTokenForAccessToken(registerData.Code, registerData.RedirectUri);
             if (accessToken == null)
             {
                 this.Logger.Debug("Could not exchange the token for an access-token while registering.");
@@ -144,9 +144,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
         #region Private
         private class FacebookData
         {
-            public string Token { get; set; }
+            public string Code { get; set; }
 
-            public string OriginalRedirectUri { get; set; }
+            public string RedirectUri { get; set; }
         }
         #endregion
     }

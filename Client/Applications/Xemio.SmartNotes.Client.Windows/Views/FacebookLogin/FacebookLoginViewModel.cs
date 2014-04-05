@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
 {
@@ -40,7 +42,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
         {
             if (string.IsNullOrWhiteSpace(appId))
                 throw new ArgumentNullException("appId");
-            if (this._webServiceClient == null)
+            if (webServiceClient == null)
                 throw new ArgumentNullException("webServiceClient");
 
             this.AppId = appId;
@@ -55,7 +57,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
         /// </summary>
         /// <param name="code">The code.</param>
         /// <param name="redirectUrl">The redirect url used to receive the code.</param>
-        public async Task UserLoggedIn(string code, string redirectUrl)
+        /// <param name="isRetry">Indicating whether we're retrying to authenticate.</param>
+        public async Task UserLoggedIn(string code, string redirectUrl, bool isRetry = false)
         {
             HttpResponseMessage tokenResponse = await this._webServiceClient.Tokens.PostFacebook(code, redirectUrl);
             if (tokenResponse.StatusCode == HttpStatusCode.OK)
@@ -63,10 +66,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
                 this.Token = await tokenResponse.Content.ReadAsAsync<AuthenticationToken>();
                 this.TryClose(true);
             }
-            else if (tokenResponse.StatusCode == HttpStatusCode.Unauthorized)
+            else if (tokenResponse.StatusCode == HttpStatusCode.Unauthorized && isRetry == false)
             {
-                string message = await tokenResponse.Content.ReadAsStringAsync();
-                //this._displayManager.Messages.ShowMessageBox(message, .LoginFailed, MessageBoxButton.OK, MessageBoxImage.Information);
+                //TODO: Register new facebook user and retry
+                await this._webServiceClient.Users.PostFacebookUser(code, redirectUrl);
+                await this.UserLoggedIn(code, redirectUrl, true);
             }
             else
             {
@@ -77,7 +81,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
         /// <summary>
         /// Called whent he user declined access to his account.
         /// </summary>
-        public void UserDeclined()
+        public void UserCanceled()
         {
             this.TryClose(false);
         }

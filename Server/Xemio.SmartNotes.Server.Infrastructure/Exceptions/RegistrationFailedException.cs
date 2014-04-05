@@ -8,14 +8,14 @@ using Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
 {
-    public class AuthenticationFailedException : BusinessException
+    public class RegistrationFailedException : BusinessException
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuthenticationFailedException"/> class.
+        /// Initializes a new instance of the <see cref="RegistrationFailedException"/> class.
         /// </summary>
-        public AuthenticationFailedException()
-            : base(ExceptionMessages.AuthenticationFailed)
+        public RegistrationFailedException()
+            : base(ExceptionMessages.RegistrationFailed)
         {
             
         }
@@ -27,7 +27,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         /// </summary>
         public override HttpStatusCode StatusCode
         {
-            get { return HttpStatusCode.Unauthorized; }
+            get { return HttpStatusCode.BadRequest; }
         }
         #endregion
     }

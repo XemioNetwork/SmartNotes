@@ -38,8 +38,8 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
                 Type = AuthenticationType.Facebook,
                 AuthenticationData = new JObject
                 {
-                    {"Token", token},
-                    {"OriginalRedirectUri", redirectUrl}
+                    {"Code", token},
+                    {"RedirectUri", redirectUrl}
                 }
             });
         }

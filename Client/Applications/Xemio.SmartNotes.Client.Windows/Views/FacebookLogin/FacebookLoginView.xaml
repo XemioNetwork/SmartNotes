@@ -2,7 +2,6 @@
              
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:cefsharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -11,14 +10,16 @@
              Loaded="OnLoaded"
              
              Margin="5"
-             Width="420"
-             Height="300"
+             Width="600"
+             Height="500"
              >
     <Grid>
         <Grid.Effect>
             <DropShadowEffect Color="Gray" BlurRadius="4" Direction="0" ShadowDepth="0" />
         </Grid.Effect>
         
-        <cefsharp:WebView x:Name="WebView" LoadCompleted="WebView_OnLoadCompleted" />
+        <WebBrowser x:Name="WebBrowser" 
+                    Navigating="WebBrowser_OnNavigating" 
+                    MessageHook="WebBrowser_OnMessageHook"/>
     </Grid>
 </UserControl>

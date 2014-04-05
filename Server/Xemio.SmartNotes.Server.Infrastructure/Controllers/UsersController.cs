@@ -64,12 +64,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         {
             if (createUser == null)
                 throw new InvalidRequestException();
-            
-            if (this._emailValidationService.IsValidEmailAddress(createUser.EmailAddress) == false)
-                throw new InvalidEmailAddressException(createUser.EmailAddress);
-
-            if (this.IsEmailAddressAvailable(createUser.EmailAddress) == false)
-                throw new EmailAddressUnavailableException(createUser.EmailAddress);
 
             var user = new User
             {
@@ -85,11 +79,21 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (authenticationProvider == null)
                 throw new ApplicationException(string.Format("No authentication provider for the authentication type '{0}' was found.", createUser.AuthenticationType));
 
-            authenticationProvider.Register(user, createUser.AuthenticationData);
+            if (authenticationProvider.Register(user, createUser.AuthenticationData) == false)
+                throw new RegistrationFailedException();
 
-            this.Logger.DebugFormat("Created new createUser '{0}' with email address '{1}'.", user.Id, createUser.EmailAddress);
+            //We validate the email-address after we register the user with the authentication provider
+            //So the authentication provider (like facebook) can set the email address
+            //No problem because ravendb is transactional
+            if (this._emailValidationService.IsValidEmailAddress(user.EmailAddress) == false)
+                throw new InvalidEmailAddressException(user.EmailAddress);
 
-            return Request.CreateResponse(HttpStatusCode.Created, createUser);
+            if (this.IsEmailAddressAvailable(user.EmailAddress) == false)
+                throw new EmailAddressUnavailableException(user.EmailAddress);
+
+            this.Logger.DebugFormat("Created new createUser '{0}' with email address '{1}'.", user.Id, user.EmailAddress);
+
+            return Request.CreateResponse(HttpStatusCode.Created, user);
         }
         /// <summary>
         /// Gets the current createUser.
