@@ -12,16 +12,6 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
     [ValueConversion(typeof(TreeViewItem), typeof(Thickness), ParameterType = typeof(double))]
     public class TreeViewItemWholeSelectionConverter : MarkupExtension, IValueConverter
     {
-        #region Singleton
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        public TreeViewItemWholeSelectionConverter Instance
-        {
-            get { return Singleton<TreeViewItemWholeSelectionConverter>.Instance; }
-        }
-        #endregion
-
         #region Overrides of MarkupExtension
         /// <summary>
         /// When implemented in a derived class, returns an object that is provided as the value of the target property for this markup extension.
@@ -29,7 +19,7 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
         /// <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return Instance;
+            return this;
         }
         #endregion
         

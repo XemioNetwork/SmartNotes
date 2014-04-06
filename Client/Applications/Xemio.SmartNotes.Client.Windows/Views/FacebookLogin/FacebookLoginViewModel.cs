@@ -5,10 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Shared.Extensions;
+using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Shared.Entities.Users;
 using Xemio.SmartNotes.Shared.Models;
 
@@ -18,6 +20,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
     {
         #region Fields
         private readonly WebServiceClient _webServiceClient;
+        private readonly DisplayManager _displayManager;
         #endregion
 
         #region Properties
@@ -32,14 +35,16 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
         #endregion
 
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FacebookLoginViewModel"/> class.
         /// </summary>
         /// <param name="appId">The application identifier.</param>
         /// <param name="webServiceClient">The web service client.</param>
-        public FacebookLoginViewModel(string appId, WebServiceClient webServiceClient)
+        /// <param name="displayManager">The display manager.</param>
+        public FacebookLoginViewModel(string appId, WebServiceClient webServiceClient, DisplayManager displayManager)
         {
+            this.DisplayName = "Xemio Notes";
+
             if (string.IsNullOrWhiteSpace(appId))
                 throw new ArgumentNullException("appId");
             if (webServiceClient == null)
@@ -47,18 +52,19 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
 
             this.AppId = appId;
             this._webServiceClient = webServiceClient;
+            this._displayManager = displayManager;
         }
         #endregion
 
         #region Methods
-
         /// <summary>
         /// Called when the user has logged in.
         /// </summary>
         /// <param name="code">The code.</param>
         /// <param name="redirectUrl">The redirect url used to receive the code.</param>
         /// <param name="isRetry">Indicating whether we're retrying to authenticate.</param>
-        public async Task UserLoggedIn(string code, string redirectUrl, bool isRetry = false)
+        /// <param name="registerMessage">The message we got from the register call.</param>
+        public async Task UserLoggedIn(string code, string redirectUrl, bool isRetry = false, string registerMessage = null)
         {
             HttpResponseMessage tokenResponse = await this._webServiceClient.Tokens.PostFacebook(code, redirectUrl);
             if (tokenResponse.StatusCode == HttpStatusCode.OK)
@@ -68,14 +74,14 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
             }
             else if (tokenResponse.StatusCode == HttpStatusCode.Unauthorized && isRetry == false)
             {
-                //TODO: Register new facebook user and retry
-                await this._webServiceClient.Users.PostFacebookUser(code, redirectUrl);
-                await this.UserLoggedIn(code, redirectUrl, true);
+                HttpResponseMessage registerResponse = await this._webServiceClient.Users.PostFacebookUser(code, redirectUrl);
+                string message = await registerResponse.Content.ReadAsStringAsync();
+
+                await this.UserLoggedIn(code, redirectUrl, true, message);
             }
             else
             {
-                string message = await tokenResponse.Content.ReadAsStringAsync();
-                //this._displayManager.Messages.ShowMessageBox(message, XemioLoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
+                this._displayManager.Messages.ShowMessageBox(registerMessage, FacebookLoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         /// <summary>

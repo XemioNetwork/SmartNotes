@@ -119,7 +119,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             IAuthenticationProvider authenticationProvider = this._authenticationProviders.First(f => f.Type == AuthenticationType.Xemio);
             authenticationProvider.Update(user, new JObject
             {
-                "Password", newPassword
+                {"Password", newPassword}
             });
 
             this._emailFactory.SendPasswordResetEmail(user, newPassword);

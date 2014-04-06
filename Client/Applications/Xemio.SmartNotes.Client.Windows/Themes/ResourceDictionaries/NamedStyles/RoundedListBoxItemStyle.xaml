@@ -19,7 +19,7 @@
                             BorderBrush="Transparent" 
                             BorderThickness="1" 
                             Background="{TemplateBinding Background}" 
-                            CornerRadius="5" 
+                            CornerRadius="2" 
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             Padding="{TemplateBinding Padding}" 
                             Margin="{TemplateBinding Margin}">
@@ -49,7 +49,7 @@
                         </Border.Effect>
                         
                         <Grid>
-                            <Border x:Name="Mask" CornerRadius="4" Background="White" />
+                            <Border x:Name="Mask" CornerRadius="3" Background="White" />
                             
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
                                 <ContentPresenter.OpacityMask>

@@ -13,25 +13,6 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
     [ValueConversion(typeof(string), typeof(string))]
     public class MarkdownToHtmlConverter : MarkupExtension, IValueConverter
     {
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MarkdownToHtmlConverter"/> class.
-        /// </summary>
-        public MarkdownToHtmlConverter()
-        {
-        }
-        #endregion
-
-        #region Singleton
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        public static MarkdownToHtmlConverter Instance
-        {
-            get { return Singleton<MarkdownToHtmlConverter>.Instance; } 
-        }
-        #endregion
-
         #region Overrides of MarkupExtension
         /// <summary>
         /// When implemented in a derived class, returns an object that is provided as the value of the target property for this markup extension.
@@ -39,7 +20,7 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
         /// <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return Instance;
+            return this;
         }
         #endregion
 

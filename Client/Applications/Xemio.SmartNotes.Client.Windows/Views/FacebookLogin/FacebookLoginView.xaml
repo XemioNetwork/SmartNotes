@@ -13,13 +13,16 @@
              Width="600"
              Height="500"
              >
-    <Grid>
-        <Grid.Effect>
-            <DropShadowEffect Color="Gray" BlurRadius="4" Direction="0" ShadowDepth="0" />
-        </Grid.Effect>
+    <UserControl.Effect>
+        <DropShadowEffect Color="Gray" BlurRadius="4" Direction="0" ShadowDepth="0" />
+    </UserControl.Effect>
+    
+    <Grid Background="White">
+        
+        <Label>Login erfolgreich!</Label>
         
         <WebBrowser x:Name="WebBrowser" 
                     Navigating="WebBrowser_OnNavigating" 
-                    MessageHook="WebBrowser_OnMessageHook"/>
+                    MessageHook="WebBrowser_OnMessageHook" />
     </Grid>
 </UserControl>

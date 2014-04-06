@@ -222,6 +222,16 @@
       <DependentUpon>EditFolderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EditFolder\EditFolderViewModel.cs" />
+    <Compile Include="Views\FacebookLogin\FacebookLoginMessages.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FacebookLoginMessages.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FacebookLogin\FacebookLoginMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FacebookLoginMessages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\FacebookLogin\FacebookLoginView.xaml.cs">
       <DependentUpon>FacebookLoginView.xaml</DependentUpon>
     </Compile>
@@ -627,6 +637,14 @@
     <EmbeddedResource Include="Views\EditFolder\EditFolderMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EditFolderMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FacebookLogin\FacebookLoginMessages.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FacebookLoginMessages.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FacebookLogin\FacebookLoginMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FacebookLoginMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Login\LoginMessages.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

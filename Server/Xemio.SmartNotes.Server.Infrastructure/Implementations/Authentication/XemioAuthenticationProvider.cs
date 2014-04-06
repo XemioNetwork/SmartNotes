@@ -56,7 +56,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
 
             var authentication = this._documentSession.Query<XemioAuthentication>()
                 .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
-                .First(f => f.Username == authenticationData.Username);
+                .FirstOrDefault(f => f.Username == authenticationData.Username);
+
+            if (authentication == null)
+                return AuthenticationResult.Failure();
 
             byte[] saltWithPassword = this._saltCombiner.Combine(authentication.Salt, authenticationData.Password);
 
@@ -123,7 +126,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
                 .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
                 .First(f => f.UserId == user.Id);
 
-            authentication.PasswordHash = this._saltCombiner.Combine(authentication.Salt, updateData.Password);
+            byte[] salt = this._secretGenerator.Generate();
+            authentication.Salt = salt;
+            authentication.PasswordHash = this._saltCombiner.Combine(salt, updateData.Password);
         }
         #endregion
 

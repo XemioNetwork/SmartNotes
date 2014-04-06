@@ -34,7 +34,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
 
         public FacebookLoginViewModel ViewModel
         {
-            get { return (FacebookLoginViewModel)this.DataContext; }
+            get { return  (FacebookLoginViewModel)this.DataContext; }
         }
 
         public FacebookLoginView()
@@ -67,8 +67,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
             {
                 Execute.OnUIThread(async () =>
                 {
-                    e.Cancel = true;
-
                     string code = HttpUtility.ParseQueryString(e.Uri.Query)["code"];
 
                     if (string.IsNullOrWhiteSpace(code))
@@ -77,9 +75,12 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
                     }
                     else
                     {
-                        this.WebBrowser.NavigateToString("<h1>Login erfolgreich!</h1>");
-
+                        this.WebBrowser.Visibility = Visibility.Hidden;
                         await this.ViewModel.UserLoggedIn(code, RedirectUrl);
+
+                        //Reset it
+                        this.OnLoaded(null, null);
+                        this.WebBrowser.Visibility = Visibility.Visible;
                     }
                 });
             }
@@ -87,10 +88,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
 
         private IntPtr WebBrowser_OnMessageHook(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
         {
-            if (msg == 130)
+            if (msg == 0x82)
             {
                 this.ViewModel.UserCanceled();
             }
+
             return IntPtr.Zero;
         }
 

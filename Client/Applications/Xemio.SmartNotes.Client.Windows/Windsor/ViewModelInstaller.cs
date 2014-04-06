@@ -25,7 +25,7 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
                 .BasedOn<PropertyChangedBase>()
                 .LifestyleTransient()
                 .ConfigureFor<FacebookLoginViewModel>(f => f.DependsOn(
-                    Dependency.OnValue<string>("547331422049204"), 
+                    Dependency.OnValue("appId", "547331422049204"),
                     Dependency.OnComponent<WebServiceClient, WebServiceClient>())));
         }
         #endregion

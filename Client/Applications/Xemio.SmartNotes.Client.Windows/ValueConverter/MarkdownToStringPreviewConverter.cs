@@ -17,17 +17,7 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
         /// </summary>
         public const int MaxCharCount = 400;
         #endregion
-
-        #region Singleton
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        public MarkdownToStringPreviewConverter Instance
-        {
-            get { return Singleton<MarkdownToStringPreviewConverter>.Instance; }
-        }
-        #endregion
-
+        
         #region Overrides of MarkupExtension
         /// <summary>
         /// When implemented in a derived class, returns an object that is provided as the value of the target property for this markup extension.
@@ -35,7 +25,7 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
         /// <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return Instance;
+            return this;
         }
         #endregion
 
@@ -54,7 +44,7 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
             if (input == null)
                 return DependencyProperty.UnsetValue;
 
-            object converted = MarkdownToHtmlConverter.Instance.Convert(value, targetType, parameter, culture);
+            object converted = new MarkdownToHtmlConverter().Convert(value, targetType, parameter, culture);
 
             var html = (string)converted;
 

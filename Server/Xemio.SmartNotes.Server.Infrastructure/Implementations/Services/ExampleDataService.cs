@@ -94,7 +94,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="parentFolder">The parent folder.</param>
         private void CreateGoogleNote(User currentUser, Folder parentFolder)
         {
-            var note = new Note()
+            var note = new Note
             {
                 Name = "Google",
                 Tags = new Collection<string>

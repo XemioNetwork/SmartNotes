@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
 using Castle.Core.Logging;
+using Xemio.SmartNotes.Server.Infrastructure.Controllers;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters.Resources;
@@ -28,6 +29,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             ILogger logger = this.GetLogger(context);
             logger.Error("Exception occured", context.Exception);
 
+            //We need to communicate that an exception occured
+            if (context.ActionContext.ControllerContext.Controller is BaseController)
+            {
+                var controller = (BaseController) context.ActionContext.ControllerContext.Controller;
+                controller.ExceptionOccured = true;
+            }
+            
             if (context.Exception is BusinessException)
             {
                 var businessException = (BusinessException)context.Exception;

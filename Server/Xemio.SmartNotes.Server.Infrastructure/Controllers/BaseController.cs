@@ -38,6 +38,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Gets or sets the logger.
         /// </summary>
         public ILogger Logger { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether an exception occured.
+        /// </summary>
+        public bool ExceptionOccured { get; set; }
         #endregion
 
         #region Constructors
@@ -66,12 +70,16 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             this.HandleAcceptLanguageHeader(controllerContext);
 
             var response = await base.ExecuteAsync(controllerContext, cancellationToken);
-
+            
             this.Logger.InfoFormat("Executed request: {0} {1}", Request.Method.Method, Request.RequestUri);
-
-            using (this.DocumentSession)
+            
+            //We get this set by the "HandleBusinessExceptionAttribute" so we know that we should not save the changes
+            if (this.ExceptionOccured == false)
             {
-                this.DocumentSession.SaveChanges();
+                using (this.DocumentSession)
+                {
+                    this.DocumentSession.SaveChanges();
+                }
             }
 
             return response;
