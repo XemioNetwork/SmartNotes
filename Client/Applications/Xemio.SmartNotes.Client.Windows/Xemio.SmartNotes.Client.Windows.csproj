@@ -127,6 +127,7 @@
     <Compile Include="Data\Events\FolderEditedEvent.cs" />
     <Compile Include="Data\Events\FolderMovedEvent.cs" />
     <Compile Include="Data\Events\LogoutEvent.cs" />
+    <Compile Include="Data\Events\NoteIsFavoriteChangedEvent.cs" />
     <Compile Include="Data\Events\NoteMovedEvent.cs" />
     <Compile Include="Data\Events\SelectedFolderEvent.cs" />
     <Compile Include="Data\Events\SuggestionSelectedEvent.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Implementations\Tasks\CreateFolderTask.cs" />
     <Compile Include="Implementations\Tasks\DeleteFolderTask.cs" />
     <Compile Include="Implementations\Tasks\EditFolderTask.cs" />
+    <Compile Include="Implementations\Tasks\MarkNoteAsFavoriteTask.cs" />
     <Compile Include="Implementations\Tasks\MoveFolderTask.cs" />
     <Compile Include="Implementations\Tasks\MoveNoteTask.cs" />
     <Compile Include="Implementations\Tasks\TaskMessages.de.Designer.cs">
@@ -154,6 +156,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Implementations\Tasks\UnmarkNoteAsFavoriteTask.cs" />
     <Compile Include="Themes\Controls\GlassWindow.cs" />
     <Compile Include="Themes\Controls\PasswordScore.cs" />
     <Compile Include="Themes\Controls\PasswordValidator.cs" />
@@ -427,7 +430,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ResourceDictionaries\NamedStyles\FacebookButtonStyle.xaml">
+    <Page Include="Themes\ResourceDictionaries\NamedStyles\FavoriteToggleButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

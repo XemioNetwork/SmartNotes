@@ -175,6 +175,11 @@
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Deltas\CompiledPropertyAccessor.cs" />
+    <Compile Include="Deltas\Delta.cs" />
+    <Compile Include="Deltas\PropertyAccessor.cs" />
+    <Compile Include="Deltas\PerRequestParameterBinding.cs" />
+    <Compile Include="Deltas\NonValidatingParameterBindingAttribute.cs" />
     <Compile Include="Exceptions\AuthenticationFailedException.cs" />
     <Compile Include="Exceptions\BusinessException.cs" />
     <Compile Include="Exceptions\EmailAddressUnavailableException.cs" />
@@ -203,6 +208,8 @@
     <Compile Include="Exceptions\UnauthorizedException.cs" />
     <Compile Include="Exceptions\UsernameUnavailableException.cs" />
     <Compile Include="Exceptions\UserNotFoundException.cs" />
+    <Compile Include="Extensions\DocumentStoreExtensions.cs" />
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\HttpRequestMessageExtensions.cs" />
     <Compile Include="Extensions\IEmailFactoryExtensions.cs" />
     <Compile Include="Extensions\ISecretGeneratorExtensions.cs" />

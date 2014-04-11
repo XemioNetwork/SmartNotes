@@ -1,7 +1,9 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 using Xemio.SmartNotes.Shared.Extensions;
+using Xemio.SmartNotes.Shared.Helpers;
 
 namespace Xemio.SmartNotes.Client.Shared.Clients
 {
@@ -78,6 +80,36 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         public Task<HttpResponseMessage> DeleteNote(string noteId)
         {
             var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/Authorized/Notes/{0}", noteId.GetIntId()));
+            return this.SendAsync(request);
+        }
+
+        /// <summary>
+        /// Marks the note as favorite.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        public Task<HttpResponseMessage> MarkNoteAsFavorite(string noteId)
+        {
+            var data = new JObject
+            {
+                {ReflectionHelper.GetProperty<Note>(f => f.IsFavorite).Name, true}
+            };
+
+            var request = this.CreateRequest(new HttpMethod("PATCH"), string.Format("Users/Authorized/Notes/{0}", noteId.GetIntId()), data);
+            return this.SendAsync(request);
+        }
+
+        /// <summary>
+        /// Unmarks the note as favorite.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        public Task<HttpResponseMessage> UnmarkNoteAsFavorite(string noteId)
+        {
+            var data = new JObject
+            {
+                {ReflectionHelper.GetProperty<Note>(f => f.IsFavorite).Name, false}
+            };
+
+            var request = this.CreateRequest(new HttpMethod("PATCH"), string.Format("Users/Authorized/Notes/{0}", noteId.GetIntId()), data);
             return this.SendAsync(request);
         }
         #endregion

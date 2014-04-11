@@ -19,6 +19,7 @@
         <!-- Named Styles -->
         <ResourceDictionary Source="NamedStyles/DividerLineStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/ExpandCollapseToggleButtonStyle.xaml" />
+        <ResourceDictionary Source="NamedStyles/FavoriteToggleButtonStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/FolderTreeViewItemStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/FolderTreeViewStyle.xaml" />
         <ResourceDictionary Source="NamedStyles/HeaderButtonStyle.xaml" />

@@ -131,15 +131,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 throw new UnauthorizedException();
 
             var folder = this.DocumentSession
-                .Include<Folder>(f => f.ParentFolderId)
                 .Load<Folder>(folderId);
-
-            //Remove the cascade delete from our parent folder
-            if (string.IsNullOrWhiteSpace(folder.ParentFolderId) == false)
-            { 
-                var parentFolder = this.DocumentSession.Load<Folder>(folder.ParentFolderId);
-                this.DocumentSession.Advanced.RemoveCascadeDelete(parentFolder, folder.Id);
-            }
 
             this.DocumentSession.Delete(folder);
 

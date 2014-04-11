@@ -70,7 +70,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             var passwordReset = new PasswordReset
                                 {
                                     UserId = user.Id,
-                                    Secret = this._secretGenerator.GenerateString(),
+                                    Secret = this._secretGenerator.GenerateString(32),
                                     RequestedAt = DateTimeOffset.Now
                                 };
 

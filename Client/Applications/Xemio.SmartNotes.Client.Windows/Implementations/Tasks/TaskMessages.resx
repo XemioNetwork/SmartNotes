@@ -136,13 +136,19 @@
     <value>Error while deleting the folder '{0}'.</value>
   </data>
   <data name="EditFolderTask" xml:space="preserve">
-    <value>Editing folder '{0}'...</value>
+    <value>Editing folder '{0}' ...</value>
   </data>
   <data name="EditFolderTaskFailed" xml:space="preserve">
     <value>Error while editing the folder '{0}'.</value>
   </data>
   <data name="ErrorInTask" xml:space="preserve">
     <value>Error while executing.</value>
+  </data>
+  <data name="MarkNoteAsFavoriteTask" xml:space="preserve">
+    <value>Marking a note as favorite ...</value>
+  </data>
+  <data name="MarkNoteAsFavoriteTaskFailed" xml:space="preserve">
+    <value>Error while marking a note as a favorite.</value>
   </data>
   <data name="MoveFolderTask" xml:space="preserve">
     <value>Moving folder '{0}' ...</value>
@@ -155,5 +161,11 @@
   </data>
   <data name="MoveNoteTaskFailed" xml:space="preserve">
     <value>Error while moving the note '{0}'.</value>
+  </data>
+  <data name="UnmarkNoteAsFavoriteTask" xml:space="preserve">
+    <value>Unmarking a note as favorite ...</value>
+  </data>
+  <data name="UnmarkNoteAsFavoriteTaskFailed" xml:space="preserve">
+    <value>Error while unmarking a note as a favorite.</value>
   </data>
 </root>

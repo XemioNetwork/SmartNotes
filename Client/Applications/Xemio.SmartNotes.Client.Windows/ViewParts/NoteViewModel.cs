@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
+using Xemio.SmartNotes.Client.Shared.Tasks;
+using Xemio.SmartNotes.Client.Windows.Data.Events;
+using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.ViewParts
 {
-    public class NoteViewModel : PropertyChangedBase
+    public class NoteViewModel : PropertyChangedBase, IHandle<NoteIsFavoriteChangedEvent>
     {
         #region Fields
+        private readonly ITaskExecutor _taskExecutor;
+
+        private bool _isInitialized;
+
         private string _noteId;
         private string _title;
         private string _content;
         private ICollection<string> _tags;
         private string _folderId;
         private DateTimeOffset _createdDate;
+        private bool _isFavorite;
         #endregion
 
         #region Properties
@@ -111,7 +119,54 @@ namespace Xemio.SmartNotes.Client.Windows.ViewParts
                 }
             }
         }
+        /// <summary>
+        /// Gets or sets a value indicating whether this note is marked as a favorite.
+        /// </summary>
+        public bool IsFavorite
+        {
+            get { return this._isFavorite; }
+            set
+            {
+                if (this._isFavorite != value)
+                {
+                    this._isFavorite = value;
+                    this.NotifyOfPropertyChange(() => this.IsFavorite);
+
+                    if (this._isInitialized == false)
+                        return;
+
+                    if (this.IsFavorite)
+                    { 
+                        var task = IoC.Get<MarkNoteAsFavoriteTask>();
+                        task.NoteId = this.NoteId;
+
+                        this._taskExecutor.StartTask(task);
+                    }
+                    else
+                    {
+                        var task = IoC.Get<UnmarkNoteAsFavoriteTask>();
+                        task.NoteId = this.NoteId;
+
+                        this._taskExecutor.StartTask(task);
+                    }
+                }
+            }
+        }
         #endregion 
+
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NoteViewModel"/> class.
+        /// </summary>
+        /// <param name="eventAggregator">The event aggregator.</param>
+        /// <param name="taskExecutor">The task executor.</param>
+        public NoteViewModel(IEventAggregator eventAggregator, ITaskExecutor taskExecutor)
+        {
+            this._taskExecutor = taskExecutor;
+
+            eventAggregator.Subscribe(this);
+        }
+        #endregion
 
         #region Methods
         /// <summary>
@@ -131,6 +186,23 @@ namespace Xemio.SmartNotes.Client.Windows.ViewParts
             this.Tags = note.Tags;
             this.FolderId = note.FolderId;
             this.CreatedDate = note.CreatedDate;
+            this.IsFavorite = note.IsFavorite;
+
+            this._isInitialized = true;
+        }
+        #endregion
+
+        #region Implementation of IHandle<NoteIsFavoriteChangedEvent>
+        /// <summary>
+        /// Handles the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void Handle(NoteIsFavoriteChangedEvent message)
+        {
+            if (message.Note.Id == this.NoteId)
+            {
+                this.IsFavorite = message.Note.IsFavorite;
+            }
         }
         #endregion
     }

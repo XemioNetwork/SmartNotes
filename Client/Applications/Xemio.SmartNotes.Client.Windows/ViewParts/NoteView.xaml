@@ -66,9 +66,14 @@
                    VerticalAlignment="Center" />
 
             <Label Content="{Binding Tags, Converter={valueConverter:TagsToStringConverter}}"
-                   Margin="50, 0, 0, 0" 
+                   Margin="50, 0, 40, 0" 
                    VerticalAlignment="Center"/>
-            
+
+            <ToggleButton Margin="0, 0, 10, 0"
+                          HorizontalAlignment="Right"
+                          IsChecked="{Binding IsFavorite}"
+                          Style="{StaticResource FavoriteToggleButton}" />
+
         </Grid>
 
         <!-- The Lower Line -->

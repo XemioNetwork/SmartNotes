@@ -136,13 +136,19 @@
     <value>Fehler beim Löschen des Ordners '{0}'.</value>
   </data>
   <data name="EditFolderTask" xml:space="preserve">
-    <value>Bearbeite Ordner '{0}'...</value>
+    <value>Bearbeite Ordner '{0}' ...</value>
   </data>
   <data name="EditFolderTaskFailed" xml:space="preserve">
     <value>Fehler beim Bearbeiten des Ordners '{0}'.</value>
   </data>
   <data name="ErrorInTask" xml:space="preserve">
     <value>Fehler</value>
+  </data>
+  <data name="MarkNoteAsFavoriteTask" xml:space="preserve">
+    <value>Markiere eine Notiz als Favorit ...</value>
+  </data>
+  <data name="MarkNoteAsFavoriteTaskFailed" xml:space="preserve">
+    <value>Fehler beim markieren einer Notiz als Favorit.</value>
   </data>
   <data name="MoveFolderTask" xml:space="preserve">
     <value>Verschiebe Ordner '{0}' ...</value>
@@ -155,5 +161,11 @@
   </data>
   <data name="MoveNoteTaskFailed" xml:space="preserve">
     <value>Fehler beim Verschieben der Notiz '{0}'.</value>
+  </data>
+  <data name="UnmarkNoteAsFavoriteTask" xml:space="preserve">
+    <value>Demarkiere eine Notiz als Favorit ...</value>
+  </data>
+  <data name="UnmarkNoteAsFavoriteTaskFailed" xml:space="preserve">
+    <value>Fehler beim demarkieren einer Notiz als Favorit.</value>
   </data>
 </root>

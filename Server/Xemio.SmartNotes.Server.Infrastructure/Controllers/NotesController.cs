@@ -7,9 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Castle.Core.Internal;
+using Lucene.Net.Documents;
 using Raven.Abstractions.Data;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Services;
+using Xemio.SmartNotes.Server.Infrastructure.Deltas;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
@@ -185,6 +187,43 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, storedNote);
         }
         /// <summary>
+        /// Patches the <see cref="Note"/>.
+        /// </summary>
+        /// <param name="note">The note.</param>
+        /// <param name="noteId">The note identifier.</param>
+        [Route("Notes/{noteId:int}")]
+        [RequiresAuthorization]
+        public HttpResponseMessage PatchNote(Delta<Note> note, int noteId)
+        {
+            if (note == null)
+                throw new InvalidRequestException();
+
+            if (this._rightsService.CanCurrentUserAccessNote(noteId, false) == false)
+                throw new UnauthorizedException();
+
+            if (note.HasPropertyChanged(f => f.FolderId) &&
+                this._rightsService.CanCurrentUserAccessFolder(note.GetPropertyValue(f => f.FolderId), false) == false)
+                throw new UnauthorizedException();
+            
+            if (note.HasPropertyChanged(f => f.Name) &&
+                string.IsNullOrWhiteSpace(note.GetPropertyValue(f => f.Name)))
+                throw new InvalidNoteNameException();
+
+            if (note.HasPropertyChanged(f => f.UserId))
+                throw new InvalidRequestException();
+
+            if (note.HasPropertyChanged(f => f.Id))
+                throw new InvalidRequestException();
+
+            if (note.HasPropertyChanged(f => f.CreatedDate))
+                throw new InvalidRequestException();
+
+            var storedNote = this.DocumentSession.Load<Note>(noteId);
+            note.Patch(storedNote);
+
+            return Request.CreateResponse(HttpStatusCode.OK, storedNote);
+        }
+        /// <summary>
         /// Deletes the <see cref="Note"/>.
         /// </summary>
         /// <param name="noteId">The note id.</param>
@@ -196,12 +235,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 throw new UnauthorizedException();
 
             var note = this.DocumentSession
-                           .Include<Note>(f => f.FolderId)
                            .Load<Note>(noteId);
 
-            var folder = this.DocumentSession.Load<Folder>(note.FolderId);
-
-            this.DocumentSession.Advanced.RemoveCascadeDelete(folder, note.Id);
             this.DocumentSession.Delete(note);
 
             this.Logger.DebugFormat("Deleted note '{0}' from user '{1}'.", note.Id, note.UserId);

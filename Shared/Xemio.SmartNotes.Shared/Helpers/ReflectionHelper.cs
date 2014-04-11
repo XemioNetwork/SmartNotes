@@ -17,13 +17,36 @@ namespace Xemio.SmartNotes.Shared.Helpers
 
             var memberExpression = propertySelector.Body as MemberExpression;
             if (memberExpression == null)
-                throw new ArgumentException("The expression does not refer to a property.");
+            {
+                var unaryExpression = propertySelector.Body as UnaryExpression;
+                if (unaryExpression == null)
+                    throw new ArgumentException("The expression does not refer to a property.");
+
+                memberExpression = unaryExpression.Operand as MemberExpression;
+            }
 
             var propertyInfo = memberExpression.Member as PropertyInfo;
             if (propertyInfo == null)
                 throw new ArgumentException("The expression does not refer to a property.");
 
             return propertyInfo;
+        }
+        public static MemberInfo GetMemberInfo(Expression expression)
+        {
+            var lambda = (LambdaExpression)expression;
+
+            MemberExpression memberExpression;
+            if (lambda.Body is UnaryExpression)
+            {
+                var unaryExpression = (UnaryExpression)lambda.Body;
+                memberExpression = (MemberExpression)unaryExpression.Operand;
+            }
+            else
+            {
+                memberExpression = (MemberExpression)lambda.Body;
+            }
+
+            return memberExpression.Member;
         }
     }
 }

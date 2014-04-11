@@ -115,7 +115,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Editing folder &apos;{0}&apos;....
+        ///   Looks up a localized string similar to Editing folder &apos;{0}&apos; ....
         /// </summary>
         internal static string EditFolderTask {
             get {
@@ -138,6 +138,24 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
         internal static string ErrorInTask {
             get {
                 return ResourceManager.GetString("ErrorInTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marking a note as favorite ....
+        /// </summary>
+        internal static string MarkNoteAsFavoriteTask {
+            get {
+                return ResourceManager.GetString("MarkNoteAsFavoriteTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while marking a note as a favorite..
+        /// </summary>
+        internal static string MarkNoteAsFavoriteTaskFailed {
+            get {
+                return ResourceManager.GetString("MarkNoteAsFavoriteTaskFailed", resourceCulture);
             }
         }
         
@@ -174,6 +192,24 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks {
         internal static string MoveNoteTaskFailed {
             get {
                 return ResourceManager.GetString("MoveNoteTaskFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unmarking a note as favorite ....
+        /// </summary>
+        internal static string UnmarkNoteAsFavoriteTask {
+            get {
+                return ResourceManager.GetString("UnmarkNoteAsFavoriteTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while unmarking a note as a favorite..
+        /// </summary>
+        internal static string UnmarkNoteAsFavoriteTaskFailed {
+            get {
+                return ResourceManager.GetString("UnmarkNoteAsFavoriteTaskFailed", resourceCulture);
             }
         }
     }

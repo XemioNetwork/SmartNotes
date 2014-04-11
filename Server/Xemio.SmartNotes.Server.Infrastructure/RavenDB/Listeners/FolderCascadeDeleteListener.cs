@@ -13,7 +13,7 @@ using Xemio.SmartNotes.Shared.Helpers;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Listeners
 {
-    internal class FolderCascadeDeleteListener : IDocumentStoreListener
+    internal class FolderCascadeDeleteListener : IDocumentStoreListener, IDocumentDeleteListener
     {
         #region Fields
         private readonly DocumentStore _documentStore;
@@ -90,6 +90,34 @@ namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Listeners
         /// <param name="metadata">The metadata.</param>
         public void AfterStore(string key, object entityInstance, RavenJObject metadata)
         {
+        }
+        #endregion
+
+        #region Implementation of IDocumentDeleteListener
+        /// <summary>
+        /// Invoked before the delete request is sent to the server.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="entityInstance">The entity instance.</param>
+        /// <param name="metadata">The metadata.</param>
+        public void BeforeDelete(string key, object entityInstance, RavenJObject metadata)
+        {
+            var folder = entityInstance as Folder;
+
+            if (folder == null)
+                return;
+
+            using (var session = this._documentStore.OpenSession())
+            { 
+                //Remove the cascade delete from our parent folder
+                if (string.IsNullOrWhiteSpace(folder.ParentFolderId) == false)
+                {
+                    var parentFolder = session.Load<Folder>(folder.ParentFolderId);
+                    session.Advanced.RemoveCascadeDelete(parentFolder, folder.Id);
+                }
+
+                session.SaveChanges();
+            }
         }
         #endregion
     }

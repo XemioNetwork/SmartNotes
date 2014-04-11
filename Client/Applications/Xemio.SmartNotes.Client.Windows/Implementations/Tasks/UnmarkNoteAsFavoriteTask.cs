@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,47 +14,39 @@ using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
-    public class CreateFolderTask : BaseTask
+    public class UnmarkNoteAsFavoriteTask : BaseTask
     {
-        #region Fields
+         #region Fields
         private readonly IEventAggregator _eventAggregator;
         private readonly WebServiceClient _client;
 
-        private string _folderName;
+        private string _noteId;
         #endregion
 
         #region Properties
         /// <summary>
-        /// Gets or sets the name of the new folder.
+        /// Gets or sets the note identifier.
         /// </summary>
-        public string FolderName
+        public string NoteId
         {
-            get { return this._folderName; }
+            get { return this._noteId; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value) == true)
                     throw new ArgumentNullException();
 
-                this._folderName = value;
+                this._noteId = value;
             }
         }
-        /// <summary>
-        /// Gets or sets the tags of the new folder.
-        /// </summary>
-        public string[] FolderTags { get; set; }
-        /// <summary>
-        /// Gets or sets the parent folder identifier.
-        /// </summary>
-        public string ParentFolderId { get; set; }
         #endregion
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateFolderTask"/> class.
+        /// Initializes a new instance of the <see cref="MarkNoteAsFavoriteTask"/> class.
         /// </summary>
         /// <param name="eventAggregator">The event aggregator.</param>
-        /// <param name="client">The webservice client.</param>
-        public CreateFolderTask(IEventAggregator eventAggregator, WebServiceClient client)
+        /// <param name="client">The client.</param>
+        public UnmarkNoteAsFavoriteTask(IEventAggregator eventAggregator, WebServiceClient client)
         {
             this._eventAggregator = eventAggregator;
             this._client = client;
@@ -68,32 +59,25 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// </summary>
         public override string DisplayName
         {
-            get { return TaskMessages.CreateFolderTask; }
+            get { return TaskMessages.UnmarkNoteAsFavoriteTask; }
         }
         /// <summary>
         /// Executes this task.
         /// </summary>
         public override async Task Execute()
         {
-            var newFolder = new Folder
+            HttpResponseMessage response = await this._client.Notes.UnmarkNoteAsFavorite(this.NoteId);
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                Name = this.FolderName,
-                ParentFolderId = this.ParentFolderId,
-                Tags = new Collection<string>(this.FolderTags)
-            };
-
-            HttpResponseMessage response = await this._client.Folders.PostFolder(newFolder);
-            if (response.StatusCode == HttpStatusCode.Created)
-            {
-                Folder createdFolder = await response.Content.ReadAsAsync<Folder>();
-                this._eventAggregator.Publish(new FolderCreatedEvent(createdFolder));
+                Note note = await response.Content.ReadAsAsync<Note>();
+                this._eventAggregator.Publish(new NoteIsFavoriteChangedEvent(note));
             }
             else
             {
                 string message = await response.Content.ReadAsStringAsync();
                 this.Logger.Error(message);
 
-                throw new GenericException(TaskMessages.CreateFolderTaskFailed);
+                throw new GenericException(TaskMessages.UnmarkNoteAsFavoriteTaskFailed);
             }
         }
         #endregion

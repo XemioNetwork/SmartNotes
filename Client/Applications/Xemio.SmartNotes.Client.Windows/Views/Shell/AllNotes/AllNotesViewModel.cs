@@ -81,7 +81,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             get { return this._selectedNote; }
             set
             {
-                if (this._selectedNote != value)
+                if (this._selectedNote != value && this.Notes != null && this.Notes.Contains(value))
                 { 
                     this._selectedNote = value;
                     this.NotifyOfPropertyChange(() => this.SelectedNote);
@@ -232,6 +232,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         public void WatchSelectedNote()
         {
             NoteViewModel selectedNote = this.SelectedNote;
+
+            if (selectedNote == null)
+                return;
 
             var watchNoteViewModel = IoC.Get<WatchNoteViewModel>();
             watchNoteViewModel.Initialize(selectedNote.Note);

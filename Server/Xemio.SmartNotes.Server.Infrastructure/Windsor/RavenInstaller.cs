@@ -13,6 +13,7 @@ using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using Raven.Client.Listeners;
 using Xemio.RavenDB.NGramAnalyzer;
+using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Listeners;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 
@@ -51,8 +52,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         private IDocumentStore GetDocumentStore(IKernel kernel, CreationContext context)
         {
             DocumentStore documentStore = this.CreateDocumentStore();
-            documentStore.RegisterListener(new NoteCascadeDeleteListener(documentStore));
-            documentStore.RegisterListener(new FolderCascadeDeleteListener(documentStore));
+            documentStore.RegisterMultipleListeners(new NoteCascadeDeleteListener(documentStore));
+            documentStore.RegisterMultipleListeners(new FolderCascadeDeleteListener(documentStore));
 
             documentStore.Initialize();
 
