@@ -71,7 +71,7 @@
 
             <ToggleButton Margin="0, 0, 10, 0"
                           HorizontalAlignment="Right"
-                          IsChecked="{Binding IsFavorite}"
+                          IsChecked="{Binding IsFavorite, Mode=TwoWay}"
                           Style="{StaticResource FavoriteToggleButton}" />
 
         </Grid>

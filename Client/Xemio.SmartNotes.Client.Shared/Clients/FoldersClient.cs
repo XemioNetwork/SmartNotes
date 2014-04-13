@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 using Xemio.SmartNotes.Shared.Entities.Users;
 using Xemio.SmartNotes.Shared.Extensions;
@@ -32,7 +33,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
             if (parentFolderId != null)
                 query.AddParameter("parentFolderId", parentFolderId.GetIntId());
 
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Folders{0}", query));
+            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Me/Folders{0}", query));
             return this.SendAsync(request);
         }
         /// <summary>
@@ -43,7 +44,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         {
             folder.UserId = this.Session.User.Id;
 
-            var request = this.CreateRequest(HttpMethod.Post, "Users/Authorized/Folders", folder);
+            var request = this.CreateRequest(HttpMethod.Post, "Users/Me/Folders", folder);
             return this.SendAsync(request);
         }
 
@@ -53,7 +54,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="folder">The folder.</param>
         public Task<HttpResponseMessage> PutFolder(Folder folder)
         {
-            var request = this.CreateRequest(HttpMethod.Put, string.Format("Users/Authorized/Folders/{0}", folder.Id.GetIntId()), folder);
+            var request = this.CreateRequest(HttpMethod.Put, string.Format("Users/Me/Folders/{0}", folder.Id.GetIntId()), folder);
             return this.SendAsync(request);
         }
         /// <summary>
@@ -62,7 +63,17 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="folderId">The folder id.</param>
         public Task<HttpResponseMessage> DeleteFolder(string folderId)
         {
-            var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/Authorized/Folders/{0}", folderId.GetIntId()));
+            var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/Me/Folders/{0}", folderId.GetIntId()));
+            return this.SendAsync(request);
+        }
+        /// <summary>
+        /// Patches the <see cref="Folder" />.
+        /// </summary>
+        /// <param name="folderId">The folder identifier.</param>
+        /// <param name="data">The data.</param>
+        public Task<HttpResponseMessage> PatchFolder(string folderId, JObject data)
+        {
+            var request = this.CreateRequest(new HttpMethod("PATCH"), string.Format("Users/Me/Folders/{0}", folderId.GetIntId()), data);
             return this.SendAsync(request);
         }
         #endregion

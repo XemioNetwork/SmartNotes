@@ -16,6 +16,8 @@ namespace Xemio.SmartNotes.Shared.Entities.Users
 
         public string UserId { get; set; }
 
+        public AuthenticationType AuthenticationType { get; set; }
+
         public bool IsValid()
         {
             return this.ValidUntil >= DateTimeOffset.UtcNow;

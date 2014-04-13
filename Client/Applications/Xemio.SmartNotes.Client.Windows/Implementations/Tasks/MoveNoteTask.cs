@@ -6,11 +6,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Shared.Entities.Notes;
+using Xemio.SmartNotes.Shared.Helpers;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
@@ -20,7 +22,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         private readonly IEventAggregator _eventAggregator;
         private readonly WebServiceClient _client;
 
-        private Note _note;
+        private string _noteId;
+        private string _newFolderId;
         #endregion
 
         #region Constructors
@@ -38,17 +41,35 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 
         #region Properties
         /// <summary>
-        /// Gets or sets the note.
+        /// Gets or sets the note identifier.
         /// </summary>
-        public Note Note
+        public string NoteId
         {
-            get { return this._note; }
+            get { return this._noteId; }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException("value");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("The NoteId is null or whitespace.", "value");
 
-                this._note = value;
+                this._noteId = value;
+            }
+        }
+        /// <summary>
+        /// Gets or sets the name of the note.
+        /// </summary>
+        public string NoteName { get; set; }
+        /// <summary>
+        /// Gets or sets the new folder identifier.
+        /// </summary>
+        public string NewFolderId
+        {
+            get { return this._newFolderId; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("The NewFolderId is null or whitespace.", "value");
+
+                this._newFolderId = value;
             }
         }
         #endregion
@@ -59,14 +80,19 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// </summary>
         public override string DisplayName
         {
-            get { return string.Format(TaskMessages.MoveNoteTask, this.Note.Name); }
+            get { return string.Format(TaskMessages.MoveNoteTask, this.NoteName); }
         }
         /// <summary>
         /// Executes this task.
         /// </summary>
         public override async Task Execute()
         {
-            HttpResponseMessage response = await this._client.Notes.PutNote(this.Note);
+            var data = new JObject
+            {
+                {ReflectionHelper.GetProperty<Note>(f => f.FolderId).Name, this.NewFolderId}
+            };
+
+            HttpResponseMessage response = await this._client.Notes.PatchNote(this.NoteId, data);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Note note = await response.Content.ReadAsAsync<Note>();

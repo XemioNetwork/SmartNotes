@@ -29,7 +29,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// </summary>
         public Task<HttpResponseMessage> GetAuthorized()
         {
-            var request = this.CreateRequest(HttpMethod.Get, "Users/Authorized");
+            var request = this.CreateRequest(HttpMethod.Get, "Users/Me");
             return this.SendAsync(request);
         }
 
@@ -91,7 +91,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="user">The user.</param>
         public Task<HttpResponseMessage> PutUser(User user)
         {
-            var request = this.CreateRequest(HttpMethod.Put, "Users/Authorized", user);
+            var request = this.CreateRequest(HttpMethod.Put, "Users/Me", user);
             return this.SendAsync(request);
         }
         #endregion

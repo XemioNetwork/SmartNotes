@@ -24,7 +24,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
     /// <summary>
     /// Controller for the <see cref="Note"/> class.
     /// </summary>
-    [RoutePrefix("Users/Authorized")]
+    [RoutePrefix("Users/Me")]
     public class NotesController : BaseController
     {
         #region Fields

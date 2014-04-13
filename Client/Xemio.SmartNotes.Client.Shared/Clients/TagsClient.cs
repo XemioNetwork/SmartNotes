@@ -28,7 +28,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
             var query = new HttpQueryBuilder();
             query.AddParameter("count", count);
 
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Tags{0}", query));
+            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Me/Tags{0}", query));
             return this.SendAsync(request);
         }
         #endregion

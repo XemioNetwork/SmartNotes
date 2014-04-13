@@ -14,6 +14,7 @@ namespace Xemio.SmartNotes.Client.Windows.ViewParts
         private readonly ITaskExecutor _taskExecutor;
 
         private bool _isInitialized;
+        private bool _isUpdatingFavorite;
 
         private string _noteId;
         private string _title;
@@ -129,22 +130,21 @@ namespace Xemio.SmartNotes.Client.Windows.ViewParts
             {
                 if (this._isFavorite != value)
                 {
-                    this._isFavorite = value;
-                    this.NotifyOfPropertyChange(() => this.IsFavorite);
-
-                    if (this._isInitialized == false)
+                    if (this._isInitialized == false || this._isUpdatingFavorite)
                         return;
 
+                    this._isUpdatingFavorite = true;
+
                     if (this.IsFavorite)
-                    { 
-                        var task = IoC.Get<MarkNoteAsFavoriteTask>();
+                    {
+                        var task = IoC.Get<UnmarkNoteAsFavoriteTask>();
                         task.NoteId = this.NoteId;
 
                         this._taskExecutor.StartTask(task);
                     }
                     else
                     {
-                        var task = IoC.Get<UnmarkNoteAsFavoriteTask>();
+                        var task = IoC.Get<MarkNoteAsFavoriteTask>();
                         task.NoteId = this.NoteId;
 
                         this._taskExecutor.StartTask(task);
@@ -186,7 +186,7 @@ namespace Xemio.SmartNotes.Client.Windows.ViewParts
             this.Tags = note.Tags;
             this.FolderId = note.FolderId;
             this.CreatedDate = note.CreatedDate;
-            this.IsFavorite = note.IsFavorite;
+            this._isFavorite = note.IsFavorite;
 
             this._isInitialized = true;
         }
@@ -201,7 +201,10 @@ namespace Xemio.SmartNotes.Client.Windows.ViewParts
         {
             if (message.Note.Id == this.NoteId)
             {
-                this.IsFavorite = message.Note.IsFavorite;
+                this._isFavorite = message.Note.IsFavorite;
+                this.NotifyOfPropertyChange(() => this.IsFavorite);
+
+                this._isUpdatingFavorite = false;
             }
         }
         #endregion

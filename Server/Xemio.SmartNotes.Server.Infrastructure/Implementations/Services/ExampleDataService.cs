@@ -17,7 +17,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
     public class ExampleDataService : IExampleDataService
     {
         #region Constants
-        private const string ExampleDataCreated = "ExampleDataCreated";
+        private const string ExampleDataCreated = "Example-Data-Created";
         #endregion
 
         #region Fields

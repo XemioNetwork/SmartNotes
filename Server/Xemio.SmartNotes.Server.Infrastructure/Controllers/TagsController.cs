@@ -17,7 +17,7 @@ using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
-    [RoutePrefix("Users/Authorized")]
+    [RoutePrefix("Users/Me")]
     public class TagsController : BaseController
     {
         #region Fields

@@ -100,8 +100,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Deltas
 
             if (value != null && 
                 !cacheHit.Property.PropertyType.IsPrimitive && 
-                !isGuid && 
-                !isJArray)
+                !isGuid &&
+                (!cacheHit.Property.PropertyType.IsInstanceOfType(value) || isJArray))
             {
                 return false;
             }

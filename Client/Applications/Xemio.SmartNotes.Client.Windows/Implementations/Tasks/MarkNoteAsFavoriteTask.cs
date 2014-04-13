@@ -7,11 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI;
 using Caliburn.Micro;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Shared.Entities.Notes;
+using Xemio.SmartNotes.Shared.Helpers;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
@@ -67,7 +69,12 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// </summary>
         public override async Task Execute()
         {
-            HttpResponseMessage response = await this._client.Notes.MarkNoteAsFavorite(this.NoteId);
+            var data = new JObject
+            {
+                {ReflectionHelper.GetProperty<Note>(f => f.IsFavorite).Name, true}
+            };
+
+            HttpResponseMessage response = await this._client.Notes.PatchNote(this.NoteId, data);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Note note = await response.Content.ReadAsAsync<Note>();

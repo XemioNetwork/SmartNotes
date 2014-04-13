@@ -30,7 +30,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
             query.AddParameter("width", width);
             query.AddParameter("height", height);
 
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Avatar{0}", query));
+            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Me/Avatar{0}", query));
             return this.SendAsync(request);
         }
         /// <summary>
@@ -39,7 +39,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="avatar">The avatar.</param>
         public Task<HttpResponseMessage> PutAvatar(CreateAvatar avatar)
         {
-            var request = this.CreateRequest(HttpMethod.Get, "Users/Authorized/Avatar", avatar);
+            var request = this.CreateRequest(HttpMethod.Get, "Users/Me/Avatar", avatar);
             return this.SendAsync(request);
         }
         #endregion

@@ -32,7 +32,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
             var query = new HttpQueryBuilder();
             query.AddParameter("folderId", folderId.GetIntId());
 
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Notes{0}", query));
+            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Me/Notes{0}", query));
             return this.SendAsync(request);
         }
         /// <summary>
@@ -44,7 +44,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
             var query = new HttpQueryBuilder();
             query.AddParameter("searchText", searchText);
 
-            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Authorized/Notes{0}", query));
+            var request = this.CreateRequest(HttpMethod.Get, string.Format("Users/Me/Notes{0}", query));
             return this.SendAsync(request);
         }
         /// <summary>
@@ -52,7 +52,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// </summary>
         public Task<HttpResponseMessage> GetFavoriteNotes()
         {
-            var request = this.CreateRequest(HttpMethod.Get, "Users/Authorized/Notes/Favorites");
+            var request = this.CreateRequest(HttpMethod.Get, "Users/Me/Notes/Favorites");
             return this.SendAsync(request);
         }
         /// <summary>
@@ -61,7 +61,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="note">The note.</param>
         public Task<HttpResponseMessage> PostNote(Note note)
         {
-            var request = this.CreateRequest(HttpMethod.Post, "Users/Authorized/Notes", note);
+            var request = this.CreateRequest(HttpMethod.Post, "Users/Me/Notes", note);
             return this.SendAsync(request);
         }
         /// <summary>
@@ -70,7 +70,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="note">The note.</param>
         public Task<HttpResponseMessage> PutNote(Note note)
         {
-            var request = this.CreateRequest(HttpMethod.Put, string.Format("Users/Authorized/Notes/{0}", note.Id.GetIntId()), note);
+            var request = this.CreateRequest(HttpMethod.Put, string.Format("Users/Me/Notes/{0}", note.Id.GetIntId()), note);
             return this.SendAsync(request);
         }
         /// <summary>
@@ -79,37 +79,17 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="noteId">The note id.</param>
         public Task<HttpResponseMessage> DeleteNote(string noteId)
         {
-            var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/Authorized/Notes/{0}", noteId.GetIntId()));
+            var request = this.CreateRequest(HttpMethod.Delete, string.Format("Users/Me/Notes/{0}", noteId.GetIntId()));
             return this.SendAsync(request);
         }
-
         /// <summary>
-        /// Marks the note as favorite.
+        /// Patches the <see cref="Note" />.
         /// </summary>
         /// <param name="noteId">The note identifier.</param>
-        public Task<HttpResponseMessage> MarkNoteAsFavorite(string noteId)
+        /// <param name="data">The data.</param>
+        public Task<HttpResponseMessage> PatchNote(string noteId, JObject data)
         {
-            var data = new JObject
-            {
-                {ReflectionHelper.GetProperty<Note>(f => f.IsFavorite).Name, true}
-            };
-
-            var request = this.CreateRequest(new HttpMethod("PATCH"), string.Format("Users/Authorized/Notes/{0}", noteId.GetIntId()), data);
-            return this.SendAsync(request);
-        }
-
-        /// <summary>
-        /// Unmarks the note as favorite.
-        /// </summary>
-        /// <param name="noteId">The note identifier.</param>
-        public Task<HttpResponseMessage> UnmarkNoteAsFavorite(string noteId)
-        {
-            var data = new JObject
-            {
-                {ReflectionHelper.GetProperty<Note>(f => f.IsFavorite).Name, false}
-            };
-
-            var request = this.CreateRequest(new HttpMethod("PATCH"), string.Format("Users/Authorized/Notes/{0}", noteId.GetIntId()), data);
+            var request = this.CreateRequest(new HttpMethod("PATCH"), string.Format("Users/Me/Notes/{0}", noteId.GetIntId()), data);
             return this.SendAsync(request);
         }
         #endregion

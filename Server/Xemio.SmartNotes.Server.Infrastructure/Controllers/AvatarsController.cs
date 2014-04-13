@@ -19,7 +19,7 @@ using AssemblyResources = Xemio.SmartNotes.Server.Infrastructure.Properties.Reso
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 {
-    [RoutePrefix("Users/Authorized")]
+    [RoutePrefix("Users/Me")]
     public class AvatarsController : BaseController
     {
         #region Constants

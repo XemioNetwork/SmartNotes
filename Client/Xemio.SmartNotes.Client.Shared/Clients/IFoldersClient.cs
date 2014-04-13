@@ -1,5 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Castle.Components.DictionaryAdapter;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 using Xemio.SmartNotes.Shared.Entities.Users;
 
@@ -30,5 +32,12 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// </summary>
         /// <param name="folderId">The folder id.</param>
         Task<HttpResponseMessage> DeleteFolder(string folderId);
+
+        /// <summary>
+        /// Patches the <see cref="Folder"/>.
+        /// </summary>
+        /// <param name="folderId">The folder identifier.</param>
+        /// <param name="data">The data.</param>
+        Task<HttpResponseMessage> PatchFolder(string folderId, JObject data);
     }
 }

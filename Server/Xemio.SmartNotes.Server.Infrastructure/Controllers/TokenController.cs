@@ -67,7 +67,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                 Token = this._secretGenerator.GenerateString(),
                 CreatedDate = now,
                 ValidUntil = now.AddDays(2),
-                UserId = result.UserId
+                UserId = result.UserId,
+                AuthenticationType = createToken.Type
             };
 
             this.DocumentSession.Store(token);

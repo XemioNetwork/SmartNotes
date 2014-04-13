@@ -6,11 +6,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Shared.Entities.Notes;
+using Xemio.SmartNotes.Shared.Helpers;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
@@ -20,7 +22,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         private readonly IEventAggregator _eventAggregator;
         private readonly WebServiceClient _client;
 
-        private Folder _folder;
+        private string _folderId;
         #endregion
 
         #region Constructors
@@ -37,20 +39,29 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         #endregion
 
         #region Properties
+
         /// <summary>
-        /// Gets or sets the folder.
+        /// Gets or sets the folder identifier.
         /// </summary>
-        public Folder Folder
+        public string FolderId
         {
-            get { return this._folder; }
+            get { return this._folderId; }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException("value");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("FolderId is null or whitespace.", "value");
 
-                this._folder = value;
+                this._folderId = value;
             }
         }
+        /// <summary>
+        /// Gets or sets the name of the folder.
+        /// </summary>
+        public string FolderName { get; set; }
+        /// <summary>
+        /// Gets or sets the new parent folder identifier.
+        /// </summary>
+        public string NewParentFolderId { get; set; }
         #endregion
 
         #region Overrides of BaseTask
@@ -59,14 +70,19 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// </summary>
         public override string DisplayName
         {
-            get { return string.Format(TaskMessages.MoveFolderTask, this.Folder.Name); }
+            get { return string.Format(TaskMessages.MoveFolderTask, this.FolderName); }
         }
         /// <summary>
         /// Executes this task.
         /// </summary>
         public override async Task Execute()
         {
-            HttpResponseMessage response = await this._client.Folders.PutFolder(this.Folder);
+            var data = new JObject
+            {
+                {ReflectionHelper.GetProperty<Folder>(f => f.ParentFolderId).Name, this.NewParentFolderId}
+            };
+
+            HttpResponseMessage response = await this._client.Folders.PatchFolder(this.FolderId, data);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Folder folder = await response.Content.ReadAsAsync<Folder>();

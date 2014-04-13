@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Services;
+using Xemio.SmartNotes.Server.Infrastructure.Deltas;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
@@ -20,7 +21,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
     /// <summary>
     /// Controller for the <see cref="Folder"/> class.
     /// </summary>
-    [RoutePrefix("Users/Authorized")]
+    [RoutePrefix("Users/Me")]
     public class FoldersController : BaseController
     {
         #region Fields
@@ -95,7 +96,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="folderId">The folder id.</param>
         [Route("Folders/{folderId:int}")]
         [RequiresAuthorization]
-        public HttpResponseMessage PutFolder([FromBody]Folder folder, int folderId)
+        public HttpResponseMessage PutFolder(Folder folder, int folderId)
         {
             if (folder == null)
                 throw new InvalidRequestException();
@@ -116,6 +117,44 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             storedFolder.ParentFolderId = folder.ParentFolderId;
 
             this.Logger.DebugFormat("Updated folder '{0}'.", storedFolder.Id);
+
+            return Request.CreateResponse(HttpStatusCode.OK, storedFolder);
+        }
+
+        /// <summary>
+        /// Patches the folder.
+        /// </summary>
+        /// <param name="folder">The folder.</param>
+        /// <param name="folderId">The folder identifier.</param>
+        [Route("Folders/{folderId:int}")]
+        [RequiresAuthorization]
+        public HttpResponseMessage PatchFolder(Delta<Folder> folder, int folderId)
+        {
+            if (folder == null)
+                throw new InvalidRequestException();
+
+            if (this._rightsService.CanCurrentUserAccessFolder(folderId, false) == false)
+                throw new UnauthorizedException();
+
+            if (folder.HasPropertyChanged(f => f.Name) &&
+                string.IsNullOrWhiteSpace(folder.GetPropertyValue(f => f.Name)))
+                throw new InvalidFolderNameException();
+
+            if (folder.HasPropertyChanged(f => f.ParentFolderId) &&
+                this._rightsService.CanCurrentUserAccessFolder(folder.GetPropertyValue(f => f.ParentFolderId), true) == false)
+                throw new UnauthorizedException();
+
+            if (folder.HasPropertyChanged(f => f.UserId))
+                throw new InvalidRequestException();
+
+            if (folder.HasPropertyChanged(f => f.Id))
+                throw new InvalidRequestException();
+
+            if (folder.HasPropertyChanged(f => f.CreatedDate))
+                throw new InvalidRequestException();
+
+            var storedFolder = this.DocumentSession.Load<Folder>(folderId);
+            folder.Patch(storedFolder);
 
             return Request.CreateResponse(HttpStatusCode.OK, storedFolder);
         }

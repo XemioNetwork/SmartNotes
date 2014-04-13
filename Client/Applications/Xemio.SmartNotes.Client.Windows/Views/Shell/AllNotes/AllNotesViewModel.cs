@@ -191,8 +191,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                 return;
 
             var task = IoC.Get<MoveNoteTask>();
-            task.Note = noteToMove.Note.DeepClone();
-            task.Note.FolderId = newParentFolder.FolderId;
+            task.NoteId = noteToMove.NoteId;
+            task.NoteName = noteToMove.Title;
+            task.NewFolderId= newParentFolder.FolderId;
 
             this._taskExecutor.StartTask(task);
         }
@@ -221,8 +222,9 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                 return;
             
             var task = IoC.Get<MoveFolderTask>();
-            task.Folder = folderToMove.Folder.DeepClone();
-            task.Folder.ParentFolderId = newParentFolderId;
+            task.FolderId = folderToMove.FolderId;
+            task.FolderName = folderToMove.Name;
+            task.NewParentFolderId = newParentFolderId;
 
             this._taskExecutor.StartTask(task);
         }
@@ -367,6 +369,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
             else
             {
+                this.GetAllFolders().First().IsSelected = true;
                 oldParentFolder.SubFolders.Remove(movedFolder);
             }
             
@@ -378,6 +381,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
             else
             {
+                newParentFolder.IsExpanded = true;
                 newParentFolder.SubFolders.Add(movedFolder);
             }
         }

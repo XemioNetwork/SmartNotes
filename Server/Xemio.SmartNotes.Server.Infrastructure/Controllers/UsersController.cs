@@ -98,9 +98,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <summary>
         /// Gets the current createUser.
         /// </summary>
-        [Route("Users/Authorized")]
+        [Route("Users/Me")]
         [RequiresAuthorization]
-        public HttpResponseMessage GetAuthorized()
+        public HttpResponseMessage GetMe()
         {
             this._exampleDataService.CreateExampleDataForCurrentUser();
 
@@ -110,7 +110,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// Updates the <see cref="User"/>.
         /// </summary>
         /// <param name="user">The createUser.</param>
-        [Route("Users/Authorized")]
+        [Route("Users/Me")]
         [RequiresAuthorization]
         public HttpResponseMessage PutUser([FromBody]User user)
         {

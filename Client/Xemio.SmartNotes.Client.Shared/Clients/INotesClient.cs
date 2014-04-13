@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Shared.Clients
@@ -42,15 +43,10 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         Task<HttpResponseMessage> DeleteNote(string noteId);
 
         /// <summary>
-        /// Marks the note as favorite.
+        /// Patches the <see cref="Note"/>.
         /// </summary>
         /// <param name="noteId">The note identifier.</param>
-        Task<HttpResponseMessage> MarkNoteAsFavorite(string noteId);
-
-        /// <summary>
-        /// Unmarks the note as favorite.
-        /// </summary>
-        /// <param name="noteId">The note identifier.</param>
-        Task<HttpResponseMessage> UnmarkNoteAsFavorite(string noteId);
+        /// <param name="data">The data.</param>
+        Task<HttpResponseMessage> PatchNote(string noteId, JObject data);
     }
 }
