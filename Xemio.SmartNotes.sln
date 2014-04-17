@@ -25,8 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BE518046
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Shared", "Shared\Xemio.SmartNotes.Shared\Xemio.SmartNotes.Shared.csproj", "{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.AuthorizationHashTesting", "Tests\Xemio.SmartNotes.AuthorizationHashTesting\Xemio.SmartNotes.AuthorizationHashTesting.csproj", "{37EA4D33-C431-4D98-A29A-B08A737092F5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xemio.SmartNotes.Server.Host", "Server\Applications\Xemio.SmartNotes.Server.Host\Xemio.SmartNotes.Server.Host.csproj", "{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7}"
 EndProject
 Global
@@ -55,10 +53,6 @@ Global
 		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37EA4D33-C431-4D98-A29A-B08A737092F5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -76,6 +70,5 @@ Global
 		{1DAA9DEF-9D63-44AA-9078-0985E3D0450F} = {4E79071E-1AB2-4052-B862-2D129D68C719}
 		{52AB7FD2-ED6E-4173-8580-D30E6F65FEC7} = {F30B1D65-681B-481F-A462-6047C9A98D82}
 		{641E0A05-44E2-42BA-9F90-BDDAB7C56824} = {FE830DA7-2F15-49D9-B249-B288EF4BDE73}
-		{37EA4D33-C431-4D98-A29A-B08A737092F5} = {BE518046-B01C-41E2-8418-644F478ABE19}
 	EndGlobalSection
 EndGlobal

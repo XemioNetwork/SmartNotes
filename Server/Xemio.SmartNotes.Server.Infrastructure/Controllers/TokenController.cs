@@ -42,7 +42,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         #endregion
 
         #region Methods
-
         /// <summary>
         /// Creates a new token.
         /// </summary>
