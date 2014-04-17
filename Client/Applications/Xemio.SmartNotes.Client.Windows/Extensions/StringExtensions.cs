@@ -9,6 +9,18 @@ namespace Xemio.SmartNotes.Client.Windows.Extensions
     public static class StringExtensions
     {
         /// <summary>
+        /// Gets the tags.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        public static string[] GetTags(this string text)
+        {
+            return 
+                (
+                    from tag in text.Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries)
+                    select tag.Trim()
+                ).ToArray();
+        }
+        /// <summary>
         /// Makes the first character lower case.
         /// </summary>
         /// <param name="text">The text.</param>

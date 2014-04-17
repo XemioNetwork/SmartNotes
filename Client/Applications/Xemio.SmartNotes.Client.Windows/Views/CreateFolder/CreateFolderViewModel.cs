@@ -27,7 +27,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
 
         private string _parentFolderId;
         private string _folderName;
-        private IEnumerable<string> _folderTags;
+        private string _folderTags;
         private bool _isRootFolder;
         private string _exampleTags;
         #endregion
@@ -94,7 +94,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         /// <summary>
         /// Gets or sets the tags of the folder.
         /// </summary>
-        public IEnumerable<string> FolderTags
+        public string FolderTags
         {
             get { return this._folderTags; }
             set
@@ -163,7 +163,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.CreateFolder
         {
             var task = IoC.Get<CreateFolderTask>();
             task.FolderName = this.FolderName;
-            task.FolderTags = (this.FolderTags ?? new string[0]).ToArray();
+
+            task.FolderTags = this.FolderTags.GetTags();
             task.ParentFolderId = this.IsRootFolder ? null :  this.ParentFolderId;
 
             this._taskExecutor.StartTask(task);

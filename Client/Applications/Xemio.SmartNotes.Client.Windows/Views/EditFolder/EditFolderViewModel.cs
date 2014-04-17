@@ -28,7 +28,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
         private readonly DisplayManager _displayManager;
 
         private string _folderName;
-        private IEnumerable<string> _folderTags;
+        private string _folderTags;
         private string _exampleTags;
         private Folder _folder;
         #endregion
@@ -70,7 +70,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
                     this._folder = value;
 
                     this.FolderName = this.Folder.Name;
-                    this.FolderTags = this.Folder.Tags;
+                    this.FolderTags = string.Join(", ", this.Folder.Tags);
 
                     this.NotifyOfPropertyChange(() => this.Folder);
                 }
@@ -95,7 +95,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
         /// <summary>
         /// Gets or sets the tags of the folder.
         /// </summary>
-        public IEnumerable<string> FolderTags
+        public string FolderTags
         {
             get { return this._folderTags; }
             set
@@ -150,7 +150,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
             var task = IoC.Get<EditFolderTask>();
             task.Folder = this.Folder.DeepClone();
             task.Folder.Name = this.FolderName;
-            task.Folder.Tags = this.FolderTags.ToList();
+            task.Folder.Tags = this.FolderTags.GetTags();
 
             this._taskExecutor.StartTask(task);
 

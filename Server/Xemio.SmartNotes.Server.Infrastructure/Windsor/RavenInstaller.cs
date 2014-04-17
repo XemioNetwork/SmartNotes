@@ -12,6 +12,7 @@ using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using Raven.Client.Listeners;
+using Raven.Database.Server;
 using Xemio.RavenDB.NGramAnalyzer;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Listeners;
@@ -73,6 +74,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
             //We support the RavenDB embedded version
             if (this.IsEmbeddedConnectionString())
             {
+                NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8080);
+
                 var store = new EmbeddableDocumentStore
                 {
                     ConnectionStringName = ConnectionStringName,

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Markup;
+using Xemio.SmartNotes.Client.Windows.Extensions;
 using Xemio.SmartNotes.Shared.Common;
 
 namespace Xemio.SmartNotes.Client.Windows.ValueConverter
@@ -53,8 +54,7 @@ namespace Xemio.SmartNotes.Client.Windows.ValueConverter
             if (input == null)
                 return new string[0];
 
-            return (from tag in input.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                    select tag.Trim()).ToArray();
+            return input.GetTags();
         }
         #endregion
     }
