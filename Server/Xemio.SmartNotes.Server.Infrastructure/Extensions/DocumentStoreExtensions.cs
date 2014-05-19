@@ -8,6 +8,9 @@ using Raven.Client.Listeners;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
 {
+    /// <summary>
+    /// Contains extension methods for the <see cref="DocumentStore"/> class.
+    /// </summary>
     public static class DocumentStoreExtensions
     {
         /// <summary>

@@ -58,7 +58,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-
+            
             var authenticationData = data.ToObject<FacebookData>();
 
             string accessToken = this._facebookService.ExchangeTokenForAccessToken(authenticationData.Code, authenticationData.RedirectUri);

@@ -27,7 +27,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             get { return this.DocumentSession.Advanced.DocumentStore; }
         }
         /// <summary>
-        /// Gets or sets the document session.
+        /// Gets the document session.
         /// </summary>
         public IDocumentSession DocumentSession { get; private set; }
         /// <summary>
