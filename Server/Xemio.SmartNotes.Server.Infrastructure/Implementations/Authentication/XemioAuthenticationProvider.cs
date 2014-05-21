@@ -104,8 +104,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
 
             this._documentSession.Store(authentication);
 
-            user.HasXemioAuthentication = true;
-
             return true;
         }
         /// <summary>
