@@ -10,6 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
+using CuttingEdge.Conditions;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Mailing;
 using Xemio.SmartNotes.Server.Abstractions.Services;
@@ -24,7 +25,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
     /// </summary>
     public class SmtpEmailSender : IEmailSender
     {
-
         #region Fields
         private readonly IFileService _fileService;
         private readonly EmailPerson _sender;
@@ -47,7 +47,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         #endregion
 
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SmtpEmailSender"/> class.
         /// </summary>
@@ -59,6 +58,19 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// <param name="sender">The email sender.</param>
         public SmtpEmailSender(string host, int port, string username, string password, IFileService fileService, EmailPerson sender)
         {
+            Condition.Requires(host, "host")
+                .IsNotNullOrWhiteSpace();
+            Condition.Requires(port, "port")
+                .IsNotLessOrEqual(0);
+            Condition.Requires(username, "username")
+                .IsNotNull();
+            Condition.Requires(password, "password")
+                .IsNotNull();
+            Condition.Requires(fileService, "fileService")
+                .IsNotNull();
+            Condition.Requires(sender, "sender")
+                .IsNotNull();
+
             this._fileService = fileService;
             this._sender = sender;
 

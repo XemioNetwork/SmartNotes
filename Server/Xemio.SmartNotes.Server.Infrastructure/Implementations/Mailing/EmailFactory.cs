@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
+using CuttingEdge.Conditions;
 using NodaTime;
 using Raven.Abstractions.Extensions;
 using Raven.Client;
@@ -35,6 +36,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// <param name="documentStore">The document store.</param>
         public EmailFactory(IDocumentStore documentStore)
         {
+            Condition.Requires(documentStore, "documentStore")
+                .IsNotNull();
+
             this.Logger = NullLogger.Instance;
 
             this._documentStore = documentStore;
@@ -51,10 +55,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// <param name="additionalData">The additional data.</param>
         public void SendEmailToUser(string mailTemplateName, User user, dynamic additionalData)
         {
-            if (string.IsNullOrWhiteSpace(mailTemplateName))
-                throw new ArgumentNullException("mailTemplateName");
-            if (user == null)
-                throw new ArgumentNullException("user");
+            Condition.Requires(mailTemplateName, "mailTemplateName")
+                .IsNotNullOrWhiteSpace();
+            Condition.Requires(user, "user")
+                .IsNotNull();
 
             using (IDocumentSession session = this._documentStore.OpenSession())
             { 
@@ -103,6 +107,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// <param name="session">The session.</param>
         private EmailTemplate GetEmailTemplateWithName(string name, IDocumentSession session)
         {
+            Condition.Requires(name, "name")
+                .IsNotNullOrWhiteSpace();
+            Condition.Requires(session, "session")
+                .IsNotNull();
+
             string documentId = session.Advanced.DocumentStore.Conventions.FindFullDocumentKeyFromNonStringIdentifier(name, typeof(EmailTemplate), false);
 
             return session.Load<EmailTemplate>(documentId);
@@ -115,6 +124,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// <param name="session">The session.</param>
         private EmailTemplateTexts GetEmailTemplateTexts(EmailTemplate template, string language, IDocumentSession session)
         {
+            Condition.Requires(template, "template")
+                .IsNotNull();
+            Condition.Requires(language, "language")
+                .IsNotNullOrWhiteSpace();
+            Condition.Requires(session, "session")
+                .IsNotNull();
+
             string documentId = string.Format("{0}/{1}", template.Id, language);
 
             return session.Load<EmailTemplateTexts>(documentId);
@@ -126,10 +142,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// <param name="user">The user.</param>
         private DateTimeOffset GetSendTime(EmailTemplate template, User user)
         {
-            if (template == null)
-                throw new ArgumentNullException("template");
-            if (user == null)
-                throw new ArgumentNullException("user");
+            Condition.Requires(template, "template")
+                .IsNotNull();
+            Condition.Requires(user, "user")
+                .IsNotNull();
 
             if (template.SendImmediate)
                 return DateTimeOffset.UtcNow;

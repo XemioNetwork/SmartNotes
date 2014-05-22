@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using CuttingEdge.Conditions;
 using Raven.Client;
 using Raven.Json.Linq;
 using Xemio.SmartNotes.Server.Abstractions.Services;
@@ -33,6 +34,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="userService">The user service.</param>
         public ExampleDataService(IDocumentSession session, IUserService userService)
         {
+            Condition.Requires(session, "session")
+                .IsNotNull();
+            Condition.Requires(userService, "userService")
+                .IsNotNull();
+
             this._session = session;
             this._userService = userService;
         }
@@ -68,6 +74,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="currentUser">The current user.</param>
         private void CreateInternetFolder(User currentUser)
         {
+            Condition.Requires(currentUser, "currentUser")
+                .IsNotNull();
+
             var folder = new Folder
             {
                 Name = "Internet",
@@ -83,8 +92,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
             };
             this._session.Store(folder);
 
-            this._session.SaveChanges();
-
             this.CreateGoogleNote(currentUser, folder);
         }
         /// <summary>
@@ -94,6 +101,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="parentFolder">The parent folder.</param>
         private void CreateGoogleNote(User currentUser, Folder parentFolder)
         {
+            Condition.Requires(currentUser, "currentUser")
+                .IsNotNull();
+            Condition.Requires(parentFolder, "parentFolder")
+                .IsNotNull();
+
             var note = new Note
             {
                 Name = "Google",
@@ -123,6 +135,9 @@ In 2006 Google moved to headquarters in Mountain View, California, nicknamed the
         /// <param name="currentUser">The current user.</param>
         private void CreateLifeFolder(User currentUser)
         {
+            Condition.Requires(currentUser, "currentUser")
+                .IsNotNull();
+
             var folder = new Folder
             {
                 Name = "Life",
@@ -135,8 +150,6 @@ In 2006 Google moved to headquarters in Mountain View, California, nicknamed the
                 UserId = currentUser.Id
             };
             this._session.Store(folder);
-
-            this._session.SaveChanges();
             
             this.CreateMoneySubFolder(currentUser, folder);
             this.CreateLifeHacksSubFolder(currentUser, folder);
@@ -148,6 +161,11 @@ In 2006 Google moved to headquarters in Mountain View, California, nicknamed the
         /// <param name="parentFolder">The parent folder.</param>
         private void CreateMoneySubFolder(User currentUser, Folder parentFolder)
         {
+            Condition.Requires(currentUser, "currentUser")
+                .IsNotNull();
+            Condition.Requires(parentFolder, "parentFolder")
+                .IsNotNull();
+
             var folder = new Folder
             {
                 Name = "Money",
@@ -162,8 +180,6 @@ In 2006 Google moved to headquarters in Mountain View, California, nicknamed the
             };
 
             this._session.Store(folder);
-
-            this._session.SaveChanges();
         }
         /// <summary>
         /// Creates a folder containing "Life-Hacks".
@@ -172,6 +188,11 @@ In 2006 Google moved to headquarters in Mountain View, California, nicknamed the
         /// <param name="parentFolder">The parent folder.</param>
         private void CreateLifeHacksSubFolder(User currentUser, Folder parentFolder)
         {
+            Condition.Requires(currentUser, "currentUser")
+                .IsNotNull();
+            Condition.Requires(parentFolder, "parentFolder")
+                .IsNotNull();
+
             var folder = new Folder
             {
                 Name = "Life-Hacks",
@@ -186,8 +207,6 @@ In 2006 Google moved to headquarters in Mountain View, California, nicknamed the
             };
 
             this._session.Store(folder);
-
-            this._session.SaveChanges();
         }
         #endregion
     }

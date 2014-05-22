@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Castle.Facilities.Logging;
+using Castle.Facilities.Startable;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Owin;
 using Castle.Windsor;
@@ -58,13 +60,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         private void ConfigureWindsor(HttpConfiguration config)
         {
             var container = new WindsorContainer();
-            container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
-
+            container.AddFacility<ArrayResolverFacility>();
+            container.AddFacility<StartableFacility>();
+            container.AddFacility<LoggingFacility>(f => f.UseNLog());
+            
             container.Install(FromAssembly.This());
 
             config.DependencyResolver = new WindsorResolver(container);
-
-            this.StartEmailSending(container);
         }
         /// <summary>
         /// Configures the filters.
@@ -81,15 +83,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         private void ConfigureRoutes(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
-        }
-        /// <summary>
-        /// Starts the email sending.
-        /// </summary>
-        /// <param name="container">The container.</param>
-        private void StartEmailSending(IWindsorContainer container)
-        {
-            var emailManager = container.Resolve<IEmailManager>();
-            emailManager.StartSendingEmails();
         }
         #endregion
     }

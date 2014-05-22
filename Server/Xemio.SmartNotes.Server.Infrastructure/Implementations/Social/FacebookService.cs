@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
 using Castle.Core.Logging;
+using CuttingEdge.Conditions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog.Conditions;
 using NodaTime;
 using Xemio.SmartNotes.Server.Abstractions.Social;
 
@@ -44,13 +46,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
         /// <param name="appSecret">The application secret.</param>
         public FacebookService(string appId, string appSecret)
         {
+            Condition.Requires(appId, "appId")
+                .IsNotNull();
+            Condition.Requires(appSecret, "appSecret")
+                .IsNotNull();
+
             this.Logger = NullLogger.Instance;
-
-            if (appId == null)
-                throw new ArgumentNullException("appId");
-            if (appSecret == null)
-                throw new ArgumentNullException("appSecret");
-
+            
             this._tokenCache = new MemoryCache("FacebookAccessTokenCache");
             this.AppId = appId;
             this.AppSecret = appSecret;
@@ -65,6 +67,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
         /// <param name="redirectUri">The redirect URI.</param>
         public string ExchangeTokenForAccessToken(string token, string redirectUri)
         {
+            Condition.Requires(token, "token")
+                .IsNotNullOrWhiteSpace();
+            Condition.Requires(redirectUri, "redirectUri")
+                .IsNotNullOrWhiteSpace();
+
             try
             {
                 //We need this cache here because in the login process the user might yet not exist
@@ -93,6 +100,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
         /// <param name="accessToken">The access token.</param>
         public FacebookUser GetFacebookUser(string accessToken)
         {
+            Condition.Requires(accessToken, "accessToken")
+                .IsNotNullOrWhiteSpace();
+
             string userResult = new HttpClient().GetStringAsync(this.GetUserUrl(accessToken)).Result;
             JObject user = JObject.Parse(userResult);
 
@@ -113,6 +123,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
         /// <param name="redirectUri">The redirect URI.</param>
         private string GetTokenExchangeUrl(string token, string redirectUri)
         {
+            Condition.Requires(token, "token")
+                .IsNotNullOrWhiteSpace();
+            Condition.Requires(redirectUri, "redirectUri")
+                .IsNotNullOrWhiteSpace();
+
             return string.Format("https://graph.facebook.com/oauth/access_token?client_id={0}&redirect_uri={1}&client_secret={2}&code={3}",
                                   this.AppId, redirectUri, this.AppSecret, token);
         }
@@ -122,6 +137,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
         /// <param name="accessToken">The access token.</param>
         private string GetUserUrl(string accessToken)
         {
+            Condition.Requires(accessToken, "accessToken")
+                .IsNotNullOrWhiteSpace();
+
             return string.Format("https://graph.facebook.com/me?access_token={0}", accessToken);
         }
         #endregion

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
+using CuttingEdge.Conditions;
 using Quartz;
 using Raven.Abstractions.Data;
 using Raven.Client;
@@ -30,6 +31,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// <param name="documentStore">The document store.</param>
         protected EmailSendingJob(IEmailSender emailSender, IDocumentStore documentStore)
         {
+            Condition.Requires(emailSender, "emailSender")
+                .IsNotNull();
+            Condition.Requires(documentStore, "documentStore")
+                .IsNotNull();
+
             this._emailSender = emailSender;
             this._documentStore = documentStore;
         }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
 using Castle.Core.Logging;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Server.Infrastructure.Controllers;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
@@ -39,7 +40,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             if (context.Exception is BusinessException)
             {
                 var businessException = (BusinessException)context.Exception;
-
+                
                 context.Response = new HttpResponseMessage(businessException.StatusCode)
                 {
                     Content = new StringContent(businessException.Message)

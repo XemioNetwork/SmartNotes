@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using CuttingEdge.Conditions;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
@@ -24,6 +25,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="userService">The user service.</param>
         public RightsService(IDocumentSession documentSession, IUserService userService)
         {
+            Condition.Requires(documentSession, "documentSession")
+                .IsNotNull();
+            Condition.Requires(userService, "userService")
+                .IsNotNull();
+
             this._documentSession = documentSession;
             this._userService = userService;
         }
@@ -36,6 +42,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="userId">The user id.</param>
         public bool HasCurrentUserTheUserId(int userId)
         {
+            Condition.Requires(userId, "userId")
+                .IsNotLessOrEqual(0);
+
             var user = this._documentSession.Load<User>(userId);
             if (user == null)
                 throw new UserNotFoundException(userId);

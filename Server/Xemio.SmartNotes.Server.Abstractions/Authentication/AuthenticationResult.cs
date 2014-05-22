@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Abstractions.Authentication
@@ -27,17 +28,30 @@ namespace Xemio.SmartNotes.Server.Abstractions.Authentication
         /// Gets or sets the user identifier.
         /// </summary>
         public string UserId { get; set; }
+        /// <summary>
+        /// Gets or sets the custom response.
+        /// </summary>
+        public JObject CustomResponse { get; set; }
         #endregion
 
         #region Methods
         /// <summary>
-        /// Creates a failure instance of the <see cref="AuthenticationResult"/>.
+        /// Creates a failure instance of the <see cref="AuthenticationResult" />.
         /// </summary>
         public static AuthenticationResult Failure()
         {
+            return Failure(null);
+        }
+        /// <summary>
+        /// Creates a failure instance of the <see cref="AuthenticationResult" />.
+        /// </summary>
+        /// <param name="customResponse">The custom response.</param>
+        public static AuthenticationResult Failure(JObject customResponse)
+        {
             return new AuthenticationResult
             {
-                Successfull = false
+                Successfull = false,
+                CustomResponse = customResponse
             };
         }
         /// <summary>

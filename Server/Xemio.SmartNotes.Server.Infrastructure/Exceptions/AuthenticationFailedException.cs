@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions.Resources;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
@@ -18,6 +19,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
             : base(ExceptionMessages.AuthenticationFailed)
         {
             
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthenticationFailedException"/> class.
+        /// </summary>
+        /// <param name="customResponse">The custom response.</param>
+        public AuthenticationFailedException(JObject customResponse)
+            : this()
+        {
+            this.CustomResponse = customResponse;
         }
         #endregion
 

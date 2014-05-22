@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using Castle.Core.Logging;
+using Castle.Facilities.Logging;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using CefSharp;
@@ -33,6 +34,8 @@ namespace Xemio.SmartNotes.Client.Windows
         public Bootstrapper()
         {
             this._container = new WindsorContainer();
+            this._container.AddFacility<LoggingFacility>(f => f.UseNLog());
+
             this._container.Install(FromAssembly.This());
 
             this.Start();

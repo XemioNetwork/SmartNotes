@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Metadata.Providers;
+using CuttingEdge.Conditions;
 using Xemio.SmartNotes.Server.Abstractions.Security;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Security
@@ -17,6 +18,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Security
         /// </summary>
         public byte[] Generate(int length = 128)
         {
+            Condition.Requires(length, "length")
+                .IsNotLessOrEqual(0);
+
             byte[] randomBytes = new byte[length];
             RandomNumberGenerator.Create().GetNonZeroBytes(randomBytes);
 

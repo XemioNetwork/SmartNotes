@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CuttingEdge.Conditions;
+using NLog.Conditions;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 using Xemio.SmartNotes.Shared.Entities.Users;
@@ -20,6 +22,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="documentSession">The document session.</param>
         public UserService(IDocumentSession documentSession)
         {
+            Condition.Requires(documentSession, "documentSession")
+                .IsNotNull();
+
             this._documentSession = documentSession;
         }
         #endregion

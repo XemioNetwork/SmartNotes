@@ -1,4 +1,5 @@
 ﻿using System.Net.Mail;
+using CuttingEdge.Conditions;
 using Xemio.SmartNotes.Server.Abstractions.Services;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
@@ -12,6 +13,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
         /// <param name="email"></param>
         public bool IsValidEmailAddress(string email)
         {
+            Condition.Requires(email, "email")
+                .IsNotNullOrWhiteSpace();
+
             try
             {
                 new MailAddress(email);

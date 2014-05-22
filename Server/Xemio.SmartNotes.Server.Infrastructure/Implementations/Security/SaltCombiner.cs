@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using CuttingEdge.Conditions;
 using Xemio.SmartNotes.Server.Abstractions.Security;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Security
@@ -18,6 +19,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Security
         /// <param name="password">The password.</param>
         public byte[] Combine(byte[] salt, string password)
         {
+            Condition.Requires(password, "password")
+                .IsNotNull();
+
             byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
 
             //Append the password to the salt

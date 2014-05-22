@@ -41,11 +41,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
                                                                                                                           }
                                                                                                                       }),
 
-                    Component.For<IEmailManager>()
-                             .ImplementedBy<EmailManager>()
-                             .LifestyleSingleton()
-                             .OnDestroy(f => f.Stop()),
-
                     Component.For<IEmailFactory>()
                              .ImplementedBy<EmailFactory>()
                              .LifestyleSingleton()

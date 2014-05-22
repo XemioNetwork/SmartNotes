@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Runtime.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
 {
@@ -38,6 +39,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         /// Gets the status code of the webapi response.
         /// </summary>
         public abstract HttpStatusCode StatusCode { get; }
+        /// <summary>
+        /// Gets or sets the custom response.
+        /// </summary>
+        public JObject CustomResponse { get; set; }
         #endregion
     }
 }

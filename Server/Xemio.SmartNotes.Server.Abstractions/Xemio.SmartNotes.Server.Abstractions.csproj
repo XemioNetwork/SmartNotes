@@ -52,7 +52,6 @@
     <Compile Include="Authentication\AuthenticationResult.cs" />
     <Compile Include="Authentication\IAuthenticationProvider.cs" />
     <Compile Include="Mailing\IEmailFactory.cs" />
-    <Compile Include="Mailing\IEmailManager.cs" />
     <Compile Include="Mailing\IEmailSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ISaltCombiner.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CuttingEdge.Conditions;
 using Newtonsoft.Json.Linq;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Authentication;
@@ -49,8 +50,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
         /// <param name="data">The data.</param>
         public AuthenticationResult Authenticate(JObject data)
         {
-            if (data == null)
-                throw new ArgumentNullException("data");
+            Condition.Requires(data, "data")
+                .IsNotNull();
 
             var authenticationData = data.ToObject<AuthenticationData>();
 
@@ -79,10 +80,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
         /// <param name="data">The data.</param>
         public bool Register(User user, JObject data)
         {
-            if (user == null)
-                throw new ArgumentNullException("user");
-            if (data == null)
-                throw new ArgumentNullException("data");
+            Condition.Requires(user, "user")
+                .IsNotNull();
+            Condition.Requires(data, "data")
+                .IsNotNull();
 
             var registerData = data.ToObject<RegisterData>();
 
@@ -113,10 +114,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
         /// <param name="data">The data.</param>
         public void Update(User user, JObject data)
         {
-            if (user == null)
-                throw new ArgumentNullException("user");
-            if (data == null)
-                throw new ArgumentNullException("data");
+            Condition.Requires(user, "user")
+                .IsNotNull();
+            Condition.Requires(data, "data")
+                .IsNotNull();
 
             var updateData = data.ToObject<UpdateData>();
 
