@@ -265,7 +265,6 @@
     <Compile Include="Windsor\AuthenticationProviderInstaller.cs" />
     <Compile Include="Windsor\ControllerInstaller.cs" />
     <Compile Include="Windsor\FacebookInstaller.cs" />
-    <Compile Include="Windsor\LoggingInstaller.cs" />
     <Compile Include="Windsor\MailInstaller.cs" />
     <Compile Include="Windsor\QuartzNetInstaller.cs" />
     <Compile Include="Windsor\RavenInstaller.cs" />

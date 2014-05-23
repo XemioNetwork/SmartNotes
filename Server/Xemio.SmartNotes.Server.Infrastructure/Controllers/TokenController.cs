@@ -57,7 +57,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             AuthenticationResult result = provider.Authenticate(createToken.AuthenticationData);
 
             if (result.Successfull == false)
-                throw new AuthenticationFailedException();
+                throw new AuthenticationFailedException(result.AdditionalData);
 
             var now = DateTimeOffset.UtcNow;
 

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
 {
@@ -43,6 +44,20 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         /// Gets or sets the custom response.
         /// </summary>
         public JObject CustomResponse { get; set; }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Creates the error.
+        /// </summary>
+        internal Error CreateError()
+        {
+            return new Error
+            {
+                Message = this.Message,
+                AdditionalData = this.CustomResponse
+            };
+        }
         #endregion
     }
 }

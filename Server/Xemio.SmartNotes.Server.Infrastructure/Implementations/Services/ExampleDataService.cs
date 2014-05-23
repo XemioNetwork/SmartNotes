@@ -92,6 +92,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
             };
             this._session.Store(folder);
 
+            this._session.SaveChanges();
+
             this.CreateGoogleNote(currentUser, folder);
         }
         /// <summary>
@@ -128,6 +130,8 @@ In 2006 Google moved to headquarters in Mountain View, California, nicknamed the
             };
 
             this._session.Store(note);
+
+            this._session.SaveChanges();
         }
         /// <summary>
         /// Creates a folder containing "Life" things.
@@ -150,6 +154,8 @@ In 2006 Google moved to headquarters in Mountain View, California, nicknamed the
                 UserId = currentUser.Id
             };
             this._session.Store(folder);
+
+            this._session.SaveChanges();
             
             this.CreateMoneySubFolder(currentUser, folder);
             this.CreateLifeHacksSubFolder(currentUser, folder);
@@ -180,6 +186,8 @@ In 2006 Google moved to headquarters in Mountain View, California, nicknamed the
             };
 
             this._session.Store(folder);
+
+            this._session.SaveChanges();
         }
         /// <summary>
         /// Creates a folder containing "Life-Hacks".
@@ -207,6 +215,8 @@ In 2006 Google moved to headquarters in Mountain View, California, nicknamed the
             };
 
             this._session.Store(folder);
+
+            this._session.SaveChanges();
         }
         #endregion
     }

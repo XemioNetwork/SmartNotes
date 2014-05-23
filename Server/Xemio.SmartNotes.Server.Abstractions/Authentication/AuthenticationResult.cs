@@ -31,7 +31,7 @@ namespace Xemio.SmartNotes.Server.Abstractions.Authentication
         /// <summary>
         /// Gets or sets the custom response.
         /// </summary>
-        public JObject CustomResponse { get; set; }
+        public JObject AdditionalData { get; set; }
         #endregion
 
         #region Methods
@@ -45,13 +45,13 @@ namespace Xemio.SmartNotes.Server.Abstractions.Authentication
         /// <summary>
         /// Creates a failure instance of the <see cref="AuthenticationResult" />.
         /// </summary>
-        /// <param name="customResponse">The custom response.</param>
-        public static AuthenticationResult Failure(JObject customResponse)
+        /// <param name="additionalData">The additional data.</param>
+        public static AuthenticationResult Failure(JObject additionalData)
         {
             return new AuthenticationResult
             {
                 Successfull = false,
-                CustomResponse = customResponse
+                AdditionalData = additionalData
             };
         }
         /// <summary>

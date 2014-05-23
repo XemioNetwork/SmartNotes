@@ -34,8 +34,6 @@ namespace Xemio.SmartNotes.Client.Windows
         public Bootstrapper()
         {
             this._container = new WindsorContainer();
-            this._container.AddFacility<LoggingFacility>(f => f.UseNLog());
-
             this._container.Install(FromAssembly.This());
 
             this.Start();

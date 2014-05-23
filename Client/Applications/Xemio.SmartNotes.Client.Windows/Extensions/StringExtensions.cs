@@ -14,6 +14,9 @@ namespace Xemio.SmartNotes.Client.Windows.Extensions
         /// <param name="text">The text.</param>
         public static string[] GetTags(this string text)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                return new string[0];
+
             return 
                 (
                     from tag in text.Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries)

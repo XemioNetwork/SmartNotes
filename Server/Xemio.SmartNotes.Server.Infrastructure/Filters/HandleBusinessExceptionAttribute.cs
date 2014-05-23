@@ -7,11 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
 using Castle.Core.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Server.Infrastructure.Controllers;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters.Resources;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Filters
 {
@@ -36,30 +38,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
                 var controller = (BaseController) context.ActionContext.ControllerContext.Controller;
                 controller.ExceptionOccured = true;
             }
-            
-            if (context.Exception is BusinessException)
+
+            Error error = this.GetError(context.Exception);
+            HttpStatusCode status = this.GetStatusCode(context.Exception);
+
+            context.Response = new HttpResponseMessage(status)
             {
-                var businessException = (BusinessException)context.Exception;
-                
-                context.Response = new HttpResponseMessage(businessException.StatusCode)
-                {
-                    Content = new StringContent(businessException.Message)
-                };
-            }
-            else
-            {
-#if DEBUG
-                context.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-                                       {
-                                           Content = new StringContent(context.Exception.ToString())
-                                       };
-#else
-                context.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-                {
-                    Content = new StringContent(FilterMessages.InternalServerError)
-                };
-#endif
-            }
+                Content = new StringContent(JsonConvert.SerializeObject(error))
+            };
         }
         #endregion
 
@@ -74,6 +60,36 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             string loggerName = context.ActionContext.ActionDescriptor.ControllerDescriptor.ControllerType.FullName;
 
             return loggerFactory.Create(loggerName);
+        }
+
+        private Error GetError(Exception exception)
+        {
+            if (exception is BusinessException)
+            {
+                var businessException = (BusinessException)exception;
+                return businessException.CreateError();
+            }
+            else
+            {
+#if DEBUG
+                return Error.Create(exception.ToString());
+#else
+                return Error.Create(FilterMessages.InternalServerError);
+#endif
+            }
+        }
+
+        private HttpStatusCode GetStatusCode(Exception exception)
+        {
+            if (exception is BusinessException)
+            {
+                var businessException = (BusinessException) exception;
+                return businessException.StatusCode;
+            }
+            else
+            {
+                return HttpStatusCode.InternalServerError;
+            }
         }
         #endregion
     }
