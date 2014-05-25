@@ -14,6 +14,7 @@ using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.ViewParts;
 using Xemio.SmartNotes.Shared.Entities.Notes;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
 {
@@ -109,8 +110,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
                 }
                 default:
                 {
-                    string error = await response.Content.ReadAsStringAsync();
-                    this._displayManager.Messages.ShowMessageBox(error, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                    var error = await response.Content.ReadAsAsync<Error>();
+                    this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
                     this.Logger.ErrorFormat("Error while searching for notes with searchtext '{0}': {1}", this.SearchText, error);
                     break;

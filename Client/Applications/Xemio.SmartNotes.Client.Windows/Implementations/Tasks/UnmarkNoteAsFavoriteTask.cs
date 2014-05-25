@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Caliburn.Micro;
 using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Client.Shared.Clients;
@@ -13,6 +14,7 @@ using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 using Xemio.SmartNotes.Shared.Helpers;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
@@ -81,8 +83,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this.Logger.Error(message);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this.Logger.Error(error.ToString);
 
                 throw new GenericException(TaskMessages.UnmarkNoteAsFavoriteTaskFailed);
             }

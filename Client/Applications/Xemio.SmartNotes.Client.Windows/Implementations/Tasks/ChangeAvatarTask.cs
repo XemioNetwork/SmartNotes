@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Client.Windows.Extensions;
@@ -83,7 +84,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
                 }
                 else
                 {
-                    string error = await response.Content.ReadAsStringAsync();
+                    var error = await response.Content.ReadAsAsync<Error>();
                     this.Logger.ErrorFormat("Error while changing avatar from user '{0}': {1}", this._webServiceClient.Session.User.Id, error);
 
                     throw new GenericException(TaskMessages.ChangeAvatarTaskFailed);

@@ -13,6 +13,7 @@ using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Shared.Entities.Notes;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {
@@ -170,10 +171,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                this.Logger.ErrorFormat("Error while loading subfolders from folder '{0}': {1}", this.FolderId, message);
+                this.Logger.ErrorFormat("Error while loading subfolders from folder '{0}': {1}", this.FolderId, error);
             }
         }
         #endregion

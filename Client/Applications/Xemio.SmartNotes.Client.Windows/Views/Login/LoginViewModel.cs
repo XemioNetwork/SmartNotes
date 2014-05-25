@@ -18,6 +18,7 @@ using Xemio.SmartNotes.Client.Windows.Views.PasswordReset;
 using Xemio.SmartNotes.Client.Windows.Views.Register;
 using Xemio.SmartNotes.Client.Windows.Views.XemioLogin;
 using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Login
 {
@@ -104,8 +105,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
             }
             else
             {
-                string message = await userResponse.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, LoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
+                var error = await userResponse.Content.ReadAsAsync<Error>();
+                this._displayManager.Messages.ShowMessageBox(error.Message, LoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         #endregion

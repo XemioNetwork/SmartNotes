@@ -22,6 +22,7 @@ using Xemio.SmartNotes.Client.Windows.Views.EditFolder;
 using Xemio.SmartNotes.Client.Windows.Views.WatchNote;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 using Xemio.SmartNotes.Shared.Extensions;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {
@@ -343,10 +344,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                this.Logger.ErrorFormat("Error while loading notes from folder '{0}': {1}", selectedFolderEvent.FolderId, message);
+                this.Logger.ErrorFormat("Error while loading notes from folder '{0}': {1}", selectedFolderEvent.FolderId, error);
             }
         }
         #endregion
@@ -443,10 +444,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this.Logger.ErrorFormat("Error while loading all folders: {0}", message);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this.Logger.ErrorFormat("Error while loading all folders: {0}", error);
 
-                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         /// <summary>

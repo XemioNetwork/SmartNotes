@@ -20,5 +20,16 @@ namespace Xemio.SmartNotes.Shared.Models
 
         public string Message { get; set; }
         public JObject AdditionalData { get; set; }
+
+
+        #region Overrides of Object
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        public override string ToString()
+        {
+            return this.Message;
+        }
+        #endregion
     }
 }

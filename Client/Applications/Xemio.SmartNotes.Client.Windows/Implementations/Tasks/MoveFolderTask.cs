@@ -13,6 +13,7 @@ using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 using Xemio.SmartNotes.Shared.Helpers;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
@@ -90,8 +91,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this.Logger.Error(message);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this.Logger.Error(error.ToString);
 
                 throw new GenericException(TaskMessages.MoveFolderTaskFailed);
             }

@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
@@ -86,8 +88,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this.Logger.ErrorFormat("Error while deleting folder '{0}': {1}.", this.FolderId, message);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this.Logger.ErrorFormat("Error while deleting folder '{0}': {1}.", this.FolderId, error);
 
                 throw new GenericException(TaskMessages.DeleteFolderTaskFailed);
             }

@@ -17,6 +17,7 @@ using Xemio.SmartNotes.Client.Windows.Views.Login;
 using Xemio.SmartNotes.Client.Windows.Views.PasswordReset;
 using Xemio.SmartNotes.Client.Windows.Views.Register;
 using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
 {
@@ -147,13 +148,13 @@ namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
             }
             else if (tokenResponse.StatusCode == HttpStatusCode.Unauthorized)
             {
-                string message = await tokenResponse.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, XemioLoginMessages.LoginFailed, MessageBoxButton.OK, MessageBoxImage.Information);
+                var error = await tokenResponse.Content.ReadAsAsync<Error>();
+                this._displayManager.Messages.ShowMessageBox(error.Message, XemioLoginMessages.LoginFailed, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                string message = await tokenResponse.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, XemioLoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
+                var error = await tokenResponse.Content.ReadAsAsync<Error>();
+                this._displayManager.Messages.ShowMessageBox(error.Message, XemioLoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         } 
         /// <summary>

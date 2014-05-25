@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Shared.Tasks;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
@@ -18,6 +19,7 @@ using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.Search;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.UserSettings;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 {
@@ -233,10 +235,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                this.Logger.ErrorFormat("Error while loading avatar from user '{0}': {1}", this._webServiceClient.Session.User.Id, message);
+                this.Logger.ErrorFormat("Error while loading avatar from user '{0}': {1}", this._webServiceClient.Session.User.Id, error);
             }
         }
         #endregion

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Shared.Models;
 using Screen = Caliburn.Micro.Screen;
@@ -79,13 +81,13 @@ namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this._windowManager.Messages.ShowMessageBox(message, PasswordResetMessages.RequestNewPasswordFailed, MessageBoxButton.OK, MessageBoxImage.Information);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this._windowManager.Messages.ShowMessageBox(error.Message, PasswordResetMessages.RequestNewPasswordFailed, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this._windowManager.Messages.ShowMessageBox(message, PasswordResetMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this._windowManager.Messages.ShowMessageBox(error.Message, PasswordResetMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         #endregion

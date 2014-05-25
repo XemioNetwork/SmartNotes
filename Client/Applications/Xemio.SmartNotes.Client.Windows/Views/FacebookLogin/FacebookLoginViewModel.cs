@@ -63,8 +63,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
         /// <param name="code">The code.</param>
         /// <param name="redirectUrl">The redirect url used to receive the code.</param>
         /// <param name="isRetry">Indicating whether we're retrying to authenticate.</param>
-        /// <param name="registerMessage">The message we got from the register call.</param>
-        public async Task UserLoggedIn(string code, string redirectUrl, bool isRetry = false, string registerMessage = null)
+        /// <param name="registerError">The message we got from the register call.</param>
+        public async Task UserLoggedIn(string code, string redirectUrl, bool isRetry = false, Error registerError = null)
         {
             HttpResponseMessage tokenResponse = await this._webServiceClient.Tokens.PostFacebook(code, redirectUrl);
             if (tokenResponse.StatusCode == HttpStatusCode.OK)
@@ -75,13 +75,13 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
             else if (tokenResponse.StatusCode == HttpStatusCode.Unauthorized && isRetry == false)
             {
                 HttpResponseMessage registerResponse = await this._webServiceClient.Users.PostFacebookUser(code, redirectUrl);
-                string message = await registerResponse.Content.ReadAsStringAsync();
+                var error = await registerResponse.Content.ReadAsAsync<Error>();
 
-                await this.UserLoggedIn(code, redirectUrl, true, message);
+                await this.UserLoggedIn(code, redirectUrl, true, error);
             }
             else
             {
-                this._displayManager.Messages.ShowMessageBox(registerMessage, FacebookLoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
+                this._displayManager.Messages.ShowMessageBox(registerError.Message, FacebookLoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         /// <summary>

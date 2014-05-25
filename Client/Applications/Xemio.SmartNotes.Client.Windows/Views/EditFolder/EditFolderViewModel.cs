@@ -175,10 +175,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this.Logger.ErrorFormat("Error while loading the tags: {0}", message);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this.Logger.ErrorFormat("Error while loading the tags: {0}", error);
 
-                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         #endregion

@@ -11,6 +11,7 @@ using Caliburn.Micro;
 using Newtonsoft.Json.Linq;
 using NodaTime;
 using Xemio.SmartNotes.Client.Shared.Clients;
+using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Shared.Entities.Users;
 using Xemio.SmartNotes.Shared.Models;
@@ -122,13 +123,13 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, RegisterMessages.RegistrationFailed, MessageBoxButton.OK, MessageBoxImage.Information);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this._displayManager.Messages.ShowMessageBox(error.Message, RegisterMessages.RegistrationFailed, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                string message = await response.Content.ReadAsStringAsync();
-                this._displayManager.Messages.ShowMessageBox(message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
+                var error = await response.Content.ReadAsAsync<Error>();
+                this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         #endregion
