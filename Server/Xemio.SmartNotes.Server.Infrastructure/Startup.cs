@@ -9,15 +9,19 @@ using System.Web.Http.Cors;
 using Castle.Facilities.Logging;
 using Castle.Facilities.Startable;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
+using Microsoft.Owin;
 using Owin;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Mailing;
+using Xemio.SmartNotes.Server.Infrastructure;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
 using Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing;
 using Xemio.SmartNotes.Server.Infrastructure.Windsor;
 using Xemio.SmartNotes.Shared.Entities.Mailing;
+
+[assembly: OwinStartup(typeof(Startup))]
 
 namespace Xemio.SmartNotes.Server.Infrastructure
 {

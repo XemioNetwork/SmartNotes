@@ -272,7 +272,6 @@
     <Compile Include="Windsor\StartableInstaller.cs" />
     <Compile Include="Windsor\WindsorDependencyScope.cs" />
     <Compile Include="Windsor\WindsorResolver.cs" />
-    <Compile Include="XemioNotesService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

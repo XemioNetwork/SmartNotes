@@ -74,12 +74,17 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
             //We support the RavenDB embedded version
             if (this.IsEmbeddedConnectionString())
             {
-                NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(8080);
+                int port = int.Parse(ConfigurationManager.AppSettings["XemioNotes/DatabaseEmbeddedPort"]);
+                NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(port);
 
                 var store = new EmbeddableDocumentStore
                 {
+                    Configuration =
+                    {
+                        Port = port
+                    },
                     ConnectionStringName = ConnectionStringName,
-                    UseEmbeddedHttpServer = true
+                    UseEmbeddedHttpServer = true,
                 }; 
 
                 var catalog = new AggregateCatalog();

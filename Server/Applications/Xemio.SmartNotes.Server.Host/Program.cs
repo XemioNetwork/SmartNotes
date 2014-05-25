@@ -4,8 +4,9 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Topshelf;
+using Microsoft.Owin.Hosting;
 using Xemio.SmartNotes.Server.Infrastructure;
+using Xemio.SmartNotes.Shared.Extensions;
 
 namespace Xemio.SmartNotes.Server.Host
 {
@@ -13,24 +14,16 @@ namespace Xemio.SmartNotes.Server.Host
     {
         static void Main(string[] args)
         {
-            HostFactory.Run(x =>
+            var startOptions = new StartOptions();
+            startOptions.Urls.AddRange(ConfigurationManager.AppSettings["XemioNotes/Addresses"].Split('|'));
+
+            using (WebApp.Start<Startup>(startOptions))
             {
-                x.Service<XemioNotesService>(s =>
-                {
-                    s.ConstructUsing(name => new XemioNotesService(ConfigurationManager.AppSettings["XemioNotes/Addresses"].Split('|')));
-                    s.WhenStarted(f => f.Start());
-                    s.WhenStopped(f => f.Stop());
-                });
+                Console.WriteLine("Xemio Notes Web-API started.");
+                Console.WriteLine("Press any key to close.");
 
-                x.RunAsLocalSystem();
-                x.StartAutomatically();
-
-                x.SetDescription("The HTTP API for Xemio Notes.");
-                x.SetDisplayName("Xemio Notes HTTP API");
-                x.SetServiceName("XemioNotesHTTPAPI");
-
-                x.UseNLog();
-            });
+                Console.ReadLine();
+            }
         }
     }
 }

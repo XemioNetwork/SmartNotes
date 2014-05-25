@@ -12,10 +12,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Castle.Core.Logging;
+using Newtonsoft.Json;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters.Resources;
 using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Filters
 {
@@ -33,7 +35,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         {
             actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized)
             {
-                Content = new StringContent(FilterMessages.Unauthorized)
+                Content = new StringContent(JsonConvert.SerializeObject(new Error
+                {
+                    Message = FilterMessages.Unauthorized
+                }))
             };
         }
         /// <summary>
