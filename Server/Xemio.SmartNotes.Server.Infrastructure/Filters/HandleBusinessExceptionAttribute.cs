@@ -64,12 +64,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
 
         private Error GetError(Exception exception)
         {
-            if (exception is BusinessException)
-            {
-                var businessException = (BusinessException)exception;
-                return businessException.CreateError();
-            }
-            else
+            //if (exception is BusinessException)
+            //{
+            //    var businessException = (BusinessException)exception;
+            //    return businessException.CreateError();
+            //}
+            //else
             {
 //#if DEBUG
                 return Error.Create(exception.ToString());
