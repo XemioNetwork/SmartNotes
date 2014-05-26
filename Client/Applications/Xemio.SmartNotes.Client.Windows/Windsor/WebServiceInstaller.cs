@@ -23,7 +23,7 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
                 .BasedOn<IClient>()
                 .WithServiceFromInterface(typeof(IClient))
                 .LifestyleSingleton()
-                .Configure(f => f.DependsOn(new { baseAddress = "http://localhost" })));
+                .Configure(f => f.DependsOn(new { baseAddress = "http://xemionotes.apphb.com" })));
 
             container.Register
             (
