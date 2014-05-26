@@ -71,11 +71,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             }
             else
             {
-#if DEBUG
+//#if DEBUG
                 return Error.Create(exception.ToString());
-#else
-                return Error.Create(FilterMessages.InternalServerError);
-#endif
+//#else
+//                return Error.Create(FilterMessages.InternalServerError);
+//#endif
             }
         }
 
