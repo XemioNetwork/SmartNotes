@@ -6,12 +6,12 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Shared.Clients;
-using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Shared.Tasks;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
@@ -235,10 +235,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
             }
             else
             {
-                var error = await response.Content.ReadAsAsync<Error>();
+                var error = await response.Content.ReadAsAsync<HttpError>();
                 this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                this.Logger.ErrorFormat("Error while loading avatar from user '{0}': {1}", this._webServiceClient.Session.User.Id, error);
+                this.Logger.ErrorFormat("Error while loading avatar from user '{0}': {1}", this._webServiceClient.Session.User.Id, error.Message);
             }
         }
         #endregion

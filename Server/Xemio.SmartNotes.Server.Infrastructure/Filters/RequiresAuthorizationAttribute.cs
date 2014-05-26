@@ -33,13 +33,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         /// <param name="actionContext">The context.</param>
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
-            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized)
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(new Error
-                {
-                    Message = FilterMessages.Unauthorized
-                }))
-            };
+            actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, FilterMessages.Unauthorized);
         }
         /// <summary>
         /// Determines whether the specified context is authorized.

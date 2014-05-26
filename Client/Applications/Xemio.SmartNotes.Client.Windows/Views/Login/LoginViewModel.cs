@@ -4,12 +4,12 @@ using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Windows;
 using System.Windows.Navigation;
 using Caliburn.Micro;
 using Xemio.CommonLibrary.Storage;
 using Xemio.SmartNotes.Client.Shared.Clients;
-using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Shared.Settings;
 using Xemio.SmartNotes.Client.Windows.Data;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
@@ -105,7 +105,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Login
             }
             else
             {
-                var error = await userResponse.Content.ReadAsAsync<Error>();
+                var error = await userResponse.Content.ReadAsAsync<HttpError>();
                 this._displayManager.Messages.ShowMessageBox(error.Message, LoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

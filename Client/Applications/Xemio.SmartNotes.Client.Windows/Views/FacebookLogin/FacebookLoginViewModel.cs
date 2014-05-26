@@ -5,11 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Windows;
 using Caliburn.Micro;
 using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Client.Shared.Clients;
-using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Shared.Entities.Users;
 using Xemio.SmartNotes.Shared.Models;
@@ -64,7 +64,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
         /// <param name="redirectUrl">The redirect url used to receive the code.</param>
         /// <param name="isRetry">Indicating whether we're retrying to authenticate.</param>
         /// <param name="registerError">The message we got from the register call.</param>
-        public async Task UserLoggedIn(string code, string redirectUrl, bool isRetry = false, Error registerError = null)
+        public async Task UserLoggedIn(string code, string redirectUrl, bool isRetry = false, HttpError registerError = null)
         {
             HttpResponseMessage tokenResponse = await this._webServiceClient.Tokens.PostFacebook(code, redirectUrl);
             if (tokenResponse.StatusCode == HttpStatusCode.OK)
@@ -75,7 +75,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.FacebookLogin
             else if (tokenResponse.StatusCode == HttpStatusCode.Unauthorized && isRetry == false)
             {
                 HttpResponseMessage registerResponse = await this._webServiceClient.Users.PostFacebookUser(code, redirectUrl);
-                var error = await registerResponse.Content.ReadAsAsync<Error>();
+                var error = await registerResponse.Content.ReadAsAsync<HttpError>();
 
                 await this.UserLoggedIn(code, redirectUrl, true, error);
             }

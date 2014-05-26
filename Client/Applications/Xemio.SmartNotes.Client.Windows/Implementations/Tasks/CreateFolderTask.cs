@@ -6,9 +6,9 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using Caliburn.Micro;
 using Xemio.SmartNotes.Client.Shared.Clients;
-using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Shared.Entities.Notes;
@@ -91,8 +91,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             }
             else
             {
-                var error = await response.Content.ReadAsAsync<Error>();
-                this.Logger.Error(error.ToString);
+                var error = await response.Content.ReadAsAsync<HttpError>();
+                this.Logger.Error(error.Message);
 
                 throw new GenericException(TaskMessages.CreateFolderTaskFailed);
             }

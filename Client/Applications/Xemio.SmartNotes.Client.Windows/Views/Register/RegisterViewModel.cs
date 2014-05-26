@@ -6,12 +6,12 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Windows;
 using Caliburn.Micro;
 using Newtonsoft.Json.Linq;
 using NodaTime;
 using Xemio.SmartNotes.Client.Shared.Clients;
-using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Shared.Entities.Users;
 using Xemio.SmartNotes.Shared.Models;
@@ -123,12 +123,12 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                var error = await response.Content.ReadAsAsync<Error>();
+                var error = await response.Content.ReadAsAsync<HttpError>();
                 this._displayManager.Messages.ShowMessageBox(error.Message, RegisterMessages.RegistrationFailed, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                var error = await response.Content.ReadAsAsync<Error>();
+                var error = await response.Content.ReadAsAsync<HttpError>();
                 this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

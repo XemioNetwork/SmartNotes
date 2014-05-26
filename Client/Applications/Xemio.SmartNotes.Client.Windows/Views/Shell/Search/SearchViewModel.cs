@@ -5,11 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Windows;
 using Caliburn.Micro;
 using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Shared.Clients;
-using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.ViewParts;
@@ -110,10 +110,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
                 }
                 default:
                 {
-                    var error = await response.Content.ReadAsAsync<Error>();
+                    var error = await response.Content.ReadAsAsync<HttpError>();
                     this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                    this.Logger.ErrorFormat("Error while searching for notes with searchtext '{0}': {1}", this.SearchText, error);
+                    this.Logger.ErrorFormat("Error while searching for notes with searchtext '{0}': {1}", this.SearchText, error.Message);
                     break;
                 }
             }

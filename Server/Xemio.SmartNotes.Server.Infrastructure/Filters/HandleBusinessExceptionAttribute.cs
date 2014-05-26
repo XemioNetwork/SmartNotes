@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Http.Filters;
 using Castle.Core.Logging;
 using Newtonsoft.Json;
@@ -39,13 +40,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
                 controller.ExceptionOccured = true;
             }
 
-            Error error = this.GetError(context.Exception);
+            HttpError error = this.GetError(context.Exception);
             HttpStatusCode status = this.GetStatusCode(context.Exception);
 
-            context.Response = new HttpResponseMessage(status)
-            {
-                Content = new StringContent(JsonConvert.SerializeObject(error))
-            };
+            context.Response = context.Request.CreateErrorResponse(status, error);
         }
         #endregion
 
@@ -61,24 +59,34 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
 
             return loggerFactory.Create(loggerName);
         }
-
-        private Error GetError(Exception exception)
+        /// <summary>
+        /// Creates the <see cref="HttpError"/> for the specified <paramref name="exception"/>.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
+        private HttpError GetError(Exception exception)
         {
-            //if (exception is BusinessException)
-            //{
-            //    var businessException = (BusinessException)exception;
-            //    return businessException.CreateError();
-            //}
-            //else
+            if (exception is BusinessException)
             {
-//#if DEBUG
-                return Error.Create(exception.ToString());
-//#else
-//                return Error.Create(FilterMessages.InternalServerError);
-//#endif
+                var businessException = (BusinessException)exception;
+
+                var error = new HttpError(FilterMessages.InternalServerError);
+                error.Add("AdditionalData", businessException.CustomResponse);
+
+                return error;
+            }
+            else
+            {
+#if DEBUG
+                return new HttpError(exception.ToString());
+#else
+                return new HttpError(FilterMessages.InternalServerError);
+#endif
             }
         }
-
+        /// <summary>
+        /// Creates the <see cref="HttpStatusCode"/> for the specified <paramref name="exception"/>.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
         private HttpStatusCode GetStatusCode(Exception exception)
         {
             if (exception is BusinessException)

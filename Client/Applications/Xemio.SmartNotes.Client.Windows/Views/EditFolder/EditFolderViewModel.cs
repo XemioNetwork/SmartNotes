@@ -5,11 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Windows;
 using Caliburn.Micro;
 using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Shared.Clients;
-using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Shared.Tasks;
 using Xemio.SmartNotes.Client.Windows.Extensions;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
@@ -175,8 +175,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.EditFolder
             }
             else
             {
-                var error = await response.Content.ReadAsAsync<Error>();
-                this.Logger.ErrorFormat("Error while loading the tags: {0}", error);
+                var error = await response.Content.ReadAsAsync<HttpError>();
+                this.Logger.ErrorFormat("Error while loading the tags: {0}", error.Message);
 
                 this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
             }

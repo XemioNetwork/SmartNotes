@@ -5,11 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Windows;
 using Caliburn.Micro;
 using Castle.Core.Logging;
 using Xemio.SmartNotes.Client.Shared.Clients;
-using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Shared.Entities.Notes;
@@ -171,10 +171,10 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
             else
             {
-                var error = await response.Content.ReadAsAsync<Error>();
+                var error = await response.Content.ReadAsAsync<HttpError>();
                 this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                this.Logger.ErrorFormat("Error while loading subfolders from folder '{0}': {1}", this.FolderId, error);
+                this.Logger.ErrorFormat("Error while loading subfolders from folder '{0}': {1}", this.FolderId, error.Message);
             }
         }
         #endregion

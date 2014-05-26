@@ -6,12 +6,13 @@ using System.Net.Http;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Windows;
 using System.Windows.Forms;
 using Xemio.SmartNotes.Client.Shared.Clients;
-using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Shared.Models;
+
 using Screen = Caliburn.Micro.Screen;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset
@@ -81,12 +82,12 @@ namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                var error = await response.Content.ReadAsAsync<Error>();
+                var error = await response.Content.ReadAsAsync<HttpError>();
                 this._windowManager.Messages.ShowMessageBox(error.Message, PasswordResetMessages.RequestNewPasswordFailed, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                var error = await response.Content.ReadAsAsync<Error>();
+                var error = await response.Content.ReadAsAsync<HttpError>();
                 this._windowManager.Messages.ShowMessageBox(error.Message, PasswordResetMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

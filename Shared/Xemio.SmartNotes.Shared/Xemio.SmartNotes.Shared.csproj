@@ -75,7 +75,6 @@
     <Compile Include="Models\CreatePasswordReset.cs" />
     <Compile Include="Models\CreateToken.cs" />
     <Compile Include="Models\CreateUser.cs" />
-    <Compile Include="Models\Error.cs" />
     <Compile Include="Models\FolderNoteCount.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

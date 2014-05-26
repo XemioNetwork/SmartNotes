@@ -6,11 +6,11 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Windows;
 using Caliburn.Micro;
 using Xemio.CommonLibrary.Storage;
 using Xemio.SmartNotes.Client.Shared.Clients;
-using Xemio.SmartNotes.Client.Shared.Extensions;
 using Xemio.SmartNotes.Client.Shared.Settings;
 using Xemio.SmartNotes.Client.Windows.Implementations.Interaction;
 using Xemio.SmartNotes.Client.Windows.Views.Login;
@@ -148,12 +148,12 @@ namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
             }
             else if (tokenResponse.StatusCode == HttpStatusCode.Unauthorized)
             {
-                var error = await tokenResponse.Content.ReadAsAsync<Error>();
+                var error = await tokenResponse.Content.ReadAsAsync<HttpError>();
                 this._displayManager.Messages.ShowMessageBox(error.Message, XemioLoginMessages.LoginFailed, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                var error = await tokenResponse.Content.ReadAsAsync<Error>();
+                var error = await tokenResponse.Content.ReadAsAsync<HttpError>();
                 this._displayManager.Messages.ShowMessageBox(error.Message, XemioLoginMessages.UnknownError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         } 

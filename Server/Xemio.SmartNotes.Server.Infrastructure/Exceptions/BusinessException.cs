@@ -45,19 +45,5 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Exceptions
         /// </summary>
         public JObject CustomResponse { get; set; }
         #endregion
-
-        #region Methods
-        /// <summary>
-        /// Creates the error.
-        /// </summary>
-        internal Error CreateError()
-        {
-            return new Error
-            {
-                Message = this.Message,
-                AdditionalData = this.CustomResponse
-            };
-        }
-        #endregion
     }
 }
