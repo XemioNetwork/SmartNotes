@@ -37,14 +37,18 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         /// <param name="appBuilder">The app builder.</param>
         public void Configuration(IAppBuilder appBuilder)
         {
-            var config = new HttpConfiguration();
+            appBuilder.Use((context, next) =>
+            {
+                return context.Response.WriteAsync("Hallo Welt");
+            });
+            //var config = new HttpConfiguration();
 
-            this.ConfigureCrossOriginRequests(config);
-            this.ConfigureWindsor(config);
-            this.ConfigureFilters(config);
-            this.ConfigureRoutes(config);
+            //this.ConfigureCrossOriginRequests(config);
+            //this.ConfigureWindsor(config);
+            //this.ConfigureFilters(config);
+            //this.ConfigureRoutes(config);
 
-            appBuilder.UseWebApi(config);
+            //appBuilder.UseWebApi(config);
         }
         #endregion
 
