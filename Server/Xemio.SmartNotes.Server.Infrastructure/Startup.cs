@@ -66,7 +66,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure
             var container = new WindsorContainer();
             container.AddFacility<ArrayResolverFacility>();
             container.AddFacility<StartableFacility>();
-            container.AddFacility<LoggingFacility>(f => f.UseNLog());
+            container.AddFacility<LoggingFacility>(f => f.UseNLog().WithAppConfig());
             
             container.Install(FromAssembly.This());
 
