@@ -29,34 +29,37 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         {
             container.Register
                 (
-                    //Component.For<IEmailSender>()
-                    //         .ImplementedBy<SmtpEmailSender>()
-                    //         .LifestyleSingleton()
-                    //         .DependsOn
-                    //         (
-                    //            Dependency.OnValue("host", "localhost"),
-                    //            Dependency.OnValue("port", 25),
-                    //            Dependency.OnValue("username", string.Empty),
-                    //            Dependency.OnValue("password", string.Empty)
-                    //         ),
-
                     Component.For<IEmailSender>()
-                             .ImplementedBy<MailGunEmailSender>()
+                             .ImplementedBy<SmtpEmailSender>()
                              .LifestyleSingleton()
                              .DependsOn
                              (
-                                 Dependency.OnValue("apiKey", "key-4-h0h0rx2vmk4857p48ghlzpvgz9mck1"),
-                                 Dependency.OnValue("customDomain", "xemio.net")
+                                Dependency.OnValue("host", "localhost"),
+                                Dependency.OnValue("port", 25),
+                                Dependency.OnValue("username", string.Empty),
+                                Dependency.OnValue("password", string.Empty)
                              ),
+
+                    //Component.For<IEmailSender>()
+                    //         .ImplementedBy<MailGunEmailSender>()
+                    //         .LifestyleSingleton()
+                    //         .DependsOn
+                    //         (
+                    //             Dependency.OnValue("apiKey", string.Empty),
+                    //             Dependency.OnValue("customDomain", string.Empty)
+                    //         ),
 
                     Component.For<IEmailFactory>()
                              .ImplementedBy<EmailFactory>()
                              .LifestyleSingleton()
-                             .DependsOn(Dependency.OnValue("sender", new EmailPerson
-                             {
-                                 Name = "Xemio Notes",
-                                 Address = "info@xemio-notes.net"
-                             }))
+                             .DependsOn
+                             (
+                                 Dependency.OnValue("sender", new EmailPerson
+                                 {
+                                     Name = "Xemio Notes",
+                                     Address = "info@xemio-notes.net"
+                                 })
+                             )
             );
         }
         #endregion

@@ -18,10 +18,17 @@ namespace Xemio.SmartNotes.Tests.MailGunSender
             mail.From = new MailAddress("info@xemio.net", "Xemio Notes");
             mail.Subject = "Hallo Welt";
             mail.To.Add(new MailAddress("haefele@xemio.net", "Daniel Häfele"));
-            mail.IsBodyHtml = false;
-            mail.Body = "Hey du kleiner Junge!";
+            mail.IsBodyHtml = true;
+            mail.Body = "<img src=cid:dubbyy /> Hey du kleiner Junge!";
 
-            sender.Send(mail, DateTimeOffset.Now.AddMinutes(3));
+            var attachment = new Attachment(@"C:\Users\haefele\Desktop\image.png");
+            attachment.ContentDisposition.Inline = false;
+            attachment.ContentId = "dubbyy";
+            attachment.ContentType.MediaType = "image/png";
+
+            mail.Attachments.Add(attachment);
+
+            sender.Send(mail, DateTimeOffset.Now);
         }
     }
 }

@@ -228,6 +228,7 @@
     <Compile Include="Extensions\ISyncAdvancedSessionOperationExtensions.cs" />
     <Compile Include="Extensions\IDependencyResolverExtensions.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Filters\HandleBusinessExceptionAttribute.cs" />
     <Compile Include="Filters\RequiresAuthorizationAttribute.cs" />

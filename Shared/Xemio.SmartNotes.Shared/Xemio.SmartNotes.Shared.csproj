@@ -50,13 +50,9 @@
     <Compile Include="Common\BackgroundQueue.cs" />
     <Compile Include="Common\Singleton.cs" />
     <Compile Include="Entities\AggregateRoot.cs" />
-    <Compile Include="Entities\Mailing\Email.cs" />
     <Compile Include="Entities\Mailing\EmailAttachment.cs" />
-    <Compile Include="Entities\Mailing\EmailBody.cs" />
     <Compile Include="Entities\Mailing\EmailPerson.cs" />
-    <Compile Include="Entities\Mailing\EmailSendType.cs" />
     <Compile Include="Entities\Mailing\EmailTemplate.cs" />
-    <Compile Include="Entities\Mailing\SentEmail.cs" />
     <Compile Include="Entities\Mailing\EmailTemplateTexts.cs" />
     <Compile Include="Entities\Notes\Folder.cs" />
     <Compile Include="Entities\Notes\ITagContainer.cs" />
