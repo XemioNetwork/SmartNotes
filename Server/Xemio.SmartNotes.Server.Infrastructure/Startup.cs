@@ -37,8 +37,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         /// <param name="appBuilder">The app builder.</param>
         public void Configuration(IAppBuilder appBuilder)
         {
-            appBuilder.Use((context, next) => context.Response.WriteAsync("Hallo Welt"));
-
             var config = new HttpConfiguration();
 
             this.ConfigureCrossOriginRequests(config);
