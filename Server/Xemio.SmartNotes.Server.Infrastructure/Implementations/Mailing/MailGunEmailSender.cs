@@ -24,7 +24,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
     {
         #region Fields
         private readonly RestClient  _client;
-        private readonly IFileService _fileService;
         #endregion
 
         #region Constructors
