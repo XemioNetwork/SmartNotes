@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Newtonsoft.Json.Converters;
 using Xemio.SmartNotes.Server.Abstractions.Mailing;
 using Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing;
 using Xemio.SmartNotes.Shared.Entities.Mailing;
@@ -28,22 +29,34 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         {
             container.Register
                 (
-                    Component.For<IEmailSender>().ImplementedBy<SmtpEmailSender>().LifestyleSingleton().DependsOn(new
-                                                                                                                      {
-                                                                                                                          host = "localhost",
-                                                                                                                          port = 25,
-                                                                                                                          username = string.Empty,
-                                                                                                                          password = string.Empty,
-                                                                                                                          sender = new EmailPerson
-                                                                                                                          {
-                                                                                                                              Name = "Xemio Notes",
-                                                                                                                              Address = "info@xemio-notes.net"
-                                                                                                                          }
-                                                                                                                      }),
+                    //Component.For<IEmailSender>()
+                    //         .ImplementedBy<SmtpEmailSender>()
+                    //         .LifestyleSingleton()
+                    //         .DependsOn
+                    //         (
+                    //            Dependency.OnValue("host", "localhost"),
+                    //            Dependency.OnValue("port", 25),
+                    //            Dependency.OnValue("username", string.Empty),
+                    //            Dependency.OnValue("password", string.Empty)
+                    //         ),
+
+                    Component.For<IEmailSender>()
+                             .ImplementedBy<MailGunEmailSender>()
+                             .LifestyleSingleton()
+                             .DependsOn
+                             (
+                                 Dependency.OnValue("apiKey", "key-4-h0h0rx2vmk4857p48ghlzpvgz9mck1"),
+                                 Dependency.OnValue("customDomain", "xemio.net")
+                             ),
 
                     Component.For<IEmailFactory>()
                              .ImplementedBy<EmailFactory>()
                              .LifestyleSingleton()
+                             .DependsOn(Dependency.OnValue("sender", new EmailPerson
+                             {
+                                 Name = "Xemio Notes",
+                                 Address = "info@xemio-notes.net"
+                             }))
             );
         }
         #endregion

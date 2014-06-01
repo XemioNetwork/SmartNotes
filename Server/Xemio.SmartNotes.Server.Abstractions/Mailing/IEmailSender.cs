@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using Xemio.SmartNotes.Shared.Entities.Mailing;
 
 namespace Xemio.SmartNotes.Server.Abstractions.Mailing
@@ -9,6 +11,7 @@ namespace Xemio.SmartNotes.Server.Abstractions.Mailing
         /// Sends the specified <see cref="email"/>.
         /// </summary>
         /// <param name="email">The mail.</param>
-        Task SendAsync(SentEmail email);
+        /// <param name="sendDate">The date the email should be sent.</param>
+        void Send(MailMessage email, DateTimeOffset sendDate);
     }
 }

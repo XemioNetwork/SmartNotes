@@ -23,6 +23,17 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Services
 
             return Path.Combine(Environment.CurrentDirectory, subPath);
         }
+        /// <summary>
+        /// Opens the file.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        public Stream OpenFile(string path)
+        {
+            Condition.Requires(path, "path")
+                .IsNotNullOrWhiteSpace();
+
+            return File.OpenRead(path);
+        }
         #endregion
     }
 }
