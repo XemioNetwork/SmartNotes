@@ -72,8 +72,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// Sends the asynchronous.
         /// </summary>
         /// <param name="mail">The mail.</param>
-        /// <param name="sendDate">The send date.</param>
-        public void Send(MailMessage mail, DateTimeOffset sendDate)
+        /// <param name="deliveryDate">The send date.</param>
+        public void Send(MailMessage mail, DateTimeOffset deliveryDate)
         {
             this._smtpClient.Value.Send(mail);
         }

@@ -14,19 +14,14 @@ namespace Xemio.SmartNotes.Tests.MailGunSender
         {
             var sender = new MailGunEmailSender("key-4-h0h0rx2vmk4857p48ghlzpvgz9mck1", "xemio.net");
 
-            var mail = new MailMessage("info@xemio.net", "haefele@xemio.net")
-            {
-                Body = "Hallo"
-            };
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("info@xemio.net", "Xemio Notes");
+            mail.Subject = "Hallo Welt";
+            mail.To.Add(new MailAddress("haefele@xemio.net", "Daniel Häfele"));
+            mail.IsBodyHtml = false;
+            mail.Body = "Hey du kleiner Junge!";
 
-            //MailMessage mail = new MailMessage();
-            //mail.Sender = new MailAddress("info@xemio.net", "Xemio Notes");
-            //mail.Subject = "Hallo Welt";
-            //mail.To.Add(new MailAddress("haefele@xemio.net", "Daniel Häfele"));
-            //mail.IsBodyHtml = false;
-            //mail.Body = "Hey du kleiner Junge!";
-            
-            sender.Send(mail, DateTimeOffset.Now);
+            sender.Send(mail, DateTimeOffset.Now.AddMinutes(3));
         }
     }
 }

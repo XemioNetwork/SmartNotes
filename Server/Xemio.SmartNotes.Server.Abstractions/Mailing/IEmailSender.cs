@@ -11,7 +11,7 @@ namespace Xemio.SmartNotes.Server.Abstractions.Mailing
         /// Sends the specified <see cref="email"/>.
         /// </summary>
         /// <param name="email">The mail.</param>
-        /// <param name="sendDate">The date the email should be sent.</param>
-        void Send(MailMessage email, DateTimeOffset sendDate);
+        /// <param name="deliveryDate">The date the email should be sent.</param>
+        void Send(MailMessage email, DateTimeOffset deliveryDate);
     }
 }

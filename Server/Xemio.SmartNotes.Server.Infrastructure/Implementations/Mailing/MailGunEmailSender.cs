@@ -9,7 +9,9 @@ using System.Net.Mail;
 using System.Reflection;
 using System.Text;
 using System.Web;
+
 using CuttingEdge.Conditions;
+using RestSharp;
 using Xemio.SmartNotes.Server.Abstractions.Mailing;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
@@ -17,7 +19,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
     public class MailGunEmailSender : IEmailSender
     {
         #region Fields
-        private readonly HttpClient _client;
+        private readonly RestClient  _client;
         private readonly MailWriter _mailWriter;
         #endregion
 
@@ -31,15 +33,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         {
             Condition.Requires(apiKey, "apiKey")
                 .IsNotNull();
-
-            this._client = new HttpClient
+            
+            this._client = new RestClient
             {
-                BaseAddress = new Uri("https://api.mailgun.net/v2" + (customDomain == null ? "" : "/" + customDomain)),
+                BaseUrl = "https://api.mailgun.net/v2" + (customDomain == null ? "" : "/" + customDomain + "/"),
+                Authenticator = new HttpBasicAuthenticator("api", apiKey)
             };
 
             this._mailWriter = new MailWriter();
-
-            this.AddDefaultAuthorizationHeader(apiKey);
         }
         #endregion
 
@@ -48,39 +49,32 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// Sends the specified <see cref="email" />.
         /// </summary>
         /// <param name="email">The mail.</param>
-        /// <param name="sendDate">The date the email should be sent.</param>
-        public void Send(MailMessage email, DateTimeOffset sendDate)
+        /// <param name="deliveryDate">The date the email should be delivered.</param>
+        public void Send(MailMessage email, DateTimeOffset deliveryDate)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "messages.mime")
-            {
-                Content = new StringContent(this._mailWriter.Write(email))
-                {
-                    Headers =
-                    {
-                        ContentType = new MediaTypeHeaderValue("multipart/form-data")
-                    }
-                }
-            };
+            IRestRequest request = new RestRequest();
+            request.Resource = "messages";
+            request.Method = Method.POST;
 
-            request.Headers.Add("X-Mailgun-Deliver-By", this.GetFormattedDeliveryDate(sendDate));
+            request.AddParameter("from", this.GetMailAddressString(email.From));
+            request.AddParameter("to", this.GetMailAddressesString(email.To));
 
-            HttpResponseMessage response = this._client.SendAsync(request).Result;
+            if (email.CC.Any())
+                request.AddParameter("cc", this.GetMailAddressesString(email.CC));
+
+            if (email.Bcc.Any())
+                request.AddParameter("bcc", this.GetMailAddressesString(email.Bcc));
+
+            request.AddParameter("subject", email.Subject);
+            request.AddParameter(email.IsBodyHtml ? "html" : "text", email.Body);
+            request.AddParameter("o:deliverytime", this.GetFormattedDeliveryDate(deliveryDate));
             
+            IRestResponse response = this._client.Execute(request);
+
         }
         #endregion
 
         #region Private Methods
-        /// <summary>
-        /// Adds the default authorization header.
-        /// </summary>
-        /// <param name="apiKey">The API key.</param>
-        private void AddDefaultAuthorizationHeader(string apiKey)
-        {
-            string authorization = string.Format("api:{0}", apiKey);
-            authorization = Convert.ToBase64String(Encoding.Default.GetBytes(authorization));
-
-            this._client.DefaultRequestHeaders.Add("Authorization", string.Format("Basic {0}", authorization));
-        }
         /// <summary>
         /// Returns the formatted delivery date.
         /// </summary>
@@ -88,6 +82,28 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         private string GetFormattedDeliveryDate(DateTimeOffset sendDate)
         {
             return sendDate.ToUniversalTime().ToString(@"ddd, dd MMM yyyy HH:mm:ss G\MT", new CultureInfo("en-US"));
+        }
+        /// <summary>
+        /// Returns the mail address string.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        private string GetMailAddressString(MailAddress address)
+        {
+            Condition.Requires(address, "address")
+                .IsNotNull();
+
+            return string.Format("{0} <{1}>", address.DisplayName, address.Address);
+        }
+        /// <summary>
+        /// Returns the mail addresses string.
+        /// </summary>
+        /// <param name="collection">The collection.</param>
+        private string GetMailAddressesString(MailAddressCollection collection)
+        {
+            Condition.Requires(collection, "collection")
+                .IsNotNull();
+
+            return string.Join(", ", collection.Select(this.GetMailAddressString));
         }
         #endregion
     }
