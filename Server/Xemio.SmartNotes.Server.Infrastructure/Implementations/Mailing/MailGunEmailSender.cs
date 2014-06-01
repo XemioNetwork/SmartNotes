@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Web;
-
+using Castle.Core.Logging;
 using CuttingEdge.Conditions;
 using RestSharp;
 using Xemio.SmartNotes.Server.Abstractions.Mailing;
+using Xemio.SmartNotes.Server.Abstractions.Services;
+using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
 {
@@ -20,7 +24,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
     {
         #region Fields
         private readonly RestClient  _client;
-        private readonly MailWriter _mailWriter;
+        private readonly IFileService _fileService;
         #endregion
 
         #region Constructors
@@ -39,8 +43,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
                 BaseUrl = "https://api.mailgun.net/v2" + (customDomain == null ? "" : "/" + customDomain + "/"),
                 Authenticator = new HttpBasicAuthenticator("api", apiKey)
             };
-
-            this._mailWriter = new MailWriter();
         }
         #endregion
 
@@ -52,6 +54,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// <param name="deliveryDate">The date the email should be delivered.</param>
         public void Send(MailMessage email, DateTimeOffset deliveryDate)
         {
+            Condition.Requires(email, "email")
+                .IsNotNull();
+
             IRestRequest request = new RestRequest();
             request.Resource = "messages";
             request.Method = Method.POST;
@@ -68,9 +73,18 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
             request.AddParameter("subject", email.Subject);
             request.AddParameter(email.IsBodyHtml ? "html" : "text", email.Body);
             request.AddParameter("o:deliverytime", this.GetFormattedDeliveryDate(deliveryDate));
-            
-            IRestResponse response = this._client.Execute(request);
 
+            foreach (var attachment in email.Attachments)
+            {
+                var name = attachment.ContentDisposition.Inline ? "inline" : "attachment";
+                request.AddFile(name, attachment.ContentStream.ToByteArray(), attachment.ContentId, attachment.ContentType.MediaType);
+            }
+
+            IRestResponse response = this._client.Execute(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new InvalidOperationException(string.Format("Error while sending email: {0}.", response.StatusCode));
+            }
         }
         #endregion
 
@@ -92,6 +106,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
             Condition.Requires(address, "address")
                 .IsNotNull();
 
+            if (string.IsNullOrWhiteSpace(address.DisplayName))
+                return address.Address;
+
             return string.Format("{0} <{1}>", address.DisplayName, address.Address);
         }
         /// <summary>
@@ -104,88 +121,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
                 .IsNotNull();
 
             return string.Join(", ", collection.Select(this.GetMailAddressString));
-        }
-        #endregion
-    }
-
-    public class MailWriter
-    {
-        #region Fields
-        private readonly BindingFlags _flags;
-        private readonly ConstructorInfo _mailWriterContructor;
-        private readonly MethodInfo _sendMethod;
-        private readonly MethodInfo _closeMethod;
-        #endregion
-
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MailWriter"/> class.
-        /// </summary>
-        public MailWriter()
-        {
-            this._flags = BindingFlags.Instance | BindingFlags.NonPublic;
-
-            this._mailWriterContructor = this.GetMailWriterConstructor();
-            this._sendMethod = this.GetSendMethod();
-            this._closeMethod = this.GetCloseMethod();
-        }
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Writes the specified mail message.
-        /// </summary>
-        /// <param name="mailMessage">The mail message.</param>
-        public string Write(MailMessage mailMessage)
-        {
-            using (var stream = new MemoryStream())
-            {
-                object mailWriter = this._mailWriterContructor.Invoke(new[] { stream });
-
-                this._sendMethod.Invoke(mailMessage, _flags, null, new[] { mailWriter, true, true }, null);
-                this._closeMethod.Invoke(mailWriter, _flags, null, new object[0], null);
-
-
-                return Encoding.UTF8.GetString(stream.ToArray());
-            }
-        }
-        #endregion
-
-        #region Private Methods
-        /// <summary>
-        /// Returns the mail writer constructor.
-        /// </summary>
-        private ConstructorInfo GetMailWriterConstructor()
-        {
-            Assembly assembly = typeof(SmtpClient).Assembly;
-            Type mailWriterType = assembly.GetType("System.Net.Mail.MailWriter");
-
-            return mailWriterType.GetConstructor(
-                    _flags,
-                    null,
-                    new[] { typeof(Stream) },
-                    null);
-        }
-        /// <summary>
-        /// Returns the send method.
-        /// </summary>
-        private MethodInfo GetSendMethod()
-        {
-            return typeof(MailMessage).GetMethod(
-                        "Send",
-                        _flags);
-        }
-        /// <summary>
-        /// Returns the close method.
-        /// </summary>
-        private MethodInfo GetCloseMethod()
-        {
-            Assembly assembly = typeof(SmtpClient).Assembly;
-            Type mailWriterType = assembly.GetType("System.Net.Mail.MailWriter");
-
-            return mailWriterType.GetMethod(
-                        "Close",
-                        _flags);
         }
         #endregion
     }

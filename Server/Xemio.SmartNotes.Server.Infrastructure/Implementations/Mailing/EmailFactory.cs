@@ -144,7 +144,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// <param name="additionalData">The additional data.</param>
         private MailMessage CreateMailMessage(EmailTemplate emailTemplate, EmailTemplateTexts texts, User user, object additionalData)
         {
-            Condition.Requires(emailTemplate, "emailTEmplate")
+            Condition.Requires(emailTemplate, "emailTemplate")
                 .IsNotNull();
             Condition.Requires(texts, "texts")
                 .IsNotNull();
@@ -157,21 +157,19 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
             {
                 From = new MailAddress(this._sender.Address, this._sender.Name),
                 Subject = texts.Subject,
-                IsBodyHtml = texts.Body.IsHtml,
-                Body = texts.Body.Content.FormatWith((object)additionalData)
+                IsBodyHtml = texts.IsContentHtml,
+                Body = texts.Content.FormatWith((object)additionalData)
             };
             mailMessage.To.Add(new MailAddress(user.EmailAddress, user.EmailAddress));
 
             foreach (var emailAttachment in emailTemplate.Attachments)
             {
                 string filePath = this._fileService.GetFullPath(emailAttachment.FilePath);
-
+                
                 var attachment = new Attachment(filePath);
                 attachment.ContentDisposition.Inline = emailAttachment.IsInline;
-                attachment.ContentDisposition.DispositionType = emailAttachment.IsInline ? DispositionTypeNames.Inline : DispositionTypeNames.Attachment;
                 attachment.ContentId = emailAttachment.Name;
                 attachment.ContentType.MediaType = emailAttachment.MediaType;
-                attachment.ContentType.Name = emailAttachment.Name;
 
                 mailMessage.Attachments.Add(attachment);
             }
