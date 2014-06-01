@@ -38,14 +38,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         public void Configuration(IAppBuilder appBuilder)
         {
             appBuilder.Use((context, next) => context.Response.WriteAsync("Hallo Welt"));
-            //var config = new HttpConfiguration();
 
-            //this.ConfigureCrossOriginRequests(config);
-            //this.ConfigureWindsor(config);
-            //this.ConfigureFilters(config);
-            //this.ConfigureRoutes(config);
+            var config = new HttpConfiguration();
 
-            //appBuilder.UseWebApi(config);
+            this.ConfigureCrossOriginRequests(config);
+            this.ConfigureWindsor(config);
+            this.ConfigureFilters(config);
+            this.ConfigureRoutes(config);
+
+            appBuilder.UseWebApi(config);
         }
         #endregion
 
