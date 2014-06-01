@@ -136,9 +136,6 @@
     <Reference Include="Raven.Database">
       <HintPath>..\..\packages\RavenDB.Database.2.5.2851\lib\net45\Raven.Database.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />

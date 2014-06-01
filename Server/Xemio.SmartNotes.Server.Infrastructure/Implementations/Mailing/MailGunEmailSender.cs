@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Mail;
+using System.Reflection;
+using System.Text;
 using System.Web;
 using CuttingEdge.Conditions;
-using RestSharp;
 using Xemio.SmartNotes.Server.Abstractions.Mailing;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
@@ -13,7 +17,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
     public class MailGunEmailSender : IEmailSender
     {
         #region Fields
-        private readonly RestClient _client;
+        private readonly HttpClient _client;
+        private readonly MailWriter _mailWriter;
         #endregion
 
         #region Constructors
@@ -27,11 +32,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
             Condition.Requires(apiKey, "apiKey")
                 .IsNotNull();
 
-            this._client = new RestClient
+            this._client = new HttpClient
             {
-                BaseUrl = "https://api.mailgun.net/v2" + (customDomain == null ? "" : "/" + customDomain),
-                Authenticator = new HttpBasicAuthenticator("api", apiKey)
+                BaseAddress = new Uri("https://api.mailgun.net/v2" + (customDomain == null ? "" : "/" + customDomain)),
             };
+
+            this._mailWriter = new MailWriter();
+
+            this.AddDefaultAuthorizationHeader(apiKey);
         }
         #endregion
 
@@ -43,25 +51,125 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
         /// <param name="sendDate">The date the email should be sent.</param>
         public void Send(MailMessage email, DateTimeOffset sendDate)
         {
-            var request = new RestRequest("messages", Method.POST);
-            
-            request.AddParameter("from", "Excited User <me@samples.mailgun.org>");
-            request.AddParameter("to", "foo@example.com");
-            request.AddParameter("cc", "baz@example.com");
-            request.AddParameter("bcc", "bar@example.com");
-
-            request.AddParameter("subject", "Hello");
-            request.AddParameter("text", "Testing some Mailgun awesomness!");
-            request.AddParameter("html", "<html>HTML version of the body</html>");
-
-            foreach (var a in email.Attachments)
+            var request = new HttpRequestMessage(HttpMethod.Post, "messages.mime")
             {
-                request.AddFile()
+                Content = new StringContent(this._mailWriter.Write(email))
+                {
+                    Headers =
+                    {
+                        ContentType = new MediaTypeHeaderValue("multipart/form-data")
+                    }
+                }
+            };
+
+            request.Headers.Add("X-Mailgun-Deliver-By", this.GetFormattedDeliveryDate(sendDate));
+
+            HttpResponseMessage response = this._client.SendAsync(request).Result;
+            
+        }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Adds the default authorization header.
+        /// </summary>
+        /// <param name="apiKey">The API key.</param>
+        private void AddDefaultAuthorizationHeader(string apiKey)
+        {
+            string authorization = string.Format("api:{0}", apiKey);
+            authorization = Convert.ToBase64String(Encoding.Default.GetBytes(authorization));
+
+            this._client.DefaultRequestHeaders.Add("Authorization", string.Format("Basic {0}", authorization));
+        }
+        /// <summary>
+        /// Returns the formatted delivery date.
+        /// </summary>
+        /// <param name="sendDate">The send date.</param>
+        private string GetFormattedDeliveryDate(DateTimeOffset sendDate)
+        {
+            return sendDate.ToUniversalTime().ToString(@"ddd, dd MMM yyyy HH:mm:ss G\MT", new CultureInfo("en-US"));
+        }
+        #endregion
+    }
+
+    public class MailWriter
+    {
+        #region Fields
+        private readonly BindingFlags _flags;
+        private readonly ConstructorInfo _mailWriterContructor;
+        private readonly MethodInfo _sendMethod;
+        private readonly MethodInfo _closeMethod;
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MailWriter"/> class.
+        /// </summary>
+        public MailWriter()
+        {
+            this._flags = BindingFlags.Instance | BindingFlags.NonPublic;
+
+            this._mailWriterContructor = this.GetMailWriterConstructor();
+            this._sendMethod = this.GetSendMethod();
+            this._closeMethod = this.GetCloseMethod();
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Writes the specified mail message.
+        /// </summary>
+        /// <param name="mailMessage">The mail message.</param>
+        public string Write(MailMessage mailMessage)
+        {
+            using (var stream = new MemoryStream())
+            {
+                object mailWriter = this._mailWriterContructor.Invoke(new[] { stream });
+
+                this._sendMethod.Invoke(mailMessage, _flags, null, new[] { mailWriter, true, true }, null);
+                this._closeMethod.Invoke(mailWriter, _flags, null, new object[0], null);
+
+
+                return Encoding.UTF8.GetString(stream.ToArray());
             }
+        }
+        #endregion
 
-            request.AddFile("attachment", Path.Combine("files", "test.jpg"));
-            request.AddFile("attachment", Path.Combine("files", "test.txt"));
+        #region Private Methods
+        /// <summary>
+        /// Returns the mail writer constructor.
+        /// </summary>
+        private ConstructorInfo GetMailWriterConstructor()
+        {
+            Assembly assembly = typeof(SmtpClient).Assembly;
+            Type mailWriterType = assembly.GetType("System.Net.Mail.MailWriter");
 
+            return mailWriterType.GetConstructor(
+                    _flags,
+                    null,
+                    new[] { typeof(Stream) },
+                    null);
+        }
+        /// <summary>
+        /// Returns the send method.
+        /// </summary>
+        private MethodInfo GetSendMethod()
+        {
+            return typeof(MailMessage).GetMethod(
+                        "Send",
+                        _flags);
+        }
+        /// <summary>
+        /// Returns the close method.
+        /// </summary>
+        private MethodInfo GetCloseMethod()
+        {
+            Assembly assembly = typeof(SmtpClient).Assembly;
+            Type mailWriterType = assembly.GetType("System.Net.Mail.MailWriter");
+
+            return mailWriterType.GetMethod(
+                        "Close",
+                        _flags);
         }
         #endregion
     }
