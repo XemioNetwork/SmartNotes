@@ -40,7 +40,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure
             var config = new HttpConfiguration();
 
             this.ConfigureCrossOriginRequests(config);
-            //this.ConfigureWindsor(config);
+            this.ConfigureWindsor(config);
             this.ConfigureFilters(config);
             this.ConfigureRoutes(config);
 
@@ -67,7 +67,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure
             container.AddFacility<ArrayResolverFacility>();
             container.AddFacility<StartableFacility>();
             container.AddFacility<LoggingFacility>(f => f.UseNLog().WithAppConfig());
-            
+
             container.Install(FromAssembly.This());
 
             config.DependencyResolver = new WindsorResolver(container);
