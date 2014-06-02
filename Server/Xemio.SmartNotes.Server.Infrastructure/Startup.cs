@@ -39,9 +39,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure
         {
             var config = new HttpConfiguration();
 
-            this.ConfigureCrossOriginRequests(config);
-            this.ConfigureWindsor(config);
-            this.ConfigureFilters(config);
+            //this.ConfigureCrossOriginRequests(config);
+            //this.ConfigureWindsor(config);
+            //this.ConfigureFilters(config);
             this.ConfigureRoutes(config);
 
             appBuilder.UseWebApi(config);
