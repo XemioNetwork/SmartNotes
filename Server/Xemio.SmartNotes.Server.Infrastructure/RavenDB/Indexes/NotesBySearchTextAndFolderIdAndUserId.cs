@@ -2,7 +2,6 @@
 using System.Linq;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
-using Xemio.RavenDB.NGramAnalyzer;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
@@ -42,7 +41,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
                                            };
 
             this.Index(f => f.SearchText, FieldIndexing.Analyzed);
-            this.Analyze(f => f.SearchText, typeof(NGramAnalyzer).AssemblyQualifiedName);
+            this.Analyze(f => f.SearchText, "Xemio.RavenDB.NGramAnalyzer.NGramAnalyzer, Xemio.RavenDB.NGramAnalyzer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
         }
 
         /// <summary>

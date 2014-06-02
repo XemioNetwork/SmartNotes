@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Castle.Core.Internal;
-using Lucene.Net.Documents;
 using Raven.Abstractions.Data;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Services;

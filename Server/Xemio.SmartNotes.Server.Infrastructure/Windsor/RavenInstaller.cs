@@ -6,14 +6,11 @@ using Castle.MicroKernel.Context;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Raven.Bundles.CascadeDelete;
 using Raven.Client;
 using Raven.Client.Document;
-using Raven.Client.Embedded;
 using Raven.Client.Indexes;
 using Raven.Client.Listeners;
 using Raven.Database.Server;
-using Xemio.RavenDB.NGramAnalyzer;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Listeners;
 using Xemio.SmartNotes.Shared.Entities.Notes;
@@ -52,7 +49,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         /// <param name="context">The context.</param>
         private IDocumentStore GetDocumentStore(IKernel kernel, CreationContext context)
         {
-            DocumentStore documentStore = this.CreateDocumentStore();
+            if (this.HasConnectionString() == false)
+                throw new ConfigurationErrorsException(string.Format("No connection string for RavenDB was found. {0}Make sure you have a '{1}' connection string in the app.config / web.config", Environment.NewLine, ConnectionStringName));
+
+            var documentStore = new DocumentStore
+            {
+                ConnectionStringName = ConnectionStringName,
+                DefaultDatabase = "XemioNotes"
+            };
+
             documentStore.RegisterMultipleListeners(new NoteCascadeDeleteListener(documentStore));
             documentStore.RegisterMultipleListeners(new FolderCascadeDeleteListener(documentStore));
 
@@ -62,64 +67,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
 
             return documentStore;
         }
-
-        /// <summary>
-        /// Creates the document store depending on the connection string.
-        /// </summary>
-        private DocumentStore CreateDocumentStore()
-        {
-            if (this.HasConnectionString() == false)
-                throw new ConfigurationErrorsException(string.Format("No connection string for RavenDB was found. {0}Make sure you have a 'RavenDB' connection string in the app.config", Environment.NewLine));
-
-            //We support the RavenDB embedded version
-            if (this.IsEmbeddedConnectionString())
-            {
-                int port = int.Parse(ConfigurationManager.AppSettings["XemioNotes/DatabaseEmbeddedPort"]);
-                NonAdminHttp.EnsureCanListenToWhenInNonAdminContext(port);
-
-                var store = new EmbeddableDocumentStore
-                {
-                    Configuration =
-                    {
-                        Port = port
-                    },
-                    ConnectionStringName = ConnectionStringName,
-                    UseEmbeddedHttpServer = true,
-                }; 
-
-                var catalog = new AggregateCatalog();
-                catalog.Catalogs.Add(new AssemblyCatalog(typeof(CascadeDeleteTrigger).Assembly));
-                catalog.Catalogs.Add(new AssemblyCatalog(typeof(NGramAnalyzer).Assembly));
-                //Add other catalogs here
-                store.Configuration.Catalog.Catalogs.Add(catalog);
-                
-                return store;
-            }
-            else 
-            { 
-                return new DocumentStore
-                {
-                    ConnectionStringName = ConnectionStringName,
-                    DefaultDatabase = "XemioNotes"
-                };
-            }
-        }
         /// <summary>
         /// Determines whether we have a configured RavenDB connection string.
         /// </summary>
         private bool HasConnectionString()
         {
             return ConfigurationManager.ConnectionStrings[ConnectionStringName] != null;
-        }
-        /// <summary>
-        /// Determines whether the RavenDB connection string is for a embedded document store.
-        /// </summary>
-        private bool IsEmbeddedConnectionString()
-        {
-            var connectionString = ConfigurationManager.ConnectionStrings[ConnectionStringName].ConnectionString.ToLower();
-
-            return connectionString.Contains("datadir") && 
-                   connectionString.Contains("url") == false;
         }
         #endregion
     }

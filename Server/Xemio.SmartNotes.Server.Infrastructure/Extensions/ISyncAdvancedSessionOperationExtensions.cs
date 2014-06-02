@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Raven.Bundles.CascadeDelete;
 using Raven.Client;
 using Raven.Json.Linq;
 
@@ -13,6 +12,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
     /// </summary>
     public static class ISyncAdvancedSessionOperationExtensions
     {
+        #region Constants
+        private const string DocumentsToCascadeDelete = "Raven-Cascade-Delete-Documents";
+        private const string AttachmentsToCascadeDelete = "Raven-Cascade-Delete-Attachments";
+        #endregion
+
+        #region Methods
         /// <summary>
         /// Gets the string id for the given type.
         /// </summary>
@@ -34,7 +39,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
             if (documentIds.Length == 0)
                 throw new ArgumentException("At least one document id must be specified.");
 
-            ExecuteOnMetadataKey(advanced, MetadataKeys.DocumentsToCascadeDelete, entity, list =>
+            ExecuteOnMetadataKey(advanced, DocumentsToCascadeDelete, entity, list =>
             {
                 foreach (string item in documentIds.Where(f => !list.Contains(f)))
                     list.Add(item);
@@ -51,7 +56,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
             if (documentIds.Length == 0)
                 throw new ArgumentException("At least one document id must be specified.");
 
-            ExecuteOnMetadataKey(advanced, MetadataKeys.DocumentsToCascadeDelete, entity, list =>
+            ExecuteOnMetadataKey(advanced, DocumentsToCascadeDelete, entity, list =>
             {
                 foreach (string item in documentIds.Where(f => list.Contains(f)))
                     list.Remove(item);
@@ -68,7 +73,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
             if (attachmentIds.Length == 0)
                 throw new ArgumentException("At least one attachment id must be specified.");
 
-            ExecuteOnMetadataKey(advanced, MetadataKeys.AttachmentsToCascadeDelete, entity, list =>
+            ExecuteOnMetadataKey(advanced, AttachmentsToCascadeDelete, entity, list =>
             {
                 foreach(string item in attachmentIds.Where(f => !list.Contains(f)))
                     list.Add(item);
@@ -85,12 +90,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
             if (attachmentIds.Length == 0)
                 throw new ArgumentException("At least one attachment id must be specified.");
 
-            ExecuteOnMetadataKey(advanced, MetadataKeys.AttachmentsToCascadeDelete, entity, list =>
+            ExecuteOnMetadataKey(advanced, AttachmentsToCascadeDelete, entity, list =>
             {
                 foreach (string item in attachmentIds.Where(f => list.Contains(f)))
                     list.Remove(item);
             });
         }
+        #endregion
+
+        #region Private Methods
         /// <summary>
         /// Executes the <paramref name="execute"/> with the <see cref="RavenJArray"/> from the metadata.
         /// </summary>
@@ -117,5 +125,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
             
             metadata[metadataKey] = list;
         }
+        #endregion
     }
 }
