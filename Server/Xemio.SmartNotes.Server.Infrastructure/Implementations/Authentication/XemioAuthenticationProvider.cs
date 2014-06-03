@@ -55,9 +55,11 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
 
             var authenticationData = data.ToObject<AuthenticationData>();
 
+            var user = this._documentSession.Query<User>()
+                .FirstOrDefault(f => f.EmailAddress == authenticationData.EmailAddress);
+
             var authentication = this._documentSession.Query<XemioAuthentication>()
-                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
-                .FirstOrDefault(f => f.Username == authenticationData.Username);
+                .FirstOrDefault(f => f.UserId == user.Id);
 
             if (authentication == null)
                 return AuthenticationResult.Failure();
@@ -87,12 +89,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
 
             var registerData = data.ToObject<RegisterData>();
 
-            if (string.IsNullOrWhiteSpace(registerData.Username))
-                throw new InvalidUsernameException();
-
-            if (this.IsUsernameAvailable(registerData.Username) == false)
-                throw new UsernameUnavailableException(registerData.Username);
-
             byte[] salt = this._secretGenerator.Generate();
 
             var authentication = new XemioAuthentication
@@ -100,7 +96,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
                 UserId = user.Id,
                 Salt = salt,
                 PasswordHash = this._saltCombiner.Combine(salt, registerData.Password),
-                Username = registerData.Username
             };
 
             this._documentSession.Store(authentication);
@@ -131,28 +126,15 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
         }
         #endregion
 
-        #region Private Methods
-        /// <summary>
-        /// Determines whether the given <paramref name="username"/> is available.
-        /// </summary>
-        private bool IsUsernameAvailable(string username)
-        {
-            return this._documentSession.Query<XemioAuthentication>()
-                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
-                .Any(f => f.Username == username) == false;
-        }
-        #endregion
-
         #region Private
         private class AuthenticationData
         {
-            public string Username { get; set; }
+            public string EmailAddress { get; set; }
             public string Password { get; set; }
         }
 
         private class RegisterData
         {
-            public string Username { get; set; }
             public string Password { get; set; }
         }
 

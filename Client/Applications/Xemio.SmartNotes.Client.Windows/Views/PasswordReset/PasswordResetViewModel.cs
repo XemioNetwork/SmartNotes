@@ -23,21 +23,21 @@ namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset
         private readonly WebServiceClient _webServiceClient;
         private readonly DisplayManager _windowManager;
 
-        private string _usernameOrEmailAddress;
+        private string _emailAddress;
         #endregion
 
         #region Properties
         /// <summary>
         /// Gets or sets the username or email address.
         /// </summary>
-        public string UsernameOrEmailAddress
+        public string EmailAddress
         {
-            get { return this._usernameOrEmailAddress; }
+            get { return this._emailAddress; }
             set
             {
-                this._usernameOrEmailAddress = value;
+                this._emailAddress = value;
 
-                this.NotifyOfPropertyChange(() => this.UsernameOrEmailAddress);
+                this.NotifyOfPropertyChange(() => this.EmailAddress);
                 this.NotifyOfPropertyChange(() => this.CanRequestNewPassword);
             }
         }
@@ -64,7 +64,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset
         /// </summary>
         public bool CanRequestNewPassword
         {
-            get { return string.IsNullOrWhiteSpace(this.UsernameOrEmailAddress) == false; }
+            get { return string.IsNullOrWhiteSpace(this.EmailAddress) == false; }
         }
         /// <summary>
         /// Requests the new password.
@@ -73,7 +73,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset
         {
             HttpResponseMessage response = await this._webServiceClient.PasswordResets.PostPasswordReset(new CreatePasswordReset
                                                                                                              {
-                                                                                                                 UsernameOrEmailAddress = this.UsernameOrEmailAddress
+                                                                                                                 UsernameOrEmailAddress = this.EmailAddress
                                                                                                              });
             if (response.StatusCode == HttpStatusCode.Created)
             {

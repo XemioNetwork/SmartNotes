@@ -18,14 +18,14 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
 
         #region Implementation of ITokenClient
 
-        public Task<HttpResponseMessage> PostXemio(string username, string password)
+        public Task<HttpResponseMessage> PostXemio(string emailAddress, string password)
         {
             return this.Post(new CreateToken
             {
                 Type = AuthenticationType.Xemio,
                 AuthenticationData = new JObject
                 {
-                    { "Username", username },
+                    { "EmailAddress", emailAddress },
                     { "Password", password }
                 }
             });

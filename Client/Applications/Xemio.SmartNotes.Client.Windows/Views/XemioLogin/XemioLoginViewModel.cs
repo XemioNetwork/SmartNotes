@@ -24,7 +24,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
     public class XemioLoginViewModel : Screen
     {
         #region Constants
-        private const string UsernameKey = "Username";
+        private const string UsernameKey = "EmailAddress";
         private const string PasswordKey = "Password";
         private const string RememberMeKey = "RememberMe";
         #endregion
@@ -34,7 +34,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
         private readonly DisplayManager _displayManager;
         private readonly IDataStorage _dataStorage;
 
-        private string _username;
+        private string _emailAddress;
         private string _password;
         private bool _rememberMe;
         #endregion
@@ -46,7 +46,6 @@ namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
         /// <param name="webServiceClient">The webservice client.</param>
         /// <param name="displayManager">The display manager.</param>
         /// <param name="dataStorage">The data storage.</param>
-        /// <param name="languageManager">The language manager.</param>
         public XemioLoginViewModel(WebServiceClient webServiceClient, DisplayManager displayManager, IDataStorage dataStorage)
         {
             this.DisplayName = "Xemio Notes";
@@ -61,15 +60,15 @@ namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
         /// <summary>
         /// Gets or sets the username.
         /// </summary>
-        public string Username
+        public string EmailAddress
         {
-            get { return this._username; }
+            get { return this._emailAddress; }
             set
             {
-                if (this._username != value)
+                if (this._emailAddress != value)
                 {
-                    this._username = value;
-                    this.NotifyOfPropertyChange(() => this.Username);
+                    this._emailAddress = value;
+                    this.NotifyOfPropertyChange(() => this.EmailAddress);
                     this.NotifyOfPropertyChange(() => this.CanLogin);
                 }
             }
@@ -129,7 +128,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
         {
             get
             {
-                return string.IsNullOrEmpty(this.Username) == false &&
+                return string.IsNullOrEmpty(this.EmailAddress) == false &&
                        string.IsNullOrEmpty(this.Password) == false;
             }
         }
@@ -138,7 +137,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
         /// </summary>
         public async Task Login()
         {
-            HttpResponseMessage tokenResponse = await this._webServiceClient.Tokens.PostXemio(this.Username, this.Password);
+            HttpResponseMessage tokenResponse = await this._webServiceClient.Tokens.PostXemio(this.EmailAddress, this.Password);
             if (tokenResponse.StatusCode == HttpStatusCode.OK)
             {
                 this.Token = await tokenResponse.Content.ReadAsAsync<AuthenticationToken>();
@@ -192,7 +191,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
             if (this._dataStorage.Retrieve<bool>(RememberMeKey))
             {
                 this.RememberMe = true;
-                this.Username = this._dataStorage.Retrieve<string>(UsernameKey);
+                this.EmailAddress = this._dataStorage.Retrieve<string>(UsernameKey);
                 this.Password = this._dataStorage.Retrieve<string>(PasswordKey);
             }
         }
@@ -202,7 +201,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.XemioLogin
         private void SaveRememberMe()
         {
             this._dataStorage.Store(this.RememberMe, RememberMeKey);
-            this._dataStorage.Store(this.Username, UsernameKey);
+            this._dataStorage.Store(this.EmailAddress, UsernameKey);
             this._dataStorage.Store(this.Password, PasswordKey);
         }
         #endregion

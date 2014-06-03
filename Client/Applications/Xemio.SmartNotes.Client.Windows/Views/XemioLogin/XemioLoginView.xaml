@@ -34,8 +34,8 @@
                 </Grid.RowDefinitions>
 
                 <!-- The username textbox -->
-                <controls:WatermarkTextBox Grid.Row="1" Margin="5, 0, 5, 0" Watermark="{lex:Loc Username}" Text="{Binding Username}" />
-                <!-- The password passwordbox -->
+                <controls:WatermarkTextBox Grid.Row="1" Margin="5, 0, 5, 0" Watermark="{lex:Loc EmailAddress}" Text="{Binding EmailAddress}" />
+                <!-- The password textbox -->
                 <controls:WatermarkPasswordBox Grid.Row="3" Margin="5, 0, 5, 0" Watermark="{lex:Loc Password}" Password="{Binding Password}" />
 
                 <!-- The remember me checkbox -->
