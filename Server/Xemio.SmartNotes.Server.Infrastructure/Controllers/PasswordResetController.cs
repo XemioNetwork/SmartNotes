@@ -163,10 +163,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                     .FirstOrDefault(f => f.UserId == user.Id);
             }
 
-            return this.DocumentSession.Query<XemioAuthentication>()
-                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
-                .Include(f => f.UserId)
-                .FirstOrDefault(f => f.Username == usernameOrEmailAddress);
+            return null;
         }
         #endregion
     }
