@@ -13,14 +13,17 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog.Conditions;
 using NodaTime;
+using Raven.Client;
+using Raven.Json.Linq;
 using Xemio.SmartNotes.Server.Abstractions.Social;
+using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
 {
     public class FacebookService : IFacebookService
     {
         #region Fields
-        private readonly MemoryCache _tokenCache;
+        private readonly IDocumentStore _documentStore;
         #endregion
 
         #region Properties
@@ -39,12 +42,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FacebookService"/> class.
         /// </summary>
         /// <param name="appId">The application identifier.</param>
         /// <param name="appSecret">The application secret.</param>
-        public FacebookService(string appId, string appSecret)
+        /// <param name="documentStore">The document store.</param>
+        public FacebookService(string appId, string appSecret, IDocumentStore documentStore)
         {
             Condition.Requires(appId, "appId")
                 .IsNotNull();
@@ -52,8 +57,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
                 .IsNotNull();
 
             this.Logger = NullLogger.Instance;
-            
-            this._tokenCache = new MemoryCache("FacebookAccessTokenCache");
+
+            this._documentStore = documentStore;
             this.AppId = appId;
             this.AppSecret = appSecret;
         }
@@ -74,19 +79,25 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
 
             try
             {
-                //We need this cache here because in the login process the user might yet not exist
-                //So another request comes in and registers it
-                //But now the token is already used and we can't get a new one from facebook
-                //So we just cache it for a short amount of time
-                if (this._tokenCache.Contains(token))
-                    return (string)this._tokenCache.Get(token);
+                using (var documentSession = this._documentStore.OpenSession())
+                {
+                    var cached = documentSession.Query<CachedFacebookTokenExchange>()
+                                                .Customize(f => f.WaitForNonStaleResults())
+                                                .FirstOrDefault(f => f.Token == token);
+                    if (cached != null)
+                    {
+                        return cached.AccessToken;
+                    }
                     
-                string exchangeResult = new HttpClient().GetStringAsync(this.GetTokenExchangeUrl(token, redirectUri)).Result;
-                string accessToken = HttpUtility.ParseQueryString(exchangeResult)["access_token"];
+                    string exchangeResult = new HttpClient().GetStringAsync(this.GetTokenExchangeUrl(token, redirectUri)).Result;
+                    string accessToken = HttpUtility.ParseQueryString(exchangeResult)["access_token"];
 
-                this._tokenCache.Add(token, accessToken, DateTimeOffset.UtcNow.AddMinutes(2));
+                    this.CacheToken(documentSession, token, accessToken);
 
-                return accessToken;
+                    documentSession.SaveChanges();
+
+                    return accessToken;
+                }
             }
             catch (Exception exception)
             {
@@ -141,6 +152,24 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
                 .IsNotNullOrWhiteSpace();
 
             return string.Format("https://graph.facebook.com/me?access_token={0}", accessToken);
+        }
+        /// <summary>
+        /// Caches the token.
+        /// </summary>
+        /// <param name="documentSession">The document session.</param>
+        /// <param name="token">The token.</param>
+        /// <param name="accessToken">The access token.</param>
+        private void CacheToken(IDocumentSession documentSession, string token, string accessToken)
+        {
+            var cached = new CachedFacebookTokenExchange
+            {
+                Token = token,
+                AccessToken = accessToken
+            };
+            documentSession.Store(cached);
+
+            RavenJObject metadata = documentSession.Advanced.GetMetadataFor(cached);
+            metadata["Raven-Expiration-Date"] = new RavenJValue(DateTimeOffset.UtcNow.AddMinutes(3));
         }
         #endregion
     }

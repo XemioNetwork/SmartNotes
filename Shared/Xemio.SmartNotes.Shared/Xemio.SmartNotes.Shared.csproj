@@ -58,6 +58,7 @@
     <Compile Include="Entities\Notes\ITagContainer.cs" />
     <Compile Include="Entities\Notes\Note.cs" />
     <Compile Include="Entities\Users\AuthenticationToken.cs" />
+    <Compile Include="Entities\Users\CachedFacebookTokenExchange.cs" />
     <Compile Include="Entities\Users\FacebookAuthentication.cs" />
     <Compile Include="Entities\Users\IAuthentication.cs" />
     <Compile Include="Entities\Users\IUserSpecificEntity.cs" />

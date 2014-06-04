@@ -25,6 +25,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
             (
                 Component.For<IFacebookService>()
                     .ImplementedBy<FacebookService>()
+                    .LifestyleTransient()
                     .DependsOn(
                         Dependency.OnAppSettingsValue("appId", "XemioNotes/FacebookAppId"),
                         Dependency.OnAppSettingsValue("appSecret", "XemioNotes/FacebookAppSecret"))

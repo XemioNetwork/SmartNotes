@@ -247,6 +247,8 @@
     <Compile Include="Windsor\WindsorResolver.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="RavenDB\Analyzers.txt" />
+    <Content Include="RavenDB\Bundles.txt" />
     <Content Include="web.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

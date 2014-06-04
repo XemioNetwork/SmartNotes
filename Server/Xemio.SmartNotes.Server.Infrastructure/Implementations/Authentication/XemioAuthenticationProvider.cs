@@ -58,6 +58,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
             var user = this._documentSession.Query<User>()
                 .FirstOrDefault(f => f.EmailAddress == authenticationData.EmailAddress);
 
+            if (user == null)
+                return AuthenticationResult.Failure();
+
             var authentication = this._documentSession.Query<XemioAuthentication>()
                 .FirstOrDefault(f => f.UserId == user.Id);
 
