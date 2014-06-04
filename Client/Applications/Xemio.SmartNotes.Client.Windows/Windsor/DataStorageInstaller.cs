@@ -22,7 +22,10 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
         /// <param name="store">The configuration store.</param>
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IDataStorage>().UsingFactoryMethod(GetDataStorage).LifestyleSingleton());
+            container.Register
+            (
+                Component.For<IDataStorage>().UsingFactoryMethod(GetDataStorage).LifestyleSingleton()
+            );
         }
         /// <summary>
         /// Creates the data storage.
@@ -31,8 +34,8 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
         {
             return new DataStorage(new DataStorageSettings
             {
-                FileSystem = new FileSystem(), 
-                Encrypter = new RijndaelEncryptor("Xemio.SmartNotes.RijndaelEncryptor.Secret")
+                FileSystem = new FileSystem(),
+                Encrypter = new RijndaelEncryptor(Dependency.OnAppSettingsValue("password", "XemioNotes/LocalDataStoragePassword").Value)
             });
         }
         #endregion

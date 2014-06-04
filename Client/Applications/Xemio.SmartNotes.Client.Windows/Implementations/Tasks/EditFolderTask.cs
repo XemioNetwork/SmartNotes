@@ -72,7 +72,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Folder folder = await response.Content.ReadAsAsync<Folder>();
-                this._eventAggregator.Publish(new FolderEditedEvent(folder));
+                this._eventAggregator.PublishOnUIThread(new FolderEditedEvent(folder));
             }
             else
             {

@@ -24,7 +24,7 @@ namespace Xemio.SmartNotes.Client.Windows
     public class Bootstrapper : BootstrapperBase
     {
         #region Fields
-        private readonly WindsorContainer _container;
+        private WindsorContainer _container;
         #endregion
 
         #region Constructors
@@ -33,20 +33,18 @@ namespace Xemio.SmartNotes.Client.Windows
         /// </summary>
         public Bootstrapper()
         {
-            this._container = new WindsorContainer();
-            this._container.Install(FromAssembly.This());
-
-            this.Start();
+            this.Initialize();
         }
         #endregion
 
-        #region Overrides of Bootstrapper
+        #region Overrides of BootstrapperBase
         /// <summary>
-        /// Provides an opportunity to hook into the application object.
+        /// Override to configure the framework and setup your IoC container.
         /// </summary>
-        protected override void PrepareApplication()
+        protected override void Configure()
         {
-            base.PrepareApplication();
+            this._container = new WindsorContainer();
+            this._container.Install(FromAssembly.This());
 
             this.InitializeConventions();
             this.InitializeCef();

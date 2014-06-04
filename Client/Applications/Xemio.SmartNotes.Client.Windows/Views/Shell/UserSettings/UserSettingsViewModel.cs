@@ -34,7 +34,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.UserSettings
         /// </summary>
         public void Logout()
         {
-            this._eventAggregator.Publish(new LogoutEvent());
+            this._eventAggregator.PublishOnUIThread(new LogoutEvent());
         }
         #endregion
     }

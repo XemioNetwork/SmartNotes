@@ -69,7 +69,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
             {
                 var businessException = (BusinessException)exception;
 
-                var error = new HttpError(FilterMessages.InternalServerError);
+                var error = new HttpError(exception.Message);
                 error.Add("AdditionalData", businessException.CustomResponse);
 
                 return error;

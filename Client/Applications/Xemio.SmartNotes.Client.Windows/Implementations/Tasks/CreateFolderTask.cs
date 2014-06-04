@@ -87,7 +87,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             if (response.StatusCode == HttpStatusCode.Created)
             {
                 Folder createdFolder = await response.Content.ReadAsAsync<Folder>();
-                this._eventAggregator.Publish(new FolderCreatedEvent(createdFolder));
+                this._eventAggregator.PublishOnUIThread(new FolderCreatedEvent(createdFolder));
             }
             else
             {

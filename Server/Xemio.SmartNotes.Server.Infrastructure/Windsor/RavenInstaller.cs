@@ -22,10 +22,6 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
     /// </summary>
     public class RavenInstaller : IWindsorInstaller
     {
-        #region Constants
-        private const string ConnectionStringName = "RavenDB";
-        #endregion
-
         #region Implementation of IWindsorInstaller
         /// <summary>
         /// Performs the installation in the <see cref="T:Castle.Windsor.IWindsorContainer"/>.
@@ -50,12 +46,12 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         private IDocumentStore GetDocumentStore(IKernel kernel, CreationContext context)
         {
             if (this.HasConnectionString() == false)
-                throw new ConfigurationErrorsException(string.Format("No connection string for RavenDB was found. {0}Make sure you have a '{1}' connection string in the app.config / web.config", Environment.NewLine, ConnectionStringName));
+                throw new ConfigurationErrorsException(string.Format("No connection string for RavenDB was found. {0}Make sure you have a connection string in the app.config / web.config", Environment.NewLine));
 
             var documentStore = new DocumentStore
             {
-                ConnectionStringName = ConnectionStringName,
-                DefaultDatabase = "XemioNotes"
+                ConnectionStringName = Dependency.OnAppSettingsValue("XemioNotes/RavenConnectionStringName").Value,
+                DefaultDatabase = Dependency.OnAppSettingsValue("XemioNotes/RavenDatabaseName").Value,
             };
 
             documentStore.RegisterMultipleListeners(new NoteCascadeDeleteListener(documentStore));
@@ -72,7 +68,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         /// </summary>
         private bool HasConnectionString()
         {
-            return ConfigurationManager.ConnectionStrings[ConnectionStringName] != null;
+            string connectionStringName = Dependency.OnAppSettingsValue("XemioNotes/RavenConnectionStringName").Value;
+            return ConfigurationManager.ConnectionStrings[connectionStringName] != null;
         }
         #endregion
     }

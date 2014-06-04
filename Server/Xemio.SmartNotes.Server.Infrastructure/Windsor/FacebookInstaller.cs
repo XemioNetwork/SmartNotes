@@ -21,8 +21,14 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         /// <param name="store">The configuration store.</param>
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IFacebookService>()
-                                        .UsingFactoryMethod(() => new FacebookService("547331422049204", "5a40265af3db85c91efb85c12a983fa0")));
+            container.Register
+            (
+                Component.For<IFacebookService>()
+                    .ImplementedBy<FacebookService>()
+                    .DependsOn(
+                        Dependency.OnAppSettingsValue("appId", "XemioNotes/FacebookAppId"),
+                        Dependency.OnAppSettingsValue("appSecret", "XemioNotes/FacebookAppSecret"))
+            );
         }
         #endregion
     }

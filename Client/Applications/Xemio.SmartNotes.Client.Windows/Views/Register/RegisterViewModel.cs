@@ -24,28 +24,11 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
         private readonly WebServiceClient _webServiceClient;
         private readonly DisplayManager _displayManager;
 
-        private string _username;
         private string _password;
         private string _eMailAddress;
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Gets or sets the username.
-        /// </summary>
-        public string Username
-        {
-            get { return this._username; }
-            set
-            {
-                if (this._username != value)
-                {
-                    this._username = value;
-                    this.NotifyOfPropertyChange(() => this.Username);
-                    this.NotifyOfPropertyChange(() => this.CanRegister);
-                }
-            }
-        }
         /// <summary>
         /// Gets or sets the password.
         /// </summary>
@@ -103,8 +86,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
         {
             get
             {
-                return string.IsNullOrWhiteSpace(this.Username) == false &&
-                       string.IsNullOrWhiteSpace(this.Password) == false &&
+                return string.IsNullOrWhiteSpace(this.Password) == false &&
                        string.IsNullOrWhiteSpace(this.EMailAddress) == false;
             }
         }
@@ -116,7 +98,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Register
             string language = this._displayManager.Languages.CurrentLanguage.Name;
             string timeZone = DateTimeZoneProviders.Tzdb.GetSystemDefault().Id;
 
-            HttpResponseMessage response = await this._webServiceClient.Users.PostXemioUser(this.EMailAddress, language, timeZone, this.Username, this.Password);
+            HttpResponseMessage response = await this._webServiceClient.Users.PostXemioUser(this.EMailAddress, language, timeZone, this.Password);
             if (response.StatusCode == HttpStatusCode.Created)
             {
                 this.TryClose(true);

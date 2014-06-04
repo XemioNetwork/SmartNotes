@@ -83,8 +83,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         {
             HttpResponseMessage response = await this._client.Folders.DeleteFolder(this.FolderId);
             if (response.StatusCode == HttpStatusCode.OK)
-            { 
-                this._eventAggregator.Publish(new FolderDeletedEvent(this.FolderId));
+            {
+                this._eventAggregator.PublishOnUIThread(new FolderDeletedEvent(this.FolderId));
             }
             else
             {

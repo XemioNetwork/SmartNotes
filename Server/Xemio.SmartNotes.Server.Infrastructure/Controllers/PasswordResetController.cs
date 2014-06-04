@@ -61,7 +61,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (data == null)
                 throw new InvalidRequestException();
 
-            User user = this.GetUser(data.UsernameOrEmailAddress);
+            User user = this.GetUser(data.EmailAddress);
             
             //We have to set the language here because it's a request without authorization.
             //Because of that we haven't set the language yet and do it now.

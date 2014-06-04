@@ -26,7 +26,7 @@ namespace Xemio.SmartNotes.Client.Windows.Windsor
         /// <param name="store">The configuration store.</param>
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.AddFacility<LoggingFacility>(f => f.UseNLog("NLog.config"));
+            container.AddFacility<LoggingFacility>(f => f.UseNLog().WithAppConfig());
         }
         #endregion
     }

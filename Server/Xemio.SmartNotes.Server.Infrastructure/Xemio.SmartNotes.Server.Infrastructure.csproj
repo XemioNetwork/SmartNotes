@@ -292,7 +292,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Filters\AuthorizationInfo.txt" />
     <None Include="packages.config" />
     <None Include="Resources\DefaultAvatar.png" />
   </ItemGroup>

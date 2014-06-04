@@ -31,9 +31,8 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="emailAddress">The email address.</param>
         /// <param name="language">The language.</param>
         /// <param name="timeZone">The time zone.</param>
-        /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
-        Task<HttpResponseMessage> PostXemioUser(string emailAddress, string language, string timeZone, string username, string password);
+        Task<HttpResponseMessage> PostXemioUser(string emailAddress, string language, string timeZone, string password);
 
         /// <summary>
         /// Updates the <see cref="User"/>.

@@ -73,7 +73,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.PasswordReset
         {
             HttpResponseMessage response = await this._webServiceClient.PasswordResets.PostPasswordReset(new CreatePasswordReset
                                                                                                              {
-                                                                                                                 UsernameOrEmailAddress = this.EmailAddress
+                                                                                                                 EmailAddress = this.EmailAddress
                                                                                                              });
             if (response.StatusCode == HttpStatusCode.Created)
             {

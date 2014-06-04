@@ -29,15 +29,12 @@
                     <RowDefinition Height="5" />
                     <RowDefinition Height="30" />
                     <RowDefinition Height="5" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="5" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <controls:WatermarkTextBox x:Name="Username" Grid.Row="1" Watermark="{lex:Loc Username}" Margin="5, 0, 5, 0" />
-                <controls:WatermarkTextBox x:Name="EMailAddress" Grid.Row="3" Watermark="{lex:Loc EmailAddress}" Margin="5, 0, 5, 0" />
-                <controls:WatermarkPasswordBox x:Name="Password" Grid.Row="5" Watermark="{lex:Loc Password}" Margin="5, 0, 5, 0" />
-                <controls:PasswordValidator Grid.Row="7" Margin="5, 0, 5, 5" Password="{Binding Password}" 
+                <controls:WatermarkTextBox x:Name="EMailAddress" Grid.Row="1" Watermark="{lex:Loc EmailAddress}" Margin="5, 0, 5, 0" />
+                <controls:WatermarkPasswordBox x:Name="Password" Grid.Row="3" Watermark="{lex:Loc Password}" Margin="5, 0, 5, 0" />
+                <controls:PasswordValidator Grid.Row="5" Margin="5, 0, 5, 5" Password="{Binding Password}" 
                                             TitleMessage="{lex:Loc PasswordStrength}" 
                                             VeryWeakMessage="{lex:Loc VeryWeakPassword}" 
                                             WeakMessage="{lex:Loc WeakPassword}" 

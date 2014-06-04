@@ -97,7 +97,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Note note = await response.Content.ReadAsAsync<Note>();
-                this._eventAggregator.Publish(new NoteMovedEvent(note));
+                this._eventAggregator.PublishOnUIThread(new NoteMovedEvent(note));
             }
             else
             {

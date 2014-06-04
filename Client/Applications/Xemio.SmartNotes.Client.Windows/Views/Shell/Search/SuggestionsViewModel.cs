@@ -53,7 +53,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.Search
         /// <param name="suggestion">The suggestion.</param>
         public void SelectSuggestion(string suggestion)
         {
-            this._eventAggregator.Publish(new SuggestionSelectedEvent(suggestion));
+            this._eventAggregator.PublishOnUIThread(new SuggestionSelectedEvent(suggestion));
         }
         #endregion
     }

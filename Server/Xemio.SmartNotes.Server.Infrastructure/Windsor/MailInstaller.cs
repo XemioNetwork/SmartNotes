@@ -27,41 +27,66 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         /// <param name="store">The configuration store.</param>
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            this.InstallEmailService(container);
+
             container.Register
-                (
-                    Component.For<IEmailSender>()
-                             .ImplementedBy<SmtpEmailSender>()
-                             .LifestyleSingleton()
-                             .DependsOn
-                             (
-                                Dependency.OnValue("host", "localhost"),
-                                Dependency.OnValue("port", 25),
-                                Dependency.OnValue("username", string.Empty),
-                                Dependency.OnValue("password", string.Empty)
-                             ),
+            (
 
-                    //Component.For<IEmailSender>()
-                    //         .ImplementedBy<MailGunEmailSender>()
-                    //         .LifestyleSingleton()
-                    //         .DependsOn
-                    //         (
-                    //             Dependency.OnValue("apiKey", string.Empty),
-                    //             Dependency.OnValue("customDomain", string.Empty)
-                    //         ),
-
-                    Component.For<IEmailFactory>()
-                             .ImplementedBy<EmailFactory>()
-                             .LifestyleSingleton()
-                             .DependsOn
-                             (
-                                 Dependency.OnValue("sender", new EmailPerson
-                                 {
-                                     Name = "Xemio Notes",
-                                     Address = "info@xemio-notes.net"
-                                 })
-                             )
+                Component.For<IEmailFactory>()
+                            .ImplementedBy<EmailFactory>()
+                            .LifestyleSingleton()
+                            .DependsOn(
+                                Dependency.OnValue("sender", new EmailPerson
+                                {
+                                    Name = Dependency.OnAppSettingsValue("XemioNotes/EmailSenderName").Value,
+                                    Address = Dependency.OnAppSettingsValue("XemioNotes/EmailSenderAddress").Value
+                                }))
             );
         }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Installs the email service configured in "XemioNotes/EmailService".
+        /// </summary>
+        /// <param name="container">The container.</param>
+        /// <exception cref="System.InvalidOperationException"></exception>
+        private  void InstallEmailService(IWindsorContainer container)
+        {
+            string emailService = Dependency.OnAppSettingsValue("XemioNotes/EmailService").Value;
+            if (emailService == "Smtp")
+            {
+                container.Register
+                    (
+                        Component.For<IEmailSender>()
+                            .ImplementedBy<SmtpEmailSender>()
+                            .LifestyleSingleton()
+                            .DependsOn(
+                                Dependency.OnAppSettingsValue("host", "XemioNotes/SmtpHost"),
+                                Dependency.OnAppSettingsValue("port", "XemioNotes/SmtpPort"),
+                                Dependency.OnAppSettingsValue("username", "XemioNotes/SmtpUsername"),
+                                Dependency.OnAppSettingsValue("password", "XemioNotes/SmtpPassword"))
+                    );
+            }
+            else if (emailService == "MailGun")
+            {
+                container.Register
+                    (
+                        Component.For<IEmailSender>()
+                            .ImplementedBy<MailGunEmailSender>()
+                            .LifestyleSingleton()
+                            .DependsOn(
+                                Dependency.OnAppSettingsValue("apiKey", "XemioNotes/MailGunApiKey"),
+                                Dependency.OnAppSettingsValue("customDomain", "XemioNotes/MailGunCustomDomain"))
+                    );
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    string.Format("Can't find the email service for key '{0}'. Use 'Smtp' or 'MailGun'.", emailService));
+            }
+        }
+
         #endregion
     }
 }

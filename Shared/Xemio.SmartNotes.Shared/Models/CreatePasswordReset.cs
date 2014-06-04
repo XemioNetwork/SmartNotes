@@ -2,6 +2,6 @@
 {
     public class CreatePasswordReset
     {
-        public string UsernameOrEmailAddress { get; set; }
+        public string EmailAddress { get; set; }
     }
 }

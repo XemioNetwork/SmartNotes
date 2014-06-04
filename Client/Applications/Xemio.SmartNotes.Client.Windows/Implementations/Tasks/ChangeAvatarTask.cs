@@ -80,7 +80,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
                 HttpResponseMessage response = await this._webServiceClient.Avatars.PutAvatar(data);
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    this._eventAggregator.Publish(new AvatarChangedEvent());
+                    this._eventAggregator.PublishOnUIThread(new AvatarChangedEvent());
                 }
                 else
                 {

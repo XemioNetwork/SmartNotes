@@ -56,7 +56,7 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
                 AuthenticationData = new JObject
                 {
                     {"Code", code},
-                    {"RedirectUrl", redirectUrl}
+                    {"RedirectUri", redirectUrl}
                 }
             });
         }
@@ -67,16 +67,14 @@ namespace Xemio.SmartNotes.Client.Shared.Clients
         /// <param name="emailAddress">The email address.</param>
         /// <param name="language">The language.</param>
         /// <param name="timeZone">The time zone.</param>
-        /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
-        public Task<HttpResponseMessage> PostXemioUser(string emailAddress, string language, string timeZone, string username, string password)
+        public Task<HttpResponseMessage> PostXemioUser(string emailAddress, string language, string timeZone, string password)
         {
             return this.PostUser(new CreateUser
             {
                 AuthenticationType = AuthenticationType.Xemio,
                 AuthenticationData = new JObject
                 {
-                    {"Username", username},
                     {"Password", password}
                 },
                 TimeZoneId = timeZone,
