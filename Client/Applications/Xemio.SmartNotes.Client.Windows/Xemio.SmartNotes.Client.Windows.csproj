@@ -137,10 +137,8 @@
     <Compile Include="Data\Events\FolderCreatedEvent.cs" />
     <Compile Include="Data\Events\FolderDeletedEvent.cs" />
     <Compile Include="Data\Events\FolderEditedEvent.cs" />
-    <Compile Include="Data\Events\FolderMovedEvent.cs" />
     <Compile Include="Data\Events\LogoutEvent.cs" />
-    <Compile Include="Data\Events\NoteIsFavoriteChangedEvent.cs" />
-    <Compile Include="Data\Events\NoteMovedEvent.cs" />
+    <Compile Include="Data\Events\NoteEditedEvent.cs" />
     <Compile Include="Data\Events\SelectedFolderEvent.cs" />
     <Compile Include="Data\Events\SuggestionSelectedEvent.cs" />
     <Compile Include="Data\Exceptions\GenericException.cs" />

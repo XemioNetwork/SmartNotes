@@ -19,6 +19,13 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
     public class MoveFolderTask : BaseTask
     {
+        #region Internal
+        public class DisplayData
+        {
+            public string FolderName { get; set; }
+        }
+        #endregion
+
         #region Fields
         private readonly IEventAggregator _eventAggregator;
         private readonly WebServiceClient _client;
@@ -36,11 +43,12 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         {
             this._eventAggregator = eventAggregator;
             this._client = client;
+
+            this.Display = new DisplayData();
         }
         #endregion
 
         #region Properties
-
         /// <summary>
         /// Gets or sets the folder identifier.
         /// </summary>
@@ -50,19 +58,19 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("FolderId is null or whitespace.", "value");
+                    throw new ArgumentException("value");
 
                 this._folderId = value;
             }
         }
         /// <summary>
-        /// Gets or sets the name of the folder.
-        /// </summary>
-        public string FolderName { get; set; }
-        /// <summary>
         /// Gets or sets the new parent folder identifier.
         /// </summary>
         public string NewParentFolderId { get; set; }
+        /// <summary>
+        /// Gets the display data.
+        /// </summary>
+        public DisplayData Display { get; private set; }
         #endregion
 
         #region Overrides of BaseTask
@@ -71,7 +79,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// </summary>
         public override string DisplayName
         {
-            get { return string.Format(TaskMessages.MoveFolderTask, this.FolderName); }
+            get { return string.Format(TaskMessages.MoveFolderTask, this.Display.FolderName); }
         }
         /// <summary>
         /// Executes this task.
@@ -87,7 +95,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Folder folder = await response.Content.ReadAsAsync<Folder>();
-                this._eventAggregator.PublishOnUIThread(new FolderMovedEvent(folder));
+                this._eventAggregator.PublishOnUIThread(new FolderEditedEvent(folder));
             }
             else
             {

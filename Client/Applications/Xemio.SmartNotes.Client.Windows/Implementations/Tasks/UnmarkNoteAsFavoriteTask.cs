@@ -36,8 +36,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             get { return this._noteId; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value) == true)
-                    throw new ArgumentNullException();
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException("value");
 
                 this._noteId = value;
             }
@@ -79,7 +79,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Note note = await response.Content.ReadAsAsync<Note>();
-                this._eventAggregator.PublishOnUIThread(new NoteIsFavoriteChangedEvent(note));
+                this._eventAggregator.PublishOnUIThread(new NoteEditedEvent(note));
             }
             else
             {

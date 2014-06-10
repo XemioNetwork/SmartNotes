@@ -31,8 +31,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         IHandleWithTask<SelectedFolderEvent>, 
         IHandle<FolderDeletedEvent>, 
         IHandle<FolderEditedEvent>,
-        IHandle<FolderMovedEvent>,
-        IHandle<NoteMovedEvent>
+        IHandle<NoteEditedEvent>
 
     {
         #region Fields
@@ -170,7 +169,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             var task = IoC.Get<DeleteFolderTask>();
             task.FolderId = selectedFolder.FolderId;
-            task.FolderName = selectedFolder.Name;
+            task.Display.FolderName = selectedFolder.Name;
 
             this._taskExecutor.StartTask(task);
         }
@@ -193,8 +192,8 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 
             var task = IoC.Get<MoveNoteTask>();
             task.NoteId = noteToMove.NoteId;
-            task.NoteName = noteToMove.Title;
             task.NewFolderId= newParentFolder.FolderId;
+            task.Display.NoteTitle = noteToMove.Title;
 
             this._taskExecutor.StartTask(task);
         }
@@ -224,7 +223,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             
             var task = IoC.Get<MoveFolderTask>();
             task.FolderId = folderToMove.FolderId;
-            task.FolderName = folderToMove.Name;
+            task.Display.FolderName = folderToMove.Name;
             task.NewParentFolderId = newParentFolderId;
 
             this._taskExecutor.StartTask(task);
@@ -293,8 +292,39 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         {
             FolderViewModel editedFolder = this.GetAllFolders().Single(f => f.FolderId == message.Folder.Id);
 
-            if (editedFolder != null)
-                editedFolder.Initialize(message.Folder, false);
+            if (editedFolder == null)
+                return;
+
+            //Update the parent folder
+            if (editedFolder.Folder.ParentFolderId != message.Folder.ParentFolderId)
+            {
+                //Remove the folder from it's old parent folder
+                FolderViewModel oldParentFolder = this.GetAllFolders().SingleOrDefault(f => f.SubFolders.Contains(editedFolder));
+                if (oldParentFolder == null)
+                {
+                    this.Folders.Remove(editedFolder);
+                }
+                else
+                {
+                    this.GetAllFolders().First().IsSelected = true;
+                    oldParentFolder.SubFolders.Remove(editedFolder);
+                }
+
+                //Add the folder to it's new parent folder
+                FolderViewModel newParentFolder = this.GetAllFolders().SingleOrDefault(f => f.FolderId == message.Folder.ParentFolderId);
+                if (newParentFolder == null)
+                {
+                    this.Folders.Add(editedFolder);
+                }
+                else
+                {
+                    newParentFolder.IsExpanded = true;
+                    newParentFolder.SubFolders.Add(editedFolder);
+                }
+            }
+
+            //Update the folder data
+            editedFolder.Initialize(message.Folder, false);
         }
         #endregion
 
@@ -351,68 +381,42 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
             }
         }
         #endregion
-
-        #region Implementation of IHandle<FolderMovedEvent>
-        /// <summary>
-        /// Handles the <see cref="FolderMovedEvent"/>.
-        /// </summary>
-        /// <param name="message">The FolderMovedEvent.</param>
-        public void Handle(FolderMovedEvent message)
-        {
-            FolderViewModel movedFolder = this.GetAllFolders().Single(f => f.FolderId == message.Folder.Id);
-            movedFolder.Initialize(message.Folder);
-
-            //Remove the folder from it's old parent folder
-            FolderViewModel oldParentFolder = this.GetAllFolders().SingleOrDefault(f => f.SubFolders.Contains(movedFolder));
-            if (oldParentFolder == null)
-            {
-                this.Folders.Remove(movedFolder);
-            }
-            else
-            {
-                this.GetAllFolders().First().IsSelected = true;
-                oldParentFolder.SubFolders.Remove(movedFolder);
-            }
-            
-            //Add the folder to it's new parent folder
-            FolderViewModel newParentFolder = this.GetAllFolders().SingleOrDefault(f => f.FolderId == message.Folder.ParentFolderId);
-            if (newParentFolder == null)
-            {
-                this.Folders.Add(movedFolder);
-            }
-            else
-            {
-                newParentFolder.IsExpanded = true;
-                newParentFolder.SubFolders.Add(movedFolder);
-            }
-        }
-        #endregion
-
-        #region Implementation of IHandle<NoteMovedEvent>
+        
+        #region Implementation of IHandle<NoteEditedEvent>
         /// <summary>
         /// Handles the specified message.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void Handle(NoteMovedEvent message)
+        public void Handle(NoteEditedEvent message)
         {
-            NoteViewModel movedNote = this.Notes.FirstOrDefault(f => f.NoteId == message.Note.Id);
+            NoteViewModel editedNote = this.Notes.FirstOrDefault(f => f.NoteId == message.Note.Id);
 
-            //The note moved to another folder
-            if (movedNote != null && movedNote.FolderId != message.Note.FolderId)
-            {
-                this.Notes.Remove(movedNote);
+            if (editedNote == null)
                 return;
-            }
 
-            //The note moved to the current folder
-            FolderViewModel selectedFolder = this.SelectedFolder;
-            if (selectedFolder != null && message.Note.FolderId == selectedFolder.FolderId)
+            //Update the parent folder
+            if (editedNote.FolderId != message.Note.FolderId)
             {
-                var viewModel = IoC.Get<NoteViewModel>();
-                viewModel.Initialize(message.Note);
+                //The note moved to another folder
+                if (editedNote.FolderId != message.Note.FolderId)
+                {
+                    this.Notes.Remove(editedNote);
+                    return;
+                }
 
-                this.Notes.Add(viewModel);
+                //The note moved to the current folder
+                FolderViewModel selectedFolder = this.SelectedFolder;
+                if (selectedFolder != null && message.Note.FolderId == selectedFolder.FolderId)
+                {
+                    var viewModel = IoC.Get<NoteViewModel>();
+                    viewModel.Initialize(message.Note);
+
+                    this.Notes.Add(viewModel);
+                }
             }
+
+            //Update the note data
+            editedNote.Initialize(message.Note);
         }
         #endregion
         

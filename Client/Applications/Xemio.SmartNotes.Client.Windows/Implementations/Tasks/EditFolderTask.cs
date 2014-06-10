@@ -7,22 +7,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Caliburn.Micro;
+using Newtonsoft.Json.Linq;
 using Xemio.SmartNotes.Client.Shared.Clients;
 using Xemio.SmartNotes.Client.Windows.Data.Events;
 using Xemio.SmartNotes.Client.Windows.Data.Exceptions;
 using Xemio.SmartNotes.Shared.Entities.Notes;
+using Xemio.SmartNotes.Shared.Helpers;
 using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
     public class EditFolderTask : BaseTask
     {
+        #region Internal
+        public class DisplayData
+        {
+            public string FolderName { get; set; }
+        }
+        #endregion
+
         #region Fields
         private readonly IEventAggregator _eventAggregator;
         private readonly WebServiceClient _client;
 
-        private Folder _folder;
-
+        private string _folderId;
+        private string _newFolderName;
+        private string[] _newFolderTags;
         #endregion
 
         #region Constructors
@@ -35,24 +45,58 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         {
             this._eventAggregator = eventAggregator;
             this._client = client;
+
+            this.Display = new DisplayData();
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Gets or sets the folder that will be updated.
+        /// Gets or sets the folder identifier.
         /// </summary>
-        public Folder Folder
+        public string FolderId
         {
-            get { return this._folder; }
+            get { return this._folderId; }
             set
             {
-                if (value == null)
+                if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentNullException("value");
 
-                this._folder = value;
+                this._folderId = value;
             }
         }
+        /// <summary>
+        /// Gets or sets the new name of the folder.
+        /// </summary>
+        public string NewFolderName
+        {
+            get { return this._newFolderName; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException("value");
+                
+                this._newFolderName = value;
+            }
+        }
+        /// <summary>
+        /// Gets or sets the new folder tags.
+        /// </summary>
+        public string[] NewFolderTags
+        {
+            get { return this._newFolderTags; }
+            set
+            {
+                if (value == null || value.Length == 0)
+                    throw new ArgumentNullException("value");
+
+                this._newFolderTags = value;
+            }
+        }
+        /// <summary>
+        /// Gets the display data.
+        /// </summary>
+        public DisplayData Display { get; private set; }
         #endregion
 
         #region Implementation of ITask
@@ -61,14 +105,20 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// </summary>
         public override string DisplayName
         {
-            get { return string.Format(TaskMessages.EditFolderTask, this.Folder.Name); }
+            get { return string.Format(TaskMessages.EditFolderTask, this.Display.FolderName); }
         }
         /// <summary>
         /// Executes this task.
         /// </summary>
         public override async Task Execute()
         {
-            HttpResponseMessage response = await this._client.Folders.PutFolder(this.Folder);
+            var data = new JObject
+            {
+                {ReflectionHelper.GetProperty<Note>(f => f.Name).Name, this.NewFolderName},
+                {ReflectionHelper.GetProperty<Note>(f => f.Tags).Name, new JArray(this.NewFolderTags)}
+            };
+
+            HttpResponseMessage response = await this._client.Folders.PatchFolder(this.FolderId, data);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Folder folder = await response.Content.ReadAsAsync<Folder>();

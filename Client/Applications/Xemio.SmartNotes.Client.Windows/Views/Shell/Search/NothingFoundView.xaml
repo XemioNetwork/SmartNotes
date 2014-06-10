@@ -12,7 +12,7 @@
              lex:ResxLocalizationProvider.DefaultAssembly="Xemio.SmartNotes.Client.Windows"
              lex:ResxLocalizationProvider.DefaultDictionary="SearchMessages"
              
-             Margin="10">
+             Margin="10, 30, 10, 10">
     <Grid
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
         <Label HorizontalAlignment="Center" 

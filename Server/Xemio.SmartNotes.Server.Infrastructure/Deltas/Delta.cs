@@ -101,7 +101,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Deltas
             if (value != null && 
                 !cacheHit.Property.PropertyType.IsPrimitive && 
                 !isGuid &&
-                (!cacheHit.Property.PropertyType.IsInstanceOfType(value) || isJArray))
+                !(cacheHit.Property.PropertyType.IsInstanceOfType(value) || isJArray))
             {
                 return false;
             }

@@ -8,7 +8,7 @@ using Xemio.SmartNotes.Shared.Entities.Notes;
 
 namespace Xemio.SmartNotes.Client.Windows.ViewParts
 {
-    public class NoteViewModel : PropertyChangedBase, IHandle<NoteIsFavoriteChangedEvent>
+    public class NoteViewModel : PropertyChangedBase, IHandle<NoteEditedEvent>
     {
         #region Fields
         private readonly ITaskExecutor _taskExecutor;
@@ -187,22 +187,22 @@ namespace Xemio.SmartNotes.Client.Windows.ViewParts
             this.FolderId = note.FolderId;
             this.CreatedDate = note.CreatedDate;
             this._isFavorite = note.IsFavorite;
+            this.NotifyOfPropertyChange(() => this.IsFavorite);
 
             this._isInitialized = true;
         }
         #endregion
 
-        #region Implementation of IHandle<NoteIsFavoriteChangedEvent>
+        #region Implementation of IHandle<NoteEditedEvent>
         /// <summary>
         /// Handles the specified message.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void Handle(NoteIsFavoriteChangedEvent message)
+        public void Handle(NoteEditedEvent message)
         {
             if (message.Note.Id == this.NoteId)
             {
-                this._isFavorite = message.Note.IsFavorite;
-                this.NotifyOfPropertyChange(() => this.IsFavorite);
+                this.Initialize(message.Note);
 
                 this._isUpdatingFavorite = false;
             }

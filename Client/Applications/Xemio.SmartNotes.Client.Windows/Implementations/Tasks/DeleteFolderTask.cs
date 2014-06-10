@@ -16,6 +16,13 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
     public class DeleteFolderTask : BaseTask
     {
+        #region Internal
+        public class DisplayData
+        {
+            public string FolderName { get; set; }
+        }
+        #endregion
+
         #region Fields
         private readonly WebServiceClient _client;
         private readonly IEventAggregator _eventAggregator;
@@ -25,20 +32,6 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Gets or sets the name of the folder.
-        /// </summary>
-        public string FolderName
-        {
-            get { return this._folderName; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-
-                this._folderName = value;
-            }
-        }
         /// <summary>
         /// Gets or sets the folder identifier.
         /// </summary>
@@ -53,6 +46,10 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
                 this._folderId = value;
             }
         }
+        /// <summary>
+        /// Gets the display data.
+        /// </summary>
+        public DisplayData Display { get; private set; }
         #endregion
 
         #region Constructors
@@ -65,6 +62,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         {
             this._client = client;
             this._eventAggregator = eventAggregator;
+
+            this.Display = new DisplayData();
         }
         #endregion
 
@@ -74,7 +73,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// </summary>
         public override string DisplayName
         {
-            get { return string.Format(TaskMessages.DeleteFolderTask, this.FolderName); }
+            get { return string.Format(TaskMessages.DeleteFolderTask, this.Display.FolderName); }
         }
         /// <summary>
         /// Executes this task.

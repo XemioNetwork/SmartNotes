@@ -19,6 +19,13 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 {
     public class MoveNoteTask : BaseTask
     {
+        #region Internal
+        public class DisplayData
+        {
+            public string NoteTitle { get; set; }
+        }
+        #endregion
+
         #region Fields
         private readonly IEventAggregator _eventAggregator;
         private readonly WebServiceClient _client;
@@ -37,6 +44,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         {
             this._eventAggregator = eventAggregator;
             this._client = client;
+
+            this.Display = new DisplayData();
         }
         #endregion
 
@@ -50,15 +59,11 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("The NoteId is null or whitespace.", "value");
+                    throw new ArgumentException("value");
 
                 this._noteId = value;
             }
         }
-        /// <summary>
-        /// Gets or sets the name of the note.
-        /// </summary>
-        public string NoteName { get; set; }
         /// <summary>
         /// Gets or sets the new folder identifier.
         /// </summary>
@@ -68,11 +73,15 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("The NewFolderId is null or whitespace.", "value");
+                    throw new ArgumentException("value");
 
                 this._newFolderId = value;
             }
         }
+        /// <summary>
+        /// Gets the display data.
+        /// </summary>
+        public DisplayData Display { get; private set; }
         #endregion
 
         #region Overrides of BaseTask
@@ -81,7 +90,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// </summary>
         public override string DisplayName
         {
-            get { return string.Format(TaskMessages.MoveNoteTask, this.NoteName); }
+            get { return string.Format(TaskMessages.MoveNoteTask, this.Display.NoteTitle); }
         }
         /// <summary>
         /// Executes this task.
@@ -97,7 +106,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Note note = await response.Content.ReadAsAsync<Note>();
-                this._eventAggregator.PublishOnUIThread(new NoteMovedEvent(note));
+                this._eventAggregator.PublishOnUIThread(new NoteEditedEvent(note));
             }
             else
             {

@@ -118,10 +118,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
                                                                          .Search(f => f.SearchText, searchText, options: SearchOptions.And)
                                                                          .Suggest(suggestQuery);
 
-            if (suggestionResult.Suggestions.Length == 0)
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+            if (suggestionResult.Suggestions.Length > 0)
+                return Request.CreateResponse(HttpStatusCode.SeeOther, suggestionResult.Suggestions);
 
-            return Request.CreateResponse(HttpStatusCode.SeeOther, suggestionResult.Suggestions);
+            return Request.CreateResponse(HttpStatusCode.NotFound);
         }
         /// <summary>
         /// Creates a new <see cref="Note" />.

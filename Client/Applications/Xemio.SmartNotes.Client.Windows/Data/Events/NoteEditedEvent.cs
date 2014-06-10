@@ -8,15 +8,15 @@ using Xemio.SmartNotes.Shared.Entities.Notes;
 namespace Xemio.SmartNotes.Client.Windows.Data.Events
 {
     /// <summary>
-    /// Fired when a note was moved.
+    /// Fired when a note was edited.
     /// </summary>
-    public class NoteMovedEvent
+    public class NoteEditedEvent
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NoteMovedEvent"/> class.
+        /// Initializes a new instance of the <see cref="NoteEditedEvent"/> class.
         /// </summary>
         /// <param name="note">The note.</param>
-        public NoteMovedEvent(Note note)
+        public NoteEditedEvent(Note note)
         {
             this.Note = note;
         }
