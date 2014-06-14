@@ -123,7 +123,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                     if (this._isSelected)
                         //We need this kinda dumb approach because in a TreeView you don't have a bindable SelectedItem property
                         //We try to get around by this, by binding the IsSelected property of every node and fire an event when the folder changes
-                        this._eventAggregator.PublishOnUIThread(new SelectedFolderEvent(this.FolderId));
+                        this._eventAggregator.PublishOnUIThread(new FolderSelectedEvent(this.FolderId));
                 }
             }
         }

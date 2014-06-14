@@ -30,14 +30,25 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         protected BaseTask()
         {
             this.Logger = NullLogger.Instance;
+
+            this.Id = Guid.NewGuid();
         }
         #endregion
 
         #region Implementation of ITask
         /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        public Guid Id { get; private set; }
+        /// <summary>
+        /// Gets or sets the start date.
+        /// </summary>
+        public DateTimeOffset StartDate { get; set; }
+        /// <summary>
         /// Gets the display name for this task.
         /// </summary>
         public abstract string DisplayName { get; }
+
         /// <summary>
         /// Executes this task.
         /// </summary>

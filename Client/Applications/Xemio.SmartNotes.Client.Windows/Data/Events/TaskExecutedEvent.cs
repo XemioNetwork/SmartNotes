@@ -10,20 +10,15 @@ namespace Xemio.SmartNotes.Client.Windows.Data.Events
     /// <summary>
     /// Fired when a <see cref="ITask"/> was executed.
     /// </summary>
-    public class ExecutedTaskEvent
+    public class TaskExecutedEvent : TaskEvent
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExecutedTaskEvent"/> class.
+        /// Initializes a new instance of the <see cref="TaskExecutedEvent"/> class.
         /// </summary>
         /// <param name="task">The task.</param>
-        public ExecutedTaskEvent(ITask task)
+        public TaskExecutedEvent(ITask task)
+            : base(task)
         {
-            this.Task = task;
         }
-
-        /// <summary>
-        /// Gets the task which was executed.
-        /// </summary>
-        public ITask Task { get; private set; }
     }
 }
