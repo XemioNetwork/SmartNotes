@@ -23,7 +23,7 @@ using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell
 {
-    public class ShellViewModel : Conductor<Screen>, IHandle<LogoutEvent>, IHandle<ExecutingTaskEvent>, IHandle<ExecutedTaskEvent>, IHandleWithTask<AvatarChangedEvent>
+    public class ShellViewModel : Conductor<Screen>, IHandle<LogoutEvent>, IHandle<TaskExecutingEvent>, IHandle<TaskExecutedEvent>, IHandleWithTask<AvatarChangedEvent>
     {
         #region Fields
         private readonly DisplayManager _displayManager;
@@ -183,23 +183,23 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         }
         #endregion
 
-        #region Implementation of IHandle<ExecutingTaskEvent>
+        #region Implementation of IHandle<TaskExecutingEvent>
         /// <summary>
-        /// Handles the <see cref="ExecutingTaskEvent"/>.
+        /// Handles the <see cref="TaskExecutingEvent"/>.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void Handle(ExecutingTaskEvent message)
+        public void Handle(TaskExecutingEvent message)
         {
             this.CurrentAction = message.Task.DisplayName;
         }
         #endregion
 
-        #region Implementation of IHandle<ExecutedTaskEvent>
+        #region Implementation of IHandle<TaskExecutedEvent>
         /// <summary>
-        /// Handles the <see cref="ExecutedTaskEvent"/>
+        /// Handles the <see cref="TaskExecutedEvent"/>
         /// </summary>
         /// <param name="message">The message.</param>
-        public void Handle(ExecutedTaskEvent message)
+        public void Handle(TaskExecutedEvent message)
         {
             this.CurrentAction = string.Empty;
         }
