@@ -144,7 +144,7 @@
     <Compile Include="Data\Events\FolderSelectedEvent.cs" />
     <Compile Include="Data\Events\SuggestionSelectedEvent.cs" />
     <Compile Include="Data\Events\TaskStartedEvent.cs" />
-    <Compile Include="Data\Exceptions\GenericException.cs" />
+    <Compile Include="Data\Exceptions\TaskException.cs" />
     <Compile Include="Extensions\BitmapImageExtensions.cs" />
     <Compile Include="Extensions\ResourceDictionaryExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -195,9 +195,6 @@
     <Compile Include="Implementations\Interaction\XemioWindowManager.cs" />
     <Compile Include="Implementations\Settings\LanguageManager.cs" />
     <Compile Include="Implementations\Tasks\TaskExecutor.cs" />
-    <Compile Include="Themes\ResourceDictionaries\Brushes\DefaultColorTheme.xaml.cs">
-      <DependentUpon>DefaultColorTheme.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
     <Compile Include="Themes\ResourceDictionaries\NamedStyles\FolderTreeViewItemStyle.xaml.cs">
       <DependentUpon>FolderTreeViewItemStyle.xaml</DependentUpon>
@@ -377,7 +374,6 @@
     </Compile>
     <Compile Include="Views\Shell\ShellViewModel.cs" />
     <Compile Include="Views\TaskList\TaskListViewModel.cs" />
-    <Compile Include="Views\TaskList\TaskViewModel.cs" />
     <Compile Include="Views\WatchNote\WatchNoteView.xaml.cs">
       <DependentUpon>WatchNoteView.xaml</DependentUpon>
     </Compile>

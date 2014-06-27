@@ -122,7 +122,7 @@ namespace Xemio.SmartNotes.Shared.Common
         /// </summary>
         public void Dispose()
         {
-            this._cancellationTokenSource.Cancel();
+            this._cancellationTokenSource.Cancel(false);
         }
         #endregion
     }

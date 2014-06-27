@@ -141,11 +141,12 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// <param name="eventArgs">The event arguments.</param>
         private void OnException(object sender, BackgroundExceptionEventArgs<ITask> eventArgs)
         {
+            this.CurrentTask = null;
             this._eventAggregator.PublishOnUIThread(new TaskExecutedEvent(eventArgs.Item));
 
             this.Logger.ErrorFormat(eventArgs.Exception, string.Format("An exception occured in the task '{0}'.", eventArgs.Item.GetType().Name));
 
-            if (eventArgs.Exception is GenericException)
+            if (eventArgs.Exception is TaskException)
             {
                 this._displayManager.Messages.ShowMessageBox(eventArgs.Exception.Message, TaskMessages.ErrorInTask, MessageBoxButton.OK);
             }

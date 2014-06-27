@@ -113,7 +113,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
                 var error = await response.Content.ReadAsAsync<HttpError>();
                 this.Logger.Error(error.Message);
 
-                throw new GenericException(TaskMessages.MoveNoteTaskFailed);
+                throw new TaskException(TaskMessages.MoveNoteTaskFailed);
             }
         }
         #endregion

@@ -12,7 +12,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
     /// <summary>
     /// A base class for the <see cref="ITask"/> interface providing a <see cref="ILogger"/>.
     /// Tasks should throw in property setters to avoid wrong values.
-    /// If something goes wrong while executing the task, log and throw an <see cref="GenericException"/>.
+    /// If something goes wrong while executing the task, log and throw an <see cref="TaskException"/>.
     /// </summary>
     public abstract class BaseTask : ITask
     {
