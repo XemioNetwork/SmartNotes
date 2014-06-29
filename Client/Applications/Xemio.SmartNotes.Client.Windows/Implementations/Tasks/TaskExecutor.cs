@@ -24,9 +24,13 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         private readonly DisplayManager _displayManager;
 
         private readonly BackgroundQueue<ITask> _taskQueue;
+        private readonly ConcurrentDictionary<ITask, bool> _canceledTasks; 
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets or sets the logger.
+        /// </summary>
         public ILogger Logger { get; set; }
         #endregion
 
@@ -45,6 +49,8 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 
             this._taskQueue = new BackgroundQueue<ITask>(this.Execute);
             this._taskQueue.UnhandledExceptionEvent += OnException;
+
+            this._canceledTasks = new ConcurrentDictionary<ITask, bool>();
         }
         #endregion
 
@@ -54,12 +60,39 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// </summary>
         public ITask CurrentTask { get; private set; }
         /// <summary>
+        /// Gets the tasks.
+        /// </summary>
+        public IReadOnlyCollection<ITask> Tasks
+        {
+            get { return this._taskQueue.Items; }
+        }
+        /// <summary>
         /// Starts the task.
         /// </summary>
         /// <param name="task">The task.</param>
         public void StartTask(ITask task)
         {
+            task.StartDate = DateTimeOffset.Now;
+
             this._taskQueue.Enqueue(task);
+
+            this._eventAggregator.PublishOnUIThread(new TaskStartedEvent(task));
+        }
+        /// <summary>
+        /// Cancels the task. Returns whether it was canceled successfully.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        public bool CancelTask(ITask task)
+        {
+            if (this._taskQueue.Items.Contains(task) == false)
+                return false;
+
+            if (this.CurrentTask == task)
+                return false;
+
+            this._canceledTasks.AddOrUpdate(task, true, (t, b) => true);
+
+            return true;
         }
         /// <summary>
         /// Determines whether this instance has tasks.
@@ -85,13 +118,21 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// <param name="task">The task.</param>
         private void Execute(ITask task)
         {
+            if (this._canceledTasks.GetOrAdd(task, false) == true)
+            {
+                bool canceled;
+                this._canceledTasks.TryRemove(task, out canceled);
+
+                return;
+            }
+
             this.CurrentTask = task;
-            this._eventAggregator.PublishOnUIThread(new ExecutingTaskEvent(task));
+            this._eventAggregator.PublishOnUIThread(new TaskExecutingEvent(task));
 
             task.Execute().Wait();
 
             this.CurrentTask = null;
-            this._eventAggregator.PublishOnUIThread(new ExecutedTaskEvent(task));
+            this._eventAggregator.PublishOnUIThread(new TaskExecutedEvent(task));
         }
         /// <summary>
         /// Called when an exception happens while executing a task.
@@ -100,11 +141,12 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// <param name="eventArgs">The event arguments.</param>
         private void OnException(object sender, BackgroundExceptionEventArgs<ITask> eventArgs)
         {
-            this._eventAggregator.PublishOnUIThread(new ExecutedTaskEvent(eventArgs.Item));
+            this.CurrentTask = null;
+            this._eventAggregator.PublishOnUIThread(new TaskExecutedEvent(eventArgs.Item));
 
             this.Logger.ErrorFormat(eventArgs.Exception, string.Format("An exception occured in the task '{0}'.", eventArgs.Item.GetType().Name));
 
-            if (eventArgs.Exception is GenericException)
+            if (eventArgs.Exception is TaskException)
             {
                 this._displayManager.Messages.ShowMessageBox(eventArgs.Exception.Message, TaskMessages.ErrorInTask, MessageBoxButton.OK);
             }

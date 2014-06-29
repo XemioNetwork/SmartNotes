@@ -23,7 +23,6 @@ namespace Xemio.SmartNotes.Client.Windows.Themes.ResourceDictionaries.CustomCont
         {
             return values.OfType<double>().Aggregate(1.0, (current, value) => current * value);
         }
-
         /// <summary>
         /// Converts a binding target value to the source binding values.
         /// </summary>

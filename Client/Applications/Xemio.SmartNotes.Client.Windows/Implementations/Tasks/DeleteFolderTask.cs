@@ -90,7 +90,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
                 var error = await response.Content.ReadAsAsync<HttpError>();
                 this.Logger.ErrorFormat("Error while deleting folder '{0}': {1}.", this.FolderId, error.Message);
 
-                throw new GenericException(TaskMessages.DeleteFolderTaskFailed);
+                throw new TaskException(TaskMessages.DeleteFolderTaskFailed);
             }
         }
         #endregion

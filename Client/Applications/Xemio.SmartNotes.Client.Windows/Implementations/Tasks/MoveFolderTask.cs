@@ -102,7 +102,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
                 var error = await response.Content.ReadAsAsync<HttpError>();
                 this.Logger.Error(error.Message);
 
-                throw new GenericException(TaskMessages.MoveFolderTaskFailed);
+                throw new TaskException(TaskMessages.MoveFolderTaskFailed);
             }
         }
         #endregion

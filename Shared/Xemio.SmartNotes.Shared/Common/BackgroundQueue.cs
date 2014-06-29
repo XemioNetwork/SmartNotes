@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,6 +33,13 @@ namespace Xemio.SmartNotes.Shared.Common
         {
             get { return this._queue.Count; }
         }
+        /// <summary>
+        /// Gets the items.
+        /// </summary>
+        public IReadOnlyCollection<T> Items
+        {
+            get {  return new ReadOnlyCollection<T>(this._queue.ToList());}
+        } 
         #endregion
 
         #region Constructors
@@ -112,7 +122,7 @@ namespace Xemio.SmartNotes.Shared.Common
         /// </summary>
         public void Dispose()
         {
-            this._cancellationTokenSource.Cancel();
+            this._cancellationTokenSource.Cancel(false);
         }
         #endregion
     }

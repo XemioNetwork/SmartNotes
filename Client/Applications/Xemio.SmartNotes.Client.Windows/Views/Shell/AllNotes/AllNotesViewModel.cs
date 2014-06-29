@@ -28,7 +28,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
 {
     public class AllNotesViewModel : Screen, 
         IHandle<FolderCreatedEvent>, 
-        IHandleWithTask<SelectedFolderEvent>, 
+        IHandleWithTask<FolderSelectedEvent>, 
         IHandle<FolderDeletedEvent>, 
         IHandle<FolderEditedEvent>,
         IHandle<NoteEditedEvent>
@@ -112,7 +112,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         /// <param name="client">The client.</param>
         /// <param name="displayManager">The display manager.</param>
         /// <param name="taskExecutor">The task executor.</param>
-        /// <param name="eventAggregator">The selectedFolderEvent aggregator.</param>
+        /// <param name="eventAggregator">The event aggregator.</param>
         public AllNotesViewModel(WebServiceClient client, DisplayManager displayManager, ITaskExecutor taskExecutor, IEventAggregator eventAggregator)
         {
             this.Logger = NullLogger.Instance;
@@ -352,14 +352,14 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         }
         #endregion
 
-        #region Implementation of IHandleWithTask<SelectedFolderEvent>
+        #region Implementation of IHandleWithTask<FolderSelectedEvent>
         /// <summary>
-        /// Handles the <see cref="SelectedFolderEvent"/>.
+        /// Handles the <see cref="FolderSelectedEvent"/>.
         /// </summary>
-        /// <param name="selectedFolderEvent">The SelectedFolderEvent.</param>
-        public async Task Handle(SelectedFolderEvent selectedFolderEvent)
+        /// <param name="folderSelectedEvent">The FolderSelectedEvent.</param>
+        public async Task Handle(FolderSelectedEvent folderSelectedEvent)
         {
-            HttpResponseMessage response = await this._client.Notes.GetAllNotes(selectedFolderEvent.FolderId);
+            HttpResponseMessage response = await this._client.Notes.GetAllNotes(folderSelectedEvent.FolderId);
             if (response.StatusCode == HttpStatusCode.Found)
             {
                 Note[] notes = await response.Content.ReadAsAsync<Note[]>();
@@ -377,7 +377,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                 var error = await response.Content.ReadAsAsync<HttpError>();
                 this._displayManager.Messages.ShowMessageBox(error.Message, ClientMessages.Error, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                this.Logger.ErrorFormat("Error while loading notes from folder '{0}': {1}", selectedFolderEvent.FolderId, error.Message);
+                this.Logger.ErrorFormat("Error while loading notes from folder '{0}': {1}", folderSelectedEvent.FolderId, error.Message);
             }
         }
         #endregion
@@ -443,7 +443,7 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
                 if (firstFolder != null)
                 { 
                     firstFolder.IsSelected = true;
-                    await this.Handle(new SelectedFolderEvent(firstFolder.FolderId));
+                    await this.Handle(new FolderSelectedEvent(firstFolder.FolderId));
                 }
             }
             else

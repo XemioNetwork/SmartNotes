@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Xemio.SmartNotes.Client.Windows.Data.Events
 {
-    public class SelectedFolderEvent
+    public class FolderSelectedEvent
     {
-        public SelectedFolderEvent(string folderId)
+        public FolderSelectedEvent(string folderId)
         {
             this.FolderId = folderId;
         }

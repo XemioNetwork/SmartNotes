@@ -32,7 +32,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
 
         private string _folderId;
         private string _newFolderName;
-        private string[] _newFolderTags;
+
         #endregion
 
         #region Constructors
@@ -82,17 +82,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
         /// <summary>
         /// Gets or sets the new folder tags.
         /// </summary>
-        public string[] NewFolderTags
-        {
-            get { return this._newFolderTags; }
-            set
-            {
-                if (value == null || value.Length == 0)
-                    throw new ArgumentNullException("value");
-
-                this._newFolderTags = value;
-            }
-        }
+        public string[] NewFolderTags { get; set; }
         /// <summary>
         /// Gets the display data.
         /// </summary>
@@ -129,7 +119,7 @@ namespace Xemio.SmartNotes.Client.Windows.Implementations.Tasks
                 var error = await response.Content.ReadAsAsync<HttpError>();
                 this.Logger.Error(error.Message);
 
-                throw new GenericException(TaskMessages.EditFolderTaskFailed);
+                throw new TaskException(TaskMessages.EditFolderTaskFailed);
             }
         }
         #endregion

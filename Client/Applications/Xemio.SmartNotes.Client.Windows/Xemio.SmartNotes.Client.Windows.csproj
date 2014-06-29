@@ -132,16 +132,19 @@
     <Compile Include="AttachedProperties\WebViewBindings.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\Events\AvatarChangedEvent.cs" />
-    <Compile Include="Data\Events\ExecutingTaskEvent.cs" />
-    <Compile Include="Data\Events\ExecutedTaskEvent.cs" />
+    <Compile Include="Data\Events\TaskCanceledEvent.cs" />
+    <Compile Include="Data\Events\TaskEvent.cs" />
+    <Compile Include="Data\Events\TaskExecutingEvent.cs" />
+    <Compile Include="Data\Events\TaskExecutedEvent.cs" />
     <Compile Include="Data\Events\FolderCreatedEvent.cs" />
     <Compile Include="Data\Events\FolderDeletedEvent.cs" />
     <Compile Include="Data\Events\FolderEditedEvent.cs" />
     <Compile Include="Data\Events\LogoutEvent.cs" />
     <Compile Include="Data\Events\NoteEditedEvent.cs" />
-    <Compile Include="Data\Events\SelectedFolderEvent.cs" />
+    <Compile Include="Data\Events\FolderSelectedEvent.cs" />
     <Compile Include="Data\Events\SuggestionSelectedEvent.cs" />
-    <Compile Include="Data\Exceptions\GenericException.cs" />
+    <Compile Include="Data\Events\TaskStartedEvent.cs" />
+    <Compile Include="Data\Exceptions\TaskException.cs" />
     <Compile Include="Extensions\BitmapImageExtensions.cs" />
     <Compile Include="Extensions\ResourceDictionaryExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -192,9 +195,6 @@
     <Compile Include="Implementations\Interaction\XemioWindowManager.cs" />
     <Compile Include="Implementations\Settings\LanguageManager.cs" />
     <Compile Include="Implementations\Tasks\TaskExecutor.cs" />
-    <Compile Include="Themes\ResourceDictionaries\Brushes\DefaultColorTheme.xaml.cs">
-      <DependentUpon>DefaultColorTheme.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Themes\ResourceDictionaries\CustomControlStyles\ValueConverters\MultiplyConverter.cs" />
     <Compile Include="Themes\ResourceDictionaries\NamedStyles\FolderTreeViewItemStyle.xaml.cs">
       <DependentUpon>FolderTreeViewItemStyle.xaml</DependentUpon>
@@ -373,6 +373,10 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell\ShellViewModel.cs" />
+    <Compile Include="Views\TaskList\TaskListView.xaml.cs">
+      <DependentUpon>TaskListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TaskList\TaskListViewModel.cs" />
     <Compile Include="Views\WatchNote\WatchNoteView.xaml.cs">
       <DependentUpon>WatchNoteView.xaml</DependentUpon>
     </Compile>
@@ -591,6 +595,10 @@
     <Page Include="Views\Shell\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TaskList\TaskListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\WatchNote\WatchNoteView.xaml">
       <SubType>Designer</SubType>
