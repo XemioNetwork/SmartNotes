@@ -373,6 +373,9 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell\ShellViewModel.cs" />
+    <Compile Include="Views\TaskList\TaskListView.xaml.cs">
+      <DependentUpon>TaskListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TaskList\TaskListViewModel.cs" />
     <Compile Include="Views\WatchNote\WatchNoteView.xaml.cs">
       <DependentUpon>WatchNoteView.xaml</DependentUpon>
@@ -592,6 +595,10 @@
     <Page Include="Views\Shell\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TaskList\TaskListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\WatchNote\WatchNoteView.xaml">
       <SubType>Designer</SubType>

@@ -88,7 +88,7 @@
                 <StackPanel Grid.Column="0" Orientation="Horizontal">
 
                     <!-- The "Show All Actions" button -->
-                    <Button x:Name="ShowAllActions" Style="{StaticResource SubHeaderButton}">
+                    <Button x:Name="ShowAllTasks" Style="{StaticResource SubHeaderButton}">
                         <Image Source="/Xemio.SmartNotes.Client.Shared;component/Resources/Icons/List-Tasks.png" Height="24" />    
                     </Button>
                     <Line X1="0" Y1="0" X2="0" Y2="30" Style="{StaticResource DividerLine}" />

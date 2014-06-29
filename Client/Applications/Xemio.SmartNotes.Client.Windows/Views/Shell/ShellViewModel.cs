@@ -19,6 +19,7 @@ using Xemio.SmartNotes.Client.Windows.Implementations.Tasks;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.Search;
 using Xemio.SmartNotes.Client.Windows.Views.Shell.UserSettings;
+using Xemio.SmartNotes.Client.Windows.Views.TaskList;
 using Xemio.SmartNotes.Shared.Models;
 
 namespace Xemio.SmartNotes.Client.Windows.Views.Shell
@@ -128,6 +129,14 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell
         public void ShowUserSettings()
         {
             this.ActivateItem(this._userSettingsViewModel);
+        }
+        /// <summary>
+        /// Shows all tasks.
+        /// </summary>
+        public void ShowAllTasks()
+        {
+            var viewModel = IoC.Get<TaskListViewModel>();
+            this._displayManager.Windows.ShowDialog(viewModel);
         }
         #endregion
 
