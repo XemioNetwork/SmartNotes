@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
+using System.Reflection.Emit;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Context;
 using Castle.MicroKernel.Registration;
@@ -15,6 +16,7 @@ using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Listeners;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 using Xemio.SmartNotes.Shared.Entities.Users;
+using Xemio.SmartNotes.Shared.Helpers;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
 {
@@ -58,6 +60,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
             documentStore.RegisterMultipleListeners(new NoteCascadeDeleteListener(documentStore));
             documentStore.RegisterMultipleListeners(new FolderCascadeDeleteListener(documentStore));
 
+            this.UpdateFindIdentityProperty(documentStore);
+
             documentStore.Initialize();
 
             IndexCreation.CreateIndexes(this.GetType().Assembly, documentStore);
@@ -71,6 +75,33 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Windsor
         {
             string connectionStringName = Dependency.OnAppSettingsValue("XemioNotes/RavenConnectionStringName").Value;
             return ConfigurationManager.ConnectionStrings[connectionStringName] != null;
+        }
+        /// <summary>
+        /// Updates the find identity property.
+        /// </summary>
+        /// <param name="documentStore">The document store.</param>
+        private void UpdateFindIdentityProperty(IDocumentStore documentStore)
+        {
+            documentStore.Conventions.RegisterIdConvention<FacebookAuthentication>((dbName, commands, entity) =>
+            {
+                string tag = documentStore.Conventions.GetTypeTagName(typeof(FacebookAuthentication));
+                return string.Format("{0}/{1}", tag, entity.FacebookUserId);
+            });
+            documentStore.Conventions.RegisterIdConvention<CachedFacebookTokenExchange>((dbName, commands, entity) =>
+            {
+                string tag = documentStore.Conventions.GetTypeTagName(typeof(CachedFacebookTokenExchange));
+                return string.Format("{0}/{1}", tag, entity.Token);
+            });
+            documentStore.Conventions.RegisterIdConvention<AuthenticationToken>((dbName, commands, entity) =>
+            {
+                string tag = documentStore.Conventions.GetTypeTagName(typeof(AuthenticationToken));
+                return string.Format("{0}/{1}", tag, entity.Token);
+            });
+            documentStore.Conventions.RegisterIdConvention<XemioAuthentication>((dbName, commands, entity) =>
+            {
+                string tag = documentStore.Conventions.GetTypeTagName(typeof (XemioAuthentication));
+                return string.Format("{0}/{1}", tag, entity.UserId);
+            });
         }
         #endregion
     }

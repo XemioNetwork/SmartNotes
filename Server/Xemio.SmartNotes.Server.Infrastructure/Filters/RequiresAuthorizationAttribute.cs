@@ -84,13 +84,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
         /// <param name="context">The context.</param>
         private bool TokenExists(HttpActionContext context)
         {
-            string tokenString = context.Request.Headers.Authorization.Parameter;
-
-            var documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
-
-            var token = documentSession.Query<AuthenticationToken, AuthenticationTokensByToken>()
-                .FirstOrDefault(f => f.Token == tokenString);
-
+            var token = this.GetToken(context);
             return token != null;
         }
         /// <summary>
@@ -103,8 +97,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
 
             var documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
 
-            return documentSession.Query<AuthenticationToken, AuthenticationTokensByToken>()
-                .First(f => f.Token == tokenString);
+            var id = documentSession.Advanced.GetStringIdFor<AuthenticationToken>(tokenString);
+            return documentSession.Load<AuthenticationToken>(id);
         }
         /// <summary>
         /// Logs the specified message.

@@ -17,6 +17,10 @@ namespace Xemio.SmartNotes.Shared.Entities.Users
 
         public string UserId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the facebook user identifier.
+        /// This is the Id.
+        /// </summary>
         public string FacebookUserId { get; set; }
     }
 }

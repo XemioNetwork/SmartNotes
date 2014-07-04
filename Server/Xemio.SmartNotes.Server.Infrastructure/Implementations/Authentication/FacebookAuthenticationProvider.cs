@@ -10,6 +10,7 @@ using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Authentication;
 using Xemio.SmartNotes.Server.Abstractions.Social;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
+using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes;
 using Xemio.SmartNotes.Shared.Entities.Users;
 
@@ -82,9 +83,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
                 return AuthenticationResult.Failure();
             }
 
-            var authentication = this._documentSession.Query<FacebookAuthentication, FacebookAuthenticationsByFacebookUserId>()
-                .FirstOrDefault(f => f.FacebookUserId == facebookUser.Id);
-
+            var id = this._documentSession.Advanced.GetStringIdFor<FacebookAuthentication>(facebookUser.Id);
+            var authentication = this._documentSession.Load<FacebookAuthentication>(id);
             if (authentication != null)
             {
                 return AuthenticationResult.Success(authentication.UserId);

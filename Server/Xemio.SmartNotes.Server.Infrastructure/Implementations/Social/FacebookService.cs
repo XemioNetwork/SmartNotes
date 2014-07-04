@@ -16,6 +16,7 @@ using NodaTime;
 using Raven.Client;
 using Raven.Json.Linq;
 using Xemio.SmartNotes.Server.Abstractions.Social;
+using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes;
 using Xemio.SmartNotes.Shared.Entities.Users;
 
@@ -82,8 +83,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Social
             {
                 using (var documentSession = this._documentStore.OpenSession())
                 {
-                    var cached = documentSession.Query<CachedFacebookTokenExchange, CachedFacebookTokenExchangesByToken>()
-                                                .FirstOrDefault(f => f.Token == token);
+                    var stringId = documentSession.Advanced.GetStringIdFor<CachedFacebookTokenExchange>(token);
+                    var cached = documentSession.Load<CachedFacebookTokenExchange>(stringId);
                     if (cached != null)
                     {
                         return cached.AccessToken;
