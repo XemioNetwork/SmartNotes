@@ -9,10 +9,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
     /// <summary>
     /// Enables fulltext search for <see cref="Note"/>s.
     /// </summary>
-    public class NotesBySearchTextAndFolderIdAndUserId : AbstractIndexCreationTask<Note, NotesBySearchTextAndFolderIdAndUserId.Result>
+    public class NotesBySearchTextAndOthers : AbstractIndexCreationTask<Note, NotesBySearchTextAndOthers.Result>
     {
         /// <summary>
-        /// The result of the <see cref="NotesBySearchTextAndFolderIdAndUserId"/> index.
+        /// The result of the <see cref="NotesBySearchTextAndOthers"/> index.
         /// </summary>
         public class Result
         {
@@ -21,12 +21,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
             public string UserId { get; set; }
             public string Name { get; set; }
             public DateTimeOffset CreatedDate { get; set; }
+            public bool IsFavorite { get; set; }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NotesBySearchTextAndFolderIdAndUserId"/> class.
+        /// Initializes a new instance of the <see cref="NotesBySearchTextAndOthers"/> class.
         /// </summary>
-        public NotesBySearchTextAndFolderIdAndUserId()
+        public NotesBySearchTextAndOthers()
         {
             this.Map = notes => from note in notes
                                 let folder = this.LoadDocument<Folder>(note.FolderId)
@@ -37,11 +38,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes
                                                note.FolderId,
                                                note.UserId,
                                                note.Name,
-                                               note.CreatedDate
+                                               note.CreatedDate,
+                                               note.IsFavorite
                                            };
 
             this.Index(f => f.SearchText, FieldIndexing.Analyzed);
             this.Analyze(f => f.SearchText, "Xemio.RavenDB.NGramAnalyzer.NGramAnalyzer, Xemio.RavenDB.NGramAnalyzer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            this.Sort(f => f.CreatedDate, SortOptions.String);
         }
 
         /// <summary>

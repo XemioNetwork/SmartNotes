@@ -20,6 +20,7 @@ using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
 using Xemio.SmartNotes.Server.Infrastructure.Properties;
+using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes;
 using Xemio.SmartNotes.Shared.Entities.Users;
 using Xemio.SmartNotes.Shared.Models;
 
@@ -137,8 +138,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="emailAddress">The email address.</param>
         private bool IsEmailAddressAvailable(string emailAddress)
         {
-            return this.DocumentSession.Query<User>()
-                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+            return this.DocumentSession.Query<User, UsersByEmailAddress>()
                 .Any(f => f.EmailAddress == emailAddress) == false;
         }
         /// <summary>
@@ -147,8 +147,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         /// <param name="emailAddress">The email address.</param>
         private User GetUserWithEmailAddress(string emailAddress)
         {
-            return this.DocumentSession.Query<User>()
-                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+            return this.DocumentSession.Query<User, UsersByEmailAddress>()
                 .FirstOrDefault(f => f.EmailAddress == emailAddress);
         }
         #endregion

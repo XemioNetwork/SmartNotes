@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using Raven.Client;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters.Resources;
+using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes;
 using Xemio.SmartNotes.Shared.Entities.Users;
 using Xemio.SmartNotes.Shared.Models;
 
@@ -87,8 +88,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
 
             var documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
 
-            var token = documentSession.Query<AuthenticationToken>()
-                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+            var token = documentSession.Query<AuthenticationToken, AuthenticationTokensByToken>()
                 .FirstOrDefault(f => f.Token == tokenString);
 
             return token != null;
@@ -103,7 +103,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Filters
 
             var documentSession = context.ControllerContext.Configuration.DependencyResolver.GetService<IDocumentSession>();
 
-            return documentSession.Query<AuthenticationToken>()
+            return documentSession.Query<AuthenticationToken, AuthenticationTokensByToken>()
                 .First(f => f.Token == tokenString);
         }
         /// <summary>

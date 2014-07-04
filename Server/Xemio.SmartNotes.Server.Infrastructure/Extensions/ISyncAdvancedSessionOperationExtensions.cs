@@ -24,7 +24,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Extensions
         /// <typeparam name="T">The entity type.</typeparam>
         /// <param name="advanced">The advanced session operations.</param>
         /// <param name="id">The id.</param>
-        public static string GetStringIdFor<T>(this ISyncAdvancedSessionOperation advanced, int id)
+        public static string GetStringIdFor<T>(this ISyncAdvancedSessionOperation advanced, object id)
         {
             return advanced.DocumentStore.Conventions.FindFullDocumentKeyFromNonStringIdentifier(id, typeof(T), false);
         }

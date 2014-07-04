@@ -112,7 +112,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Mailing
             Condition.Requires(session, "session")
                 .IsNotNull();
 
-            string documentId = session.Advanced.DocumentStore.Conventions.FindFullDocumentKeyFromNonStringIdentifier(name, typeof(EmailTemplate), false);
+            string documentId = session.Advanced.GetStringIdFor<EmailTemplate>(name);
 
             return session.Load<EmailTemplate>(documentId);
         }

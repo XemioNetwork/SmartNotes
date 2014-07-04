@@ -54,9 +54,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
         {
             User currentUser = this.UserService.GetCurrentUser();
 
-            var notes = this.DocumentSession.Query<Note>()
+            var notes = this.DocumentSession.Query<NotesBySearchTextAndOthers.Result, NotesBySearchTextAndOthers>()
                                             .Where(f => f.UserId == currentUser.Id && f.IsFavorite)
                                             .OrderByDescending(f => f.CreatedDate)
+                                            .As<Note>()
                                             .ToList();
 
             return Request.CreateResponse(HttpStatusCode.Found, notes);
@@ -77,9 +78,10 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             
             string folderStringId = this.DocumentSession.Advanced.GetStringIdFor<Folder>(folderId);
 
-            var notes = this.DocumentSession.Query<Note>()
+            var notes = this.DocumentSession.Query<NotesBySearchTextAndOthers.Result, NotesBySearchTextAndOthers>()
                                             .Where(f => f.FolderId == folderStringId)
                                             .OrderByDescending(f => f.CreatedDate)
+                                            .As<Note>()
                                             .ToList();
             
             return Request.CreateResponse(HttpStatusCode.Found, notes);
@@ -97,7 +99,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
 
             User currentUser = this.UserService.GetCurrentUser();
 
-            var notes = this.DocumentSession.Query<NotesBySearchTextAndFolderIdAndUserId.Result, NotesBySearchTextAndFolderIdAndUserId>()
+            var notes = this.DocumentSession.Query<NotesBySearchTextAndOthers.Result, NotesBySearchTextAndOthers>()
                                             .Where(f => f.UserId == currentUser.Id)
                                             .Search(f => f.SearchText, searchText, options: SearchOptions.And)
                                             .As<Note>()

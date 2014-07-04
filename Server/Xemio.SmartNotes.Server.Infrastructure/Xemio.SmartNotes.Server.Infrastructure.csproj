@@ -226,12 +226,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RavenDB\Indexes\NotesBySearchTextAndFolderIdAndUserId.cs" />
+    <Compile Include="RavenDB\Indexes\AuthenticationTokensByToken.cs" />
+    <Compile Include="RavenDB\Indexes\CachedFacebookTokenExchangesByToken.cs" />
+    <Compile Include="RavenDB\Indexes\FacebookAuthenticationsByFacebookUserId.cs" />
+    <Compile Include="RavenDB\Indexes\FoldersByNameAndParentFolderIdAndUserIdSortByName.cs" />
+    <Compile Include="RavenDB\Indexes\NotesBySearchTextAndOthers.cs" />
     <Compile Include="RavenDB\Indexes\NotesBySearchTextAndUserIdForSuggestions.cs" />
     <Compile Include="RavenDB\Indexes\TagsByCount.cs" />
     <Compile Include="Implementations\Services\EmailValidationService.cs" />
     <Compile Include="Implementations\Services\RightsService.cs" />
     <Compile Include="Implementations\Services\UserService.cs" />
+    <Compile Include="RavenDB\Indexes\UsersByEmailAddress.cs" />
+    <Compile Include="RavenDB\Indexes\XemioAuthenticationsByUserId.cs" />
     <Compile Include="RavenDB\Listeners\FolderCascadeDeleteListener.cs" />
     <Compile Include="RavenDB\Listeners\NoteCascadeDeleteListener.cs" />
     <Compile Include="Startup.cs" />

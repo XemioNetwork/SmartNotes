@@ -9,6 +9,7 @@ using Raven.Client;
 using Xemio.SmartNotes.Server.Abstractions.Authentication;
 using Xemio.SmartNotes.Server.Abstractions.Security;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
+using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes;
 using Xemio.SmartNotes.Shared.Entities.Users;
 
 namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
@@ -55,13 +56,13 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
 
             var authenticationData = data.ToObject<AuthenticationData>();
 
-            var user = this._documentSession.Query<User>()
+            var user = this._documentSession.Query<User, UsersByEmailAddress>()
                 .FirstOrDefault(f => f.EmailAddress == authenticationData.EmailAddress);
 
             if (user == null)
                 return AuthenticationResult.Failure();
 
-            var authentication = this._documentSession.Query<XemioAuthentication>()
+            var authentication = this._documentSession.Query<XemioAuthentication, XemioAuthenticationsByUserId>()
                 .FirstOrDefault(f => f.UserId == user.Id);
 
             if (authentication == null)
@@ -119,8 +120,7 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Implementations.Authentication
 
             var updateData = data.ToObject<UpdateData>();
 
-            var authentication = this._documentSession.Query<XemioAuthentication>()
-                .Customize(f => f.WaitForNonStaleResultsAsOfLastWrite())
+            var authentication = this._documentSession.Query<XemioAuthentication, XemioAuthenticationsByUserId>()
                 .First(f => f.UserId == user.Id);
 
             byte[] salt = this._secretGenerator.Generate();

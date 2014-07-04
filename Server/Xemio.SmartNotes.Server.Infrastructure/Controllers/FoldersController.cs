@@ -12,6 +12,7 @@ using Xemio.SmartNotes.Server.Infrastructure.Deltas;
 using Xemio.SmartNotes.Server.Infrastructure.Exceptions;
 using Xemio.SmartNotes.Server.Infrastructure.Extensions;
 using Xemio.SmartNotes.Server.Infrastructure.Filters;
+using Xemio.SmartNotes.Server.Infrastructure.RavenDB.Indexes;
 using Xemio.SmartNotes.Shared.Entities.Notes;
 using Xemio.SmartNotes.Shared.Entities.Users;
 using Xemio.SmartNotes.Shared.Extensions;
@@ -56,8 +57,8 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             string parentFolderStringId = parentFolderId > 0
                 ? this.DocumentSession.Advanced.GetStringIdFor<Folder>(parentFolderId)
                 : null;
-            
-            var folders = this.DocumentSession.Query<Folder>()
+
+            var folders = this.DocumentSession.Query<Folder, FoldersByNameAndParentFolderIdAndUserIdSortByName>()
                                               .Where(f => f.UserId == currentUser.Id && f.ParentFolderId == parentFolderStringId)
                                               .OrderBy(f => f.Name)
                                               .ToList();
