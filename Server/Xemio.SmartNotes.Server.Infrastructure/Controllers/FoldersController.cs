@@ -154,6 +154,9 @@ namespace Xemio.SmartNotes.Server.Infrastructure.Controllers
             if (folder.HasPropertyChanged(f => f.CreatedDate))
                 throw new InvalidRequestException();
 
+            if (folder.HasPropertyChanged(f => f.NoteCount))
+                throw new InvalidRequestException();
+
             var storedFolder = this.DocumentSession.Load<Folder>(folderId);
             folder.Patch(storedFolder);
 

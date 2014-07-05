@@ -220,6 +220,7 @@
     <Compile Include="Implementations\Services\ExampleDataService.cs" />
     <Compile Include="Implementations\Services\FileService.cs" />
     <Compile Include="Implementations\Social\FacebookService.cs" />
+    <Compile Include="Implementations\Startables\FolderNoteCountScriptsInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -227,6 +228,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RavenDB\Indexes\FoldersByNameAndParentFolderIdAndUserIdSortByName.cs" />
+    <Compile Include="RavenDB\Indexes\NotesByFolderNoteCount.cs" />
     <Compile Include="RavenDB\Indexes\NotesBySearchTextAndOthers.cs" />
     <Compile Include="RavenDB\Indexes\NotesBySearchTextAndUserIdForSuggestions.cs" />
     <Compile Include="RavenDB\Indexes\TagsByCount.cs" />
@@ -260,7 +262,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Implementations\Startables\" />
     <Folder Include="RavenDB\ResultTransformers\" />
   </ItemGroup>
   <ItemGroup>

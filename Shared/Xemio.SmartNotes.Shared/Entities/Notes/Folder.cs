@@ -42,23 +42,9 @@ namespace Xemio.SmartNotes.Shared.Entities.Notes
         /// Gets or sets the created date.
         /// </summary>
         public DateTimeOffset CreatedDate { get; set; }
-
-        #region Methods
         /// <summary>
-        /// Creates a deep clone from this instance.
+        /// Gets or sets the note count.
         /// </summary>
-        public Folder DeepClone()
-        {
-            return new Folder
-            {
-                Id = this.Id,
-                Name = this.Name,
-                Tags = this.Tags.ToList(),
-                UserId = this.UserId,
-                ParentFolderId = this.ParentFolderId,
-                CreatedDate = this.CreatedDate
-            };
-        }
-        #endregion
+        public int NoteCount { get; set; }
     }
 }

@@ -78,25 +78,31 @@
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding SubFolders}">
                     
-                    <!-- Workaround for using the correct ViewModel -->
-                    <TextBlock Text="{Binding Name}" 
-                               Tag="{Binding DataContext, ElementName=RootGrid}">
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Workaround for using the correct ViewModel -->
+                        <TextBlock Text="{Binding Name}" 
+                                   Tag="{Binding DataContext, ElementName=RootGrid}">
                         
-                        <TextBlock.ContextMenu>
-                            <!-- The context menu is in a different visual tree, so we need to do some workarounds here -->
-                            <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
-                                         lex:LocalizeDictionary.DesignCulture="de-DE"
-                                         lex:ResxLocalizationProvider.DefaultAssembly="Xemio.SmartNotes.Client.Windows"
-                                         lex:ResxLocalizationProvider.DefaultDictionary="AllNotesMessages">
+                            <TextBlock.ContextMenu>
+                                <!-- The context menu is in a different visual tree, so we need to do some workarounds here -->
+                                <ContextMenu cal:Action.TargetWithoutContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                                             lex:LocalizeDictionary.DesignCulture="de-DE"
+                                             lex:ResxLocalizationProvider.DefaultAssembly="Xemio.SmartNotes.Client.Windows"
+                                             lex:ResxLocalizationProvider.DefaultDictionary="AllNotesMessages">
                                 
-                                <MenuItem Header="{lex:Loc CreateFolder}" cal:Message.Attach="CreateFolder" />
-                                <MenuItem Header="{lex:Loc EditFolder}" cal:Message.Attach="EditFolder" />
-                                <MenuItem Header="{lex:Loc DeleteFolder}" cal:Message.Attach="DeleteFolder" />
-                            </ContextMenu>
-                        </TextBlock.ContextMenu>    
+                                    <MenuItem Header="{lex:Loc CreateFolder}" cal:Message.Attach="CreateFolder" />
+                                    <MenuItem Header="{lex:Loc EditFolder}" cal:Message.Attach="EditFolder" />
+                                    <MenuItem Header="{lex:Loc DeleteFolder}" cal:Message.Attach="DeleteFolder" />
+                                </ContextMenu>
+                            </TextBlock.ContextMenu>    
                         
-                    </TextBlock>
-                    
+                        </TextBlock>
+                        
+                        <!-- The Note Count -->
+                        <Grid Width="16" Height="16" Background="Red" />
+                        
+                    </StackPanel>
+
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
