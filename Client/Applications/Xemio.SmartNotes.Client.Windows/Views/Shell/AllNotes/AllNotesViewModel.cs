@@ -390,33 +390,31 @@ namespace Xemio.SmartNotes.Client.Windows.Views.Shell.AllNotes
         public void Handle(NoteEditedEvent message)
         {
             NoteViewModel editedNote = this.Notes.FirstOrDefault(f => f.NoteId == message.Note.Id);
+            FolderViewModel selectedFolder = this.SelectedFolder;
 
-            if (editedNote == null)
-                return;
+            //The note moved to the currently selected folder
+            if (editedNote == null && selectedFolder != null && message.Note.FolderId == selectedFolder.FolderId)
+            {
+                var viewModel = IoC.Get<NoteViewModel>();
+                viewModel.Initialize(message.Note);
 
-            //Update the parent folder
-            if (editedNote.FolderId != message.Note.FolderId)
+                this.Notes.Add(viewModel);
+            }
+            //We have the note currently loaded
+            else if (editedNote != null)
             {
                 //The note moved to another folder
                 if (editedNote.FolderId != message.Note.FolderId)
                 {
                     this.Notes.Remove(editedNote);
-                    return;
-                }
-
-                //The note moved to the current folder
-                FolderViewModel selectedFolder = this.SelectedFolder;
-                if (selectedFolder != null && message.Note.FolderId == selectedFolder.FolderId)
-                {
-                    var viewModel = IoC.Get<NoteViewModel>();
-                    viewModel.Initialize(message.Note);
-
-                    this.Notes.Add(viewModel);
                 }
             }
-
-            //Update the note data
-            editedNote.Initialize(message.Note);
+            
+            //Update the note values
+            if (editedNote != null)
+            {
+                editedNote.Initialize(message.Note);
+            }
         }
         #endregion
         

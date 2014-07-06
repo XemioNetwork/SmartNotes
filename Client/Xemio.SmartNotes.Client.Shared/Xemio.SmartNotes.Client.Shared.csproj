@@ -129,7 +129,6 @@
     <Resource Include="Resources\Icons\Add-Root-Folder.png" />
     <Resource Include="Resources\Icons\Delete-Folder.png" />
     <Resource Include="Resources\Icons\Edit-Folder.png" />
-    <Resource Include="Resources\Icons\Add-Folder.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\List-Tasks.png" />

@@ -178,6 +178,8 @@ namespace Xemio.SmartNotes.Client.Windows.ViewParts
             if (note == null)
                 throw new ArgumentNullException("note");
 
+            this._isInitialized = false;
+
             this.Note = note;
 
             this.NoteId = note.Id;
